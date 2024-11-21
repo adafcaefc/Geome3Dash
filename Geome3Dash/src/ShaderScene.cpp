@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "../pch.h"
 #include "ShaderScene.h"
 #include "ShaderProgram.h"
 #include "Model.h"

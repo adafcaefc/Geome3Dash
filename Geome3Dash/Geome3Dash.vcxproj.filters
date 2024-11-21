@@ -13,81 +13,81 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\frameworks">
+    <Filter Include="Frameworks">
       <UniqueIdentifier>{cb08a8b2-a3b7-4c31-9c34-c15b5a8b0f7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Hooks.cpp">
+    <ClCompile Include="src\dllmain.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CustomKeyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ground3D.cpp">
+    <ClCompile Include="src\Ground3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="src\Hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderScene.cpp">
+    <ClCompile Include="src\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
+    <ClCompile Include="src\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="src\OpenGLStateHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CustomKeyboard.cpp">
+    <ClCompile Include="src\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLStateHelper.cpp">
+    <ClCompile Include="src\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
+    <ClCompile Include="src\ShaderScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderProgram.cpp">
+    <ClCompile Include="src\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files\frameworks</Filter>
-    </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files\frameworks</Filter>
+      <Filter>Frameworks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ground3D.h">
+    <ClInclude Include="src\CustomKeyboard.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
+    <ClInclude Include="src\Ground3D.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
+    <ClInclude Include="src\Hooks.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderScene.h">
+    <ClInclude Include="src\Mesh.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderProgram.h">
+    <ClInclude Include="src\Model.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CustomKeyboard.h">
+    <ClInclude Include="src\OpenGLStateHelper.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGLStateHelper.h">
+    <ClInclude Include="src\Shader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="src\ShaderProgram.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="src\ShaderScene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>Source Files\frameworks</Filter>
-    </ClInclude>
-    <ClInclude Include="Hooks.h">
-      <Filter>Source Files</Filter>
+      <Filter>Frameworks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,6 +6,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\CustomKeyboard.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\Ground3D.cpp" />
+    <ClCompile Include="src\Hooks.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\OpenGLStateHelper.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\ShaderProgram.cpp" />
+    <ClCompile Include="src\ShaderScene.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="src\CustomKeyboard.h" />
+    <ClInclude Include="src\Ground3D.h" />
+    <ClInclude Include="src\Hooks.h" />
+    <ClInclude Include="src\Mesh.h" />
+    <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\OpenGLStateHelper.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\ShaderProgram.h" />
+    <ClInclude Include="src\ShaderScene.h" />
+    <ClInclude Include="src\Texture.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -31,7 +60,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\stb</IncludePath>
+    <IncludePath>$(SolutionDir)$(ProjectName)\pch;$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\stb</IncludePath>
     <LibraryPath>$(SolutionDir)library\lib\l_x64\l_release;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)geodezip\</OutDir>
     <TargetName>rainixgd.geome3dash</TargetName>
@@ -56,35 +85,6 @@
       <AdditionalDependencies>opengl32.lib;libcocos2d.lib;fmod.lib;glew32.lib;Geode.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="CustomKeyboard.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="Ground3D.cpp" />
-    <ClCompile Include="Hooks.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="OpenGLStateHelper.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="ShaderScene.cpp" />
-    <ClCompile Include="Texture.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CustomKeyboard.h" />
-    <ClInclude Include="Ground3D.h" />
-    <ClInclude Include="Hooks.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="OpenGLStateHelper.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="ShaderScene.h" />
-    <ClInclude Include="Texture.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
