@@ -1,0 +1,12 @@
+.vs/
+.vscode/
+
+*.exe
+*.out
+*.app
+
+Release-GD/
+Release-AU/
+
+*pri
+*.REMOVED.git-id
