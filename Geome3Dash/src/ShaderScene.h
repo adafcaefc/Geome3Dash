@@ -55,8 +55,8 @@ namespace g3d
 
         virtual void draw();
         ~ShaderScene();
-        Model* loadAndAddModel(std::string path, ShaderProgram* shaderProgram);
-        Model* loadWithoutAddModel(std::string path, ShaderProgram* shaderProgram);
+        Model* loadAndAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
+        Model* loadWithoutAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
         static auto create();
     };
 }

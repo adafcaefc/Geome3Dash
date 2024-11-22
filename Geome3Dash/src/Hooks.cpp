@@ -15,99 +15,111 @@
 namespace g3d
 {
     const char* vertexShaderSource = R"(
-    #version 330 core
-    layout (location = 0) in vec3 aPos;
-    layout (location = 1) in vec2 aTexCoord;
-    layout (location = 2) in vec3 aNormal;
+        #version 330 core
+        layout (location = 0) in vec3 aPos;
+        layout (location = 1) in vec2 aTexCoord;
+        layout (location = 2) in vec3 aNormal;
 
-    out vec2 TexCoord;
-    out vec3 Normal;
-    out vec3 FragPos;
+        out vec2 TexCoord;
+        out vec3 Normal;
+        out vec3 FragPos;
 
-    uniform mat4 model;
-    uniform mat4 view;
-    uniform mat4 projection;
+        uniform mat4 model;
+        uniform mat4 view;
+        uniform mat4 projection;
 
-    void main() {
-        FragPos = vec3(model * vec4(aPos, 1.0));
-        Normal = mat3(transpose(inverse(model))) * aNormal;
-        TexCoord = aTexCoord;
-        gl_Position = projection * view * model * vec4(aPos, 1.0);
-    }
-)";
-    /*
-    const char* fragmentShaderSource = R"(
-    #version 330 core
-
-    in vec2 TexCoord;
-    in vec3 Normal;
-    uniform sampler2D texture1;
-
-    uniform int isTexture;
-    uniform vec3 Kd;
-    uniform vec3 lightColor;
-
-    out vec4 FragColor;
-
-    void main() {
-    if (isTexture == 1)
-     FragColor = texture(texture1, TexCoord) * vec4(lightColor, 1.0);
-     //FragColor = mix(vec4(Normal.x, Normal.y, Normal.z, 1.0), texture(texture1, TexCoord), 0.5);
-    else
-      FragColor = vec4(Kd, 1.0f);
-    }
-    )";*/
+        void main() {
+            FragPos = vec3(model * vec4(aPos, 1.0));
+            Normal = mat3(transpose(inverse(model))) * aNormal;
+            TexCoord = aTexCoord;
+            gl_Position = projection * view * model * vec4(aPos, 1.0);
+        }
+    )";
 
     const char* fragmentShaderSource = R"(
+        #version 330 core
 
-#version 330 core
+        in vec2 TexCoord;
+        in vec3 Normal;
+        in vec3 FragPos;
 
-in vec2 TexCoord;
-in vec3 Normal;
-in vec3 FragPos;
+        uniform sampler2D texture1;
+        uniform int isTexture;
+        uniform vec3 Ka; // Ambient reflectivity
+        uniform vec3 Kd; // Diffuse reflectivity
+        uniform vec3 Ks; // Specular reflectivity
+        uniform vec3 lightColor; // Light color
+        uniform vec3 lightPos; // Light position
+        uniform vec3 viewPos; // View position
+        uniform float shininess; // Shininess factor
 
-uniform sampler2D texture1;
-uniform int isTexture;
-uniform vec3 Ka; // Ambient reflectivity
-uniform vec3 Kd; // Diffuse reflectivity
-uniform vec3 Ks; // Specular reflectivity
-uniform vec3 lightColor; // Light color
-uniform vec3 lightPos; // Light position
-uniform vec3 viewPos; // View position
-uniform float shininess; // Shininess factor
+        out vec4 FragColor;
 
-out vec4 FragColor;
-
-void main() {
-    // Ambient
-    vec3 ambient = lightColor * Ka;
+        void main() {
+            // Ambient
+            vec3 ambient = lightColor * Ka;
     
-    // Diffuse
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor * Kd;
+            // Diffuse
+            vec3 norm = normalize(Normal);
+            vec3 lightDir = normalize(lightPos - FragPos);
+            float diff = max(dot(norm, lightDir), 0.0);
+            vec3 diffuse = diff * lightColor * Kd;
 
-    // Specular
-    vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
-    vec3 specular = spec * lightColor * Ks;
+            // Specular
+            vec3 viewDir = normalize(viewPos - FragPos);
+            vec3 reflectDir = reflect(-lightDir, norm);
+            float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininess);
+            vec3 specular = spec * lightColor * Ks;
     
-    vec3 result = ambient + diffuse + specular;
+            vec3 result = ambient + diffuse + specular;
     
-    vec4 color;
-    if (isTexture == 1) {
-        vec4 texColor = texture(texture1, TexCoord);
-        color = texColor * vec4(result, 1.0);
-    } else {
-        color = vec4(result, 1.0);
+            vec4 color;
+            if (isTexture == 1) {
+                vec4 texColor = texture(texture1, TexCoord);
+                color = texColor * vec4(result, 1.0);
+            } else {
+                color = vec4(result, 1.0);
+            }
+    
+            FragColor = color;
+        }
+    )";
+
+    std::string read_from_file(
+        const std::filesystem::path& path)
+    {
+        if (!std::filesystem::exists(path)) { return std::string(); }
+        std::ifstream input(path);
+        if (!input.is_open()) { return std::string(); }
+        std::stringstream buffer;
+        buffer << input.rdbuf();
+        input.close();
+        return buffer.str();
     }
-    
-    FragColor = color;
-}
-)";
-    //vec2(fract(FragPos.x * TexCoord.x), TexCoord.y)
+
+    bool write_to_file(
+        const std::filesystem::path& path,
+        const std::string& data)
+    {
+        std::ofstream output(path);
+        if (!output.is_open()) { return false; }
+        output << data;
+        return true;
+    }
+
+    void replace_all(
+        std::string& str,
+        const std::string& from,
+        const std::string& to)
+    {
+        if (from.empty()) { return; }
+        size_t start_pos = 0;
+        while ((start_pos = str.find(from, start_pos)) != std::string::npos)
+        {
+            str.replace(start_pos, from.length(), to);
+            start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+        }
+    }
 
     class My3DScene : public ShaderScene, public CustomKeyboardDelegate {
         Model* model;
@@ -157,29 +169,23 @@ void main() {
             delete vertexShader;
             delete fragmentShader;
 
-
-            Assimp::Importer importer;
-
-            const aiScene* scene = importer.ReadFile("./cliff.obj",
-                aiProcess_Triangulate |
-                aiProcess_FlipUVs |
-                aiProcess_JoinIdenticalVertices |
-                aiProcess_SortByPType);
-
-            model = Model::create(scene, shaderProgram);
-
-            const aiScene* scene2 = importer.ReadFile("./lightcube.obj",
-                aiProcess_Triangulate |
-                aiProcess_FlipUVs |
-                aiProcess_JoinIdenticalVertices |
-                aiProcess_SortByPType);
-
-            auto model2 = Model::create(scene2, shaderProgram);
-
-            model2->setPosition(glm::vec3(0, 0, -80));
-
-            this->models.push_back(model);
-            this->models.push_back(model2);
+            // temporarily disabled by adaf
+            //Assimp::Importer importer;
+            //const aiScene* scene = importer.ReadFile("./cliff.obj",
+            //    aiProcess_Triangulate |
+            //    aiProcess_FlipUVs |
+            //    aiProcess_JoinIdenticalVertices |
+            //    aiProcess_SortByPType);
+            //model = Model::create(scene, shaderProgram);
+            //const aiScene* scene2 = importer.ReadFile("./lightcube.obj",
+            //    aiProcess_Triangulate |
+            //    aiProcess_FlipUVs |
+            //    aiProcess_JoinIdenticalVertices |
+            //    aiProcess_SortByPType);
+            //auto model2 = Model::create(scene2, shaderProgram);
+            //model2->setPosition(glm::vec3(0, 0, -80));
+            //this->models.push_back(model);
+            //this->models.push_back(model2);
 
             return true;
         }
@@ -264,73 +270,43 @@ void main() {
             delete vertexShader;
             delete fragmentShader;
 
+            const auto res_path = geode::Mod::get()->getResourcesDir();
+
             CCObject* obj;
             CCARRAY_FOREACH(GameManager::sharedState()->m_playLayer->m_objects, obj) {
-                auto block = static_cast<GameObject*>(obj);
-
-                Model* blockModel = nullptr;
-                switch (block->m_objectID) {
-                case 1:
-                    blockModel = loadWithoutAddModel("./models/block_1/model.obj", shaderProgram);
-                    break;
-                case 2:
-                    blockModel = loadWithoutAddModel("./models/block_2/model.obj", shaderProgram);
-                    break;
-                case 3:
-                    blockModel = loadWithoutAddModel("./models/block_3/model.obj", shaderProgram);
-                    break;
-                case 4:
-                    blockModel = loadWithoutAddModel("./models/block_4/model.obj", shaderProgram);
-                    break;
-                case 5:
-                    blockModel = loadWithoutAddModel("./models/block_5/model.obj", shaderProgram);
-                    break;
-                case 6:
-                    blockModel = loadWithoutAddModel("./models/block_6/model.obj", shaderProgram);
-                    break;
-                case 7:
-                    blockModel = loadWithoutAddModel("./models/block_7/model.obj", shaderProgram);
-                    break;
-                case 8:
-                    blockModel = loadWithoutAddModel("./models/block_8/model.obj", shaderProgram);
-                    break;
-                case 9:
-                    blockModel = loadWithoutAddModel("./models/block_9/model.obj", shaderProgram);
-                    break;
-                case 103:
-                    blockModel = loadWithoutAddModel("./models/block_103/model.obj", shaderProgram);
-                    break;
-                case 12:
-                    blockModel = loadWithoutAddModel("./models/block_12/model.obj", shaderProgram);
-                    break;
-                case 13:
-                    blockModel = loadWithoutAddModel("./models/block_13/model.obj", shaderProgram);
-                    break;
-                case 40:
-                    blockModel = loadWithoutAddModel("./models/block_40/model.obj", shaderProgram);
-                    break;
-                case 39:
-                    blockModel = loadWithoutAddModel("./models/block_39/model.obj", shaderProgram);
-                    break;
-                default:
-                    break;
-                }
-                if (blockModel != nullptr) {
-                    blockModel->setPosition(glm::vec3(block->getPositionX() * 0.05, block->getPositionY() * 0.05, 20.f));
-                    //blockModel->setScale(glm::vec3(0.75 * (block->isFlipX() ? -1 : 1), 0.75 * (block->isFlipY() ? -1 : 1), 0.75));
-                    std::cout << block->m_objectID << " " << block->m_startFlipX << " " << block->m_scaleX << " " << std::endl;
-                    blockModel->setScale(glm::vec3(0.75 * (block->m_startFlipX ? -1 : 1), 0.75 * (block->m_startFlipY ? -1 : 1), 0.75));
-                    blockModel->setRotationZ(360 - block->getRotation());
-                    blocks.push_back(blockModel);
+                auto block = dynamic_cast<GameObject*>(obj);
+                const auto model_dir = res_path / "model3d" / "object" / std::to_string(block->m_objectID) ;
+                const auto model_path = model_dir / "model.obj";
+                const auto mtl_path = model_dir / "model.mtl";
+                const auto png_path = model_dir / "model.png";
+                if (std::filesystem::exists(model_path)) {
+                    // mtl model path fix (model path must be absolute
+                    if (std::filesystem::exists(mtl_path)) {
+                        auto mtl_file = read_from_file(mtl_path);
+                        if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos) {
+                            replace_all(mtl_file, "{{MODEL_PATH}}", png_path.string());
+                        }
+                        write_to_file(mtl_path, mtl_file);
+                    }
+                    if (auto blockModel = loadWithoutAddModel(model_path, shaderProgram)) {
+                        blockModel->setPosition(glm::vec3(block->getPositionX() * 0.05, block->getPositionY() * 0.05, 20.f));
+                        std::cout << block->m_objectID << " " << block->m_startFlipX << " " << block->m_scaleX << " " << std::endl;
+                        blockModel->setScale(glm::vec3(0.75 * (block->m_startFlipX ? -1 : 1), 0.75 * (block->m_startFlipY ? -1 : 1), 0.75));
+                        blockModel->setRotationZ(360 - block->getRotation());
+                        blocks.push_back(blockModel);
+                    }
                 }
             }
 
-            bg = loadAndAddModel("./cliff.obj", shaderProgram);
-            bg->setPosition(glm::vec3(300, -100, -300));
-            bg->setScale(glm::vec3(3, 3, 3));
+            // temporarily disabled by adaf
+            //bg = loadAndAddModel("./cliff.obj", shaderProgram);
+            //bg->setPosition(glm::vec3(300, -100, -300));
+            //bg->setScale(glm::vec3(3, 3, 3));
 
-            player = loadAndAddModel("./models/cube/model.obj", shaderProgram);
+            // to do : icon selection
+            player = loadAndAddModel(res_path / "model3d" / "player" / "cube" / "0" / "model.obj", shaderProgram);
             player->setScale(glm::vec3(0.75));
+            
 
             ground = Ground3D::create(this, shaderProgram, -200, 3, 50, groundHeight - 3 * 2, 0);
             ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, groundHeight, 1);
@@ -348,13 +324,12 @@ void main() {
         virtual void draw() {
 
             ground2->setVisible(GameManager::sharedState()->m_playLayer->m_player1->m_isShip);
-            // what value is this?
+            // rainix, what value is this?
             //ground2->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0));
             //if (GameManager::sharedState()->m_playLayer->m_player1->m_isShip)
             //    ground->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0) - 300);
             //else
             //    ground->updateYPos(-60);
-            ground->updateYPos(-60);
 
             OpenGLStateHelper::saveState();
 

@@ -47,11 +47,11 @@ namespace g3d
         }
     }
 
-    Model* ShaderScene::loadAndAddModel(std::string path, ShaderProgram* shaderProgram) {
+    Model* ShaderScene::loadAndAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
         std::cout << "loading start" << std::endl;
         printMemoryUsage();
         Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(path,
+        const aiScene* scene = importer.ReadFile(path.string(),
             aiProcess_Triangulate |
             aiProcess_FlipUVs |
             aiProcess_JoinIdenticalVertices |
@@ -67,9 +67,9 @@ namespace g3d
         return model;
     }
 
-    Model* ShaderScene::loadWithoutAddModel(std::string path, ShaderProgram* shaderProgram) {
+    Model* ShaderScene::loadWithoutAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
         Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(path,
+        const aiScene* scene = importer.ReadFile(path.string(),
             aiProcess_Triangulate |
             aiProcess_FlipUVs |
             aiProcess_JoinIdenticalVertices |
