@@ -296,7 +296,7 @@ namespace g3d
                     }
                     if (auto blockModel = loadWithoutAddModel(model_path, shaderProgram)) {
                         blockModel->setPosition(glm::vec3(block->getPositionX() * 0.05, block->getPositionY() * 0.05, 20.f));
-                        std::cout << block->m_objectID << " " << block->m_startFlipX << " " << block->m_scaleX << " " << std::endl;
+                        geode::log::info("Loading block ID {} ({}, {})", block->m_objectID, block->m_startFlipX, block->m_scaleX);
                         blockModel->setScale(glm::vec3(0.75 * (block->m_startFlipX ? -1 : 1), 0.75 * (block->m_startFlipY ? -1 : 1), 0.75));
                         blockModel->setRotationZ(360 - block->getRotation());
                         blocks.push_back(blockModel);

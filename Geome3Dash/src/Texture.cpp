@@ -6,15 +6,14 @@
 namespace g3d
 {
     Texture* Texture::load(std::string filename) {
-        std::cout << "loading new texture" << std::endl;
-        std::cout << loadedTextures.size() << std::endl;
+        geode::log::info("loading texture start - {}", loadedTextures.size());
         Texture* texture = new Texture();
         texture->name = filename;
 
         // free this?
         texture->data = stbi_load(filename.c_str(), &texture->width, &texture->height, &texture->nrChannels, 0);
         if (!texture->data) {
-            std::cout << "Texture not found: " << filename << std::endl;
+            geode::log::error("Texture not found: '{}'", filename);
             return nullptr;
         }
         else {

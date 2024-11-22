@@ -14,7 +14,7 @@ namespace g3d
         glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if (!success) {
             glGetShaderInfoLog(id, 512, NULL, infoLog);
-            std::cout << "VERTEX ERROR:" << infoLog << std::endl;
+            geode::log::error("VERTEX ERROR: {}", infoLog);
             return 0;
         }
         return 1;
@@ -30,7 +30,7 @@ namespace g3d
         glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if (!success) {
             glGetShaderInfoLog(id, 512, NULL, infoLog);
-            std::cout << "FRAGMENT ERROR:" << infoLog << std::endl;
+            geode::log::error("FRAGMENT ERROR: {}", infoLog);
             return 0;
         }
         return 1;

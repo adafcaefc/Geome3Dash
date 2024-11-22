@@ -13,12 +13,12 @@ namespace g3d
         BOOL result = GetProcessMemoryInfo(GetCurrentProcess(), &memInfo, sizeof(memInfo));
 
         if (result) {
-            std::cout << "Working Set Size: " << memInfo.WorkingSetSize / 1024 << " KB" << std::endl;
-            std::cout << "Peak Working Set Size: " << memInfo.PeakWorkingSetSize / 1024 << " KB" << std::endl;
-            std::cout << "Pagefile Usage: " << memInfo.PagefileUsage / 1024 << " KB" << std::endl;
+            geode::log::info("Working Set Size:      {}KB", memInfo.WorkingSetSize / 1024);
+            geode::log::info("Peak Working Set Size: {}KB", memInfo.PeakWorkingSetSize / 1024);
+            geode::log::info("Pagefile Usage:        {}KB", memInfo.PagefileUsage / 1024);
         }
         else {
-            std::cerr << "Failed to get memory usage information" << std::endl;
+            geode::log::error("Failed to get memory usage information", memInfo.PagefileUsage / 1024);
         }
     }
 
@@ -48,7 +48,7 @@ namespace g3d
     }
 
     Model* ShaderScene::loadAndAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
-        std::cout << "loading start" << std::endl;
+        geode::log::info("loading model start");
         printMemoryUsage();
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path.string(),
@@ -58,10 +58,10 @@ namespace g3d
             aiProcess_SortByPType);
 
         auto model = Model::create(scene, shaderProgram);
-        std::cout << "loading end" << std::endl;
+        geode::log::info("loading model end");
         printMemoryUsage();
         importer.FreeScene();
-        std::cout << "loading clear" << std::endl;
+        geode::log::info("loading model clear");
         printMemoryUsage();
         models.push_back(model);
         return model;

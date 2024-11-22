@@ -15,7 +15,7 @@ namespace g3d
         glGetProgramiv(id, GL_LINK_STATUS, &success);
         if (!success) {
             glGetProgramInfoLog(id, 512, NULL, infoLog);
-            std::cout << "PROGRAM ERROR:" << infoLog << std::endl;
+            geode::log::error("PROGRAM ERROR: {}", infoLog);
             return 0;
         }
         return 1;

@@ -81,7 +81,7 @@ namespace g3d
                 else if (loadedTexture->nrChannels == 4)
                     format = GL_RGBA;
                 else {
-                    std::cout << "Unsupported texture format" << std::endl;
+                    geode::log::warn("Unsupported texture format, selecting RGB..");
                     format = GL_RGB; // Fallback format
                 }
 
@@ -93,12 +93,12 @@ namespace g3d
                 useTexture = true;
             }
             else {
-                std::cout << "Failed to load texture: " << texturePath.C_Str() << std::endl;
+                geode::log::error("Failed to load texture '{}'", texturePath.C_Str());
                 useTexture = false;
             }
         }
         else {
-            std::cout << "No diffuse texture found for this material." << std::endl;
+            geode::log::error("No diffuse texture found for this material '{}'", texturePath.C_Str());
             useTexture = false;
         }
 
