@@ -9,11 +9,11 @@ namespace g3d
     bool Ground3D::init(ShaderScene* layer, ShaderProgram* shaderProgram) {
 
         for (int i = 0; i < partsCount; i++) {
-            // temporarily disabled by adaf
-            //auto groundPart = layer->loadAndAddModel("./models/ground/model.obj", shaderProgram);
-            //groundPart->setScale(glm::vec3(size, size * (flipGroundModel ? -1 : 1), size));
-            //groundPart->setPosition(glm::vec3(size * 2 * i + startOffset, groundHeight + 3 * 2 - size - 0.75, 20));
-            //parts.push_back(groundPart);
+            const auto res_path = geode::Mod::get()->getResourcesDir();
+            auto groundPart = layer->loadAndAddModel(res_path / "model3d" / "environment" / "ground" / "0" / "model.obj", shaderProgram);
+            groundPart->setScale(glm::vec3(size, size * (flipGroundModel ? -1 : 1), size));
+            groundPart->setPosition(glm::vec3(size * 2 * i + startOffset, groundHeight + 3 * 2 - size - 0.75, 20));
+            parts.push_back(groundPart);
         }
         playerPositionX = GameManager::sharedState()->m_playLayer->m_player1->getPositionX() * 0.05;
 
@@ -31,7 +31,7 @@ namespace g3d
 
     void Ground3D::updateYPos(float playLayerSecondGroundHeight) {
         for (auto ground : parts) {
-            ground->setPositionY(groundHeight + 1.5 * (playLayerSecondGroundHeight + 60) / 30 + 3 * 2 - size - 0.75);
+            ground->setPositionY(playLayerSecondGroundHeight * 0.05);
         }
     }
 

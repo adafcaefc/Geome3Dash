@@ -208,12 +208,18 @@ namespace g3d
 
     class GJ3DGameLayer : public ShaderScene, public CustomKeyboardDelegate {
         Model* bg;
-        Model* player;
+        Model* cube;
+        Model* ship;
+        Model* ball;
+        Model* bird;
+        Model* dart;
+        Model* robot;
+        Model* spider;
+        Model* swing;
         Ground3D* ground;
         Ground3D* ground2;
         std::vector<Model*> blocks;
         glm::vec3 playerCameraOffset;
-        float groundHeight = 105 * 0.05;
 
     public:
         static GJ3DGameLayer* instance;
@@ -304,14 +310,40 @@ namespace g3d
             //bg->setScale(glm::vec3(3, 3, 3));
 
             // to do : icon selection
-            player = loadAndAddModel(res_path / "model3d" / "player" / "cube" / "0" / "model.obj", shaderProgram);
-            player->setScale(glm::vec3(0.75));
-            
+            cube = loadWithoutAddModel(res_path / "model3d" / "player" / "cube" / "0" / "model.obj", shaderProgram);
+            cube->setScale(glm::vec3(0.75));
 
-            ground = Ground3D::create(this, shaderProgram, -200, 3, 50, groundHeight - 3 * 2, 0);
-            ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, groundHeight, 1);
+            ship = loadWithoutAddModel(res_path / "model3d" / "player" / "ship" / "0" / "model.obj", shaderProgram);
+            ship->setScale(glm::vec3(0.75));
+
+            ball = loadWithoutAddModel(res_path / "model3d" / "player" / "ball" / "0" / "model.obj", shaderProgram);
+            ball->setScale(glm::vec3(0.75));
+
+            bird = loadWithoutAddModel(res_path / "model3d" / "player" / "bird" / "0" / "model.obj", shaderProgram);
+            bird->setScale(glm::vec3(0.75));
+
+            dart = loadWithoutAddModel(res_path / "model3d" / "player" / "dart" / "0" / "model.obj", shaderProgram);
+            dart->setScale(glm::vec3(0.75));
+
+            robot = loadWithoutAddModel(res_path / "model3d" / "player" / "robot" / "0" / "model.obj", shaderProgram);
+            robot->setScale(glm::vec3(0.75));
+
+            spider = loadWithoutAddModel(res_path / "model3d" / "player" / "spider" / "0" / "model.obj", shaderProgram);
+            spider->setScale(glm::vec3(0.75));
+
+            swing = loadWithoutAddModel(res_path / "model3d" / "player" / "swing" / "0" / "model.obj", shaderProgram);
+            swing->setScale(glm::vec3(0.75));
+
+            auto playLayer = GameManager::sharedState()->m_playLayer;
+            ground = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 3 * 2, 0);
+            ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height, 1);
 
             playerCameraOffset = glm::vec3(0, 5, 20);
+
+            // initial setup
+            camera->setYaw(camera->getYaw() + 30.0f);
+            playerCameraOffset -= camera->getFront() * 8.0f;
+            camera->setPitch(camera->getPitch() - 6.0f);
 
             return true;
         }
@@ -322,14 +354,19 @@ namespace g3d
             instance = nullptr;
         }
         virtual void draw() {
-
-            ground2->setVisible(GameManager::sharedState()->m_playLayer->m_player1->m_isShip);
+            //ground2->setVisible(GameManager::sharedState()->m_playLayer->m_player1->m_isShip);
             // rainix, what value is this?
             //ground2->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0));
             //if (GameManager::sharedState()->m_playLayer->m_player1->m_isShip)
             //    ground->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0) - 300);
             //else
             //    ground->updateYPos(-60);
+
+            auto playLayer = GameManager::sharedState()->m_playLayer;
+            ground->updateYPos(playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 75.0f);
+            ground2->updateYPos(playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height + 75.0f);
+            ground->setVisible(playLayer->m_groundLayer->isVisible());
+            ground2->setVisible(playLayer->m_groundLayer2->isVisible());
 
             OpenGLStateHelper::saveState();
 
@@ -345,7 +382,42 @@ namespace g3d
             glm::mat4 projection = camera->getProjectionMat();
 
             for (auto model : models) {
-                model->render(view, light->getPosition(), light->getColor(), camera->getPosition(), projection);
+                model->render(
+                    view, 
+                    light->getPosition(), 
+                    light->getColor(), 
+                    camera->getPosition(), 
+                    projection);
+            }
+
+            Model* player = cube;
+            auto playerObject = playLayer->m_player1;
+            playerObject->getParent()->setVisible(false);
+            // ground calculations is so hard -adaf
+            playLayer->m_groundLayer->setVisible(false);
+            playLayer->m_groundLayer2->setVisible(false);
+            ground->updateYPos(playLayer->m_groundLayer->getPositionY());
+            ground2->updateYPos(playLayer->m_groundLayer2->getPositionY());
+            if (playerObject->m_isShip) {
+                player = ship;
+            }
+            else if (playerObject->m_isBall) {
+                player = ball;
+            }
+            else if (playerObject->m_isBird) {
+                player = bird;
+            }
+            else if (playerObject->m_isDart) {
+                player = dart;
+            }
+            else if (playerObject->m_isRobot) {
+                player = robot;
+            }
+            else if (playerObject->m_isSpider) {
+                player = spider;
+            }
+            else if (playerObject->m_isSwing) {
+                player = swing;
             }
 
             //glDepthMask(GL_FALSE);
@@ -354,6 +426,7 @@ namespace g3d
                 if (abs(model->getPositionX() - player->getPositionX()) < 150)
                     model->render(view, light->getPosition(), light->getColor(), camera->getPosition(), projection);
             }
+            player->render(view, light->getPosition(), light->getColor(), camera->getPosition(), projection);
 
             //glDepthMask(GL_TRUE);
 
@@ -361,14 +434,15 @@ namespace g3d
 
             OpenGLStateHelper::pushState();
 
-            auto newX = GameManager::sharedState()->m_playLayer->m_player1->getPositionX() * 0.05;
-            auto newY = GameManager::sharedState()->m_playLayer->m_player1->getPositionY() * 0.05;
+            auto newX = playerObject->getPositionX() * 0.05;
+            auto newY = playerObject->getPositionY() * 0.05;
             auto newZ = 20.f;
-            auto newR = GameManager::sharedState()->m_playLayer->m_player1->getRotation();
+            auto newR = playerObject->getRotation();
+
+            auto groundHeight = (playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height) * 0.05;
 
             player->setPosition(glm::vec3(newX, newY, newZ));
             player->setRotationZ(360 - newR);
-            //camera->setPosition(glm::vec3(newX + playerCameraOffset.x, groundHeight + playerCameraOffset.y, newZ + playerCameraOffset.z));
             camera->setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
             light->setPosition(glm::vec3(newX + 50, groundHeight + 50, newZ + 50));
 
