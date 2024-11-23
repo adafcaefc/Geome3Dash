@@ -13,7 +13,8 @@
 	"description": "3D Geometry Dash",
 	"resources": {
         "files": [
-            "resources/binaries/win/*.dll",
+            "resources/binaries/win/pugixml.dll",
+            "resources/binaries/win/assimp-vc143-mt.dll",
 			"resources/model3d/*"
         ]
     }
