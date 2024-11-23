@@ -426,7 +426,7 @@ namespace g3d
                     if (isPressingControl) {
                         float sensitivity = 0.032f;
                         playerCameraOffset += camera->getUp() * deltaY * sensitivity;
-                        playerCameraOffset += glm::normalize(glm::cross(camera->getFront(), camera->getUp())) * deltaX * sensitivity;
+                        playerCameraOffset += glm::normalize(glm::cross(camera->getFront(), camera->getUp())) * deltaX * -sensitivity;
                     }
                     else {
                         float sensitivity = 0.05f;
