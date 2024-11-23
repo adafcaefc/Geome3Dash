@@ -364,44 +364,40 @@ namespace g3d
             light->setPosition(glm::vec3(newX + 50, groundHeight + 50, newZ + 50));
         }
 
-        CCPoint lastTouchPosition;
-        bool isTouching = false;
-        virtual void touch(CCSet* touches, CCEvent* event, unsigned int type) {
-            auto touch = static_cast<CCTouch*>(*touches->begin());
-            auto currentTouchPosition = touch->getLocation();
+        // LEFT CLICK TOUCH (DISABLED FOR NOW)
+        //CCPoint lastTouchPosition;
+        //bool isTouching = false;
+        //virtual void touch(CCSet* touches, CCEvent* event, unsigned int type) {
+        //    auto touch = static_cast<CCTouch*>(*touches->begin());
+        //    auto currentTouchPosition = touch->getLocation();
+        //    switch (type) {
+        //    case 0: // Touch began
+        //        isTouching = true;
+        //        lastTouchPosition = currentTouchPosition;
+        //        break;
+        //    case 1: // Touch moved
+        //        if (isTouching) {
+        //            CCPoint delta = currentTouchPosition - lastTouchPosition;
+        //            // Adjust camera pitch and yaw based on touch delta
+        //            float sensitivity = 0.1f;
+        //            float yaw = camera->getYaw() - delta.x * sensitivity;
+        //            float pitch = camera->getPitch() - delta.y * sensitivity;
+        //            // Clamp pitch to prevent flipping
+        //            pitch = std::clamp(pitch, -89.0f, 89.0f);
+        //            camera->setYaw(yaw);
+        //            camera->setPitch(pitch);
+        //            lastTouchPosition = currentTouchPosition;
+        //        }
+        //        break;
+        //    case 2: // Touch ended
+        //        isTouching = false;
+        //        break;
+        //    }
+        //}
 
-            switch (type) {
-            case 0: // Touch began
-                isTouching = true;
-                lastTouchPosition = currentTouchPosition;
-                break;
-
-            case 1: // Touch moved
-                if (isTouching) {
-                    CCPoint delta = currentTouchPosition - lastTouchPosition;
-
-                    // Adjust camera pitch and yaw based on touch delta
-                    float sensitivity = 0.1f;
-                    float yaw = camera->getYaw() - delta.x * sensitivity;
-                    float pitch = camera->getPitch() - delta.y * sensitivity;
-
-                    // Clamp pitch to prevent flipping
-                    pitch = std::clamp(pitch, -89.0f, 89.0f);
-
-                    camera->setYaw(yaw);
-                    camera->setPitch(pitch);
-
-                    lastTouchPosition = currentTouchPosition;
-                }
-                break;
-
-            case 2: // Touch ended
-                isTouching = false;
-                break;
-            }
-        }
-
+        bool isPressingControl = false;
         bool isRightClicking = false;
+        bool isRightClickingGetPos = false;
         float lastMouseX = 0.0;
         float lastMouseY = 0.0;
 
@@ -409,12 +405,7 @@ namespace g3d
             if (button == GLFW_MOUSE_BUTTON_RIGHT) {
                 if (action == GLFW_PRESS) {
                     isRightClicking = true;
-
-                    // Initialize the last mouse position
-                    double x, y;
-                    glfwGetCursorPos(window, &x, &y);
-                    lastMouseX = static_cast<float>(x);
-                    lastMouseY = static_cast<float>(y);
+                    isRightClickingGetPos = false;
                 }
                 else if (action == GLFW_RELEASE) {
                     isRightClicking = false;
@@ -424,63 +415,44 @@ namespace g3d
 
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
             if (isRightClicking) {
-                // Calculate mouse movement delta
-                float deltaX = static_cast<float>(x) - lastMouseX;
-                float deltaY = static_cast<float>(y) - lastMouseY;
-
-                // Adjust camera pitch and yaw based on delta
-                float sensitivity = 0.1f;
-                float yaw = camera->getYaw() - deltaX * sensitivity;
-                float pitch = camera->getPitch() - deltaY * sensitivity;
-
-                // Clamp pitch to prevent flipping
-                pitch = std::clamp(pitch, -89.0f, 89.0f);
-
-                // Update camera orientation
-                camera->setYaw(yaw);
-                camera->setPitch(pitch);
-
-                // Update last mouse position
-                lastMouseX = static_cast<float>(x);
-                lastMouseY = static_cast<float>(y);
+                if (!isRightClickingGetPos) {
+                    lastMouseX = static_cast<float>(x);
+                    lastMouseY = static_cast<float>(y);
+                    isRightClickingGetPos = true;
+                }
+                else {
+                    float deltaX = static_cast<float>(x) - lastMouseX;
+                    float deltaY = static_cast<float>(y) - lastMouseY;
+                    if (isPressingControl) {
+                        float sensitivity = 0.032f;
+                        playerCameraOffset += camera->getUp() * deltaY * sensitivity;
+                        playerCameraOffset += glm::normalize(glm::cross(camera->getFront(), camera->getUp())) * deltaX * sensitivity;
+                    }
+                    else {
+                        float sensitivity = 0.032f;
+                        float yaw = camera->getYaw() - deltaX * sensitivity;
+                        float pitch = camera->getPitch() - deltaY * sensitivity;
+                        // Clamp pitch to prevent flipping
+                        pitch = std::clamp(pitch, -89.0f, 89.0f);
+                        camera->setYaw(yaw);
+                        camera->setPitch(pitch);
+                    }
+                    lastMouseX = static_cast<float>(x);
+                    lastMouseY = static_cast<float>(y);
+                }
             }
         }
 
-        virtual void scrollWheel(float x, float y) {
+        virtual void scrollWheel(float y, float x) {
             // Adjust the camera zoom level using the scroll wheel
-            float zoomSensitivity = 5.0f;
-            glm::vec3 position = camera->getPosition();
-            // Move the camera closer or further along its front direction
-            camera->setPosition(position + camera->getFront() * (x * zoomSensitivity));
+            float zoomSensitivity = -0.128f;
+            playerCameraOffset += camera->getFront() * y * zoomSensitivity;
         }
 
         virtual void onKey(enumKeyCodes key, bool pressed, bool holding) {
             switch (key) {
-            case KEY_Up:
-                camera->setPitch(camera->getPitch() + 1.0f);
-                break;
-            case KEY_Down:
-                camera->setPitch(camera->getPitch() - 1.0f);
-                break;
-            case KEY_Right:
-                camera->setYaw(camera->getYaw() + 5.0f);
-                break;
-            case KEY_Left:
-                camera->setYaw(camera->getYaw() - 5.0f);
-                break;
-            case KEY_W:
-                playerCameraOffset += camera->getFront();
-                break;
-            case KEY_S:
-                playerCameraOffset -= camera->getFront();
-                break;
-            case KEY_A:
-                playerCameraOffset -= glm::normalize(glm::cross(camera->getFront(), camera->getUp()));
-                break;
-            case KEY_D:
-                playerCameraOffset += glm::normalize(glm::cross(camera->getFront(), camera->getUp()));
-                break;
-            default:
+            case KEY_Control:
+                isPressingControl = pressed;
                 break;
             }
         }
