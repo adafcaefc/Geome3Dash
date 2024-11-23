@@ -429,7 +429,7 @@ namespace g3d
                         playerCameraOffset += glm::normalize(glm::cross(camera->getFront(), camera->getUp())) * deltaX * sensitivity;
                     }
                     else {
-                        float sensitivity = 0.032f;
+                        float sensitivity = 0.05f;
                         float yaw = camera->getYaw() - deltaX * sensitivity;
                         float pitch = camera->getPitch() - deltaY * sensitivity;
                         // Clamp pitch to prevent flipping
