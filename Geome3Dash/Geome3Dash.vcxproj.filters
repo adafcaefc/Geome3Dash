@@ -21,9 +21,6 @@
     <ClCompile Include="src\dllmain.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="src\CustomKeyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Ground3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,11 +51,17 @@
     <ClCompile Include="src\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\CustomKeyboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CustomMouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CustomTouch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CustomKeyboard.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Ground3D.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -87,6 +90,15 @@
       <Filter>Frameworks</Filter>
     </ClInclude>
     <ClInclude Include="src\Texture.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CustomKeyboard.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CustomMouse.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CustomTouch.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

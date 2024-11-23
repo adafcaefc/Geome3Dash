@@ -7,6 +7,8 @@
 #include "Model.h"
 #include "OpenGLStateHelper.h"
 #include "CustomKeyboard.h"
+#include "CustomMouse.h"
+#include "CustomTouch.h"
 #include "ShaderScene.h"
 #include "Ground3D.h"
 
@@ -121,92 +123,12 @@ namespace g3d
         }
     }
 
-    class My3DScene : public ShaderScene, public CustomKeyboardDelegate {
-        Model* model;
-        virtual void onKey(enumKeyCodes key, bool pressed, bool holding) {
-            switch (key) {
-            case KEY_Up:
-                camera->setPitch(camera->getPitch() + 1.0f);
-                break;
-            case KEY_Down:
-                camera->setPitch(camera->getPitch() - 1.0f);
-                break;
-            case KEY_Right:
-                camera->setYaw(camera->getYaw() + 5.0f);
-                break;
-            case KEY_Left:
-                camera->setYaw(camera->getYaw() - 5.0f);
-                break;
-            case KEY_W:
-                camera->setPosition(camera->getPosition() + camera->getFront());
-                break;
-            case KEY_S:
-                camera->setPosition(camera->getPosition() - camera->getFront());
-                break;
-            case KEY_A:
-                camera->setPosition(camera->getPosition() - glm::normalize(glm::cross(camera->getFront(), camera->getUp())));
-                break;
-            case KEY_D:
-                camera->setPosition(camera->getPosition() + glm::normalize(glm::cross(camera->getFront(), camera->getUp())));
-                break;
-            default:
-                break;
-            }
-        }
-
-        bool init() {
-            CCNode::init();
-
-            camera->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-            light->setPosition(glm::vec3(300.0f, 200.0f, 100.0f));
-
-
-            auto vertexShader = Shader::createWithString(vertexShaderSource, ShaderType::kVertexShader);
-            auto fragmentShader = Shader::createWithString(fragmentShaderSource, ShaderType::kFragmentShader);
-
-            auto shaderProgram = ShaderProgram::create(vertexShader, fragmentShader);
-
-            delete vertexShader;
-            delete fragmentShader;
-
-            // temporarily disabled by adaf
-            //Assimp::Importer importer;
-            //const aiScene* scene = importer.ReadFile("./cliff.obj",
-            //    aiProcess_Triangulate |
-            //    aiProcess_FlipUVs |
-            //    aiProcess_JoinIdenticalVertices |
-            //    aiProcess_SortByPType);
-            //model = Model::create(scene, shaderProgram);
-            //const aiScene* scene2 = importer.ReadFile("./lightcube.obj",
-            //    aiProcess_Triangulate |
-            //    aiProcess_FlipUVs |
-            //    aiProcess_JoinIdenticalVertices |
-            //    aiProcess_SortByPType);
-            //auto model2 = Model::create(scene2, shaderProgram);
-            //model2->setPosition(glm::vec3(0, 0, -80));
-            //this->models.push_back(model);
-            //this->models.push_back(model2);
-
-            return true;
-        }
-        virtual void draw() {
-            ShaderScene::draw();
-            model->setRotationY(model->getRotationY() + 0.1);
-        }
-    public:
-        static auto create() {
-            auto node = new My3DScene;
-            if (node->init()) {
-                node->autorelease();
-            }
-            else {
-                CC_SAFE_DELETE(node);
-            }
-            return node;
-        }
-    };
-
-    class GJ3DGameLayer : public ShaderScene, public CustomKeyboardDelegate {
+    class GJ3DGameLayer
+        : public ShaderScene
+        , public CustomKeyboardDelegate
+        , public CustomTouchDelegate
+        , public CustomMouseDelegate
+    {
         Model* bg;
         Model* cube;
         Model* ship;
@@ -220,81 +142,91 @@ namespace g3d
         Ground3D* ground2;
         std::vector<Model*> blocks;
         glm::vec3 playerCameraOffset;
+        g3d::ShaderProgram* shaderProgram;
 
     public:
         static GJ3DGameLayer* instance;
 
-        void updateGrounds() {
+        auto getResDir()
+        {
+            return geode::Mod::get()->getResourcesDir();
+        }
+        
+        void updateGrounds() 
+        {
             ground->updateGround();
             ground2->updateGround();
         }
 
-        void resetGrounds() {
+        void resetGrounds() 
+        {
             ground->resetGround();
             ground2->resetGround();
         }
 
-        virtual void onKey(enumKeyCodes key, bool pressed, bool holding) {
-            switch (key) {
-            case KEY_Up:
-                camera->setPitch(camera->getPitch() + 1.0f);
-                break;
-            case KEY_Down:
-                camera->setPitch(camera->getPitch() - 1.0f);
-                break;
-            case KEY_Right:
-                camera->setYaw(camera->getYaw() + 5.0f);
-                break;
-            case KEY_Left:
-                camera->setYaw(camera->getYaw() - 5.0f);
-                break;
-            case KEY_W:
-                playerCameraOffset += camera->getFront();
-                break;
-            case KEY_S:
-                playerCameraOffset -= camera->getFront();
-                break;
-            case KEY_A:
-                playerCameraOffset -= glm::normalize(glm::cross(camera->getFront(), camera->getUp()));
-                break;
-            case KEY_D:
-                playerCameraOffset += glm::normalize(glm::cross(camera->getFront(), camera->getUp()));
-                break;
-            default:
-                break;
-            }
-        }
-
-        bool init() {
-            CCNode::init();
-
+        void loadShader()
+        {
             auto vertexShader = Shader::createWithString(vertexShaderSource, ShaderType::kVertexShader);
             auto fragmentShader = Shader::createWithString(fragmentShaderSource, ShaderType::kFragmentShader);
 
-            auto shaderProgram = ShaderProgram::create(vertexShader, fragmentShader);
+            shaderProgram = ShaderProgram::create(vertexShader, fragmentShader);
 
             delete vertexShader;
             delete fragmentShader;
+        }
 
-            const auto res_path = geode::Mod::get()->getResourcesDir();
+        void loadPlayerModels()
+        {
+            // to do : icon selection (default 0)
+            cube = loadWithoutAddModel(getResDir() / "model3d" / "player" / "cube" / "0" / "model.obj", shaderProgram);
+            cube->setScale(glm::vec3(0.75));
 
+            ship = loadWithoutAddModel(getResDir() / "model3d" / "player" / "ship" / "0" / "model.obj", shaderProgram);
+            ship->setScale(glm::vec3(0.75));
+
+            ball = loadWithoutAddModel(getResDir() / "model3d" / "player" / "ball" / "0" / "model.obj", shaderProgram);
+            ball->setScale(glm::vec3(0.75));
+
+            bird = loadWithoutAddModel(getResDir() / "model3d" / "player" / "bird" / "0" / "model.obj", shaderProgram);
+            bird->setScale(glm::vec3(0.75));
+
+            dart = loadWithoutAddModel(getResDir() / "model3d" / "player" / "dart" / "0" / "model.obj", shaderProgram);
+            dart->setScale(glm::vec3(0.75));
+
+            robot = loadWithoutAddModel(getResDir() / "model3d" / "player" / "robot" / "0" / "model.obj", shaderProgram);
+            robot->setScale(glm::vec3(0.75));
+
+            spider = loadWithoutAddModel(getResDir() / "model3d" / "player" / "spider" / "0" / "model.obj", shaderProgram);
+            spider->setScale(glm::vec3(0.75));
+
+            swing = loadWithoutAddModel(getResDir() / "model3d" / "player" / "swing" / "0" / "model.obj", shaderProgram);
+            swing->setScale(glm::vec3(0.75));
+        }
+
+        void loadObjectModels()
+        {
             CCObject* obj;
-            CCARRAY_FOREACH(GameManager::sharedState()->m_playLayer->m_objects, obj) {
+            CCARRAY_FOREACH(GameManager::sharedState()->m_playLayer->m_objects, obj) 
+            {
                 auto block = dynamic_cast<GameObject*>(obj);
-                const auto model_dir = res_path / "model3d" / "object" / std::to_string(block->m_objectID) ;
+                const auto model_dir = getResDir() / "model3d" / "object" / std::to_string(block->m_objectID);
                 const auto model_path = model_dir / "model.obj";
                 const auto mtl_path = model_dir / "model.mtl";
-                const auto png_path = model_dir / "model.png";
-                if (std::filesystem::exists(model_path)) {
+                if (std::filesystem::exists(model_path)) 
+                {
                     // mtl model path fix (model path must be absolute
-                    if (std::filesystem::exists(mtl_path)) {
+                    if (std::filesystem::exists(mtl_path)) 
+                    {
                         auto mtl_file = read_from_file(mtl_path);
-                        if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos) {
-                            replace_all(mtl_file, "{{MODEL_PATH}}", png_path.string());
+                        // to do: leave the model png!!!
+                        if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos) 
+                        {
+                            replace_all(mtl_file, "{{MODEL_PATH}}", model_dir.string());
                         }
                         write_to_file(mtl_path, mtl_file);
                     }
-                    if (auto blockModel = loadWithoutAddModel(model_path, shaderProgram)) {
+                    if (auto blockModel = loadWithoutAddModel(model_path, shaderProgram)) 
+                    {
                         blockModel->setPosition(glm::vec3(block->getPositionX() * 0.05, block->getPositionY() * 0.05, 20.f));
                         geode::log::info("Loading block ID {} ({}, {})", block->m_objectID, block->m_startFlipX, block->m_scaleX);
                         blockModel->setScale(glm::vec3(0.75 * (block->m_startFlipX ? -1 : 1), 0.75 * (block->m_startFlipY ? -1 : 1), 0.75));
@@ -303,36 +235,21 @@ namespace g3d
                     }
                 }
             }
+        }
+
+        bool init() 
+        {
+            CCNode::init();
+
+            this->loadShader();
 
             // temporarily disabled by adaf
             //bg = loadAndAddModel("./cliff.obj", shaderProgram);
             //bg->setPosition(glm::vec3(300, -100, -300));
             //bg->setScale(glm::vec3(3, 3, 3));
 
-            // to do : icon selection
-            cube = loadWithoutAddModel(res_path / "model3d" / "player" / "cube" / "0" / "model.obj", shaderProgram);
-            cube->setScale(glm::vec3(0.75));
-
-            ship = loadWithoutAddModel(res_path / "model3d" / "player" / "ship" / "0" / "model.obj", shaderProgram);
-            ship->setScale(glm::vec3(0.75));
-
-            ball = loadWithoutAddModel(res_path / "model3d" / "player" / "ball" / "0" / "model.obj", shaderProgram);
-            ball->setScale(glm::vec3(0.75));
-
-            bird = loadWithoutAddModel(res_path / "model3d" / "player" / "bird" / "0" / "model.obj", shaderProgram);
-            bird->setScale(glm::vec3(0.75));
-
-            dart = loadWithoutAddModel(res_path / "model3d" / "player" / "dart" / "0" / "model.obj", shaderProgram);
-            dart->setScale(glm::vec3(0.75));
-
-            robot = loadWithoutAddModel(res_path / "model3d" / "player" / "robot" / "0" / "model.obj", shaderProgram);
-            robot->setScale(glm::vec3(0.75));
-
-            spider = loadWithoutAddModel(res_path / "model3d" / "player" / "spider" / "0" / "model.obj", shaderProgram);
-            spider->setScale(glm::vec3(0.75));
-
-            swing = loadWithoutAddModel(res_path / "model3d" / "player" / "swing" / "0" / "model.obj", shaderProgram);
-            swing->setScale(glm::vec3(0.75));
+            this->loadObjectModels();
+            this->loadPlayerModels();
 
             auto playLayer = GameManager::sharedState()->m_playLayer;
             ground = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 3 * 2, 0);
@@ -383,10 +300,10 @@ namespace g3d
 
             for (auto model : models) {
                 model->render(
-                    view, 
-                    light->getPosition(), 
-                    light->getColor(), 
-                    camera->getPosition(), 
+                    view,
+                    light->getPosition(),
+                    light->getColor(),
+                    camera->getPosition(),
                     projection);
             }
 
@@ -445,8 +362,129 @@ namespace g3d
             player->setRotationZ(360 - newR);
             camera->setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
             light->setPosition(glm::vec3(newX + 50, groundHeight + 50, newZ + 50));
-
         }
+
+        CCPoint lastTouchPosition;
+        bool isTouching = false;
+        virtual void touch(CCSet* touches, CCEvent* event, unsigned int type) {
+            auto touch = static_cast<CCTouch*>(*touches->begin());
+            auto currentTouchPosition = touch->getLocation();
+
+            switch (type) {
+            case 0: // Touch began
+                isTouching = true;
+                lastTouchPosition = currentTouchPosition;
+                break;
+
+            case 1: // Touch moved
+                if (isTouching) {
+                    CCPoint delta = currentTouchPosition - lastTouchPosition;
+
+                    // Adjust camera pitch and yaw based on touch delta
+                    float sensitivity = 0.1f;
+                    float yaw = camera->getYaw() - delta.x * sensitivity;
+                    float pitch = camera->getPitch() - delta.y * sensitivity;
+
+                    // Clamp pitch to prevent flipping
+                    pitch = std::clamp(pitch, -89.0f, 89.0f);
+
+                    camera->setYaw(yaw);
+                    camera->setPitch(pitch);
+
+                    lastTouchPosition = currentTouchPosition;
+                }
+                break;
+
+            case 2: // Touch ended
+                isTouching = false;
+                break;
+            }
+        }
+
+        bool isRightClicking = false;
+        float lastMouseX = 0.0;
+        float lastMouseY = 0.0;
+
+        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+            if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+                if (action == GLFW_PRESS) {
+                    isRightClicking = true;
+
+                    // Initialize the last mouse position
+                    double x, y;
+                    glfwGetCursorPos(window, &x, &y);
+                    lastMouseX = static_cast<float>(x);
+                    lastMouseY = static_cast<float>(y);
+                }
+                else if (action == GLFW_RELEASE) {
+                    isRightClicking = false;
+                }
+            }
+        }
+
+        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
+            if (isRightClicking) {
+                // Calculate mouse movement delta
+                float deltaX = static_cast<float>(x) - lastMouseX;
+                float deltaY = static_cast<float>(y) - lastMouseY;
+
+                // Adjust camera pitch and yaw based on delta
+                float sensitivity = 0.1f;
+                float yaw = camera->getYaw() - deltaX * sensitivity;
+                float pitch = camera->getPitch() - deltaY * sensitivity;
+
+                // Clamp pitch to prevent flipping
+                pitch = std::clamp(pitch, -89.0f, 89.0f);
+
+                // Update camera orientation
+                camera->setYaw(yaw);
+                camera->setPitch(pitch);
+
+                // Update last mouse position
+                lastMouseX = static_cast<float>(x);
+                lastMouseY = static_cast<float>(y);
+            }
+        }
+
+        virtual void scrollWheel(float x, float y) {
+            // Adjust the camera zoom level using the scroll wheel
+            float zoomSensitivity = 5.0f;
+            glm::vec3 position = camera->getPosition();
+            // Move the camera closer or further along its front direction
+            camera->setPosition(position + camera->getFront() * (x * zoomSensitivity));
+        }
+
+        virtual void onKey(enumKeyCodes key, bool pressed, bool holding) {
+            switch (key) {
+            case KEY_Up:
+                camera->setPitch(camera->getPitch() + 1.0f);
+                break;
+            case KEY_Down:
+                camera->setPitch(camera->getPitch() - 1.0f);
+                break;
+            case KEY_Right:
+                camera->setYaw(camera->getYaw() + 5.0f);
+                break;
+            case KEY_Left:
+                camera->setYaw(camera->getYaw() - 5.0f);
+                break;
+            case KEY_W:
+                playerCameraOffset += camera->getFront();
+                break;
+            case KEY_S:
+                playerCameraOffset -= camera->getFront();
+                break;
+            case KEY_A:
+                playerCameraOffset -= glm::normalize(glm::cross(camera->getFront(), camera->getUp()));
+                break;
+            case KEY_D:
+                playerCameraOffset += glm::normalize(glm::cross(camera->getFront(), camera->getUp()));
+                break;
+            default:
+                break;
+            }
+        }
+
     public:
         static auto create() {
             auto node = new GJ3DGameLayer;
@@ -492,6 +530,39 @@ namespace g3d
         {
             CustomKeyboardManager::updateDelegates(key, isKeyDown, isKeyRepeat);
             return CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
+        }
+    };
+
+    class $modify(CCMouseDispatcher)
+    {
+        bool dispatchScrollMSG(float x, float y)
+        {
+            CustomMouseManager::updateDelegates(x, y);
+            return CCMouseDispatcher::dispatchScrollMSG(x, y);
+        }
+    };
+
+    class $modify(CCEGLView)
+    {
+        void onGLFWMouseMoveCallBack(GLFWwindow * window, double x, double y)
+        {
+            CustomTouchManager::onGLFWMouseMoveCallBack(window, x, y);
+            CCEGLView::onGLFWMouseMoveCallBack(window, x, y);
+        }
+
+        void onGLFWMouseCallBack(GLFWwindow * window, int button, int action, int mods)
+        {
+            CustomTouchManager::onGLFWMouseCallBack(window, button, action, mods);
+            CCEGLView::onGLFWMouseCallBack(window, button, action, mods);
+        }
+    };
+
+    class $modify(CCTouchDispatcher)
+    {
+        void touches(CCSet* touches, CCEvent* event, unsigned int type)
+        {
+            CustomTouchManager::updateDelegates(touches, event, type);
+            CCTouchDispatcher::touches(touches, event, type);
         }
     };
 

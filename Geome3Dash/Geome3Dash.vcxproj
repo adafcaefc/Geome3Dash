@@ -11,6 +11,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\CustomKeyboard.cpp" />
+    <ClCompile Include="src\CustomMouse.cpp" />
+    <ClCompile Include="src\CustomTouch.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\Ground3D.cpp" />
     <ClCompile Include="src\Hooks.cpp" />
@@ -25,6 +27,8 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\CustomKeyboard.h" />
+    <ClInclude Include="src\CustomMouse.h" />
+    <ClInclude Include="src\CustomTouch.h" />
     <ClInclude Include="src\Ground3D.h" />
     <ClInclude Include="src\Hooks.h" />
     <ClInclude Include="src\Mesh.h" />
@@ -83,7 +87,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;libcocos2d.lib;fmod.lib;glew32.lib;Geode.lib;assimp-vc143-mt.lib;fmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;libcocos2d.lib;fmod.lib;Geode.lib;assimp-vc143-mt.lib;fmt.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
