@@ -130,6 +130,7 @@ namespace g3d
         , public CustomMouseDelegate
     {
         Model* bg;
+
         Model* cube;
         Model* ship;
         Model* ball;
@@ -138,8 +139,10 @@ namespace g3d
         Model* robot;
         Model* spider;
         Model* swing;
+
         Ground3D* ground;
         Ground3D* ground2;
+
         std::vector<Model*> blocks;
         glm::vec3 playerCameraOffset;
         g3d::ShaderProgram* shaderProgram;
@@ -175,32 +178,35 @@ namespace g3d
             delete fragmentShader;
         }
 
+        std::filesystem::path getPlayerModelPath(const std::string& type, const int id)
+        {
+            return getResDir() / "model3d" / "player" / type / std::to_string(id) / "model.obj";
+        }
+
+        std::filesystem::path getFixedPlayerModelPath(const std::string& type, const int id)
+        {
+            const auto path = getPlayerModelPath(type, id);
+            return std::filesystem::exists(path)
+                ? path
+                : getPlayerModelPath(type, 0);
+        }
+
+        void loadPlayerModel(Model** model, const std::string& type, const int id)
+        {
+            *model = loadWithoutAddModel(getFixedPlayerModelPath(type, id), shaderProgram);
+            (*model)->setScale(glm::vec3(0.75));
+        }
+
         void loadPlayerModels()
         {
-            // to do : icon selection (default 0)
-            cube = loadWithoutAddModel(getResDir() / "model3d" / "player" / "cube" / "0" / "model.obj", shaderProgram);
-            cube->setScale(glm::vec3(0.75));
-
-            ship = loadWithoutAddModel(getResDir() / "model3d" / "player" / "ship" / "0" / "model.obj", shaderProgram);
-            ship->setScale(glm::vec3(0.75));
-
-            ball = loadWithoutAddModel(getResDir() / "model3d" / "player" / "ball" / "0" / "model.obj", shaderProgram);
-            ball->setScale(glm::vec3(0.75));
-
-            bird = loadWithoutAddModel(getResDir() / "model3d" / "player" / "bird" / "0" / "model.obj", shaderProgram);
-            bird->setScale(glm::vec3(0.75));
-
-            dart = loadWithoutAddModel(getResDir() / "model3d" / "player" / "dart" / "0" / "model.obj", shaderProgram);
-            dart->setScale(glm::vec3(0.75));
-
-            robot = loadWithoutAddModel(getResDir() / "model3d" / "player" / "robot" / "0" / "model.obj", shaderProgram);
-            robot->setScale(glm::vec3(0.75));
-
-            spider = loadWithoutAddModel(getResDir() / "model3d" / "player" / "spider" / "0" / "model.obj", shaderProgram);
-            spider->setScale(glm::vec3(0.75));
-
-            swing = loadWithoutAddModel(getResDir() / "model3d" / "player" / "swing" / "0" / "model.obj", shaderProgram);
-            swing->setScale(glm::vec3(0.75));
+            loadPlayerModel(&cube, "cube", GameManager::get()->getPlayerFrame());
+            loadPlayerModel(&ship, "ship", GameManager::get()->getPlayerShip());
+            loadPlayerModel(&ball, "ball", GameManager::get()->getPlayerBall());
+            loadPlayerModel(&bird, "bird", GameManager::get()->getPlayerBird());
+            loadPlayerModel(&dart, "dart", GameManager::get()->getPlayerDart());
+            loadPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
+            loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
+            loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
         }
 
         void loadObjectModels()
