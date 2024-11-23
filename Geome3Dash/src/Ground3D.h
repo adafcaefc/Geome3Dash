@@ -15,12 +15,12 @@ namespace g3d
         float groundHeight;
         bool flipGroundModel = 0;
 
-        virtual bool init(ShaderScene* layer, ShaderProgram* shaderProgram);
+        virtual bool init(CCNode* layer, ShaderProgram* shaderProgram);
     public:
         void updateGround();
         void resetGround();
         void setVisible(bool visible);
         void updateYPos(float playLayerSecondGroundHeight);
-        static Ground3D* create(ShaderScene* layer, ShaderProgram* shaderProgram, float startOffset, float size, float partsCount, float groundHeight, bool flipGroundModel);
+        static Ground3D* create(CCNode* layer, ShaderProgram* shaderProgram, float startOffset, float size, float partsCount, float groundHeight, bool flipGroundModel);
     };
 }

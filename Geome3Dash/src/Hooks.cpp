@@ -123,14 +123,10 @@ namespace g3d
         }
     }
 
-    class GJ3DGameLayer
-        : public ShaderScene
-        , public CustomKeyboardDelegate
-        , public CustomTouchDelegate
-        , public CustomMouseDelegate
+    class PlayerObject3D
+        : public CCNode
     {
-        Model* bg;
-
+    private:
         Model* cube;
         Model* ship;
         Model* ball;
@@ -140,6 +136,119 @@ namespace g3d
         Model* spider;
         Model* swing;
 
+        Camera* camera;
+        Light* light;
+
+        g3d::ShaderProgram* shaderProgram;
+
+        std::filesystem::path getPlayerModelPath(const std::string& type, const int id)
+        {
+            return geode::Mod::get()->getResourcesDir() / "model3d" / "player" / type / std::to_string(id) / "model.obj";
+        }
+
+        std::filesystem::path getFixedPlayerModelPath(const std::string& type, const int id)
+        {
+            const auto path = getPlayerModelPath(type, id);
+            return std::filesystem::exists(path)
+                ? path
+                : getPlayerModelPath(type, 0);
+        }
+
+        void loadPlayerModel(Model** model, const std::string& type, const int id)
+        {
+            *model = ShaderScene::loadWithoutAddModel(getFixedPlayerModelPath(type, id), shaderProgram);
+            (*model)->setScale(glm::vec3(0.75));
+        }
+
+        void loadPlayerModels()
+        {
+            loadPlayerModel(&cube, "cube", GameManager::get()->getPlayerFrame());
+            loadPlayerModel(&ship, "ship", GameManager::get()->getPlayerShip());
+            loadPlayerModel(&ball, "ball", GameManager::get()->getPlayerBall());
+            loadPlayerModel(&bird, "bird", GameManager::get()->getPlayerBird());
+            loadPlayerModel(&dart, "dart", GameManager::get()->getPlayerDart());
+            loadPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
+            loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
+            loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
+        }
+
+    public:
+        PlayerObject* playerObject;
+        Model* player;
+
+        bool init(g3d::ShaderProgram* shaderProgramP, PlayerObject* playerObjectP, Camera* cameraP, Light* lightP)
+        {
+            CCNode::init();
+            shaderProgram = shaderProgramP;
+            playerObject = playerObjectP;
+            camera = cameraP;
+            light = lightP;
+            loadPlayerModels();
+            return true;
+        }
+
+        void drawModel()
+        {
+            player = cube;
+            if (playerObject->m_isShip) {
+                player = ship;
+            }
+            else if (playerObject->m_isBall) {
+                player = ball;
+            }
+            else if (playerObject->m_isBird) {
+                player = bird;
+            }
+            else if (playerObject->m_isDart) {
+                player = dart;
+            }
+            else if (playerObject->m_isRobot) {
+                player = robot;
+            }
+            else if (playerObject->m_isSpider) {
+                player = spider;
+            }
+            else if (playerObject->m_isSwing) {
+                player = swing;
+            }
+            auto newX = playerObject->getPositionX() * 0.05;
+            auto newY = playerObject->getPositionY() * 0.05;
+            auto newZ = 20.f;
+            auto newR = playerObject->getRotation();
+            player->render(
+                camera->getViewMat(),
+                light->getPosition(),
+                light->getColor(),
+                camera->getPosition(),
+                camera->getProjectionMat());
+            player->setPosition(glm::vec3(newX, newY, newZ));
+            player->setRotationZ(360 - newR);
+            player->setScaleY(std::abs(player->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
+        }
+
+        static auto create(g3d::ShaderProgram* shaderProgramP, PlayerObject* playerObjectP, Camera* cameraP, Light* lightP) {
+            auto node = new PlayerObject3D;
+            if (node->init(shaderProgramP, playerObjectP, cameraP, lightP)) {
+                node->autorelease();
+            }
+            else {
+                CC_SAFE_DELETE(node);
+            }
+            return node;
+        }
+    };
+
+    class PlayLayer3D
+        : public CCNode
+        , public CustomKeyboardDelegate
+        , public CustomTouchDelegate
+        , public CustomMouseDelegate
+    {
+        Model* bg;
+
+        PlayerObject3D* player1;
+        //PlayerObject3D* player2; // not yet implemented!
+
         Ground3D* ground;
         Ground3D* ground2;
 
@@ -147,13 +256,11 @@ namespace g3d
         glm::vec3 playerCameraOffset;
         g3d::ShaderProgram* shaderProgram;
 
-    public:
-        static GJ3DGameLayer* instance;
+        Camera camera;
+        Light light;
 
-        auto getResDir()
-        {
-            return geode::Mod::get()->getResourcesDir();
-        }
+    public:
+        static PlayLayer3D* instance;
         
         void updateGrounds() 
         {
@@ -178,44 +285,13 @@ namespace g3d
             delete fragmentShader;
         }
 
-        std::filesystem::path getPlayerModelPath(const std::string& type, const int id)
-        {
-            return getResDir() / "model3d" / "player" / type / std::to_string(id) / "model.obj";
-        }
-
-        std::filesystem::path getFixedPlayerModelPath(const std::string& type, const int id)
-        {
-            const auto path = getPlayerModelPath(type, id);
-            return std::filesystem::exists(path)
-                ? path
-                : getPlayerModelPath(type, 0);
-        }
-
-        void loadPlayerModel(Model** model, const std::string& type, const int id)
-        {
-            *model = loadWithoutAddModel(getFixedPlayerModelPath(type, id), shaderProgram);
-            (*model)->setScale(glm::vec3(0.75));
-        }
-
-        void loadPlayerModels()
-        {
-            loadPlayerModel(&cube, "cube", GameManager::get()->getPlayerFrame());
-            loadPlayerModel(&ship, "ship", GameManager::get()->getPlayerShip());
-            loadPlayerModel(&ball, "ball", GameManager::get()->getPlayerBall());
-            loadPlayerModel(&bird, "bird", GameManager::get()->getPlayerBird());
-            loadPlayerModel(&dart, "dart", GameManager::get()->getPlayerDart());
-            loadPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
-            loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
-            loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
-        }
-
         void loadObjectModels()
         {
             CCObject* obj;
             CCARRAY_FOREACH(GameManager::sharedState()->m_playLayer->m_objects, obj) 
             {
                 auto block = dynamic_cast<GameObject*>(obj);
-                const auto model_dir = getResDir() / "model3d" / "object" / std::to_string(block->m_objectID);
+                const auto model_dir = geode::Mod::get()->getResourcesDir() / "model3d" / "object" / std::to_string(block->m_objectID);
                 const auto model_path = model_dir / "model.obj";
                 const auto mtl_path = model_dir / "model.mtl";
                 if (std::filesystem::exists(model_path)) 
@@ -231,7 +307,7 @@ namespace g3d
                         }
                         write_to_file(mtl_path, mtl_file);
                     }
-                    if (auto blockModel = loadWithoutAddModel(model_path, shaderProgram)) 
+                    if (auto blockModel = ShaderScene::loadWithoutAddModel(model_path, shaderProgram)) 
                     {
                         blockModel->setPosition(glm::vec3(block->getPositionX() * 0.05, block->getPositionY() * 0.05, 20.f));
                         geode::log::info("Loading block ID {} ({}, {})", block->m_objectID, block->m_startFlipX, block->m_scaleX);
@@ -254,29 +330,32 @@ namespace g3d
             //bg->setPosition(glm::vec3(300, -100, -300));
             //bg->setScale(glm::vec3(3, 3, 3));
 
-            this->loadObjectModels();
-            this->loadPlayerModels();
-
             auto playLayer = GameManager::sharedState()->m_playLayer;
+
+            this->loadObjectModels();
+            this->player1 = PlayerObject3D::create(shaderProgram, playLayer->m_player1, &this->camera, &this->light);
+
             ground = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 3 * 2, 0);
             ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height, 1);
 
             playerCameraOffset = glm::vec3(0, 5, 20);
 
             // initial setup
-            camera->setYaw(camera->getYaw() + 30.0f);
-            playerCameraOffset -= camera->getFront() * 8.0f;
-            camera->setPitch(camera->getPitch() - 6.0f);
+            camera.setYaw(camera.getYaw() + 30.0f);
+            playerCameraOffset -= camera.getFront() * 8.0f;
+            camera.setPitch(camera.getPitch() - 6.0f);
 
             return true;
         }
-        ~GJ3DGameLayer() {
-            for (auto block : blocks) {
-                delete block;
-            }
+        ~PlayLayer3D() 
+        {
+            // delete player here too?
+            for (auto block : blocks) { delete block; }
             instance = nullptr;
         }
-        virtual void draw() {
+
+        virtual void draw() 
+        {
             //ground2->setVisible(GameManager::sharedState()->m_playLayer->m_player1->m_isShip);
             // rainix, what value is this?
             //ground2->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0));
@@ -292,114 +371,50 @@ namespace g3d
             ground2->setVisible(playLayer->m_groundLayer2->isVisible());
 
             OpenGLStateHelper::saveState();
-
-            updateGrounds();
-
             glEnable(GL_BLEND);
             glEnable(GL_ALPHA_TEST);
             glEnable(GL_DEPTH_TEST);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            glm::mat4 view = camera->getViewMat();
+            this->updateGrounds();
 
-            glm::mat4 projection = camera->getProjectionMat();
-
-            for (auto model : models) {
-                model->render(
-                    view,
-                    light->getPosition(),
-                    light->getColor(),
-                    camera->getPosition(),
-                    projection);
-            }
-
-            Model* player = cube;
-            auto playerObject = playLayer->m_player1;
-            playerObject->getParent()->setVisible(false);
+            playLayer->m_player1->getParent()->setVisible(false);
             // ground calculations is so hard -adaf
             playLayer->m_groundLayer->setVisible(false);
             playLayer->m_groundLayer2->setVisible(false);
-            ground->updateYPos(playLayer->m_groundLayer->getPositionY());
-            ground2->updateYPos(playLayer->m_groundLayer2->getPositionY());
-            if (playerObject->m_isShip) {
-                player = ship;
-            }
-            else if (playerObject->m_isBall) {
-                player = ball;
-            }
-            else if (playerObject->m_isBird) {
-                player = bird;
-            }
-            else if (playerObject->m_isDart) {
-                player = dart;
-            }
-            else if (playerObject->m_isRobot) {
-                player = robot;
-            }
-            else if (playerObject->m_isSpider) {
-                player = spider;
-            }
-            else if (playerObject->m_isSwing) {
-                player = swing;
-            }
+            //ground->updateYPos(playLayer->m_groundLayer->getPositionY());
+            //ground2->updateYPos(playLayer->m_groundLayer2->getPositionY());
 
-            //glDepthMask(GL_FALSE);
+            player1->drawModel();
 
-            for (auto model : blocks) {
-                if (abs(model->getPositionX() - player->getPositionX()) < 150)
-                    model->render(view, light->getPosition(), light->getColor(), camera->getPosition(), projection);
+            if (player1->player)
+            {
+                for (auto model : blocks)
+                {
+                    if (abs(model->getPositionX() - player1->player->getPositionX()) < 150)
+                    {
+                        model->render(
+                            camera.getViewMat(),
+                            light.getPosition(),
+                            light.getColor(),
+                            camera.getPosition(),
+                            camera.getProjectionMat());
+                    }
+                }
             }
-            player->render(view, light->getPosition(), light->getColor(), camera->getPosition(), projection);
-
-            //glDepthMask(GL_TRUE);
 
             glDisable(GL_DEPTH_TEST);
-
             OpenGLStateHelper::pushState();
 
-            auto newX = playerObject->getPositionX() * 0.05;
-            auto newY = playerObject->getPositionY() * 0.05;
+            auto newX = player1->playerObject->getPositionX() * 0.05;
+            auto newY = player1->playerObject->getPositionY() * 0.05;
             auto newZ = 20.f;
-            auto newR = playerObject->getRotation();
+            auto newR = player1->playerObject->getRotation();
+            camera.setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
 
             auto groundHeight = (playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height) * 0.05;
-
-            player->setPosition(glm::vec3(newX, newY, newZ));
-            player->setRotationZ(360 - newR);
-            camera->setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
-            light->setPosition(glm::vec3(newX + 50, groundHeight + 50, newZ + 50));
+            light.setPosition(glm::vec3(newX + 50, groundHeight + 50, newZ + 50));
         }
-
-        // LEFT CLICK TOUCH (DISABLED FOR NOW)
-        //CCPoint lastTouchPosition;
-        //bool isTouching = false;
-        //virtual void touch(CCSet* touches, CCEvent* event, unsigned int type) {
-        //    auto touch = static_cast<CCTouch*>(*touches->begin());
-        //    auto currentTouchPosition = touch->getLocation();
-        //    switch (type) {
-        //    case 0: // Touch began
-        //        isTouching = true;
-        //        lastTouchPosition = currentTouchPosition;
-        //        break;
-        //    case 1: // Touch moved
-        //        if (isTouching) {
-        //            CCPoint delta = currentTouchPosition - lastTouchPosition;
-        //            // Adjust camera pitch and yaw based on touch delta
-        //            float sensitivity = 0.1f;
-        //            float yaw = camera->getYaw() - delta.x * sensitivity;
-        //            float pitch = camera->getPitch() - delta.y * sensitivity;
-        //            // Clamp pitch to prevent flipping
-        //            pitch = std::clamp(pitch, -89.0f, 89.0f);
-        //            camera->setYaw(yaw);
-        //            camera->setPitch(pitch);
-        //            lastTouchPosition = currentTouchPosition;
-        //        }
-        //        break;
-        //    case 2: // Touch ended
-        //        isTouching = false;
-        //        break;
-        //    }
-        //}
 
         bool isPressingControl = false;
         bool isRightClicking = false;
@@ -431,17 +446,17 @@ namespace g3d
                     float deltaY = static_cast<float>(y) - lastMouseY;
                     if (isPressingControl) {
                         float sensitivity = 0.032f;
-                        playerCameraOffset += camera->getUp() * deltaY * sensitivity;
-                        playerCameraOffset += glm::normalize(glm::cross(camera->getFront(), camera->getUp())) * deltaX * -sensitivity;
+                        playerCameraOffset += camera.getUp() * deltaY * sensitivity;
+                        playerCameraOffset += glm::normalize(glm::cross(camera.getFront(), camera.getUp())) * deltaX * -sensitivity;
                     }
                     else {
                         float sensitivity = 0.05f;
-                        float yaw = camera->getYaw() - deltaX * sensitivity;
-                        float pitch = camera->getPitch() - deltaY * sensitivity;
+                        float yaw = camera.getYaw() - deltaX * sensitivity;
+                        float pitch = camera.getPitch() - deltaY * sensitivity;
                         // Clamp pitch to prevent flipping
                         pitch = std::clamp(pitch, -89.0f, 89.0f);
-                        camera->setYaw(yaw);
-                        camera->setPitch(pitch);
+                        camera.setYaw(yaw);
+                        camera.setPitch(pitch);
                     }
                     lastMouseX = static_cast<float>(x);
                     lastMouseY = static_cast<float>(y);
@@ -452,7 +467,7 @@ namespace g3d
         virtual void scrollWheel(float y, float x) {
             // Adjust the camera zoom level using the scroll wheel
             float zoomSensitivity = -0.128f;
-            playerCameraOffset += camera->getFront() * y * zoomSensitivity;
+            playerCameraOffset += camera.getFront() * y * zoomSensitivity;
         }
 
         virtual void onKey(enumKeyCodes key, bool pressed, bool holding) {
@@ -465,7 +480,7 @@ namespace g3d
 
     public:
         static auto create() {
-            auto node = new GJ3DGameLayer;
+            auto node = new PlayLayer3D;
             instance = node;
             if (node->init()) {
                 node->autorelease();
@@ -477,21 +492,21 @@ namespace g3d
         }
     };
 
-    GJ3DGameLayer* GJ3DGameLayer::instance = nullptr;
+    PlayLayer3D* PlayLayer3D::instance = nullptr;
 
     class $modify(PlayLayer)
     {
         void resetLevel()
         {
             PlayLayer::resetLevel();
-            if (GJ3DGameLayer::instance) { GJ3DGameLayer::instance->resetGrounds(); }
+            if (PlayLayer3D::instance) { PlayLayer3D::instance->resetGrounds(); }
         }
 
         bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects)
         {
             if (!PlayLayer::init(level, useReplay, dontCreateObjects)) { return false; }
 
-            GJ3DGameLayer* node = GJ3DGameLayer::create();
+            PlayLayer3D* node = PlayLayer3D::create();
 
             if (node == nullptr) { return true; }
 

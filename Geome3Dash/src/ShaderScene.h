@@ -47,16 +47,9 @@ namespace g3d
         glm::mat4 getProjectionMat() { return glm::perspective(glm::radians(fov), (float)1920 / float(1080), 0.1f, 6000.0f); }
     };
 
-    class ShaderScene : public CCNode {
+    class ShaderScene {
     public:
-        std::vector<Model*> models;
-        Light* light = new Light();
-        Camera* camera = new Camera();
-
-        virtual void draw();
-        ~ShaderScene();
-        Model* loadAndAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
-        Model* loadWithoutAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
-        static auto create();
+        static Model* loadAndAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
+        static Model* loadWithoutAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
     };
 }

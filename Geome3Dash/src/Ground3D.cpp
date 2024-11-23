@@ -6,11 +6,11 @@
 
 namespace g3d
 {
-    bool Ground3D::init(ShaderScene* layer, ShaderProgram* shaderProgram) {
+    bool Ground3D::init(CCNode* layer, ShaderProgram* shaderProgram) {
 
         for (int i = 0; i < partsCount; i++) {
             const auto res_path = geode::Mod::get()->getResourcesDir();
-            auto groundPart = layer->loadAndAddModel(res_path / "model3d" / "environment" / "ground" / "0" / "model.obj", shaderProgram);
+            auto groundPart = ShaderScene::loadAndAddModel(res_path / "model3d" / "environment" / "ground" / "0" / "model.obj", shaderProgram);
             groundPart->setScale(glm::vec3(size, size * (flipGroundModel ? -1 : 1), size));
             groundPart->setPosition(glm::vec3(size * 2 * i + startOffset, groundHeight + 3 * 2 - size - 0.75, 20));
             parts.push_back(groundPart);
@@ -50,7 +50,7 @@ namespace g3d
         playerPositionX = GameManager::sharedState()->m_playLayer->m_player1->getPositionX() * 0.05;
     }
 
-    Ground3D* Ground3D::create(ShaderScene* layer, ShaderProgram* shaderProgram, float startOffset, float size, float partsCount, float groundHeight, bool flipGroundModel) {
+    Ground3D* Ground3D::create(CCNode* layer, ShaderProgram* shaderProgram, float startOffset, float size, float partsCount, float groundHeight, bool flipGroundModel) {
         auto ret = new Ground3D();
         ret->startOffset = startOffset;
         ret->size = size;

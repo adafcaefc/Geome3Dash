@@ -34,8 +34,14 @@ namespace g3d
         float getPositionY() { return this->position.y; }
         float getPositionZ() { return this->position.z; }
         void setVisible(bool visible) { this->visible = visible; }
-
         void setScale(glm::vec3 scale) { this->scale = scale; }
+        void setScaleX(float scale) { this->scale.x = scale; }
+        void setScaleY(float scale) { this->scale.y = scale; }
+        void setScaleZ(float scale) { this->scale.z = scale; }
+        glm::vec3 getScale() { return this->scale; }
+        float getScaleX() { return this->scale.x; }
+        float getScaleY() { return this->scale.y; }
+        float getScaleZ() { return this->scale.z; }
         ~Model() {
             for (Mesh* mesh : meshes) {
                 delete mesh;
