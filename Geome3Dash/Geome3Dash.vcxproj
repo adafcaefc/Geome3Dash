@@ -10,6 +10,7 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\BezierHelper.cpp" />
     <ClCompile Include="src\CustomKeyboard.cpp" />
     <ClCompile Include="src\CustomMouse.cpp" />
     <ClCompile Include="src\CustomTouch.cpp" />
@@ -26,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="src\BezierHelper.h" />
     <ClInclude Include="src\CustomKeyboard.h" />
     <ClInclude Include="src\CustomMouse.h" />
     <ClInclude Include="src\CustomTouch.h" />
@@ -64,7 +66,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)$(ProjectName)\pch;$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\stb</IncludePath>
+    <IncludePath>$(SolutionDir)$(ProjectName)\pch;$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\pugixml;$(SolutionDir)library\incl\stb</IncludePath>
     <LibraryPath>$(SolutionDir)library\lib\l_x64\l_release;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <TargetName>rainixgd.geome3dash</TargetName>
@@ -87,7 +89,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;libcocos2d.lib;fmod.lib;Geode.lib;assimp-vc143-mt.lib;fmt.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;libcocos2d.lib;fmod.lib;Geode.lib;assimp-vc143-mt.lib;fmt.lib;glfw3.lib;pugixml.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>

@@ -6,6 +6,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 
+#include <pugixml.hpp>
 #include <CCGL.h>
 
 #include <matjson.hpp>

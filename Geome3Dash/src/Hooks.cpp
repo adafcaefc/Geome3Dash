@@ -11,6 +11,7 @@
 #include "CustomTouch.h"
 #include "ShaderScene.h"
 #include "Ground3D.h"
+#include "BezierHelper.h"
 
 #define STRINGIFY(...) #__VA_ARGS__
 
@@ -87,6 +88,20 @@ namespace g3d
         }
     )";
 
+    // temporary
+    std::string svgData = R"(
+        <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="200" style="background-color: lightgray;">
+          <path d="M0,0 C2277,1521 -1558,1140 1000,0" stroke="blue" fill="none" />
+        </svg>
+    )";
+
+    CubicBezier bezier = {
+        0.0, 0.0,   // x0, y0
+        2277.0, 1521.0,   // cx1, cy1
+        -1558.0, 1140.0,  // cx2, cy2
+        1000.0, 0.0    // x1, y1
+    };
+
     std::string read_from_file(
         const std::filesystem::path& path)
     {
@@ -121,6 +136,30 @@ namespace g3d
             str.replace(start_pos, from.length(), to);
             start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
         }
+    }
+
+    double getLevelProgress(double x, GJBaseGameLayer* level)
+    {
+        return static_cast<double>(x) / static_cast<double>(level->m_levelLength);
+    }
+
+    struct BezierCoordinate
+    {
+        glm::vec3 position;
+        double rotation;
+    };
+
+    BezierCoordinate transformIntoBezierCoordinate(const CubicBezier& segment, double t, double x, double y, double z)
+    {
+        // First, we need to evaluate the Bezier curve for X and Z axis
+        double bezierX, bezierZ, rotationY;
+
+        // Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
+        evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
+            bezierX, bezierZ, rotationY);
+
+        // Return the transformed coordinates as a glm::vec3, with the original Y and Z coordinates being transformed along the curve
+        return { glm::vec3(bezierX / 4.0, y, bezierZ / 4.0), glm::degrees(rotationY) };  // Since y is not involved in the Bezier curve transformation, it remains unchanged
     }
 
     class PlayerObject3D
@@ -211,6 +250,9 @@ namespace g3d
             else if (playerObject->m_isSwing) {
                 player = swing;
             }
+
+            //auto bezierSegment = parseSVGPath(svgData)[0];
+            auto progress = getLevelProgress(playerObject->m_position.x, playerObject->m_gameLayer);
             auto newX = playerObject->getPositionX() * 0.05;
             auto newY = playerObject->getPositionY() * 0.05;
             auto newZ = 20.f;
@@ -221,8 +263,10 @@ namespace g3d
                 light->getColor(),
                 camera->getPosition(),
                 camera->getProjectionMat());
-            player->setPosition(glm::vec3(newX, newY, newZ));
-            player->setRotationZ(360 - newR);
+            //player->setPosition(glm::vec3(newX, newY, newZ));
+            auto bCoordinate = transformIntoBezierCoordinate(bezier, progress, newX, newY, newZ);
+            player->setPosition(bCoordinate.position);
+            player->setRotationY(360 - bCoordinate.rotation);
             player->setScaleY(std::abs(player->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
         }
 
@@ -309,10 +353,20 @@ namespace g3d
                     }
                     if (auto blockModel = ShaderScene::loadWithoutAddModel(model_path, shaderProgram)) 
                     {
-                        blockModel->setPosition(glm::vec3(block->getPositionX() * 0.05, block->getPositionY() * 0.05, 20.f));
+
+                        auto newX = block->getPositionX() * 0.05;
+                        auto newY = block->getPositionY() * 0.05;
+                        auto newZ = 20.f;
+                        auto bCoordinate = transformIntoBezierCoordinate(
+                            bezier,
+                            getLevelProgress(block->getPositionX(), GameManager::sharedState()->m_playLayer),
+                            newX, newY, newZ);
+                        blockModel->setPosition(bCoordinate.position);
+                        blockModel->setRotationY(360 - bCoordinate.rotation);
+                        //blockModel->setPosition(glm::vec3(block->getPositionX() * 0.05, block->getPositionY() * 0.05, 20.f));
                         geode::log::info("Loading block ID {} ({}, {})", block->m_objectID, block->m_startFlipX, block->m_scaleX);
                         blockModel->setScale(glm::vec3(0.75 * (block->m_startFlipX ? -1 : 1), 0.75 * (block->m_startFlipY ? -1 : 1), 0.75));
-                        blockModel->setRotationZ(360 - block->getRotation());
+                        //blockModel->setRotationZ(360 - block->getRotation());
                         blocks.push_back(blockModel);
                     }
                 }
@@ -391,24 +445,22 @@ namespace g3d
             {
                 for (auto model : blocks)
                 {
-                    if (abs(model->getPositionX() - player1->player->getPositionX()) < 150)
-                    {
-                        model->render(
-                            camera.getViewMat(),
-                            light.getPosition(),
-                            light.getColor(),
-                            camera.getPosition(),
-                            camera.getProjectionMat());
-                    }
+                    // limit render here
+                    model->render(
+                        camera.getViewMat(),
+                        light.getPosition(),
+                        light.getColor(),
+                        camera.getPosition(),
+                        camera.getProjectionMat());
                 }
             }
 
             glDisable(GL_DEPTH_TEST);
             OpenGLStateHelper::pushState();
 
-            auto newX = player1->playerObject->getPositionX() * 0.05;
-            auto newY = player1->playerObject->getPositionY() * 0.05;
-            auto newZ = 20.f;
+            auto newX = player1->player->getPositionX();
+            auto newY = player1->player->getPositionY();
+            auto newZ = player1->player->getPositionZ();
             auto newR = player1->playerObject->getRotation();
             camera.setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
 
@@ -499,7 +551,7 @@ namespace g3d
         void resetLevel()
         {
             PlayLayer::resetLevel();
-            if (PlayLayer3D::instance) { PlayLayer3D::instance->resetGrounds(); }
+            //if (PlayLayer3D::instance) { PlayLayer3D::instance->resetGrounds(); }
         }
 
         bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects)
