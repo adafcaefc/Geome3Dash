@@ -95,19 +95,19 @@ namespace g3d
         </svg>
     )";
 
-    CubicBezier bezier = {
-        0.0, 0.0,   // x0, y0
-        2277.0, 1521.0,   // cx1, cy1
-        -1558.0, 1140.0,  // cx2, cy2
-        1000.0, 0.0    // x1, y1
-    };
-
     //CubicBezier bezier = {
-    //    87.843, 82.446,        // x0, y0
-    //    1000.0, 505.226,       // cx1, cy1
-    //    95.319, 372.064,       // cx2, cy2
-    //    586.566, 1000.0        // x1, y1
+    //    0.0, 0.0,   // x0, y0
+    //    2277.0, 1521.0,   // cx1, cy1
+    //    -1558.0, 1140.0,  // cx2, cy2
+    //    1000.0, 0.0    // x1, y1
     //};
+
+    CubicBezier bezier = {
+        87.843, 82.446,        // x0, y0
+        1000.0, 505.226,       // cx1, cy1
+        95.319, 372.064,       // cx2, cy2
+        586.566, 1000.0        // x1, y1
+    };
 
 
     std::string read_from_file(
@@ -279,16 +279,15 @@ namespace g3d
                 player = swing;
             }
 
-            //auto bezierSegment = parseSVGPath(svgData)[0];
             auto progress = getLevelProgress(playerObject->m_position.x, playerObject->m_gameLayer);
             auto newX = playerObject->getPositionX() * 0.05;
             auto newY = playerObject->getPositionY() * 0.05;
             auto newZ = 20.f;
             auto newR = playerObject->getRotation();
-            //player->setPosition(glm::vec3(newX, newY, newZ));
             auto bCoordinate = transformIntoBezierCoordinate(bezier, progress, newX, newY, newZ);
             player->setPosition(bCoordinate.position);
             player->setRotationY(360 - bCoordinate.rotation);
+            player->setRotationZ(360 - newR);
             player->setScaleY(std::abs(player->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
         }
 
@@ -385,10 +384,9 @@ namespace g3d
                             newX, newY, newZ);
                         blockModel->setPosition(bCoordinate.position);
                         blockModel->setRotationY(360 - bCoordinate.rotation);
-                        //blockModel->setPosition(glm::vec3(block->getPositionX() * 0.05, block->getPositionY() * 0.05, 20.f));
                         geode::log::info("Loading block ID {} ({}, {})", block->m_objectID, block->m_startFlipX, block->m_scaleX);
                         blockModel->setScale(glm::vec3(0.75 * (block->m_startFlipX ? -1 : 1), 0.75 * (block->m_startFlipY ? -1 : 1), 0.75));
-                        //blockModel->setRotationZ(360 - block->getRotation());
+                        blockModel->setRotationZ(360 - block->getRotation()); // block rotation
                         blocks.emplace(block, blockModel);
                     }
                 }
@@ -422,7 +420,6 @@ namespace g3d
         }
         ~PlayLayer3D() 
         {
-            // delete player here too?
             for (auto [_, block] : blocks) { delete block; }
             instance = nullptr;
         }
