@@ -43,7 +43,12 @@ namespace g3d
             + 3 * (2 * t * oneMinusT - std::pow(t, 2)) * cy2
             + 3 * std::pow(t, 2) * y1;
 
-        rotation = std::atan2(dy, dx);
+        if (dx == 0.0 && dy == 0.0) {
+            rotation = 0.0; // Default rotation if derivative is zero
+        }
+        else {
+            rotation = std::atan2(dy, dx);
+        }
     }
 
     // Function to split the path data into tokens

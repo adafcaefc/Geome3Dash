@@ -102,6 +102,14 @@ namespace g3d
         1000.0, 0.0    // x1, y1
     };
 
+    //CubicBezier bezier = {
+    //    87.843, 82.446,        // x0, y0
+    //    1000.0, 505.226,       // cx1, cy1
+    //    95.319, 372.064,       // cx2, cy2
+    //    586.566, 1000.0        // x1, y1
+    //};
+
+
     std::string read_from_file(
         const std::filesystem::path& path)
     {
@@ -140,6 +148,7 @@ namespace g3d
 
     double getLevelProgress(double x, GJBaseGameLayer* level)
     {
+        if (level->m_levelLength == 0 || x == 0) { return 0; }
         return static_cast<double>(x) / static_cast<double>(level->m_levelLength);
     }
 
@@ -151,8 +160,10 @@ namespace g3d
 
     BezierCoordinate transformIntoBezierCoordinate(const CubicBezier& segment, double t, double x, double y, double z)
     {
+        t = std::clamp(t, 0.0001, 0.9999);
+
         // First, we need to evaluate the Bezier curve for X and Z axis
-        double bezierX, bezierZ, rotationY;
+        double bezierX = 0.0, bezierZ = 0.0, rotationY = 0.0;
 
         // Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
         evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
@@ -209,6 +220,7 @@ namespace g3d
             loadPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
             loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
             loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
+            player = cube;
         }
 
     public:
@@ -226,7 +238,7 @@ namespace g3d
             return true;
         }
 
-        void drawModel()
+        void updateModel()
         {
             player = cube;
             if (playerObject->m_isShip) {
@@ -257,17 +269,21 @@ namespace g3d
             auto newY = playerObject->getPositionY() * 0.05;
             auto newZ = 20.f;
             auto newR = playerObject->getRotation();
+            //player->setPosition(glm::vec3(newX, newY, newZ));
+            auto bCoordinate = transformIntoBezierCoordinate(bezier, progress, newX, newY, newZ);
+            player->setPosition(bCoordinate.position);
+            player->setRotationY(360 - bCoordinate.rotation);
+            player->setScaleY(std::abs(player->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
+        }
+
+        void drawModel()
+        {
             player->render(
                 camera->getViewMat(),
                 light->getPosition(),
                 light->getColor(),
                 camera->getPosition(),
                 camera->getProjectionMat());
-            //player->setPosition(glm::vec3(newX, newY, newZ));
-            auto bCoordinate = transformIntoBezierCoordinate(bezier, progress, newX, newY, newZ);
-            player->setPosition(bCoordinate.position);
-            player->setRotationY(360 - bCoordinate.rotation);
-            player->setScaleY(std::abs(player->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
         }
 
         static auto create(g3d::ShaderProgram* shaderProgramP, PlayerObject* playerObjectP, Camera* cameraP, Light* lightP) {
@@ -293,11 +309,13 @@ namespace g3d
         PlayerObject3D* player1;
         //PlayerObject3D* player2; // not yet implemented!
 
-        Ground3D* ground;
-        Ground3D* ground2;
+        //Ground3D* ground;
+        //Ground3D* ground2;
 
-        std::vector<Model*> blocks;
+        std::unordered_map<GameObject*, Model*> blocks;
         glm::vec3 playerCameraOffset;
+        double playerCameraYawOffset;
+        double playerCameraPitchOffset;
         g3d::ShaderProgram* shaderProgram;
 
         Camera camera;
@@ -306,17 +324,17 @@ namespace g3d
     public:
         static PlayLayer3D* instance;
         
-        void updateGrounds() 
-        {
-            ground->updateGround();
-            ground2->updateGround();
-        }
+        //void updateGrounds() 
+        //{
+        //    ground->updateGround();
+        //    ground2->updateGround();
+        //}
 
-        void resetGrounds() 
-        {
-            ground->resetGround();
-            ground2->resetGround();
-        }
+        //void resetGrounds() 
+        //{
+        //    ground->resetGround();
+        //    ground2->resetGround();
+        //}
 
         void loadShader()
         {
@@ -353,7 +371,6 @@ namespace g3d
                     }
                     if (auto blockModel = ShaderScene::loadWithoutAddModel(model_path, shaderProgram)) 
                     {
-
                         auto newX = block->getPositionX() * 0.05;
                         auto newY = block->getPositionY() * 0.05;
                         auto newZ = 20.f;
@@ -367,7 +384,7 @@ namespace g3d
                         geode::log::info("Loading block ID {} ({}, {})", block->m_objectID, block->m_startFlipX, block->m_scaleX);
                         blockModel->setScale(glm::vec3(0.75 * (block->m_startFlipX ? -1 : 1), 0.75 * (block->m_startFlipY ? -1 : 1), 0.75));
                         //blockModel->setRotationZ(360 - block->getRotation());
-                        blocks.push_back(blockModel);
+                        blocks.emplace(block, blockModel);
                     }
                 }
             }
@@ -389,27 +406,58 @@ namespace g3d
             this->loadObjectModels();
             this->player1 = PlayerObject3D::create(shaderProgram, playLayer->m_player1, &this->camera, &this->light);
 
-            ground = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 3 * 2, 0);
-            ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height, 1);
+            //ground = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 3 * 2, 0);
+            //ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height, 1);
 
-            playerCameraOffset = glm::vec3(0, 5, 20);
-
-            // initial setup
-            camera.setYaw(camera.getYaw() + 30.0f);
-            playerCameraOffset -= camera.getFront() * 8.0f;
-            camera.setPitch(camera.getPitch() - 6.0f);
+            playerCameraOffset = glm::vec3(-20, 5, -20);
+            playerCameraYawOffset = 30.f;
+            playerCameraPitchOffset = -6.f;
 
             return true;
         }
         ~PlayLayer3D() 
         {
             // delete player here too?
-            for (auto block : blocks) { delete block; }
+            for (auto [_, block] : blocks) { delete block; }
             instance = nullptr;
+        }
+
+        void updateCamera()
+        {
+            auto playerPos = player1->player->getPosition();
+            auto newR = player1->player->getRotation();
+            auto playerYaw = newR.y;
+            auto playerYawR = -glm::radians(playerYaw);
+
+            glm::vec3 rotatedOffset =
+            {
+                playerCameraOffset.x * std::cos(playerYawR) - playerCameraOffset.z * std::sin(playerYawR),
+                playerCameraOffset.y,
+                playerCameraOffset.x * std::sin(playerYawR) + playerCameraOffset.z * std::cos(playerYawR)
+            };
+
+            camera.setPosition(playerPos + rotatedOffset);
+            // Clamp pitch to prevent flipping
+            camera.setYaw(playerCameraYawOffset - playerYaw);
+            auto pitch = std::clamp(static_cast<float>(playerCameraPitchOffset), -89.0f, 89.0f);
+            camera.setPitch(pitch);
+        }
+
+        void updateLight()
+        {
+            auto playLayer = GameManager::sharedState()->m_playLayer;
+            auto playerPos = player1->player->getPosition();
+            auto groundHeight = (playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height) * 0.05;
+            light.setPosition(glm::vec3(playerPos.x + 50, groundHeight + 50, playerPos.z + 50));
         }
 
         virtual void draw() 
         {
+            CCNode::draw();
+
+            auto playLayer = GameManager::sharedState()->m_playLayer;
+            if (playLayer->m_player1->m_position.x <= 0.f) { return; }
+
             //ground2->setVisible(GameManager::sharedState()->m_playLayer->m_player1->m_isShip);
             // rainix, what value is this?
             //ground2->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0));
@@ -418,19 +466,10 @@ namespace g3d
             //else
             //    ground->updateYPos(-60);
 
-            auto playLayer = GameManager::sharedState()->m_playLayer;
-            ground->updateYPos(playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 75.0f);
-            ground2->updateYPos(playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height + 75.0f);
-            ground->setVisible(playLayer->m_groundLayer->isVisible());
-            ground2->setVisible(playLayer->m_groundLayer2->isVisible());
-
-            OpenGLStateHelper::saveState();
-            glEnable(GL_BLEND);
-            glEnable(GL_ALPHA_TEST);
-            glEnable(GL_DEPTH_TEST);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            this->updateGrounds();
+            //ground->updateYPos(playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 75.0f);
+            //ground2->updateYPos(playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height + 75.0f);
+            //ground->setVisible(playLayer->m_groundLayer->isVisible());
+            //ground2->setVisible(playLayer->m_groundLayer2->isVisible());
 
             playLayer->m_player1->getParent()->setVisible(false);
             // ground calculations is so hard -adaf
@@ -439,13 +478,24 @@ namespace g3d
             //ground->updateYPos(playLayer->m_groundLayer->getPositionY());
             //ground2->updateYPos(playLayer->m_groundLayer2->getPositionY());
 
+            //updateGrounds();
+
+            player1->updateModel();
+            updateCamera();
+            updateLight();
+
+            OpenGLStateHelper::saveState();
+            glEnable(GL_BLEND);
+            glEnable(GL_ALPHA_TEST);
+            glEnable(GL_DEPTH_TEST);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
             player1->drawModel();
 
-            if (player1->player)
+            for (auto [obj, model] : blocks)
             {
-                for (auto model : blocks)
+                if (std::abs(playLayer->m_player1->m_position.x - obj->getPositionX()) < 2000.f)
                 {
-                    // limit render here
                     model->render(
                         camera.getViewMat(),
                         light.getPosition(),
@@ -458,14 +508,20 @@ namespace g3d
             glDisable(GL_DEPTH_TEST);
             OpenGLStateHelper::pushState();
 
-            auto newX = player1->player->getPositionX();
-            auto newY = player1->player->getPositionY();
-            auto newZ = player1->player->getPositionZ();
-            auto newR = player1->playerObject->getRotation();
-            camera.setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
+            //auto newX = player1->player->getPositionX();
+            //auto newY = player1->player->getPositionY();
+            //auto newZ = player1->player->getPositionZ();
+            //auto newR = player1->playerObject->getRotation();
+            //camera.setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
 
-            auto groundHeight = (playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height) * 0.05;
-            light.setPosition(glm::vec3(newX + 50, groundHeight + 50, newZ + 50));
+            //// Clamp pitch to prevent flipping
+            //camera.setYaw(playerCameraYawOffset + player1->player->getRotationY());
+            //auto pitch = std::clamp(static_cast<float>(playerCameraPitchOffset), -89.0f, 89.0f);
+            //camera.setPitch(pitch);
+
+
+
+    
         }
 
         bool isPressingControl = false;
@@ -503,12 +559,8 @@ namespace g3d
                     }
                     else {
                         float sensitivity = 0.05f;
-                        float yaw = camera.getYaw() - deltaX * sensitivity;
-                        float pitch = camera.getPitch() - deltaY * sensitivity;
-                        // Clamp pitch to prevent flipping
-                        pitch = std::clamp(pitch, -89.0f, 89.0f);
-                        camera.setYaw(yaw);
-                        camera.setPitch(pitch);
+                        playerCameraYawOffset -= deltaX * sensitivity;
+                        playerCameraPitchOffset -= deltaY * sensitivity;
                     }
                     lastMouseX = static_cast<float>(x);
                     lastMouseY = static_cast<float>(y);
