@@ -174,7 +174,6 @@ namespace g3d
     }
 
     class PlayerObject3D
-        : public CCNode
     {
     private:
         Model* cube;
@@ -227,15 +226,32 @@ namespace g3d
         PlayerObject* playerObject;
         Model* player;
 
-        bool init(g3d::ShaderProgram* shaderProgramP, PlayerObject* playerObjectP, Camera* cameraP, Light* lightP)
+        PlayerObject3D() {}
+
+        PlayerObject3D(
+            g3d::ShaderProgram* shaderProgramP, 
+            PlayerObject* playerObjectP, 
+            Camera* cameraP, 
+            Light* lightP)
+            : shaderProgram(shaderProgramP)
+            , playerObject(playerObjectP)
+            , camera(cameraP)
+            , light(lightP)
         {
-            CCNode::init();
+
+        }
+
+        void init(
+            g3d::ShaderProgram* shaderProgramP,
+            PlayerObject* playerObjectP,
+            Camera* cameraP, 
+            Light* lightP)
+        {
             shaderProgram = shaderProgramP;
             playerObject = playerObjectP;
             camera = cameraP;
             light = lightP;
             loadPlayerModels();
-            return true;
         }
 
         void updateModel()
@@ -285,17 +301,6 @@ namespace g3d
                 camera->getPosition(),
                 camera->getProjectionMat());
         }
-
-        static auto create(g3d::ShaderProgram* shaderProgramP, PlayerObject* playerObjectP, Camera* cameraP, Light* lightP) {
-            auto node = new PlayerObject3D;
-            if (node->init(shaderProgramP, playerObjectP, cameraP, lightP)) {
-                node->autorelease();
-            }
-            else {
-                CC_SAFE_DELETE(node);
-            }
-            return node;
-        }
     };
 
     class PlayLayer3D
@@ -306,7 +311,7 @@ namespace g3d
     {
         Model* bg;
 
-        PlayerObject3D* player1;
+        PlayerObject3D player1;
         //PlayerObject3D* player2; // not yet implemented!
 
         //Ground3D* ground;
@@ -404,7 +409,7 @@ namespace g3d
             auto playLayer = GameManager::sharedState()->m_playLayer;
 
             this->loadObjectModels();
-            this->player1 = PlayerObject3D::create(shaderProgram, playLayer->m_player1, &this->camera, &this->light);
+            player1.init(shaderProgram, playLayer->m_player1, &this->camera, &this->light);
 
             //ground = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 3 * 2, 0);
             //ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height, 1);
@@ -424,8 +429,8 @@ namespace g3d
 
         void updateCamera()
         {
-            auto playerPos = player1->player->getPosition();
-            auto newR = player1->player->getRotation();
+            auto playerPos = player1.player->getPosition();
+            auto newR = player1.player->getRotation();
             auto playerYaw = newR.y;
             auto playerYawR = -glm::radians(playerYaw);
 
@@ -446,7 +451,7 @@ namespace g3d
         void updateLight()
         {
             auto playLayer = GameManager::sharedState()->m_playLayer;
-            auto playerPos = player1->player->getPosition();
+            auto playerPos = player1.player->getPosition();
             auto groundHeight = (playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height) * 0.05;
             light.setPosition(glm::vec3(playerPos.x + 50, groundHeight + 50, playerPos.z + 50));
         }
@@ -458,10 +463,10 @@ namespace g3d
             auto playLayer = GameManager::sharedState()->m_playLayer;
             if (playLayer->m_player1->m_position.x <= 0.f) { return; }
 
-            //ground2->setVisible(GameManager::sharedState()->m_playLayer->m_player1->m_isShip);
+            //ground2->setVisible(GameManager::sharedState()->m_playLayer->m_player1.m_isShip);
             // rainix, what value is this?
             //ground2->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0));
-            //if (GameManager::sharedState()->m_playLayer->m_player1->m_isShip)
+            //if (GameManager::sharedState()->m_playLayer->m_player1.m_isShip)
             //    ground->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0) - 300);
             //else
             //    ground->updateYPos(-60);
@@ -480,7 +485,7 @@ namespace g3d
 
             //updateGrounds();
 
-            player1->updateModel();
+            player1.updateModel();
             updateCamera();
             updateLight();
 
@@ -490,7 +495,7 @@ namespace g3d
             glEnable(GL_DEPTH_TEST);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            player1->drawModel();
+            player1.drawModel();
 
             for (auto [obj, model] : blocks)
             {
@@ -508,14 +513,14 @@ namespace g3d
             glDisable(GL_DEPTH_TEST);
             OpenGLStateHelper::pushState();
 
-            //auto newX = player1->player->getPositionX();
-            //auto newY = player1->player->getPositionY();
-            //auto newZ = player1->player->getPositionZ();
-            //auto newR = player1->playerObject->getRotation();
+            //auto newX = player1.player->getPositionX();
+            //auto newY = player1.player->getPositionY();
+            //auto newZ = player1.player->getPositionZ();
+            //auto newR = player1.playerObject->getRotation();
             //camera.setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
 
             //// Clamp pitch to prevent flipping
-            //camera.setYaw(playerCameraYawOffset + player1->player->getRotationY());
+            //camera.setYaw(playerCameraYawOffset + player1.player->getRotationY());
             //auto pitch = std::clamp(static_cast<float>(playerCameraPitchOffset), -89.0f, 89.0f);
             //camera.setPitch(pitch);
 
