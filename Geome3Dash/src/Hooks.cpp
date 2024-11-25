@@ -352,6 +352,7 @@ namespace g3d
         //Ground3D* ground2;
 
         std::unordered_map<GameObject*, Model*> blocks;
+        std::unordered_map<int, Model*> blockModels;
         glm::vec3 playerCameraOffset;
         double playerCameraYawOffset;
         double playerCameraPitchOffset;
@@ -408,21 +409,16 @@ namespace g3d
                         }
                         write_to_file(mtl_path, mtl_file);
                     }
-                    if (auto blockModel = ShaderScene::loadWithoutAddModel(model_path, shaderProgram)) 
+                    if (blockModels.find(block->m_objectID) == blockModels.end())
                     {
-                        auto newX = block->getPositionX() * 0.05;
-                        auto newY = block->getPositionY() * 0.05;
-                        auto newZ = 20.f;
-                        auto bCoordinate = transformIntoBezierCoordinate(
-                            bezier,
-                            getLevelProgress(block->getPositionX()),
-                            newX, newY, newZ);
-                        blockModel->setPosition(bCoordinate.position);
-                        blockModel->setRotationY(360 - bCoordinate.rotation);
-                        geode::log::info("Loading block ID {} ({}, {})", block->m_objectID, block->m_startFlipX, block->m_scaleX);
-                        blockModel->setScale(glm::vec3(0.75 * (block->m_startFlipX ? -1 : 1), 0.75 * (block->m_startFlipY ? -1 : 1), 0.75));
-                        blockModel->setRotationZ(360 - block->getRotation()); // block rotation
-                        blocks.emplace(block, blockModel);
+                        if (auto blockModel = ShaderScene::loadWithoutAddModel(model_path, shaderProgram))
+                        {
+                            blockModels.emplace(block->m_objectID, blockModel);
+                        }
+                    }
+                    if (blockModels.find(block->m_objectID) != blockModels.end())             
+                    {
+                        blocks.emplace(block, blockModels.at(block->m_objectID));                        
                     }
                 }
             }
@@ -455,7 +451,7 @@ namespace g3d
         }
         ~PlayLayer3D() 
         {
-            for (auto [_, block] : blocks) { delete block; }
+            for (auto [_, block] : blockModels) { delete block; }
             instance = nullptr;
         }
 
@@ -482,10 +478,11 @@ namespace g3d
 
         void updateLight()
         {
-            auto playLayer = GameManager::sharedState()->m_playLayer;
-            auto playerPos = player1.player->getPosition();
-            auto groundHeight = (playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height) * 0.05;
-            light.setPosition(glm::vec3(playerPos.x + 50, groundHeight + 50, playerPos.z + 50));
+            //auto playLayer = GameManager::sharedState()->m_playLayer;
+            //auto playerPos = player1.player->getPosition();
+            //auto groundHeight = (playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height) * 0.05;
+            //light.setPosition(glm::vec3(playerPos.x + 50, groundHeight + 50, playerPos.z + 50));
+            light.setPosition(camera.getPosition());
         }
 
         virtual void draw() 
@@ -533,6 +530,28 @@ namespace g3d
             {
                 if (std::abs(playLayer->m_player1->m_position.x - obj->getPositionX()) < 2000.f)
                 {
+                    auto newX = obj->m_positionX * 0.05;
+                    auto newY = obj->m_positionY * 0.05;
+                    auto newZ = 20.f;
+                    auto bCoordinate = transformIntoBezierCoordinate(
+                        bezier,
+                        getLevelProgress(obj->getPositionX()),
+                        newX, newY, newZ);
+                    model->setPosition(bCoordinate.position);
+                    model->setRotationY(360 - bCoordinate.rotation);;
+                    model->setScale(glm::vec3(0.75 * (obj->m_startFlipX ? -1 : 1), 0.75 * (obj->m_startFlipY ? -1 : 1), 0.75));
+                    model->setRotationZ(360 - obj->getRotation()); // block rotation
+                    
+                    if (obj->m_objectID == 36)
+                    {
+                        // jump rings
+                        model->setRotation(model->getRotation() + glm::vec3(3, 7, 1));
+                    }
+                    //else if (obj->m_objectID == 142)
+                    //{
+                    //    // secret coins
+                    //    model->setRotation(model->getRotation() + glm::vec3(0, 11, 0));
+                    //}
                     model->render(
                         camera.getViewMat(),
                         light.getPosition(),
@@ -544,21 +563,6 @@ namespace g3d
 
             glDisable(GL_DEPTH_TEST);
             OpenGLStateHelper::pushState();
-
-            //auto newX = player1.player->getPositionX();
-            //auto newY = player1.player->getPositionY();
-            //auto newZ = player1.player->getPositionZ();
-            //auto newR = player1.playerObject->getRotation();
-            //camera.setPosition(glm::vec3(newX + playerCameraOffset.x, newY + playerCameraOffset.y, newZ + playerCameraOffset.z));
-
-            //// Clamp pitch to prevent flipping
-            //camera.setYaw(playerCameraYawOffset + player1.player->getRotationY());
-            //auto pitch = std::clamp(static_cast<float>(playerCameraPitchOffset), -89.0f, 89.0f);
-            //camera.setPitch(pitch);
-
-
-
-    
         }
 
         bool isPressingControl = false;
