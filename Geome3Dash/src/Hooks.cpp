@@ -95,19 +95,19 @@ namespace g3d
         </svg>
     )";
 
-    //CubicBezier bezier = {
-    //    0.0, 0.0,   // x0, y0
-    //    2277.0, 1521.0,   // cx1, cy1
-    //    -1558.0, 1140.0,  // cx2, cy2
-    //    1000.0, 0.0    // x1, y1
-    //};
-
     CubicBezier bezier = {
-        87.843, 82.446,        // x0, y0
-        1000.0, 505.226,       // cx1, cy1
-        95.319, 372.064,       // cx2, cy2
-        586.566, 1000.0        // x1, y1
+        0.0, 0.0,   // x0, y0
+        2277.0, 1521.0,   // cx1, cy1
+        -1558.0, 1140.0,  // cx2, cy2
+        1000.0, 0.0    // x1, y1
     };
+
+    //CubicBezier bezier = {
+    //    87.843, 82.446,        // x0, y0
+    //    1000.0, 505.226,       // cx1, cy1
+    //    95.319, 372.064,       // cx2, cy2
+    //    586.566, 1000.0        // x1, y1
+    //};
 
 
     std::string read_from_file(
@@ -146,10 +146,23 @@ namespace g3d
         }
     }
 
-    double getLevelProgress(double x, GJBaseGameLayer* level)
+    double getLevelProgress(double x)
     {
-        if (level->m_levelLength == 0 || x == 0) { return 0; }
-        return static_cast<double>(x) / static_cast<double>(level->m_levelLength);
+        return std::fmod(static_cast<double>(x) / 14000.0 * 1.5, 1.0);
+
+        // Determine if the quotient of x divided by 10,000 is odd or even
+        int quotient = static_cast<int>(x / 10000.0);
+
+        // Compute the remainder of x % 1
+        double fractionalPart = std::fmod(x, 1.0);
+
+        // Return based on whether the quotient is odd or even
+        if (quotient % 2 != 0) {
+            return 1.0 - fractionalPart; // Even case
+        }
+        else {
+            return fractionalPart; // Odd case
+        }
     }
 
     struct BezierCoordinate
@@ -165,12 +178,34 @@ namespace g3d
         // First, we need to evaluate the Bezier curve for X and Z axis
         double bezierX = 0.0, bezierZ = 0.0, rotationY = 0.0;
 
+        //// Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
+        //evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
+        //    bezierX, bezierZ, rotationY);
+
+        static std::vector<double> arcLengths;
+        if (arcLengths.empty())
+        {
+            computeArcLengths(
+                segment.x0, segment.y0, 
+                segment.cx1, segment.cy1, 
+                segment.cx2, segment.cy2, 
+                segment.x1, segment.y1, 
+                arcLengths, 10000000);
+        }
+
         // Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
-        evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
-            bezierX, bezierZ, rotationY);
+        evaluateCubicBezierUniform(
+            t,
+            segment.x0, segment.y0, 
+            segment.cx1, segment.cy1, 
+            segment.cx2, segment.cy2, 
+            segment.x1, segment.y1,
+            bezierX, bezierZ, rotationY, 
+            arcLengths);
+
 
         // Return the transformed coordinates as a glm::vec3, with the original Y and Z coordinates being transformed along the curve
-        return { glm::vec3(bezierX / 4.0, y, bezierZ / 4.0), glm::degrees(rotationY) };  // Since y is not involved in the Bezier curve transformation, it remains unchanged
+        return { glm::vec3(bezierX / 5.0 / 1.5, y, bezierZ / 5.0 / 1.5), glm::degrees(rotationY) };  // Since y is not involved in the Bezier curve transformation, it remains unchanged
     }
 
     class PlayerObject3D
@@ -279,7 +314,7 @@ namespace g3d
                 player = swing;
             }
 
-            auto progress = getLevelProgress(playerObject->m_position.x, playerObject->m_gameLayer);
+            auto progress = getLevelProgress(playerObject->m_position.x);
             auto newX = playerObject->getPositionX() * 0.05;
             auto newY = playerObject->getPositionY() * 0.05;
             auto newZ = 20.f;
@@ -380,7 +415,7 @@ namespace g3d
                         auto newZ = 20.f;
                         auto bCoordinate = transformIntoBezierCoordinate(
                             bezier,
-                            getLevelProgress(block->getPositionX(), GameManager::sharedState()->m_playLayer),
+                            getLevelProgress(block->getPositionX()),
                             newX, newY, newZ);
                         blockModel->setPosition(bCoordinate.position);
                         blockModel->setRotationY(360 - bCoordinate.rotation);
@@ -413,7 +448,7 @@ namespace g3d
             //ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height, 1);
 
             playerCameraOffset = glm::vec3(-20, 5, -20);
-            playerCameraYawOffset = 30.f;
+            playerCameraYawOffset = 60.f;
             playerCameraPitchOffset = -6.f;
 
             return true;

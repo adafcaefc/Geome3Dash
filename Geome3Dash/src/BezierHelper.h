@@ -19,4 +19,21 @@ namespace g3d
 
     std::vector<CubicBezier> parseSVGPath(const std::string& svgString);
     std::vector<std::string> tokenizePathData(const std::string& pathData);
+
+    void computeArcLengths(
+        double x0, double y0,
+        double cx1, double cy1,
+        double cx2, double cy2,
+        double x1, double y1,
+        std::vector<double>& arcLengths,
+        int segments);
+
+    void evaluateCubicBezierUniform(
+        double t,
+        double x0, double y0,
+        double cx1, double cy1,
+        double cx2, double cy2,
+        double x1, double y1,
+        double& x, double& y, double& rotation,
+        const std::vector<double>& arcLengths);
 }
