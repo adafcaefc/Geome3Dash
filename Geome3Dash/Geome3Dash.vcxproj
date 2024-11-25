@@ -15,7 +15,6 @@
     <ClCompile Include="src\CustomMouse.cpp" />
     <ClCompile Include="src\CustomTouch.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
-    <ClCompile Include="src\Ground3D.cpp" />
     <ClCompile Include="src\Hooks.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
@@ -31,7 +30,6 @@
     <ClInclude Include="src\CustomKeyboard.h" />
     <ClInclude Include="src\CustomMouse.h" />
     <ClInclude Include="src\CustomTouch.h" />
-    <ClInclude Include="src\Ground3D.h" />
     <ClInclude Include="src\Hooks.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />

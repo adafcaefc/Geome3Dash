@@ -10,8 +10,8 @@
 #include "CustomMouse.h"
 #include "CustomTouch.h"
 #include "ShaderScene.h"
-#include "Ground3D.h"
 #include "BezierHelper.h"
+#include <numeric>
 
 #define STRINGIFY(...) #__VA_ARGS__
 
@@ -148,21 +148,8 @@ namespace g3d
 
     double getLevelProgress(double x)
     {
-        return std::fmod(static_cast<double>(x) / 14000.0 * 1.5, 1.0);
-
-        // Determine if the quotient of x divided by 10,000 is odd or even
-        int quotient = static_cast<int>(x / 10000.0);
-
-        // Compute the remainder of x % 1
-        double fractionalPart = std::fmod(x, 1.0);
-
-        // Return based on whether the quotient is odd or even
-        if (quotient % 2 != 0) {
-            return 1.0 - fractionalPart; // Even case
-        }
-        else {
-            return fractionalPart; // Odd case
-        }
+        return static_cast<double>(x) / 14000.0 * 1.5;
+        //return std::fmod(static_cast<double>(x) / 14000.0 * 1.5, 1.0);
     }
 
     struct BezierCoordinate
@@ -171,9 +158,27 @@ namespace g3d
         double rotation;
     };
 
-    BezierCoordinate transformIntoBezierCoordinate(const CubicBezier& segment, double t, double x, double y, double z)
+    BezierCoordinate transformIntoBezierCoordinate(
+        const CubicBezier& segment, 
+        double x, double y, double z,
+        int segmentCount = 1000000)
     {
-        t = std::clamp(t, 0.0001, 0.9999);
+        CubicBezier segmentCopy = segment;
+        double t = 0;
+
+        if (t > 1)
+        {
+            double mrt = std::fmod(t, 1.0);
+            double art = t - mrt;
+            t = mrt;
+            segmentCopy = 
+            {
+                art * segment.x1 + segment.x0, art * segment.y1 + segment.y0,
+                art * segment.x1 + segment.cx1, art * segment.y1 + segment.cy1,
+                art * segment.x1 + segment.cx2, art * segment.y1 + segment.cy2,
+                art * segment.x1 + segment.x1, art * segment.y1 + segment.y1,
+            };
+        }
 
         // First, we need to evaluate the Bezier curve for X and Z axis
         double bezierX = 0.0, bezierZ = 0.0, rotationY = 0.0;
@@ -182,26 +187,36 @@ namespace g3d
         //evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
         //    bezierX, bezierZ, rotationY);
 
-        static std::vector<double> arcLengths;
-        if (arcLengths.empty())
+        static std::unordered_map<CubicBezier, std::vector<double>, CubicBezierHash> arcLengths;
+
+        if (arcLengths.find(segmentCopy) == arcLengths.end())
         {
+            arcLengths[segmentCopy] = std::vector<double>();
             computeArcLengths(
-                segment.x0, segment.y0, 
-                segment.cx1, segment.cy1, 
-                segment.cx2, segment.cy2, 
-                segment.x1, segment.y1, 
-                arcLengths, 10000000);
+                segmentCopy.x0, segmentCopy.y0,
+                segmentCopy.cx1, segmentCopy.cy1,
+                segmentCopy.cx2, segmentCopy.cy2,
+                segmentCopy.x1, segmentCopy.y1,
+                arcLengths.at(segmentCopy), segmentCount);
         }
+
+
+        double arcLengthTotal = std::accumulate(
+            arcLengths.at(segmentCopy).begin(), 
+            arcLengths.at(segmentCopy).end(), 
+            0.0);
+
+        t = arcLengthTotal / 2304042.85714;
 
         // Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
         evaluateCubicBezierUniform(
             t,
-            segment.x0, segment.y0, 
-            segment.cx1, segment.cy1, 
-            segment.cx2, segment.cy2, 
-            segment.x1, segment.y1,
+            segmentCopy.x0, segmentCopy.y0,
+            segmentCopy.cx1, segmentCopy.cy1,
+            segmentCopy.cx2, segmentCopy.cy2,
+            segmentCopy.x1, segmentCopy.y1,
             bezierX, bezierZ, rotationY, 
-            arcLengths);
+            arcLengths.at(segmentCopy));
 
 
         // Return the transformed coordinates as a glm::vec3, with the original Y and Z coordinates being transformed along the curve
@@ -315,8 +330,8 @@ namespace g3d
             }
 
             auto progress = getLevelProgress(playerObject->m_position.x);
-            auto newX = playerObject->getPositionX() * 0.05;
-            auto newY = playerObject->getPositionY() * 0.05;
+            auto newX = playerObject->m_position.x * 0.05;
+            auto newY = playerObject->m_position.y * 0.05;
             auto newZ = 20.f;
             auto newR = playerObject->getRotation();
             auto bCoordinate = transformIntoBezierCoordinate(bezier, progress, newX, newY, newZ);
@@ -348,9 +363,6 @@ namespace g3d
         PlayerObject3D player1;
         //PlayerObject3D* player2; // not yet implemented!
 
-        //Ground3D* ground;
-        //Ground3D* ground2;
-
         std::unordered_map<GameObject*, Model*> blocks;
         std::unordered_map<int, Model*> blockModels;
         glm::vec3 playerCameraOffset;
@@ -363,18 +375,6 @@ namespace g3d
 
     public:
         static PlayLayer3D* instance;
-        
-        //void updateGrounds() 
-        //{
-        //    ground->updateGround();
-        //    ground2->updateGround();
-        //}
-
-        //void resetGrounds() 
-        //{
-        //    ground->resetGround();
-        //    ground2->resetGround();
-        //}
 
         void loadShader()
         {
@@ -430,18 +430,10 @@ namespace g3d
 
             this->loadShader();
 
-            // temporarily disabled by adaf
-            //bg = loadAndAddModel("./cliff.obj", shaderProgram);
-            //bg->setPosition(glm::vec3(300, -100, -300));
-            //bg->setScale(glm::vec3(3, 3, 3));
-
             auto playLayer = GameManager::sharedState()->m_playLayer;
 
             this->loadObjectModels();
             player1.init(shaderProgram, playLayer->m_player1, &this->camera, &this->light);
-
-            //ground = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 3 * 2, 0);
-            //ground2 = Ground3D::create(this, shaderProgram, -200, 3, 50, playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height, 1);
 
             playerCameraOffset = glm::vec3(-20, 5, -20);
             playerCameraYawOffset = 60.f;
@@ -478,54 +470,12 @@ namespace g3d
 
         void updateLight()
         {
-            //auto playLayer = GameManager::sharedState()->m_playLayer;
-            //auto playerPos = player1.player->getPosition();
-            //auto groundHeight = (playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height) * 0.05;
-            //light.setPosition(glm::vec3(playerPos.x + 50, groundHeight + 50, playerPos.z + 50));
             light.setPosition(camera.getPosition());
         }
 
-        virtual void draw() 
+        void drawBlocks()
         {
-            CCNode::draw();
-
             auto playLayer = GameManager::sharedState()->m_playLayer;
-            if (playLayer->m_player1->m_position.x <= 0.f) { return; }
-
-            //ground2->setVisible(GameManager::sharedState()->m_playLayer->m_player1.m_isShip);
-            // rainix, what value is this?
-            //ground2->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0));
-            //if (GameManager::sharedState()->m_playLayer->m_player1.m_isShip)
-            //    ground->updateYPos(MBO(float, GameManager::sharedState()->m_playLayer, 0x2A0) - 300);
-            //else
-            //    ground->updateYPos(-60);
-
-            //ground->updateYPos(playLayer->m_groundLayer->getPositionY() + playLayer->m_groundLayer->getContentSize().height - 75.0f);
-            //ground2->updateYPos(playLayer->m_groundLayer2->getPositionY() + playLayer->m_groundLayer2->getContentSize().height + 75.0f);
-            //ground->setVisible(playLayer->m_groundLayer->isVisible());
-            //ground2->setVisible(playLayer->m_groundLayer2->isVisible());
-
-            playLayer->m_player1->getParent()->setVisible(false);
-            // ground calculations is so hard -adaf
-            playLayer->m_groundLayer->setVisible(false);
-            playLayer->m_groundLayer2->setVisible(false);
-            //ground->updateYPos(playLayer->m_groundLayer->getPositionY());
-            //ground2->updateYPos(playLayer->m_groundLayer2->getPositionY());
-
-            //updateGrounds();
-
-            player1.updateModel();
-            updateCamera();
-            updateLight();
-
-            OpenGLStateHelper::saveState();
-            glEnable(GL_BLEND);
-            glEnable(GL_ALPHA_TEST);
-            glEnable(GL_DEPTH_TEST);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            player1.drawModel();
-
             for (auto [obj, model] : blocks)
             {
                 if (std::abs(playLayer->m_player1->m_position.x - obj->getPositionX()) < 2000.f)
@@ -541,7 +491,7 @@ namespace g3d
                     model->setRotationY(360 - bCoordinate.rotation);;
                     model->setScale(glm::vec3(0.75 * (obj->m_startFlipX ? -1 : 1), 0.75 * (obj->m_startFlipY ? -1 : 1), 0.75));
                     model->setRotationZ(360 - obj->getRotation()); // block rotation
-                    
+
                     if (obj->m_objectID == 36)
                     {
                         // jump rings
@@ -560,6 +510,31 @@ namespace g3d
                         camera.getProjectionMat());
                 }
             }
+        }
+
+        virtual void draw() 
+        {
+            CCNode::draw();
+
+            auto playLayer = GameManager::sharedState()->m_playLayer;
+
+            playLayer->m_player1->getParent()->setVisible(false);
+            // ground calculations is so hard -adaf
+            playLayer->m_groundLayer->setVisible(false);
+            playLayer->m_groundLayer2->setVisible(false);
+
+            player1.updateModel();
+            updateCamera();
+            updateLight();
+
+            OpenGLStateHelper::saveState();
+            glEnable(GL_BLEND);
+            glEnable(GL_ALPHA_TEST);
+            glEnable(GL_DEPTH_TEST);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+            player1.drawModel();
+            drawBlocks();
 
             glDisable(GL_DEPTH_TEST);
             OpenGLStateHelper::pushState();
@@ -641,24 +616,20 @@ namespace g3d
 
     class $modify(PlayLayer)
     {
+        struct Fields
+        {
+            PlayLayer3D* playLayer3D = nullptr;
+        };
+
         void resetLevel()
         {
+            if (!m_fields->playLayer3D)
+            {
+                m_fields->playLayer3D = PlayLayer3D::create();
+                m_fields->playLayer3D->setZOrder(10);
+                this->addChild(m_fields->playLayer3D);
+            }
             PlayLayer::resetLevel();
-            //if (PlayLayer3D::instance) { PlayLayer3D::instance->resetGrounds(); }
-        }
-
-        bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects)
-        {
-            if (!PlayLayer::init(level, useReplay, dontCreateObjects)) { return false; }
-
-            PlayLayer3D* node = PlayLayer3D::create();
-
-            if (node == nullptr) { return true; }
-
-            node->setZOrder(10);
-            this->addChild(node);
-
-            return true;
         }
     };
 
