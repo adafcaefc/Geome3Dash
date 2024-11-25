@@ -96,11 +96,18 @@ namespace g3d
     )";
 
     CubicBezier bezier = {
-        0.0, 0.0,   // x0, y0
-        2277.0, 1521.0,   // cx1, cy1
-        -1558.0, 1140.0,  // cx2, cy2
-        1000.0, 0.0    // x1, y1
+        98.0, 314.0,   // x0, y0: Starting point
+        575.0, 335.0,  // cx1, cy1: First control point
+        22.0, 192.0,   // cx2, cy2: Second control point
+        511.0, 220.0   // x1, y1: End point
     };
+
+    //CubicBezier bezier = {
+    //    0.0, 0.0,   // x0, y0
+    //    2277.0, 1521.0,   // cx1, cy1
+    //    -1558.0, 1140.0,  // cx2, cy2
+    //    1000.0, 0.0    // x1, y1
+    //};
 
     //CubicBezier bezier = {
     //    87.843, 82.446,        // x0, y0
@@ -146,11 +153,11 @@ namespace g3d
         }
     }
 
-    double getLevelProgress(double x)
-    {
-        return static_cast<double>(x) / 14000.0 * 1.5;
-        //return std::fmod(static_cast<double>(x) / 14000.0 * 1.5, 1.0);
-    }
+    //double getLevelProgress(double x)
+    //{
+    //    return static_cast<double>(x) / 14000.0 * 1.5;
+    //    //return std::fmod(static_cast<double>(x) / 14000.0 * 1.5, 1.0);
+    //}
 
     struct BezierCoordinate
     {
@@ -158,12 +165,28 @@ namespace g3d
         double rotation;
     };
 
+    static std::unordered_map<CubicBezier, std::pair<std::vector<double>, double>, CubicBezierHash> arcLengths;
     BezierCoordinate transformIntoBezierCoordinate(
         const CubicBezier& segment, 
-        double t,
         double x, double y, double z,
-        int segmentCount = 1000000)
+        int segmentCount)
     {
+        constexpr double MULTIPLIER_SEGMENT = 7.5;
+        if (arcLengths.find(segment) == arcLengths.end())
+        {
+            arcLengths[segment] = std::pair<std::vector<double>, double>();
+            computeArcLengths(
+                segment.x0, segment.y0,
+                segment.cx1, segment.cy1,
+                segment.cx2, segment.cy2,
+                segment.x1, segment.y1,
+                arcLengths.at(segment).first, segmentCount);
+            arcLengths.at(segment).second = std::accumulate(
+                arcLengths.at(segment).first.begin(),
+                arcLengths.at(segment).first.end(),
+                0.0);
+        }
+        double t = x / arcLengths.at(segment).second * 460808.571428 * MULTIPLIER_SEGMENT;
         CubicBezier segmentCopy = segment;
 
         if (t > 1)
@@ -171,12 +194,14 @@ namespace g3d
             double mrt = std::fmod(t, 1.0);
             double art = t - mrt;
             t = mrt;
+            double tmpx1 = art * (segment.x1 - segment.x0);
+            double tmpy1 = art * (segment.y1 - segment.y0);
             segmentCopy = 
             {
-                art * segment.x1 + segment.x0, art * segment.y1 + segment.y0,
-                art * segment.x1 + segment.cx1, art * segment.y1 + segment.cy1,
-                art * segment.x1 + segment.cx2, art * segment.y1 + segment.cy2,
-                art * segment.x1 + segment.x1, art * segment.y1 + segment.y1,
+                tmpx1 + segment.x0, tmpy1 + segment.y0,
+                tmpx1 +  segment.cx1, tmpy1 + segment.cy1,
+                tmpx1 +  segment.cx2, tmpy1 + segment.cy2,
+                tmpx1 +  segment.x1, tmpy1 + segment.y1,
             };
         }
 
@@ -187,7 +212,6 @@ namespace g3d
         //evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
         //    bezierX, bezierZ, rotationY);
 
-        static std::unordered_map<CubicBezier, std::pair<std::vector<double>, double>, CubicBezierHash> arcLengths;
 
         if (arcLengths.find(segmentCopy) == arcLengths.end())
         {
@@ -198,7 +222,6 @@ namespace g3d
                 segmentCopy.cx2, segmentCopy.cy2,
                 segmentCopy.x1, segmentCopy.y1,
                 arcLengths.at(segmentCopy).first, segmentCount);
-
             arcLengths.at(segmentCopy).second = std::accumulate(
                 arcLengths.at(segmentCopy).first.begin(),
                 arcLengths.at(segmentCopy).first.end(),
@@ -217,7 +240,7 @@ namespace g3d
 
 
         // Return the transformed coordinates as a glm::vec3, with the original Y and Z coordinates being transformed along the curve
-        return { glm::vec3(bezierX / 5.0 / 1.5, y, bezierZ / 5.0 / 1.5), glm::degrees(rotationY) };  // Since y is not involved in the Bezier curve transformation, it remains unchanged
+        return { glm::vec3(bezierX / MULTIPLIER_SEGMENT, y, bezierZ / MULTIPLIER_SEGMENT), glm::degrees(rotationY) };  // Since y is not involved in the Bezier curve transformation, it remains unchanged
     }
 
     class PlayerObject3D
@@ -326,12 +349,11 @@ namespace g3d
                 player = swing;
             }
 
-            auto progress = getLevelProgress(playerObject->m_position.x);
             auto newX = playerObject->m_position.x * 0.05;
             auto newY = playerObject->m_position.y * 0.05;
             auto newZ = 20.f;
             auto newR = playerObject->getRotation();
-            auto bCoordinate = transformIntoBezierCoordinate(bezier, progress, newX, newY, newZ);
+            auto bCoordinate = transformIntoBezierCoordinate(bezier, newX, newY, newZ, 1000000);
             player->setPosition(bCoordinate.position);
             player->setRotationY(360 - bCoordinate.rotation);
             player->setRotationZ(360 - newR);
@@ -415,7 +437,9 @@ namespace g3d
                     }
                     if (blockModels.find(block->m_objectID) != blockModels.end())             
                     {
-                        blocks.emplace(block, blockModels.at(block->m_objectID));                        
+                        blocks.emplace(block, blockModels.at(block->m_objectID));
+                        // cache
+                        updateBlock(block, blockModels.at(block->m_objectID));
                     }
                 }
             }
@@ -424,6 +448,9 @@ namespace g3d
         bool init() 
         {
             CCNode::init();
+
+            // clear cache of bezier segments
+            arcLengths.clear();
 
             this->loadShader();
 
@@ -470,24 +497,29 @@ namespace g3d
             light.setPosition(camera.getPosition());
         }
 
+        void updateBlock(GameObject* obj, Model* model)
+        {
+            auto newX = obj->m_positionX * 0.05;
+            auto newY = obj->m_positionY * 0.05;
+            auto newZ = 20.f;
+            auto bCoordinate = transformIntoBezierCoordinate(
+                bezier,
+                newX, newY, newZ,
+                1000000);
+            model->setPosition(bCoordinate.position);
+            model->setRotationY(360 - bCoordinate.rotation);;
+            model->setScale(glm::vec3(0.75 * (obj->m_startFlipX ? -1 : 1), 0.75 * (obj->m_startFlipY ? -1 : 1), 0.75));
+            model->setRotationZ(360 - obj->getRotation()); // block rotation
+        }
+
         void drawBlocks()
         {
             auto playLayer = GameManager::sharedState()->m_playLayer;
             for (auto [obj, model] : blocks)
             {
-                if (std::abs(playLayer->m_player1->m_position.x - obj->getPositionX()) < 2000.f)
+                if (std::abs(playLayer->m_player1->m_position.x - obj->getPositionX()) < 200000.f)
                 {
-                    auto newX = obj->m_positionX * 0.05;
-                    auto newY = obj->m_positionY * 0.05;
-                    auto newZ = 20.f;
-                    auto bCoordinate = transformIntoBezierCoordinate(
-                        bezier,
-                        getLevelProgress(obj->getPositionX()),
-                        newX, newY, newZ);
-                    model->setPosition(bCoordinate.position);
-                    model->setRotationY(360 - bCoordinate.rotation);;
-                    model->setScale(glm::vec3(0.75 * (obj->m_startFlipX ? -1 : 1), 0.75 * (obj->m_startFlipY ? -1 : 1), 0.75));
-                    model->setRotationZ(360 - obj->getRotation()); // block rotation
+                    updateBlock(obj, model);
 
                     if (obj->m_objectID == 36)
                     {
