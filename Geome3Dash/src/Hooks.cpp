@@ -96,19 +96,20 @@ namespace g3d
     )";
 
     // short worm thingy
-    //CubicBezier bezier = {
-    //    98.0, 314.0,   // x0, y0: Starting point
-    //    575.0, 335.0,  // cx1, cy1: First control point
-    //    22.0, 192.0,   // cx2, cy2: Second control point
-    //    511.0, 220.0   // x1, y1: End point
-    //};
-
     CubicBezier bezier = {
-        42, 529,   // x0, y0: Starting point
-        245, 439,  // cx1, cy1: First control point
-        255, 11,   // cx2, cy2: Second control point
-        71, 549   // x1, y1: End point
+        98.0, 314.0,   // x0, y0: Starting point
+        575.0, 335.0,  // cx1, cy1: First control point
+        22.0, 192.0,   // cx2, cy2: Second control point
+        511.0, 220.0   // x1, y1: End point
     };
+
+    // wild stuff
+    //CubicBezier bezier = {
+    //    42, 529,   // x0, y0: Starting point
+    //    245, 439,  // cx1, cy1: First control point
+    //    255, 11,   // cx2, cy2: Second control point
+    //    71, 549   // x1, y1: End point
+    //};
 
     //CubicBezier bezier = {
     //    0.0, 0.0,   // x0, y0
@@ -294,7 +295,7 @@ namespace g3d
             const int segmentCount, const double segmentMultiplier)
         {
             computeBezierCoordinateSegments(segment, segmentCount);
-            double t = x / arcLengths.at(segment).second * 460808.571428 * segmentMultiplier;
+            double t = x / arcLengths.at(segment).second * 0.46080857142 * static_cast<double>(segmentCount) * segmentMultiplier;
             CubicBezier segmentCopy = segment;
 
             if (t > 1)
@@ -357,6 +358,9 @@ namespace g3d
 
         g3d::ShaderProgram* shaderProgram;
 
+        double bezierSegmentMultiplier;
+        int bezierSegmentCount;
+
         std::filesystem::path getPlayerModelPath(const std::string& type, const int id)
         {
             return geode::Mod::get()->getResourcesDir() / "model3d" / "player" / type / std::to_string(id) / "model.obj";
@@ -399,11 +403,15 @@ namespace g3d
             g3d::ShaderProgram* shaderProgramP, 
             PlayerObject* playerObjectP, 
             Camera* cameraP, 
-            Light* lightP)
+            Light* lightP,
+            double bezierSegmentMultiplierV,
+            int bezierSegmentCountV)
             : shaderProgram(shaderProgramP)
             , playerObject(playerObjectP)
             , camera(cameraP)
             , light(lightP)
+            , bezierSegmentMultiplier(bezierSegmentMultiplierV)
+            , bezierSegmentCount(bezierSegmentCountV)
         {
 
         }
@@ -412,12 +420,16 @@ namespace g3d
             g3d::ShaderProgram* shaderProgramP,
             PlayerObject* playerObjectP,
             Camera* cameraP, 
-            Light* lightP)
+            Light* lightP,
+            double bezierSegmentMultiplierV,
+            int bezierSegmentCountV)
         {
             shaderProgram = shaderProgramP;
             playerObject = playerObjectP;
             camera = cameraP;
             light = lightP;
+            bezierSegmentMultiplier = bezierSegmentMultiplierV;
+            bezierSegmentCount = bezierSegmentCountV;
             loadPlayerModels();
         }
 
@@ -450,7 +462,11 @@ namespace g3d
             auto newY = playerObject->m_position.y * 0.05;
             auto newZ = 20.f;
             auto newR = playerObject->getRotation();
-            auto bCoordinate = BezierManager::transformIntoBezierCoordinate(bezier, newX, newY, newZ, 1000000, 7.5);
+            auto bCoordinate = BezierManager::transformIntoBezierCoordinate(
+                bezier, 
+                newX, newY, newZ, 
+                bezierSegmentCount, 
+                bezierSegmentMultiplier);
             player->setPosition(bCoordinate.position);
             player->setRotationY(360 - bCoordinate.rotation);
             player->setRotationZ(360 - newR);
@@ -490,6 +506,9 @@ namespace g3d
         Light light;
 
         CameraActionHandler cameraActionHandler;
+
+        double bezierSegmentMultiplier = 5.0;
+        int bezierSegmentCount = 100000;
 
     public:
         static PlayLayer3D* instance;
@@ -561,7 +580,12 @@ namespace g3d
             auto playLayer = GameManager::sharedState()->m_playLayer;
 
             this->loadObjectModels();
-            player1.init(shaderProgram, playLayer->m_player1, &this->camera, &this->light);
+            player1.init(
+                shaderProgram, 
+                playLayer->m_player1, 
+                &this->camera, &this->light,
+                bezierSegmentMultiplier, 
+                bezierSegmentCount);
 
             playerCameraOffset = glm::vec3(-20, 5, -20);
             playerCameraYawOffset = 60.f;
@@ -613,7 +637,7 @@ namespace g3d
             auto bCoordinate = BezierManager::transformIntoBezierCoordinate(
                 bezier,
                 newX, newY, newZ,
-                1000000, 7.5);
+                bezierSegmentCount, bezierSegmentMultiplier);
             model->setPosition(bCoordinate.position);
             model->setRotationY(360 - bCoordinate.rotation);;
             model->setScale(glm::vec3(0.75 * (obj->m_startFlipX ? -1 : 1), 0.75 * (obj->m_startFlipY ? -1 : 1), 0.75));
