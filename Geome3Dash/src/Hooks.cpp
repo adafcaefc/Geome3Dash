@@ -95,12 +95,12 @@ namespace g3d
         </svg>
     )";
 
-    CubicBezier bezier = {
-        98.0, 314.0,   // x0, y0: Starting point
-        575.0, 335.0,  // cx1, cy1: First control point
-        22.0, 192.0,   // cx2, cy2: Second control point
-        511.0, 220.0   // x1, y1: End point
-    };
+    //CubicBezier bezier = {
+    //    98.0, 314.0,   // x0, y0: Starting point
+    //    575.0, 335.0,  // cx1, cy1: First control point
+    //    22.0, 192.0,   // cx2, cy2: Second control point
+    //    511.0, 220.0   // x1, y1: End point
+    //};
 
     //CubicBezier bezier = {
     //    0.0, 0.0,   // x0, y0
@@ -115,6 +115,14 @@ namespace g3d
     //    95.319, 372.064,       // cx2, cy2
     //    586.566, 1000.0        // x1, y1
     //};
+
+    CubicBezier bezier = {
+        100, 300,   // x0, y0: Starting point
+        200, 300,  // cx1, cy1: First control point
+        300, 300,   // cx2, cy2: Second control point
+        500, 300   // x1, y1: End point
+    };
+
 
 
     std::string read_from_file(
@@ -153,11 +161,97 @@ namespace g3d
         }
     }
 
-    //double getLevelProgress(double x)
-    //{
-    //    return static_cast<double>(x) / 14000.0 * 1.5;
-    //    //return std::fmod(static_cast<double>(x) / 14000.0 * 1.5, 1.0);
-    //}
+    struct CameraAction 
+    {
+        double x, y, z;         // Position
+        double yaw, pitch;      // Rotation
+        double time;            // Duration of the action
+        double triggerAt;       // Trigger when the x-position reaches this value
+    };
+
+    double easeInOutQuad(double t, double b, double c, double d) 
+    {
+        t /= d / 2;
+        if (t < 1) { return c / 2 * t * t + b; }
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+    }
+
+    class CameraActionHandler 
+    {
+    private:
+        std::vector<CameraAction> actions; // List of actions
+        double currentTime;                // Time tracker for animation
+        size_t currentActionIndex;         // Current action being processed
+
+        double interpolate(double start, double end, double progress) 
+        {
+            return easeInOutQuad(progress, start, end - start, 1.0);
+        }
+
+    public:
+        CameraActionHandler() : currentTime(0), currentActionIndex(0) {}
+
+        void addAction(const CameraAction& action) 
+        {
+            actions.push_back(action);
+        }
+        double previousX = 0, previousY = 0, previousZ = 0, previousYaw = 0, previousPitch = 0;
+
+        void update(double deltaTime, double currentXPosition,
+            double& deltaX, double& deltaY, double& deltaZ,
+            double& deltaYaw, double& deltaPitch)
+        {
+            if (currentActionIndex >= actions.size()) return;
+
+            CameraAction& action = actions[currentActionIndex];
+
+            // Check if the action should start based on the trigger
+            if (currentXPosition < action.triggerAt) return;
+
+            // Increment time for the current action
+            currentTime += deltaTime;
+
+            // Calculate interpolation progress
+            double progress = currentTime / action.time;
+            if (progress > 1.0) progress = 1.0; // Clamp progress to 1.0
+
+            // Interpolate position and rotation
+            double newX = interpolate(0, action.x, progress);
+            double newY = interpolate(0, action.y, progress);
+            double newZ = interpolate(0, action.z, progress);
+            double newYaw = interpolate(0, action.yaw, progress);
+            double newPitch = interpolate(0, action.pitch, progress);
+
+            // Calculate deltas and output through references
+            deltaX = newX - previousX;
+            deltaY = newY - previousY;
+            deltaZ = newZ - previousZ;
+            deltaYaw = newYaw - previousYaw;
+            deltaPitch = newPitch - previousPitch;
+
+            // Update the previous values
+            previousX = newX;
+            previousY = newY;
+            previousZ = newZ;
+            previousYaw = newYaw;
+            previousPitch = newPitch;
+
+            // Move to the next action if done
+            if (progress >= 1.0)
+            {
+                currentActionIndex++;
+                currentTime = 0; // Reset time for the next action
+                previousX = 0;
+                previousY = 0;
+                previousZ = 0;
+                previousYaw = 0;
+                previousPitch = 0;
+            }
+        }
+    };
+
+
 
     struct BezierCoordinate
     {
@@ -392,6 +486,8 @@ namespace g3d
         Camera camera;
         Light light;
 
+        CameraActionHandler cameraActionHandler;
+
     public:
         static PlayLayer3D* instance;
 
@@ -406,6 +502,21 @@ namespace g3d
             delete fragmentShader;
         }
 
+        // mtl model path fix (model path must be absolute)
+        void parseMtlPath(const std::filesystem::path& mtl_path)
+        {
+            if (std::filesystem::exists(mtl_path))
+            {
+                auto mtl_file = read_from_file(mtl_path);
+                // to do: leave the model png!!!
+                if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos)
+                {
+                    replace_all(mtl_file, "{{MODEL_PATH}}", mtl_path.parent_path().string());
+                }
+                write_to_file(mtl_path, mtl_file);
+            }
+        }
+
         void loadObjectModels()
         {
             CCObject* obj;
@@ -417,17 +528,7 @@ namespace g3d
                 const auto mtl_path = model_dir / "model.mtl";
                 if (std::filesystem::exists(model_path)) 
                 {
-                    // mtl model path fix (model path must be absolute
-                    if (std::filesystem::exists(mtl_path)) 
-                    {
-                        auto mtl_file = read_from_file(mtl_path);
-                        // to do: leave the model png!!!
-                        if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos) 
-                        {
-                            replace_all(mtl_file, "{{MODEL_PATH}}", model_dir.string());
-                        }
-                        write_to_file(mtl_path, mtl_file);
-                    }
+                    parseMtlPath(mtl_path);
                     if (blockModels.find(block->m_objectID) == blockModels.end())
                     {
                         if (auto blockModel = ShaderScene::loadWithoutAddModel(model_path, shaderProgram))
@@ -462,6 +563,10 @@ namespace g3d
             playerCameraOffset = glm::vec3(-20, 5, -20);
             playerCameraYawOffset = 60.f;
             playerCameraPitchOffset = -6.f;
+
+            // Add some example camera actions
+            cameraActionHandler.addAction({ +1, +2, -2, +5, +3, 1.0, 200 });
+            cameraActionHandler.addAction({ +5, +3, -1, -5, -3, 2.0, 1000 });
 
             return true;
         }
@@ -517,7 +622,7 @@ namespace g3d
             auto playLayer = GameManager::sharedState()->m_playLayer;
             for (auto [obj, model] : blocks)
             {
-                if (std::abs(playLayer->m_player1->m_position.x - obj->getPositionX()) < 200000.f)
+                if (std::abs(playLayer->m_player1->m_position.x - obj->getPositionX()) < 2000.f)
                 {
                     updateBlock(obj, model);
 
@@ -541,11 +646,36 @@ namespace g3d
             }
         }
 
+        // Timing
+        std::chrono::steady_clock::time_point lastUpdate;
+        void updateCameraAction(const float currentXPosition)
+        {
+            // Calculate delta time
+            auto now = std::chrono::steady_clock::now();
+            std::chrono::duration<double> elapsedTime = now - lastUpdate;
+            lastUpdate = now;
+            double deltaTime = elapsedTime.count();
+
+            // Prepare variables for deltas
+            double deltaX = 0.0, deltaY = 0.0, deltaZ = 0.0;
+            double deltaYaw = 0.0, deltaPitch = 0.0;
+
+            // Update camera action handler and get deltas
+            cameraActionHandler.update(deltaTime, currentXPosition, deltaX, deltaY, deltaZ, deltaYaw, deltaPitch);
+
+            // Apply deltas to the camera offsets
+            playerCameraOffset += glm::vec3(deltaX, deltaY, deltaZ);
+            playerCameraYawOffset += deltaYaw;
+            playerCameraPitchOffset += deltaPitch;
+        }
+
         virtual void draw() 
         {
             CCNode::draw();
 
             auto playLayer = GameManager::sharedState()->m_playLayer;
+
+            updateCameraAction(playLayer->m_player1->m_position.x);
 
             playLayer->m_player1->getParent()->setVisible(false);
             // ground calculations is so hard -adaf
