@@ -95,12 +95,20 @@ namespace g3d
         </svg>
     )";
 
+    // short worm thingy
     //CubicBezier bezier = {
     //    98.0, 314.0,   // x0, y0: Starting point
     //    575.0, 335.0,  // cx1, cy1: First control point
     //    22.0, 192.0,   // cx2, cy2: Second control point
     //    511.0, 220.0   // x1, y1: End point
     //};
+
+    CubicBezier bezier = {
+        42, 529,   // x0, y0: Starting point
+        245, 439,  // cx1, cy1: First control point
+        255, 11,   // cx2, cy2: Second control point
+        71, 549   // x1, y1: End point
+    };
 
     //CubicBezier bezier = {
     //    0.0, 0.0,   // x0, y0
@@ -116,12 +124,13 @@ namespace g3d
     //    586.566, 1000.0        // x1, y1
     //};
 
-    CubicBezier bezier = {
-        100, 300,   // x0, y0: Starting point
-        200, 300,  // cx1, cy1: First control point
-        300, 300,   // cx2, cy2: Second control point
-        500, 300   // x1, y1: End point
-    };
+    //// straight
+    //CubicBezier bezier = {
+    //    100, 300,   // x0, y0: Starting point
+    //    200, 300,  // cx1, cy1: First control point
+    //    300, 300,   // cx2, cy2: Second control point
+    //    500, 300   // x1, y1: End point
+    //};
 
 
 
@@ -259,83 +268,77 @@ namespace g3d
         double rotation;
     };
 
-    static std::unordered_map<CubicBezier, std::pair<std::vector<double>, double>, CubicBezierHash> arcLengths;
-    BezierCoordinate transformIntoBezierCoordinate(
-        const CubicBezier& segment, 
-        double x, double y, double z,
-        int segmentCount)
+    struct BezierManager
     {
-        constexpr double MULTIPLIER_SEGMENT = 7.5;
-        if (arcLengths.find(segment) == arcLengths.end())
+        static inline std::unordered_map<CubicBezier, std::pair<std::vector<double>, double>, CubicBezierHash> arcLengths;
+        static void computeBezierCoordinateSegments(const CubicBezier& segment, const int segmentCount)
         {
-            arcLengths[segment] = std::pair<std::vector<double>, double>();
-            computeArcLengths(
-                segment.x0, segment.y0,
-                segment.cx1, segment.cy1,
-                segment.cx2, segment.cy2,
-                segment.x1, segment.y1,
-                arcLengths.at(segment).first, segmentCount);
-            arcLengths.at(segment).second = std::accumulate(
-                arcLengths.at(segment).first.begin(),
-                arcLengths.at(segment).first.end(),
-                0.0);
-        }
-        double t = x / arcLengths.at(segment).second * 460808.571428 * MULTIPLIER_SEGMENT;
-        CubicBezier segmentCopy = segment;
-
-        if (t > 1)
-        {
-            double mrt = std::fmod(t, 1.0);
-            double art = t - mrt;
-            t = mrt;
-            double tmpx1 = art * (segment.x1 - segment.x0);
-            double tmpy1 = art * (segment.y1 - segment.y0);
-            segmentCopy = 
+            if (arcLengths.find(segment) == arcLengths.end())
             {
-                tmpx1 + segment.x0, tmpy1 + segment.y0,
-                tmpx1 +  segment.cx1, tmpy1 + segment.cy1,
-                tmpx1 +  segment.cx2, tmpy1 + segment.cy2,
-                tmpx1 +  segment.x1, tmpy1 + segment.y1,
-            };
+                arcLengths[segment] = std::pair<std::vector<double>, double>();
+                computeArcLengths(
+                    segment.x0, segment.y0,
+                    segment.cx1, segment.cy1,
+                    segment.cx2, segment.cy2,
+                    segment.x1, segment.y1,
+                    arcLengths.at(segment).first, segmentCount);
+                arcLengths.at(segment).second = std::accumulate(
+                    arcLengths.at(segment).first.begin(),
+                    arcLengths.at(segment).first.end(),
+                    0.0);
+            }
         }
-
-        // First, we need to evaluate the Bezier curve for X and Z axis
-        double bezierX = 0.0, bezierZ = 0.0, rotationY = 0.0;
-
-        //// Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
-        //evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
-        //    bezierX, bezierZ, rotationY);
-
-
-        if (arcLengths.find(segmentCopy) == arcLengths.end())
+        static BezierCoordinate transformIntoBezierCoordinate(
+            const CubicBezier& segment,
+            double x, double y, double z,
+            const int segmentCount, const double segmentMultiplier)
         {
-            arcLengths[segmentCopy] = std::pair<std::vector<double>, double>();
-            computeArcLengths(
+            computeBezierCoordinateSegments(segment, segmentCount);
+            double t = x / arcLengths.at(segment).second * 460808.571428 * segmentMultiplier;
+            CubicBezier segmentCopy = segment;
+
+            if (t > 1)
+            {
+                double mrt = std::fmod(t, 1.0);
+                double art = t - mrt;
+                t = mrt;
+                double tmpx1 = art * (segment.x1 - segment.x0);
+                double tmpy1 = art * (segment.y1 - segment.y0);
+                segmentCopy =
+                {
+                    tmpx1 + segment.x0, tmpy1 + segment.y0,
+                    tmpx1 + segment.cx1, tmpy1 + segment.cy1,
+                    tmpx1 + segment.cx2, tmpy1 + segment.cy2,
+                    tmpx1 + segment.x1, tmpy1 + segment.y1,
+                };
+            }
+
+            // First, we need to evaluate the Bezier curve for X and Z axis
+            double bezierX = 0.0, bezierZ = 0.0, rotationY = 0.0;
+
+            //// Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
+            //evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
+            //    bezierX, bezierZ, rotationY);
+
+
+            computeBezierCoordinateSegments(segmentCopy, segmentCount);
+
+            // Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
+            evaluateCubicBezierUniform(
+                t,
                 segmentCopy.x0, segmentCopy.y0,
                 segmentCopy.cx1, segmentCopy.cy1,
                 segmentCopy.cx2, segmentCopy.cy2,
                 segmentCopy.x1, segmentCopy.y1,
-                arcLengths.at(segmentCopy).first, segmentCount);
-            arcLengths.at(segmentCopy).second = std::accumulate(
-                arcLengths.at(segmentCopy).first.begin(),
-                arcLengths.at(segmentCopy).first.end(),
-                0.0);
+                bezierX, bezierZ, rotationY,
+                arcLengths.at(segmentCopy).first);
+
+
+            // Return the transformed coordinates as a glm::vec3, with the original Y and Z coordinates being transformed along the curve
+            return { glm::vec3(bezierX / segmentMultiplier, y, bezierZ / segmentMultiplier), glm::degrees(rotationY) };  // Since y is not involved in the Bezier curve transformation, it remains unchanged
         }
-
-        // Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
-        evaluateCubicBezierUniform(
-            t,
-            segmentCopy.x0, segmentCopy.y0,
-            segmentCopy.cx1, segmentCopy.cy1,
-            segmentCopy.cx2, segmentCopy.cy2,
-            segmentCopy.x1, segmentCopy.y1,
-            bezierX, bezierZ, rotationY, 
-            arcLengths.at(segmentCopy).first);
-
-
-        // Return the transformed coordinates as a glm::vec3, with the original Y and Z coordinates being transformed along the curve
-        return { glm::vec3(bezierX / MULTIPLIER_SEGMENT, y, bezierZ / MULTIPLIER_SEGMENT), glm::degrees(rotationY) };  // Since y is not involved in the Bezier curve transformation, it remains unchanged
-    }
+        static void clearCache() { arcLengths.clear(); }
+    };
 
     class PlayerObject3D
     {
@@ -447,7 +450,7 @@ namespace g3d
             auto newY = playerObject->m_position.y * 0.05;
             auto newZ = 20.f;
             auto newR = playerObject->getRotation();
-            auto bCoordinate = transformIntoBezierCoordinate(bezier, newX, newY, newZ, 1000000);
+            auto bCoordinate = BezierManager::transformIntoBezierCoordinate(bezier, newX, newY, newZ, 1000000, 7.5);
             player->setPosition(bCoordinate.position);
             player->setRotationY(360 - bCoordinate.rotation);
             player->setRotationZ(360 - newR);
@@ -551,7 +554,7 @@ namespace g3d
             CCNode::init();
 
             // clear cache of bezier segments
-            arcLengths.clear();
+            BezierManager::clearCache();
 
             this->loadShader();
 
@@ -564,9 +567,9 @@ namespace g3d
             playerCameraYawOffset = 60.f;
             playerCameraPitchOffset = -6.f;
 
-            // Add some example camera actions
-            cameraActionHandler.addAction({ +1, +2, -2, +5, +3, 1.0, 200 });
-            cameraActionHandler.addAction({ +5, +3, -1, -5, -3, 2.0, 1000 });
+            //// Add some example camera actions
+            //cameraActionHandler.addAction({ +1, +2, -2, +5, +3, 1.0, 200 });
+            //cameraActionHandler.addAction({ +5, +3, -1, -5, -3, 2.0, 1000 });
 
             return true;
         }
@@ -607,10 +610,10 @@ namespace g3d
             auto newX = obj->m_positionX * 0.05;
             auto newY = obj->m_positionY * 0.05;
             auto newZ = 20.f;
-            auto bCoordinate = transformIntoBezierCoordinate(
+            auto bCoordinate = BezierManager::transformIntoBezierCoordinate(
                 bezier,
                 newX, newY, newZ,
-                1000000);
+                1000000, 7.5);
             model->setPosition(bCoordinate.position);
             model->setRotationY(360 - bCoordinate.rotation);;
             model->setScale(glm::vec3(0.75 * (obj->m_startFlipX ? -1 : 1), 0.75 * (obj->m_startFlipY ? -1 : 1), 0.75));
