@@ -187,26 +187,24 @@ namespace g3d
         //evaluateCubicBezier(t, segment.x0, segment.y0, segment.cx1, segment.cy1, segment.cx2, segment.cy2, segment.x1, segment.y1,
         //    bezierX, bezierZ, rotationY);
 
-        static std::unordered_map<CubicBezier, std::vector<double>, CubicBezierHash> arcLengths;
+        static std::unordered_map<CubicBezier, std::pair<std::vector<double>, double>, CubicBezierHash> arcLengths;
 
         if (arcLengths.find(segmentCopy) == arcLengths.end())
         {
-            arcLengths[segmentCopy] = std::vector<double>();
+            arcLengths[segmentCopy] = std::pair<std::vector<double>, double>();
             computeArcLengths(
                 segmentCopy.x0, segmentCopy.y0,
                 segmentCopy.cx1, segmentCopy.cy1,
                 segmentCopy.cx2, segmentCopy.cy2,
                 segmentCopy.x1, segmentCopy.y1,
-                arcLengths.at(segmentCopy), segmentCount);
+                arcLengths.at(segmentCopy).first, segmentCount);
+
+            arcLengths.at(segmentCopy).second = std::accumulate(
+                arcLengths.at(segmentCopy).first.begin(),
+                arcLengths.at(segmentCopy).first.end(),
+                0.0);
         }
 
-
-        double arcLengthTotal = std::accumulate(
-            arcLengths.at(segmentCopy).begin(), 
-            arcLengths.at(segmentCopy).end(), 
-            0.0);
-
-        t = arcLengthTotal / 2304042.85714;
 
         // Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
         evaluateCubicBezierUniform(
@@ -216,7 +214,7 @@ namespace g3d
             segmentCopy.cx2, segmentCopy.cy2,
             segmentCopy.x1, segmentCopy.y1,
             bezierX, bezierZ, rotationY, 
-            arcLengths.at(segmentCopy));
+            arcLengths.at(segmentCopy).first);
 
 
         // Return the transformed coordinates as a glm::vec3, with the original Y and Z coordinates being transformed along the curve
