@@ -160,11 +160,11 @@ namespace g3d
 
     BezierCoordinate transformIntoBezierCoordinate(
         const CubicBezier& segment, 
+        double t,
         double x, double y, double z,
         int segmentCount = 1000000)
     {
         CubicBezier segmentCopy = segment;
-        double t = 0;
 
         if (t > 1)
         {
@@ -204,7 +204,6 @@ namespace g3d
                 arcLengths.at(segmentCopy).first.end(),
                 0.0);
         }
-
 
         // Evaluate the Bezier curve for X-axis using the segment's start and end points, and control points
         evaluateCubicBezierUniform(
