@@ -225,8 +225,8 @@ namespace g3d
         this->loadObjectModels();
 
         // default camera position
-        playerCameraOffset = glm::vec3(-20, 5, -20);
-        playerCameraYawOffset = 60.f;
+        playerCameraOffset = glm::vec3(-10, 5, 40);
+        playerCameraYawOffset = -55.f;
         playerCameraPitchOffset = -6.f;
 
         //// Add some example camera actions
@@ -300,7 +300,7 @@ namespace g3d
                 {
                     auto scale = model->getScale();
                     double tNormal = (distance - startFade) / (maxRender - startFade);
-                    model->setScale(sus3d::easing::easeNormal<sus3d::easing::EaseInSine, glm::vec3>(tNormal, scale, glm::vec3(0.0, 0.0, 0.0)));
+                    model->setScale(sus3d::easing::easeNormal<sus3d::easing::EaseInOutSine, glm::vec3>(tNormal, scale, glm::vec3(0, 0, 0)));
                 }
 
                 // animations
