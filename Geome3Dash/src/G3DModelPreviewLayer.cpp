@@ -11,7 +11,7 @@
 #include "3SusEngine/Model.h"
 #include "3SusEngine/Mesh.h"
 
-#include "tinyfiledialogs/tinyfiledialogs.h"
+#include "Library/tinyfiledialogs/tinyfiledialogs.h"
 
 namespace g3d
 {

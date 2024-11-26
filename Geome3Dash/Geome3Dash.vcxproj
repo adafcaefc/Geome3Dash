@@ -31,7 +31,7 @@
     <ClCompile Include="src\Helper\CommonHelper.cpp" />
     <ClCompile Include="src\Helper\OpenGLStateHelper.cpp" />
     <ClCompile Include="src\Hooks.cpp" />
-    <ClCompile Include="src\tinyfiledialogs\tinyfiledialogs.c">
+    <ClCompile Include="src\Library\tinyfiledialogs\tinyfiledialogs.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
@@ -57,7 +57,7 @@
     <ClInclude Include="src\Helper\CommonHelper.h" />
     <ClInclude Include="src\Helper\OpenGLStateHelper.h" />
     <ClInclude Include="src\Hooks.h" />
-    <ClInclude Include="src\tinyfiledialogs\tinyfiledialogs.h" />
+    <ClInclude Include="src\Library\tinyfiledialogs\tinyfiledialogs.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
