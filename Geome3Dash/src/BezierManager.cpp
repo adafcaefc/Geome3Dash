@@ -37,7 +37,8 @@ namespace g3d
         const int segmentCount, const double segmentMultiplier)
     {
         computeBezierCoordinateSegments(segment, segmentCount);
-        double t = x / arcLengths.at(segment).second * 0.46080857142 * static_cast<double>(segmentCount) * segmentMultiplier;
+        constexpr double SCARY_CONSTANT_THAT_I_DONT_WANNA_TOUCH = 0.46080857142;
+        double t = x / arcLengths.at(segment).second * SCARY_CONSTANT_THAT_I_DONT_WANNA_TOUCH * static_cast<double>(segmentCount) * segmentMultiplier;
         CubicBezier segmentCopy = segment;
 
         if (t > 1)
