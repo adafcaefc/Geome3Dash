@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "../pch.h"
 
+#include "CocosShaderProgram.h"
+
 #include "G3DFragmentShaderLayer.h"
 
 #include "Sus3D/Shader.h"
@@ -13,20 +15,21 @@ namespace g3d
 {
     bool G3DFragmentShaderLayer::init(const std::filesystem::path& fragmentShaderFile) {
         if (!CCLayer::init()) return false;
-
+        OpenGLStateHelper::saveState();
         auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::basicVertexShader, sus3d::ShaderType::kVertexShader);
-        auto fragmentShader = sus3d::Shader::createWithFile(fragmentShaderFile.string(), sus3d::ShaderType::kFragmentShader);
-        shaderProgram = sus3d::ShaderProgram::create(vertexShader, fragmentShader);
+        auto fragmentShader = sus3d::Shader::createWithFile(fragmentShaderFile, sus3d::ShaderType::kFragmentShader);
+        shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
 
         delete vertexShader;
         delete fragmentShader;
-
+        OpenGLStateHelper::pushState();
         prepareBuffers();
 
         return true;
     }
 
     void G3DFragmentShaderLayer::prepareBuffers() {
+        OpenGLStateHelper::saveState();
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
@@ -43,6 +46,7 @@ namespace g3d
         glEnableVertexAttribArray(0);
 
         glBindVertexArray(0);
+        OpenGLStateHelper::pushState();
     }
 
     void G3DFragmentShaderLayer::draw() {

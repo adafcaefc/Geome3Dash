@@ -23,17 +23,11 @@ namespace sus3d
         return 1;
     }
 
+
+
     ShaderProgram::~ShaderProgram() {
         if (id)
             glDeleteProgram(id);
-    }
-
-    ShaderProgram* ShaderProgram::create(Shader* vertexShader, Shader* fragmentShader) {
-        auto ret = new ShaderProgram();
-        if (vertexShader && fragmentShader && vertexShader->getType() == ShaderType::kVertexShader && fragmentShader->getType() == ShaderType::kFragmentShader && ret && ret->initProgram(vertexShader, fragmentShader)) {
-            return ret;
-        }
-        return nullptr;
     }
 
     void ShaderProgram::use() {

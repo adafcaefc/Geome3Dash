@@ -34,6 +34,7 @@ namespace g3d
         glGetIntegerv(GL_POLYGON_MODE, state.polygonMode);
         glGetIntegerv(GL_ACTIVE_TEXTURE, &state.activeTexture);
     }
+
     void OpenGLStateHelper::pushState() {
         for (int i = 0; i < 32; ++i) {
             glActiveTexture(GL_TEXTURE0 + i);

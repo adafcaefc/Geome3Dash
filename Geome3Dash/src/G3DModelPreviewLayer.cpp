@@ -5,11 +5,13 @@
 #include "G3DBaseNode.h"
 #include "G3DFragmentShaderLayer.h"
 
-#include "Sus3D/ShaderProgram.h"
 #include "Sus3D/Shader.h"
 #include "Sus3D/Shaders.h"
 #include "Sus3D/Model.h"
 #include "Sus3D/Mesh.h"
+
+#include "Helper/OpenGLStateHelper.h"
+#include "Helper/CommonHelper.h"
 
 #include "Lib/tinyfiledialogs/tinyfiledialogs.h"
 
@@ -92,12 +94,13 @@ namespace g3d
         CCLayer::init();
 
         setKeyboardEnabled(true);
-
+        OpenGLStateHelper::saveState();
         auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
         auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
-        shaderProgram = sus3d::ShaderProgram::create(vertexShader, fragmentShader);
+        shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
         delete vertexShader;
         delete fragmentShader;
+        OpenGLStateHelper::pushState();
 
         layer3d = G3DBaseNode::create();
         layer3d->light.setPosition(glm::vec3(50, 100, 50));
@@ -106,10 +109,18 @@ namespace g3d
 
         auto size = CCDirector::sharedDirector()->getWinSize();
 
-        // shader fragment still crashes
         auto testLayer = G3DFragmentShaderLayer::create(geode::Mod::get()->getResourcesDir() / "model3d" / "shader" / "space.fsh");
         this->addChild(testLayer);
-        testLayer->setZOrder(8);
+
+        auto bg = CCSprite::create("GJ_gradientBG.png");
+        bg->setScaleX(size.width / bg->getContentSize().width);
+        bg->setScaleY(size.height / bg->getContentSize().height);
+        bg->setColor({ 0, 75, 110 });
+        bg->setZOrder(-5);
+
+        bg->setPosition(size / 2);
+
+        this->addChild(bg);
 
         auto backButtonSprite = CCSprite::createWithSpriteFrameName("GJ_arrow_03_001.png");
         auto backButton = CCMenuItemSpriteExtra::create(backButtonSprite, this, menu_selector(G3DModelPreviewLayer::onBack));
@@ -139,10 +150,9 @@ namespace g3d
 
     void G3DModelPreviewLayer::draw() {
         CCLayer::draw();
-        auto glView = CCDirector::sharedDirector()->m_pobOpenGLView;
-        int invertedMouseY = glView->getFrameSize().height - static_cast<int>(glView->m_fMouseY);
+        layer3d->light.setPosition(layer3d->camera.getPosition());
 
-        auto selected = layer3d->getObjectIDByMousePosition(static_cast<int>(glView->m_fMouseX), invertedMouseY);
+        auto selected = layer3d->getObjectIDByMousePosition();
         std::cout << selected.first << " " << selected.second << std::endl;
 
         for (int modelIndex = 0; modelIndex < layer3d->models.size(); modelIndex++) {
@@ -159,9 +169,20 @@ namespace g3d
         auto path = openModelSelectModal();
         if (!path.has_value()) return;
 
-        if (auto model = sus3d::loadModel(path.value(), shaderProgram)) {
-            layer3d->models.push_back(model);
-        } 
+        const auto obj_path = std::filesystem::path(path.value());
+        const auto mtl_path = obj_path.parent_path() / (obj_path.stem().string() + ".mtl");
+
+        if (std::filesystem::exists(mtl_path))
+        {
+            auto mtl_file = utils::read_from_file(mtl_path);
+            if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos)
+            {
+                utils::replace_all(mtl_file, "{{MODEL_PATH}}", mtl_path.parent_path().string());
+            }
+            utils::write_to_file(mtl_path, mtl_file);
+        }
+
+        layer3d->models.push_back(sus3d::loadModel(path.value(), shaderProgram));
     }
 
     G3DModelPreviewLayer* G3DModelPreviewLayer::create() {

@@ -19,6 +19,7 @@
 
 #include "CameraAction.h"
 #include "BezierManager.h"
+#include "CocosShaderProgram.h"
 
 namespace g3d
 {
@@ -70,7 +71,7 @@ namespace g3d
         glm::vec3 playerCameraOffset;
         double playerCameraYawOffset;
         double playerCameraPitchOffset;
-        sus3d::ShaderProgram* shaderProgram;
+        CocosShaderProgram* shaderProgram;
 
         sus3d::Camera camera;
         sus3d::Light light;

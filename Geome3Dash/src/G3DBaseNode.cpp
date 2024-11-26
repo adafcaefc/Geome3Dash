@@ -13,25 +13,11 @@
 
 namespace g3d
 {
-    glm::vec3 G3DBaseNode::generateUniqueColor(int objectID, int meshID) {
-        int uniqueID = (objectID + 1) << 16 | (meshID + 1);
+    std::pair<int, int> G3DBaseNode::getObjectIDByMousePosition() {
+        auto glView = CCDirector::sharedDirector()->m_pobOpenGLView;
+        int mouseX = static_cast<int>(glView->m_fMouseX);
+        int mouseY = glView->getFrameSize().height - static_cast<int>(glView->m_fMouseY);
 
-        GLuint r = (uniqueID >> 16) & 0xFF;
-        GLuint g = (uniqueID >> 8) & 0xFF;
-        GLuint b = uniqueID & 0xFF;
-
-        return glm::vec3(r / 255.0f, g / 255.0f, b / 255.0f);
-    }
-    std::pair<int, int> G3DBaseNode::getObjectAndMeshIDFromColor(const GLubyte* pixelColor) {
-        int uniqueID = (pixelColor[0] << 16) | (pixelColor[1] << 8) | pixelColor[2];
-
-        int objectID = ((uniqueID >> 16) & 0xFFFF) - 1;
-        int meshID = (uniqueID & 0xFFFF) - 1;
-
-        return { objectID, meshID };
-    }
-
-    std::pair<int, int> G3DBaseNode::getObjectIDByMousePosition(int mouseX, int mouseY) {
         OpenGLStateHelper::saveState();
         glEnable(GL_DEPTH_TEST);
 
@@ -98,11 +84,12 @@ namespace g3d
     bool G3DBaseNode::init() {
         if (!CCNode::init()) return false;
 
-        getObjectIDByMousePositionShader = sus3d::ShaderProgram::create(
+        OpenGLStateHelper::saveState();
+        getObjectIDByMousePositionShader = CocosShaderProgram::create(
             sus3d::Shader::createWithString(sus3d::shaders::idBufferingVertexShader, sus3d::ShaderType::kVertexShader),
             sus3d::Shader::createWithString(sus3d::shaders::idBufferingFragmentShader, sus3d::ShaderType::kFragmentShader));
 
-        OpenGLStateHelper::saveState();
+
         auto size = CCDirector::sharedDirector()->m_obResolutionInPixels;
 
         glGenFramebuffers(1, &framebuffer);
@@ -124,7 +111,7 @@ namespace g3d
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-
+            std::cerr << "ERROR::FRAMEBUFFER::Framebuffer is not complete!" << std::endl;
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ShaderProgram.h"
+
 #include <glm/glm/glm.hpp>
 
 #include <assimp/Importer.hpp>
@@ -22,10 +24,10 @@ namespace sus3d
         bool visible = 1;
         virtual bool init(const aiScene* scene);
     public:
-        glm::mat4 prepareModelMatrix();
         std::vector<Mesh*> meshes;
         static Model* create(const aiScene* scene, ShaderProgram* shaderProgram);
         void render(glm::mat4 view, glm::vec3 lightPos, glm::vec3 lightColor, glm::vec3 cameraPos, glm::mat4 projection);
+
         void setRotation(glm::vec3 rotation) { this->rotation = rotation; }
         void setRotationX(float rotation) { this->rotation.x = rotation; }
         void setRotationY(float rotation) { this->rotation.y = rotation; }
@@ -34,6 +36,7 @@ namespace sus3d
         float getRotationX() { return this->rotation.x; }
         float getRotationY() { return this->rotation.y; }
         float getRotationZ() { return this->rotation.z; }
+
         void setPosition(glm::vec3 position) { this->position = position; }
         void setPositionX(float position) { this->position.x = position; }
         void setPositionY(float position) { this->position.y = position; }
@@ -42,7 +45,7 @@ namespace sus3d
         float getPositionX() { return this->position.x; }
         float getPositionY() { return this->position.y; }
         float getPositionZ() { return this->position.z; }
-        void setVisible(bool visible) { this->visible = visible; }
+
         void setScale(glm::vec3 scale) { this->scale = scale; }
         void setScaleX(float scale) { this->scale.x = scale; }
         void setScaleY(float scale) { this->scale.y = scale; }
@@ -51,6 +54,11 @@ namespace sus3d
         float getScaleX() { return this->scale.x; }
         float getScaleY() { return this->scale.y; }
         float getScaleZ() { return this->scale.z; }
+
+        void setVisible(bool visible) { this->visible = visible; }
+
+        glm::mat4 prepareModelMatrix();
+
         ~Model() {
             for (Mesh* mesh : meshes) {
                 delete mesh;

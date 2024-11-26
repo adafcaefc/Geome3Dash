@@ -156,7 +156,7 @@ namespace g3d
         auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
         auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
 
-        shaderProgram = sus3d::ShaderProgram::create(vertexShader, fragmentShader);
+        shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
 
         delete vertexShader;
         delete fragmentShader;

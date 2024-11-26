@@ -26,14 +26,12 @@ namespace sus3d
 
         model = glm::translate(model, position);
 
-        if (rotation.x)
-            model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-
-        if (rotation.y)
-            model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-
         if (rotation.z)
             model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+        if (rotation.y)
+            model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        if (rotation.x)
+            model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 
         model = glm::scale(model, scale);
 
@@ -54,6 +52,7 @@ namespace sus3d
             glm::mat4 model = prepareModelMatrix();
 
             shaderProgram->use();
+            shaderProgram->setBasicUniforms();
 
             shaderProgram->setMat4("model", model);
             shaderProgram->setMat4("view", view);
@@ -67,6 +66,7 @@ namespace sus3d
                 mesh->render(shaderProgram);
         }
     }
+
     Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path.string(),
