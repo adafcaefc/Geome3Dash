@@ -66,32 +66,10 @@ namespace sus3d
 
         aiString texturePath;
         if (material && material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             Texture* loadedTexture = Texture::getTextureByFilename(texturePath.C_Str());
-            if (loadedTexture && loadedTexture->data) {
-                GLenum format;
-                if (loadedTexture->nrChannels == 1)
-                    format = GL_RED;
-                else if (loadedTexture->nrChannels == 3)
-                    format = GL_RGB;
-                else if (loadedTexture->nrChannels == 4)
-                    format = GL_RGBA;
-                else {
-                    format = GL_RGB; // Fallback format
-                }
-
-                glTexImage2D(GL_TEXTURE_2D, 0, format, loadedTexture->width, loadedTexture->height, 0, format, GL_UNSIGNED_BYTE, loadedTexture->data);
-                glGenerateMipmap(GL_TEXTURE_2D);
-
-
-
+            if (loadedTexture && loadedTexture->textureID != 0) {
+                texture = loadedTexture->textureID;
                 useTexture = true;
             }
             else {
@@ -144,7 +122,7 @@ namespace sus3d
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
         glDeleteBuffers(1, &EBO);
-        if (useTexture)
-            glDeleteTextures(1, &texture);
+        //if (useTexture)
+        //    glDeleteTextures(1, &texture);
     }
 }
