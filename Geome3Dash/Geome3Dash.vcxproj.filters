@@ -42,25 +42,25 @@
     <ClCompile Include="src\Hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3SusEngine\BasicShaders.cpp">
+    <ClCompile Include="src\Sus3D\Shaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3SusEngine\Mesh.cpp">
+    <ClCompile Include="src\Sus3D\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3SusEngine\Model.cpp">
+    <ClCompile Include="src\Sus3D\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3SusEngine\Shader.cpp">
+    <ClCompile Include="src\Sus3D\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3SusEngine\ShaderProgram.cpp">
+    <ClCompile Include="src\Sus3D\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3SusEngine\ShaderScene.cpp">
+    <ClCompile Include="src\Sus3D\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\3SusEngine\Texture.cpp">
+    <ClCompile Include="src\Sus3D\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Delegate\CustomKeyboard.cpp">
@@ -113,25 +113,25 @@
     <ClInclude Include="src\Hooks.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3SusEngine\BasicShaders.h">
+    <ClInclude Include="src\Sus3D\Shaders.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3SusEngine\Mesh.h">
+    <ClInclude Include="src\Sus3D\Mesh.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3SusEngine\Model.h">
+    <ClInclude Include="src\Sus3D\Model.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3SusEngine\Shader.h">
+    <ClInclude Include="src\Sus3D\Shader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3SusEngine\ShaderProgram.h">
+    <ClInclude Include="src\Sus3D\ShaderProgram.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3SusEngine\ShaderScene.h">
+    <ClInclude Include="src\Sus3D\Scene.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\3SusEngine\Texture.h">
+    <ClInclude Include="src\Sus3D\Texture.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Delegate\CustomKeyboard.h">

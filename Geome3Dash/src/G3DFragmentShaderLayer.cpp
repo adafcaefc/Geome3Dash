@@ -3,9 +3,9 @@
 
 #include "G3DFragmentShaderLayer.h"
 
-#include "3susEngine/Shader.h"
-#include "3susEngine/BasicShaders.h"
-#include "3susEngine/ShaderProgram.h"
+#include "Sus3D/Shader.h"
+#include "Sus3D/Shaders.h"
+#include "Sus3D/ShaderProgram.h"
 
 #include "Helper/OpenGLStateHelper.h"
 

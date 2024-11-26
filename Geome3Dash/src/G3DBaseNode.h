@@ -1,6 +1,6 @@
 #pragma once
 
-#include "3SusEngine/ShaderScene.h"
+#include "Sus3D/Scene.h"
 
 namespace g3d
 {

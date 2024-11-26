@@ -77,7 +77,7 @@ namespace g3d
 
     void G3DPlayerObject::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
     {
-        *model = sus3d::ShaderScene::loadWithoutAddModel(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
+        *model = sus3d::loadModel(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
         (*model)->setScale(glm::vec3(0.75));
     }
 
@@ -191,7 +191,7 @@ namespace g3d
                 parseMtlPath(mtl_path);
                 if (blockModels.find(block->m_objectID) == blockModels.end())
                 {
-                    if (auto blockModel = sus3d::ShaderScene::loadWithoutAddModel(model_path, shaderProgram))
+                    if (auto blockModel = sus3d::loadModel(model_path, shaderProgram))
                     {
                         blockModels.emplace(block->m_objectID, blockModel);
                     }
@@ -285,13 +285,26 @@ namespace g3d
 
     void G3DPlayLayer::drawBlocks()
     {
+        constexpr double maxRender = 700;
+        constexpr double startFade = 400;
+
         auto playLayer = GameManager::sharedState()->m_playLayer;
         for (auto [obj, model] : blocks)
         {
-            if (std::abs(playLayer->m_player1->m_position.x - obj->getPositionX()) < 2000.f)
+            auto distance = std::abs(playLayer->m_player1->m_position.x - obj->getPositionX());
+            if (distance < maxRender)
             {
                 updateBlock(obj, model);
+                // apply fade
+                if (distance > startFade)
+                {
+                    auto scale = model->getScale();
+                    double normalizedT = (distance - startFade) / (maxRender - startFade);
+                    double duration = 1.0; // Fixed duration for normalized t
+                    model->setScale(easeInOutQuad(normalizedT, duration, scale, glm::vec3(0.0, 0.0, 0.0)));
+                }
 
+                // animations
                 if (obj->m_objectID == 36)
                 {
                     // jump rings

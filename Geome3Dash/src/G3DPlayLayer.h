@@ -1,13 +1,13 @@
 #pragma once
 #include <vector>
 
-#include "3SusEngine/ShaderProgram.h"
-#include "3SusEngine/Shader.h"
-#include "3SusEngine/Mesh.h"
-#include "3SusEngine/Texture.h"
-#include "3SusEngine/Model.h"
-#include "3SusEngine/ShaderScene.h"
-#include "3SusEngine/BasicShaders.h"
+#include "Sus3D/ShaderProgram.h"
+#include "Sus3D/Shader.h"
+#include "Sus3D/Mesh.h"
+#include "Sus3D/Texture.h"
+#include "Sus3D/Model.h"
+#include "Sus3D/Scene.h"
+#include "Sus3D/Shaders.h"
 
 #include "Delegate/CustomKeyboard.h"
 #include "Delegate/CustomMouse.h"

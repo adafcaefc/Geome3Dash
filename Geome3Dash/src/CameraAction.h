@@ -29,4 +29,7 @@ namespace g3d
             double& deltaX, double& deltaY, double& deltaZ,
             double& deltaYaw, double& deltaPitch);
     };
+
+    double easeInOutQuad(double t, double b, double c, double d);
+    glm::vec3 easeInOutQuad(double t, double d, const glm::vec3& origin, const glm::vec3& target);
 }

@@ -5,11 +5,11 @@
 #include "G3DBaseNode.h"
 #include "G3DFragmentShaderLayer.h"
 
-#include "3SusEngine/ShaderProgram.h"
-#include "3SusEngine/Shader.h"
-#include "3SusEngine/basicShaders.h"
-#include "3SusEngine/Model.h"
-#include "3SusEngine/Mesh.h"
+#include "Sus3D/ShaderProgram.h"
+#include "Sus3D/Shader.h"
+#include "Sus3D/Shaders.h"
+#include "Sus3D/Model.h"
+#include "Sus3D/Mesh.h"
 
 #include "Lib/tinyfiledialogs/tinyfiledialogs.h"
 
@@ -158,7 +158,7 @@ namespace g3d
         auto path = openModelSelectModal();
         if (!path.has_value()) return;
 
-        if (auto model = sus3d::ShaderScene::loadWithoutAddModel(path.value(), shaderProgram)) {
+        if (auto model = sus3d::loadModel(path.value(), shaderProgram)) {
             layer3d->models.push_back(model);
         } 
     }
