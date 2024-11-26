@@ -1,5 +1,4 @@
-// Star Nest by Pablo Roman Andrioli
-// License: MIT
+#version 330 core
 
 #define iterations 17
 #define formuparam 0.53
@@ -16,28 +15,31 @@
 #define distfading 0.730
 #define saturation 0.850
 
+uniform vec2 iResolution;
+uniform float iTime;
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
+out vec4 FragColor;
+
+void main()
 {
-	//get coords and direction
-	vec2 uv=fragCoord.xy/iResolution.xy-.5;
+	vec2 uv=gl_FragCoord.xy/iResolution.xy-.5;
 	uv.y*=iResolution.y/iResolution.x;
 	vec3 dir=vec3(uv*zoom,1.);
 	float time=iTime*speed+.25;
 
-	//mouse rotation
-	float a1=.5+iMouse.x/iResolution.x*2.;
-	float a2=.8+iMouse.y/iResolution.y*2.;
+	//float a1=.5+iMouse.x/iResolution.x*2.;
+	//float a2=.8+iMouse.y/iResolution.y*2.;
+	float a1 = 0.5 + 1.0 / iResolution.x * 2.;
+	float a2 = 0.8 + 1.0 / iResolution.y * 2.;
 	mat2 rot1=mat2(cos(a1),sin(a1),-sin(a1),cos(a1));
 	mat2 rot2=mat2(cos(a2),sin(a2),-sin(a2),cos(a2));
 	dir.xz*=rot1;
 	dir.xy*=rot2;
-	vec3 from=vec3(1.,.5,0.5);
+	vec3 from=vec3(0.5,.5,1.0);
 	from+=vec3(time*2.,time,-2.);
 	from.xz*=rot1;
 	from.xy*=rot2;
 	
-	//volumetric rendering
 	float s=0.1,fade=1.;
 	vec3 v=vec3(0.);
 	for (int r=0; r<volsteps; r++) {
@@ -54,11 +56,10 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 		if (r>6) fade*=1.-dm; // dark matter, don't render near
 		//v+=vec3(dm,dm*.5,0.);
 		v+=fade;
-		v+=vec3(s,s*s,s*s*s*s)*a*brightness*fade; // coloring based on distance
+		v+=vec3(s*s*s,s*s,s)*a*brightness*fade; // coloring based on distance
 		fade*=distfading; // distance fading
 		s+=stepsize;
 	}
 	v=mix(vec3(length(v)),v,saturation); //color adjust
-	fragColor = vec4(v*.01,1.);	
-	
+	FragColor = vec4(v*.01,1.);	
 }
