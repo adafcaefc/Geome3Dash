@@ -38,5 +38,7 @@ namespace g3d
         virtual void draw();
         ~G3DBaseNode();
         static G3DBaseNode* create();
+
+        sus3d::Model* loadAndAddModel(const std::filesystem::path& filePath, sus3d::ShaderProgram* shaderProgram);
     };
 }

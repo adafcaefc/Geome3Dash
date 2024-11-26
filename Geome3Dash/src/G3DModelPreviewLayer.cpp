@@ -5,6 +5,8 @@
 #include "G3DBaseNode.h"
 #include "G3DFragmentShaderLayer.h"
 
+#include "CocosShaderProgram.h"
+
 #include "Sus3D/Shader.h"
 #include "Sus3D/Shaders.h"
 #include "Sus3D/Model.h"
@@ -153,7 +155,6 @@ namespace g3d
         layer3d->light.setPosition(layer3d->camera.getPosition());
 
         auto selected = layer3d->getObjectIDByMousePosition();
-        std::cout << selected.first << " " << selected.second << std::endl;
 
         for (int modelIndex = 0; modelIndex < layer3d->models.size(); modelIndex++) {
             for (size_t meshIndex = 0; meshIndex < layer3d->models[modelIndex]->meshes.size(); meshIndex++) {

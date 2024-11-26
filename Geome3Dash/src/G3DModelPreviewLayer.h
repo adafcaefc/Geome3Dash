@@ -3,16 +3,10 @@
 #include "Delegate/CustomMouse.h"
 #include "Delegate/CustomTouch.h"
 
-#include "CocosShaderProgram.h"
-
-namespace sus3d
-{
-    class ShaderProgram;
-}
-
 namespace g3d
 {
     class G3DBaseNode;
+    class CocosShaderProgram;
 
     class G3DModelPreviewLayer 
         : public CCLayer

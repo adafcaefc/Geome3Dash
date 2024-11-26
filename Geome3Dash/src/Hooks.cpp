@@ -5,6 +5,7 @@
 
 #include "G3DPlayLayer.h"
 #include "G3DModelPreviewLayer.h"
+#include "G3DPlanetLayer.h"
 
 namespace g3d
 {
@@ -32,7 +33,7 @@ namespace g3d
         void onAdventureMap(CCObject*) 
         {
             auto scene = CCScene::create();
-            auto testLayer = G3DModelPreviewLayer::create();
+            auto testLayer = G3DPlanetLayer::create();
 
             scene->addChild(testLayer);
             CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3, scene));
