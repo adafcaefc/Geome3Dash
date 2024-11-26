@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../pch.h"
+#include "pch.h"
 
 #include "G3DPlayLayer.h"
 

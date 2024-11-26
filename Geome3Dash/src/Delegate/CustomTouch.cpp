@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "../pch.h"
 #include "CustomTouch.h"
 
 namespace g3d

@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "../pch.h"
 #include "CustomKeyboard.h"
 
 namespace g3d

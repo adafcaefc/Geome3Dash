@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "../pch.h"
 #include "CustomMouse.h"
 
 namespace g3d

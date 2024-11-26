@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "../pch.h"
 
 #include "G3DModelPreviewLayer.h"
 #include "G3DBaseNode.h"
