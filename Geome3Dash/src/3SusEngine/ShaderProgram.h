@@ -23,8 +23,12 @@ namespace g3d
         void setMat4(const char* key, glm::mat4 mat) {
             glUniformMatrix4fv(glGetUniformLocation(this->get(), key), 1, GL_FALSE, glm::value_ptr(mat));
         }
+        void setVec2(const char* key, glm::vec2 vec) {
+            glUniform2f(glGetUniformLocation(this->get(), key), vec.x, vec.y);
+        }
         void setVec3(const char* key, glm::vec3 vec) {
             glUniform3f(glGetUniformLocation(this->get(), key), vec.x, vec.y, vec.z);
         }
+
     };
 }

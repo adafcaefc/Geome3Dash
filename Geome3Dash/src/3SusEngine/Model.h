@@ -10,11 +10,11 @@ namespace g3d
         glm::vec3 position;
         glm::vec3 scale = glm::vec3(1.0);
         ShaderProgram* shaderProgram;
-        std::vector<Mesh*> meshes;
         bool visible = 1;
         virtual bool init(const aiScene* scene);
-        glm::mat4 prepareModelMatrix();
     public:
+        glm::mat4 prepareModelMatrix();
+        std::vector<Mesh*> meshes;
         static Model* create(const aiScene* scene, ShaderProgram* shaderProgram);
         void render(glm::mat4 view, glm::vec3 lightPos, glm::vec3 lightColor, glm::vec3 cameraPos, glm::mat4 projection);
         void setRotation(glm::vec3 rotation) { this->rotation = rotation; }

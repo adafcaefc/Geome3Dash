@@ -23,6 +23,9 @@
     <ClCompile Include="src\Delegate\CustomMouse.cpp" />
     <ClCompile Include="src\Delegate\CustomTouch.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\G3DBase3DNode.cpp" />
+    <ClCompile Include="src\G3DFragmentShaderLayer.cpp" />
+    <ClCompile Include="src\G3DModelPreviewLayer.cpp" />
     <ClCompile Include="src\G3DPlayLayer3D.cpp" />
     <ClCompile Include="src\Helper\BezierHelper.cpp" />
     <ClCompile Include="src\Helper\CommonHelper.cpp" />
@@ -46,6 +49,9 @@
     <ClInclude Include="src\Delegate\CustomKeyboard.h" />
     <ClInclude Include="src\Delegate\CustomMouse.h" />
     <ClInclude Include="src\Delegate\CustomTouch.h" />
+    <ClInclude Include="src\G3DBase3DNode.h" />
+    <ClInclude Include="src\G3DFragmentShaderLayer.h" />
+    <ClInclude Include="src\G3DModelPreviewLayer.h" />
     <ClInclude Include="src\G3DPlayLayer3D.h" />
     <ClInclude Include="src\Helper\BezierHelper.h" />
     <ClInclude Include="src\Helper\CommonHelper.h" />

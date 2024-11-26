@@ -5,7 +5,7 @@
 
 namespace g3d
 {
-    G3DPlayLayer3D* G3DPlayLayer3D::instance = nullptr;
+    G3DPlayLayer* G3DPlayLayer::instance = nullptr;
 
     // temporary
     static std::string svgData = R"(
@@ -53,12 +53,12 @@ namespace g3d
     //    500, 300   // x1, y1: End point
     //};
 
-    std::filesystem::path G3DPlayerObject3D::getPlayerModelPath(const std::string& type, const int id)
+    std::filesystem::path G3DPlayerObject::getPlayerModelPath(const std::string& type, const int id)
     {
         return geode::Mod::get()->getResourcesDir() / "model3d" / "player" / type / std::to_string(id) / "model.obj";
     }
 
-    std::filesystem::path G3DPlayerObject3D::getFixedPlayerModelPath(const std::string& type, const int id)
+    std::filesystem::path G3DPlayerObject::getFixedPlayerModelPath(const std::string& type, const int id)
     {
         const auto path = getPlayerModelPath(type, id);
         return std::filesystem::exists(path)
@@ -66,13 +66,13 @@ namespace g3d
             : getPlayerModelPath(type, 0);
     }
 
-    void G3DPlayerObject3D::loadPlayerModel(Model** model, const std::string& type, const int id)
+    void G3DPlayerObject::loadPlayerModel(Model** model, const std::string& type, const int id)
     {
         *model = ShaderScene::loadWithoutAddModel(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
         (*model)->setScale(glm::vec3(0.75));
     }
 
-    void G3DPlayerObject3D::loadPlayerModels()
+    void G3DPlayerObject::loadPlayerModels()
     {
         loadPlayerModel(&cube, "cube", GameManager::get()->getPlayerFrame());
         loadPlayerModel(&ship, "ship", GameManager::get()->getPlayerShip());
@@ -85,14 +85,14 @@ namespace g3d
         player = cube;
     }
 
-    void G3DPlayerObject3D::init(G3DPlayLayer3D* playLayer3DP, PlayerObject* playerObjectP)
+    void G3DPlayerObject::init(G3DPlayLayer* playLayer3DP, PlayerObject* playerObjectP)
     {
         playLayer3D = playLayer3DP;
         playerObject = playerObjectP;
         loadPlayerModels();
     }
 
-    void G3DPlayerObject3D::updateModel()
+    void G3DPlayerObject::updateModel()
     {
         player = cube;
         if (playerObject->m_isShip) {
@@ -132,7 +132,7 @@ namespace g3d
         player->setScaleY(std::abs(player->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
     }
 
-    void G3DPlayerObject3D::drawModel()
+    void G3DPlayerObject::drawModel()
     {
         player->render(
             playLayer3D->camera.getViewMat(),
@@ -142,7 +142,7 @@ namespace g3d
             playLayer3D->camera.getProjectionMat());
     }
 
-    void G3DPlayLayer3D::loadShader()
+    void G3DPlayLayer::loadShader()
     {
         auto vertexShader = Shader::createWithString(shaders::vertexShaderSource, ShaderType::kVertexShader);
         auto fragmentShader = Shader::createWithString(shaders::fragmentShaderSource, ShaderType::kFragmentShader);
@@ -154,7 +154,7 @@ namespace g3d
     }
 
     // mtl model path fix (model path must be absolute)
-    void G3DPlayLayer3D::parseMtlPath(const std::filesystem::path& mtl_path)
+    void G3DPlayLayer::parseMtlPath(const std::filesystem::path& mtl_path)
     {
         if (std::filesystem::exists(mtl_path))
         {
@@ -168,7 +168,7 @@ namespace g3d
         }
     }
 
-    void G3DPlayLayer3D::loadObjectModels()
+    void G3DPlayLayer::loadObjectModels()
     {
         CCObject* obj;
         CCARRAY_FOREACH(GameManager::sharedState()->m_playLayer->m_objects, obj)
@@ -197,14 +197,14 @@ namespace g3d
         }
     }
 
-    void G3DPlayLayer3D::loadPlayers()
+    void G3DPlayLayer::loadPlayers()
     {
         auto playLayer = GameManager::sharedState()->m_playLayer;
         player1.init(this, playLayer->m_player1);
         //player2.init(this, playLayer->m_player2);
     }
 
-    bool G3DPlayLayer3D::init()
+    bool G3DPlayLayer::init()
     {
         CCNode::init();
 
@@ -227,13 +227,13 @@ namespace g3d
         return true;
     }
 
-    G3DPlayLayer3D::~G3DPlayLayer3D()
+    G3DPlayLayer::~G3DPlayLayer()
     {
         for (auto [_, block] : blockModels) { delete block; }
         instance = nullptr;
     }
 
-    void G3DPlayLayer3D::updateCamera()
+    void G3DPlayLayer::updateCamera()
     {
         auto playerPos = player1.player->getPosition();
         auto newR = player1.player->getRotation();
@@ -254,12 +254,12 @@ namespace g3d
         camera.setPitch(pitch);
     }
 
-    void G3DPlayLayer3D::updateLight()
+    void G3DPlayLayer::updateLight()
     {
         light.setPosition(camera.getPosition());
     }
 
-    void G3DPlayLayer3D::updateBlock(GameObject* obj, Model* model)
+    void G3DPlayLayer::updateBlock(GameObject* obj, Model* model)
     {
         auto newX = obj->m_positionX * 0.05;
         auto newY = obj->m_positionY * 0.05;
@@ -274,7 +274,7 @@ namespace g3d
         model->setRotationZ(360 - obj->getRotation()); // block rotation
     }
 
-    void G3DPlayLayer3D::drawBlocks()
+    void G3DPlayLayer::drawBlocks()
     {
         auto playLayer = GameManager::sharedState()->m_playLayer;
         for (auto [obj, model] : blocks)
@@ -303,7 +303,7 @@ namespace g3d
         }
     }
 
-    void G3DPlayLayer3D::updateCameraAction(const float currentXPosition)
+    void G3DPlayLayer::updateCameraAction(const float currentXPosition)
     {
         // Calculate delta time
         auto now = std::chrono::steady_clock::now();
@@ -324,19 +324,19 @@ namespace g3d
         playerCameraPitchOffset += deltaPitch;
     }
 
-    void G3DPlayLayer3D::updatePlayers()
+    void G3DPlayLayer::updatePlayers()
     {
         player1.updateModel();
         //player2.updateModel();
     }
 
-    void G3DPlayLayer3D::drawPlayers()
+    void G3DPlayLayer::drawPlayers()
     {
         player1.drawModel();
         //player2.updateModel();
     }
 
-    void G3DPlayLayer3D::draw()
+    void G3DPlayLayer::draw()
     {
         CCNode::draw();
 
@@ -363,7 +363,7 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-    void G3DPlayLayer3D::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+    void G3DPlayLayer::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
         if (button == GLFW_MOUSE_BUTTON_RIGHT) {
             if (action == GLFW_PRESS) {
                 isRightClicking = true;
@@ -375,7 +375,7 @@ namespace g3d
         }
     }
 
-    void G3DPlayLayer3D::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
+    void G3DPlayLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
         if (isRightClicking) {
             if (!isRightClickingGetPos) {
                 lastMouseX = static_cast<float>(x);
@@ -401,13 +401,13 @@ namespace g3d
         }
     }
 
-    void G3DPlayLayer3D::scrollWheel(float y, float x) {
+    void G3DPlayLayer::scrollWheel(float y, float x) {
         // Adjust the camera zoom level using the scroll wheel
         float zoomSensitivity = -0.128f;
         playerCameraOffset += camera.getFront() * y * zoomSensitivity;
     }
 
-    void G3DPlayLayer3D::onKey(enumKeyCodes key, bool pressed, bool holding) {
+    void G3DPlayLayer::onKey(enumKeyCodes key, bool pressed, bool holding) {
         switch (key) {
         case KEY_Control:
             isPressingControl = pressed;

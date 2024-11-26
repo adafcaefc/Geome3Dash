@@ -14,6 +14,13 @@ namespace g3d
         glm::vec3 Kd;
         glm::vec3 Ks;
 
+        glm::vec3 CustomKa;
+        glm::vec3 CustomKd;
+        glm::vec3 CustomKs;
+        bool isCustomKa = false;
+        bool isCustomKd = false;
+        bool isCustomKs = false;
+
         unsigned int texture;
 
         Mesh() {}
@@ -22,6 +29,14 @@ namespace g3d
         void initBuffers(aiMaterial* material);
 
     public:
+        void setCustomKa(glm::vec3 color) { CustomKa = color; isCustomKa = true; }
+        void setCustomKd(glm::vec3 color) { CustomKd = color; isCustomKd = true; }
+        void setCustomKs(glm::vec3 color) { CustomKs = color; isCustomKs = true; }
+
+        void disableKa() { isCustomKa = false; }
+        void disableKd() { isCustomKd = false; }
+        void disableKs() { isCustomKs = false; }
+
         static Mesh* create(aiMesh* mesh, aiMaterial* material);
         void render(ShaderProgram* shaderProgram) const;
         ~Mesh();

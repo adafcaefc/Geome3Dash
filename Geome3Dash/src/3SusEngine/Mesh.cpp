@@ -40,6 +40,8 @@ namespace g3d
     }
 
     void Mesh::initBuffers(aiMaterial* material) {
+
+
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
@@ -81,7 +83,7 @@ namespace g3d
                 else if (loadedTexture->nrChannels == 4)
                     format = GL_RGBA;
                 else {
-                    geode::log::warn("Unsupported texture format, selecting RGB..");
+                    std::cout << "Unsupported texture format" << std::endl;
                     format = GL_RGB; // Fallback format
                 }
 
@@ -93,12 +95,12 @@ namespace g3d
                 useTexture = true;
             }
             else {
-                geode::log::error("Failed to load texture '{}'", texturePath.C_Str());
+                std::cout << "Failed to load texture: " << texturePath.C_Str() << std::endl;
                 useTexture = false;
             }
         }
         else {
-            geode::log::error("No diffuse texture found for this material '{}'", texturePath.C_Str());
+            std::cout << "No diffuse texture found for this material." << std::endl;
             useTexture = false;
         }
 
@@ -132,9 +134,9 @@ namespace g3d
         if (useTexture)
             glBindTexture(GL_TEXTURE_2D, texture);
         shaderProgram->setInt("isTexture", int(useTexture));
-        shaderProgram->setVec3("Ka", Ka);
-        shaderProgram->setVec3("Kd", Kd);
-        shaderProgram->setVec3("Ks", Ks);
+        shaderProgram->setVec3("Ka", isCustomKa ? CustomKa : Ka);
+        shaderProgram->setVec3("Kd", isCustomKd ? CustomKd : Kd);
+        shaderProgram->setVec3("Ks", isCustomKs ? CustomKs : Ks);
         shaderProgram->setFloat("shininess", 32);
         glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
         glBindVertexArray(0);

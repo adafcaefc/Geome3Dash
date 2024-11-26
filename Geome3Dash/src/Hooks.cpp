@@ -4,6 +4,7 @@
 #include "Hooks.h"
 
 #include "G3DPlayLayer3D.h"
+#include "G3DModelPreviewLayer.h"
 
 namespace g3d
 {
@@ -11,18 +12,30 @@ namespace g3d
     {
         struct Fields
         {
-            G3DPlayLayer3D* playLayer3D = nullptr;
+            G3DPlayLayer* playLayer3D = nullptr;
         };
 
         void resetLevel()
         {
             if (!m_fields->playLayer3D)
             {
-                m_fields->playLayer3D = G3DPlayLayer3D::create();
+                m_fields->playLayer3D = G3DPlayLayer::create();
                 m_fields->playLayer3D->setZOrder(10);
                 this->addChild(m_fields->playLayer3D);
             }
             PlayLayer::resetLevel();
+        }
+    };
+
+    class $modify(CreatorLayer) 
+    {
+        void onAdventureMap(CCObject*) 
+        {
+            auto scene = CCScene::create();
+            auto testLayer = G3DModelPreviewLayer::create();
+
+            scene->addChild(testLayer);
+            CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3, scene));
         }
     };
 
