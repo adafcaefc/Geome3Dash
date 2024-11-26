@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Hooks.h"
+#include "src/Hooks.h"
 
 static DWORD WINAPI MainThread(LPVOID lpParam)
 {
