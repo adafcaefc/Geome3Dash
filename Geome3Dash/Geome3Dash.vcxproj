@@ -10,34 +10,42 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\BezierHelper.cpp" />
-    <ClCompile Include="src\CustomKeyboard.cpp" />
-    <ClCompile Include="src\CustomMouse.cpp" />
-    <ClCompile Include="src\CustomTouch.cpp" />
+    <ClCompile Include="src\3SusEngine\Mesh.cpp" />
+    <ClCompile Include="src\3SusEngine\Model.cpp" />
+    <ClCompile Include="src\3SusEngine\Shader.cpp" />
+    <ClCompile Include="src\3SusEngine\ShaderProgram.cpp" />
+    <ClCompile Include="src\3SusEngine\ShaderScene.cpp" />
+    <ClCompile Include="src\3SusEngine\Texture.cpp" />
+    <ClCompile Include="src\BezierManager.cpp" />
+    <ClCompile Include="src\CameraAction.cpp" />
+    <ClCompile Include="src\Delegate\CustomKeyboard.cpp" />
+    <ClCompile Include="src\Delegate\CustomMouse.cpp" />
+    <ClCompile Include="src\Delegate\CustomTouch.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\Helper\BezierHelper.cpp" />
+    <ClCompile Include="src\Helper\CommonHelper.cpp" />
+    <ClCompile Include="src\Helper\OpenGLStateHelper.cpp" />
     <ClCompile Include="src\Hooks.cpp" />
-    <ClCompile Include="src\Mesh.cpp" />
-    <ClCompile Include="src\Model.cpp" />
-    <ClCompile Include="src\OpenGLStateHelper.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\ShaderProgram.cpp" />
-    <ClCompile Include="src\ShaderScene.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\PlayLayer3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="src\BezierHelper.h" />
-    <ClInclude Include="src\CustomKeyboard.h" />
-    <ClInclude Include="src\CustomMouse.h" />
-    <ClInclude Include="src\CustomTouch.h" />
+    <ClInclude Include="src\3SusEngine\Mesh.h" />
+    <ClInclude Include="src\3SusEngine\Model.h" />
+    <ClInclude Include="src\3SusEngine\Shader.h" />
+    <ClInclude Include="src\3SusEngine\ShaderProgram.h" />
+    <ClInclude Include="src\3SusEngine\ShaderScene.h" />
+    <ClInclude Include="src\3SusEngine\Texture.h" />
+    <ClInclude Include="src\BezierManager.h" />
+    <ClInclude Include="src\CameraAction.h" />
+    <ClInclude Include="src\Delegate\CustomKeyboard.h" />
+    <ClInclude Include="src\Delegate\CustomMouse.h" />
+    <ClInclude Include="src\Delegate\CustomTouch.h" />
+    <ClInclude Include="src\Helper\BezierHelper.h" />
+    <ClInclude Include="src\Helper\CommonHelper.h" />
+    <ClInclude Include="src\Helper\OpenGLStateHelper.h" />
     <ClInclude Include="src\Hooks.h" />
-    <ClInclude Include="src\Mesh.h" />
-    <ClInclude Include="src\Model.h" />
-    <ClInclude Include="src\OpenGLStateHelper.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\ShaderProgram.h" />
-    <ClInclude Include="src\ShaderScene.h" />
-    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\PlayLayer3D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
