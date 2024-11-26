@@ -27,34 +27,3 @@
 
 using namespace cocos2d;
 
-struct VertexIndex {
-    unsigned int positionIndex;
-    unsigned int texCoordIndex;
-    unsigned int normalIndex;
-};
-
-struct Face {
-    std::vector<VertexIndex> vertecies;
-};
-
-struct TriangleFace {
-    std::array<VertexIndex, 3> vertecies;
-public:
-    TriangleFace(VertexIndex v1, VertexIndex v2, VertexIndex v3) {
-        vertecies[0] = v1;
-        vertecies[1] = v2;
-        vertecies[2] = v3;
-    }
-};
-
-struct Material {
-    std::string name;
-    int illum;
-    glm::vec3 Kd;
-    glm::vec3 Ke;
-    float Pr;
-    float Pm;
-    float d;
-    float Tr;
-    std::string map_Kd;
-};
