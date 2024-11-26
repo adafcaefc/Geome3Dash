@@ -4,26 +4,24 @@
 
 namespace g3d
 {
-    class Model;
-    class ShaderProgram;
+    class sus3d::Model;
+    class sus3d::ShaderProgram;
 
     class G3DBaseNode : public CCNode {
         virtual bool init();
         GLuint framebuffer, texture, renderbuffer;
-        ShaderProgram* getObjectIDByMousePositionShader;
+        sus3d::ShaderProgram* getObjectIDByMousePositionShader;
         glm::vec3 generateUniqueColor(int objectID, int meshID);
         std::pair<int, int> getObjectAndMeshIDFromColor(const GLubyte* pixelColor);
     public:
         std::pair<int, int> getObjectIDByMousePosition(int mouseX, int mouseY);
-        std::vector<Model*> models;
+        std::vector<sus3d::Model*> models;
 
-        Camera camera;
-        Light light;
+        sus3d::Camera camera;
+        sus3d::Light light;
 
         virtual void draw();
         ~G3DBaseNode();
-        Model* loadAndAddModel(std::string path, ShaderProgram* shaderProgram);
-        Model* loadWithoutAddModel(std::string path, ShaderProgram* shaderProgram);
         static G3DBaseNode* create();
     };
 }

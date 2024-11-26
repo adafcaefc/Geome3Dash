@@ -1,10 +1,15 @@
-#include "pch.h"
-#include "../pch.h"
 #include "Model.h"
+
 #include "Mesh.h"
 #include "ShaderProgram.h"
 
-namespace g3d
+#include <glm/glm/glm.hpp>
+#include <glm/glm/gtc/matrix_transform.hpp>
+#include <glm/glm/gtc/type_ptr.hpp>
+
+#include <CCGL.h>
+
+namespace sus3d
 {
     bool Model::init(const aiScene* scene) {
 

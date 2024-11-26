@@ -14,9 +14,9 @@ namespace g3d
     bool G3DFragmentShaderLayer::init(const std::filesystem::path& fragmentShaderFile) {
         if (!CCLayer::init()) return false;
 
-        auto vertexShader = Shader::createWithString(shaders::basicVertexShader, ShaderType::kVertexShader);
-        auto fragmentShader = Shader::createWithFile(fragmentShaderFile.string(), ShaderType::kFragmentShader);
-        shaderProgram = ShaderProgram::create(vertexShader, fragmentShader);
+        auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::basicVertexShader, sus3d::ShaderType::kVertexShader);
+        auto fragmentShader = sus3d::Shader::createWithFile(fragmentShaderFile.string(), sus3d::ShaderType::kFragmentShader);
+        shaderProgram = sus3d::ShaderProgram::create(vertexShader, fragmentShader);
 
         delete vertexShader;
         delete fragmentShader;

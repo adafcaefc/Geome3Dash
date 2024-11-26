@@ -1,8 +1,6 @@
-#include "pch.h"
-#include "../pch.h"
-#include "basicShaders.h"
+#include "BasicShaders.h"
 
-namespace g3d
+namespace sus3d
 {
     namespace shaders
     {

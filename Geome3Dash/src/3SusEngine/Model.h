@@ -1,6 +1,14 @@
 #pragma once
 
-namespace g3d
+#include <glm/glm/glm.hpp>
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+#include <vector>
+
+namespace sus3d
 {
     class Mesh;
     class ShaderProgram;

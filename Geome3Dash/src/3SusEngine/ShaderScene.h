@@ -1,6 +1,10 @@
 #pragma once
 
-namespace g3d
+#include <glm/glm/glm.hpp>
+
+#include <filesystem>
+
+namespace sus3d
 {
     class Model;
     class ShaderProgram;
@@ -43,13 +47,12 @@ namespace g3d
         float getFov() { return this->fov; }
         glm::vec3 getFront() { return front; }
         glm::vec3 getUp() { return up; }
-        glm::mat4 getViewMat() { return glm::lookAt(position, position + front, up); }
-        glm::mat4 getProjectionMat() { return glm::perspective(glm::radians(fov), (float)1920 / float(1080), 0.1f, 6000.0f); }
+        glm::mat4 getViewMat();
+        glm::mat4 getProjectionMat();
     };
 
     class ShaderScene {
     public:
-        static Model* loadAndAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
         static Model* loadWithoutAddModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
     };
 }

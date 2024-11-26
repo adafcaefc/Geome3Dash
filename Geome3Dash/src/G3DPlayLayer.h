@@ -26,27 +26,27 @@ namespace g3d
     class G3DPlayerObject
     {
     private:
-        Model* cube;
-        Model* ship;
-        Model* ball;
-        Model* bird;
-        Model* dart;
-        Model* robot;
-        Model* spider;
-        Model* swing;
+        sus3d::Model* cube;
+        sus3d::Model* ship;
+        sus3d::Model* ball;
+        sus3d::Model* bird;
+        sus3d::Model* dart;
+        sus3d::Model* robot;
+        sus3d::Model* spider;
+        sus3d::Model* swing;
 
         G3DPlayLayer* playLayer3D;
 
         std::filesystem::path getPlayerModelPath(const std::string& type, const int id);
         std::filesystem::path getFixedPlayerModelPath(const std::string& type, const int id);
-        void loadPlayerModel(Model** model, const std::string& type, const int id);
+        void loadPlayerModel(sus3d::Model** model, const std::string& type, const int id);
         void loadPlayerModels();
 
     public:
         friend class G3DPlayLayer;
 
         PlayerObject* playerObject;
-        Model* player;
+        sus3d::Model* player;
 
         G3DPlayerObject() {}
 
@@ -62,25 +62,23 @@ namespace g3d
         , public CustomTouchDelegate
         , public CustomMouseDelegate
     {
-        Model* bg;
-
         G3DPlayerObject player1;
         //PlayerObject3D* player2; // not yet implemented!
 
-        std::unordered_map<GameObject*, Model*> blocks;
-        std::unordered_map<int, Model*> blockModels;
+        std::unordered_map<GameObject*, sus3d::Model*> blocks;
+        std::unordered_map<int, sus3d::Model*> blockModels;
         glm::vec3 playerCameraOffset;
         double playerCameraYawOffset;
         double playerCameraPitchOffset;
-        g3d::ShaderProgram* shaderProgram;
+        sus3d::ShaderProgram* shaderProgram;
 
-        Camera camera;
-        Light light;
+        sus3d::Camera camera;
+        sus3d::Light light;
 
         CameraActionHandler cameraActionHandler;
 
-        double bezierSegmentMultiplier = 5.0;
-        int bezierSegmentCount = 100000;
+        double bezierSegmentMultiplier = 0.6;
+        int bezierSegmentCount = 1000000;
 
         // updateCameraAction
         std::chrono::steady_clock::time_point lastUpdate;
@@ -108,7 +106,7 @@ namespace g3d
         void updatePlayers();
         void updateCamera();
         void updateLight();
-        void updateBlock(GameObject* obj, Model* model);
+        void updateBlock(GameObject* obj, sus3d::Model* model);
         void updateCameraAction(const float currentXPosition);
 
         void drawPlayers();

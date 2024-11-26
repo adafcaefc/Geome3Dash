@@ -16,11 +16,20 @@ namespace g3d
 
     // temporary
     // short worm thingy
+    //static CubicBezier bezier = {
+    //    98.0, 314.0,   // x0, y0: Starting point
+    //    575.0, 335.0,  // cx1, cy1: First control point
+    //    22.0, 192.0,   // cx2, cy2: Second control point
+    //    511.0, 220.0   // x1, y1: End point
+    //};
+
+    // temporary
+    // better short worm thingy
     static CubicBezier bezier = {
-        98.0, 314.0,   // x0, y0: Starting point
-        575.0, 335.0,  // cx1, cy1: First control point
-        22.0, 192.0,   // cx2, cy2: Second control point
-        511.0, 220.0   // x1, y1: End point
+        167, 355,   // x0, y0: Starting point
+        516, 124,  // cx1, cy1: First control point
+        121, 557,   // cx2, cy2: Second control point
+        412, 352   // x1, y1: End point
     };
 
     // wild stuff
@@ -66,9 +75,9 @@ namespace g3d
             : getPlayerModelPath(type, 0);
     }
 
-    void G3DPlayerObject::loadPlayerModel(Model** model, const std::string& type, const int id)
+    void G3DPlayerObject::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
     {
-        *model = ShaderScene::loadWithoutAddModel(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
+        *model = sus3d::ShaderScene::loadWithoutAddModel(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
         (*model)->setScale(glm::vec3(0.75));
     }
 
@@ -144,10 +153,10 @@ namespace g3d
 
     void G3DPlayLayer::loadShader()
     {
-        auto vertexShader = Shader::createWithString(shaders::vertexShaderSource, ShaderType::kVertexShader);
-        auto fragmentShader = Shader::createWithString(shaders::fragmentShaderSource, ShaderType::kFragmentShader);
+        auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
+        auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
 
-        shaderProgram = ShaderProgram::create(vertexShader, fragmentShader);
+        shaderProgram = sus3d::ShaderProgram::create(vertexShader, fragmentShader);
 
         delete vertexShader;
         delete fragmentShader;
@@ -182,7 +191,7 @@ namespace g3d
                 parseMtlPath(mtl_path);
                 if (blockModels.find(block->m_objectID) == blockModels.end())
                 {
-                    if (auto blockModel = ShaderScene::loadWithoutAddModel(model_path, shaderProgram))
+                    if (auto blockModel = sus3d::ShaderScene::loadWithoutAddModel(model_path, shaderProgram))
                     {
                         blockModels.emplace(block->m_objectID, blockModel);
                     }
@@ -259,7 +268,7 @@ namespace g3d
         light.setPosition(camera.getPosition());
     }
 
-    void G3DPlayLayer::updateBlock(GameObject* obj, Model* model)
+    void G3DPlayLayer::updateBlock(GameObject* obj, sus3d::Model* model)
     {
         auto newX = obj->m_positionX * 0.05;
         auto newY = obj->m_positionY * 0.05;

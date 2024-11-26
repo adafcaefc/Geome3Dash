@@ -1,8 +1,11 @@
-#include "pch.h"
-#include "../pch.h"
 #include "Shader.h"
 
-namespace g3d
+#include <CCGL.h>
+
+#include <fstream>
+#include <sstream>
+
+namespace sus3d
 {
     bool Shader::initVertexShader(const char* shaderString) {
         id = glCreateShader(GL_VERTEX_SHADER);
@@ -14,7 +17,6 @@ namespace g3d
         glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if (!success) {
             glGetShaderInfoLog(id, 512, NULL, infoLog);
-            geode::log::error("VERTEX ERROR: {}", infoLog);
             return 0;
         }
         return 1;
@@ -30,7 +32,6 @@ namespace g3d
         glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if (!success) {
             glGetShaderInfoLog(id, 512, NULL, infoLog);
-            geode::log::error("FRAGMENT ERROR: {}", infoLog);
             return 0;
         }
         return 1;
@@ -55,18 +56,14 @@ namespace g3d
             glDeleteShader(id);
     }
 
-    std::string Shader::readFile(std::string filename) {
-        const auto shaderPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(filename.c_str(), false);
-        std::string shaderSource;
-        if (std::filesystem::exists(shaderPath)) {
-            std::ifstream file;
-            file.open(shaderPath, std::ios::in);
-            std::ostringstream sstr;
-            sstr << file.rdbuf();
-            shaderSource = sstr.str();
-            file.close();
-        }
-        return shaderSource;
+    std::string Shader::readFile(const std::filesystem::path& filename) {
+        if (!std::filesystem::exists(filename)) { return std::string(); }
+        std::ifstream input(filename);
+        if (!input.is_open()) { return std::string(); }
+        std::stringstream buffer;
+        buffer << input.rdbuf();
+        input.close();
+        return buffer.str();
     }
 
     Shader* Shader::createWithString(std::string shaderString, ShaderType type) {
@@ -78,7 +75,7 @@ namespace g3d
         return ret;
     }
 
-    Shader* Shader::createWithFile(std::string filename, ShaderType type) {
+    Shader* Shader::createWithFile(const std::filesystem::path& filename, ShaderType type) {
         auto shaderString = readFile(filename);
         return createWithString(shaderString, type);
     }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace g3d
+namespace sus3d
 {
 	namespace shaders
 	{

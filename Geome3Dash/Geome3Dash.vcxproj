@@ -11,13 +11,27 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\3SusEngine\BasicShaders.cpp" />
-    <ClCompile Include="src\3SusEngine\Mesh.cpp" />
-    <ClCompile Include="src\3SusEngine\Model.cpp" />
-    <ClCompile Include="src\3SusEngine\Shader.cpp" />
-    <ClCompile Include="src\3SusEngine\ShaderProgram.cpp" />
-    <ClCompile Include="src\3SusEngine\ShaderScene.cpp" />
-    <ClCompile Include="src\3SusEngine\Texture.cpp" />
+    <ClCompile Include="src\3SusEngine\BasicShaders.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\3SusEngine\Mesh.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\3SusEngine\Model.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\3SusEngine\Shader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\3SusEngine\ShaderProgram.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\3SusEngine\ShaderScene.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\3SusEngine\Texture.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\BezierManager.cpp" />
     <ClCompile Include="src\CameraAction.cpp" />
     <ClCompile Include="src\Delegate\CustomKeyboard.cpp" />
@@ -31,7 +45,7 @@
     <ClCompile Include="src\Helper\CommonHelper.cpp" />
     <ClCompile Include="src\Helper\OpenGLStateHelper.cpp" />
     <ClCompile Include="src\Hooks.cpp" />
-    <ClCompile Include="src\Library\tinyfiledialogs\tinyfiledialogs.c">
+    <ClCompile Include="src\Lib\tinyfiledialogs\tinyfiledialogs.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
@@ -57,7 +71,7 @@
     <ClInclude Include="src\Helper\CommonHelper.h" />
     <ClInclude Include="src\Helper\OpenGLStateHelper.h" />
     <ClInclude Include="src\Hooks.h" />
-    <ClInclude Include="src\Library\tinyfiledialogs\tinyfiledialogs.h" />
+    <ClInclude Include="src\Lib\tinyfiledialogs\tinyfiledialogs.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

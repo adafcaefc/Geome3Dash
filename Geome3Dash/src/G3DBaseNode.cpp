@@ -95,39 +95,12 @@ namespace g3d
         }
     }
 
-    Model* G3DBaseNode::loadAndAddModel(std::string path, ShaderProgram* shaderProgram) {
-        Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(path,
-            aiProcess_Triangulate |
-            aiProcess_FlipUVs |
-            aiProcess_JoinIdenticalVertices |
-            aiProcess_SortByPType);
-
-        auto model = Model::create(scene, shaderProgram);
-        importer.FreeScene();
-        models.push_back(model);
-        return model;
-    }
-
-    Model* G3DBaseNode::loadWithoutAddModel(std::string path, ShaderProgram* shaderProgram) {
-        Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(path,
-            aiProcess_Triangulate |
-            aiProcess_FlipUVs |
-            aiProcess_JoinIdenticalVertices |
-            aiProcess_SortByPType);
-
-        auto model = Model::create(scene, shaderProgram);
-        importer.FreeScene();
-        return model;
-    }
-
     bool G3DBaseNode::init() {
         if (!CCNode::init()) return false;
 
-        getObjectIDByMousePositionShader = ShaderProgram::create(
-            Shader::createWithString(shaders::idBufferingVertexShader, ShaderType::kVertexShader), 
-            Shader::createWithString(shaders::idBufferingFragmentShader, ShaderType::kFragmentShader));
+        getObjectIDByMousePositionShader = sus3d::ShaderProgram::create(
+            sus3d::Shader::createWithString(sus3d::shaders::idBufferingVertexShader, sus3d::ShaderType::kVertexShader),
+            sus3d::Shader::createWithString(sus3d::shaders::idBufferingFragmentShader, sus3d::ShaderType::kFragmentShader));
 
         OpenGLStateHelper::saveState();
         auto size = CCDirector::sharedDirector()->m_obResolutionInPixels;

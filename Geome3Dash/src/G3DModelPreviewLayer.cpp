@@ -11,7 +11,7 @@
 #include "3SusEngine/Model.h"
 #include "3SusEngine/Mesh.h"
 
-#include "Library/tinyfiledialogs/tinyfiledialogs.h"
+#include "Lib/tinyfiledialogs/tinyfiledialogs.h"
 
 namespace g3d
 {
@@ -93,9 +93,9 @@ namespace g3d
 
         setKeyboardEnabled(true);
 
-        auto vertexShader = Shader::createWithString(shaders::vertexShaderSource, ShaderType::kVertexShader);
-        auto fragmentShader = Shader::createWithString(shaders::fragmentShaderSource, ShaderType::kFragmentShader);
-        shaderProgram = ShaderProgram::create(vertexShader, fragmentShader);
+        auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
+        auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
+        shaderProgram = sus3d::ShaderProgram::create(vertexShader, fragmentShader);
         delete vertexShader;
         delete fragmentShader;
 
@@ -106,6 +106,7 @@ namespace g3d
 
         auto size = CCDirector::sharedDirector()->getWinSize();
 
+        // shader fragment still crashes
         //auto testLayer = G3DFragmentShaderLayer::create(geode::Mod::get()->getResourcesDir() / "model3d" / "shader" / "star-nest.fsh");
         //this->addChild(testLayer);
 
@@ -157,7 +158,9 @@ namespace g3d
         auto path = openModelSelectModal();
         if (!path.has_value()) return;
 
-        layer3d->loadAndAddModel(path.value(), shaderProgram);
+        if (auto model = sus3d::ShaderScene::loadWithoutAddModel(path.value(), shaderProgram)) {
+            layer3d->models.push_back(model);
+        } 
     }
 
     G3DModelPreviewLayer* G3DModelPreviewLayer::create() {

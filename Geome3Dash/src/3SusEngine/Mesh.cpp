@@ -1,10 +1,11 @@
-#include "pch.h"
-#include "../pch.h"
 #include "Mesh.h"
+
 #include "Texture.h"
 #include "ShaderProgram.h"
 
-namespace g3d
+#include <CCGL.h>
+
+namespace sus3d
 {
     bool Mesh::init(aiMesh* mesh, aiMaterial* material) {
         for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -83,7 +84,6 @@ namespace g3d
                 else if (loadedTexture->nrChannels == 4)
                     format = GL_RGBA;
                 else {
-                    std::cout << "Unsupported texture format" << std::endl;
                     format = GL_RGB; // Fallback format
                 }
 
@@ -95,12 +95,10 @@ namespace g3d
                 useTexture = true;
             }
             else {
-                std::cout << "Failed to load texture: " << texturePath.C_Str() << std::endl;
                 useTexture = false;
             }
         }
         else {
-            std::cout << "No diffuse texture found for this material." << std::endl;
             useTexture = false;
         }
 

@@ -1,9 +1,12 @@
-#include "pch.h"
-#include "../pch.h"
 #include "ShaderProgram.h"
+
 #include "Shader.h"
 
-namespace g3d
+#include <glm/glm/gtc/type_ptr.hpp>
+
+#include <CCGL.h>
+
+namespace sus3d
 {
     bool ShaderProgram::initProgram(Shader* vertexShader, Shader* fragmentShader) {
         int success;
@@ -39,5 +42,21 @@ namespace g3d
 
     void ShaderProgram::disable() {
         glUseProgram(0);
+    }
+
+    void ShaderProgram::setInt(const char* key, int i) {
+        glUniform1i(glGetUniformLocation(this->get(), key), i);
+    }
+    void ShaderProgram::setFloat(const char* key, float i) {
+        glUniform1f(glGetUniformLocation(this->get(), key), i);
+    }
+    void ShaderProgram::setMat4(const char* key, glm::mat4 mat) {
+        glUniformMatrix4fv(glGetUniformLocation(this->get(), key), 1, GL_FALSE, glm::value_ptr(mat));
+    }
+    void ShaderProgram::setVec2(const char* key, glm::vec2 vec) {
+        glUniform2f(glGetUniformLocation(this->get(), key), vec.x, vec.y);
+    }
+    void ShaderProgram::setVec3(const char* key, glm::vec3 vec) {
+        glUniform3f(glGetUniformLocation(this->get(), key), vec.x, vec.y, vec.z);
     }
 }

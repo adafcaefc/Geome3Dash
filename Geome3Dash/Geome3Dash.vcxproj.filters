@@ -18,93 +18,141 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\dllmain.cpp">
+    <ClCompile Include="pch.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="src\Ground3D.cpp">
+    <ClCompile Include="src\BezierManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\G3DBaseNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\G3DFragmentShaderLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\G3DModelPreviewLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\G3DPlayLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mesh.cpp">
+    <ClCompile Include="src\3SusEngine\BasicShaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model.cpp">
+    <ClCompile Include="src\3SusEngine\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\OpenGLStateHelper.cpp">
+    <ClCompile Include="src\3SusEngine\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
+    <ClCompile Include="src\3SusEngine\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ShaderProgram.cpp">
+    <ClCompile Include="src\3SusEngine\ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ShaderScene.cpp">
+    <ClCompile Include="src\3SusEngine\ShaderScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Frameworks</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
+    <ClCompile Include="src\3SusEngine\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CustomKeyboard.cpp">
+    <ClCompile Include="src\Delegate\CustomKeyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CustomMouse.cpp">
+    <ClCompile Include="src\Delegate\CustomMouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CustomTouch.cpp">
+    <ClCompile Include="src\Delegate\CustomTouch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BezierHelper.cpp">
+    <ClCompile Include="src\Helper\BezierHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helper\CommonHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helper\OpenGLStateHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lib\tinyfiledialogs\tinyfiledialogs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Ground3D.h">
+    <ClInclude Include="pch.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BezierManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CameraAction.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\G3DBaseNode.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\G3DFragmentShaderLayer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\G3DModelPreviewLayer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\G3DPlayLayer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Hooks.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mesh.h">
+    <ClInclude Include="src\3SusEngine\BasicShaders.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model.h">
+    <ClInclude Include="src\3SusEngine\Mesh.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\OpenGLStateHelper.h">
+    <ClInclude Include="src\3SusEngine\Model.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader.h">
+    <ClInclude Include="src\3SusEngine\Shader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ShaderProgram.h">
+    <ClInclude Include="src\3SusEngine\ShaderProgram.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ShaderScene.h">
+    <ClInclude Include="src\3SusEngine\ShaderScene.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Frameworks</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Texture.h">
+    <ClInclude Include="src\3SusEngine\Texture.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CustomKeyboard.h">
+    <ClInclude Include="src\Delegate\CustomKeyboard.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CustomMouse.h">
+    <ClInclude Include="src\Delegate\CustomMouse.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CustomTouch.h">
+    <ClInclude Include="src\Delegate\CustomTouch.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\BezierHelper.h">
+    <ClInclude Include="src\Helper\BezierHelper.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helper\CommonHelper.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helper\OpenGLStateHelper.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lib\tinyfiledialogs\tinyfiledialogs.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

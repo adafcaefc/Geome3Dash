@@ -3,10 +3,14 @@
 #include "Delegate/CustomMouse.h"
 #include "Delegate/CustomTouch.h"
 
+namespace sus3d
+{
+    class ShaderProgram;
+}
+
 namespace g3d
 {
     class G3DBaseNode;
-    class ShaderProgram;
 
     class G3DModelPreviewLayer
         : public CCLayer
@@ -15,7 +19,7 @@ namespace g3d
         , public CustomTouchDelegate
     {
         G3DBaseNode* layer3d;
-        ShaderProgram* shaderProgram;
+        sus3d::ShaderProgram* shaderProgram;
 
         bool isPressingControl = false;
         bool isRightClicking = false;

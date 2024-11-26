@@ -1,11 +1,14 @@
 #pragma once
 
-namespace g3d
+namespace sus3d
 {
     class ShaderProgram;
+}
 
+namespace g3d
+{
     class G3DFragmentShaderLayer : public CCLayer {
-        ShaderProgram* shaderProgram;
+        sus3d::ShaderProgram* shaderProgram;
         unsigned int VAO, VBO, EBO;
 
         static const std::vector<float> vertices;

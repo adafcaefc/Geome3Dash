@@ -1,6 +1,9 @@
 #pragma once
 
-namespace g3d
+#include <string>
+#include <filesystem>
+
+namespace sus3d
 {
     enum ShaderType {
         kVertexShader,
@@ -17,9 +20,9 @@ namespace g3d
         bool initShader(std::string shaderString);
     public:
         ~Shader();
-        static std::string readFile(std::string filename);
+        static std::string readFile(const std::filesystem::path& filename);
         static Shader* createWithString(std::string shaderString, ShaderType type);
-        static Shader* createWithFile(std::string filename, ShaderType type);
+        static Shader* createWithFile(const std::filesystem::path& filename, ShaderType type);
         int get() { return id; }
         ShaderType getType() { return type; }
     };
