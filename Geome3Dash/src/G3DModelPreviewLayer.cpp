@@ -107,8 +107,9 @@ namespace g3d
         auto size = CCDirector::sharedDirector()->getWinSize();
 
         // shader fragment still crashes
-        //auto testLayer = G3DFragmentShaderLayer::create(geode::Mod::get()->getResourcesDir() / "model3d" / "shader" / "star-nest.fsh");
-        //this->addChild(testLayer);
+        auto testLayer = G3DFragmentShaderLayer::create(geode::Mod::get()->getResourcesDir() / "model3d" / "shader" / "space.fsh");
+        this->addChild(testLayer);
+        testLayer->setZOrder(8);
 
         auto backButtonSprite = CCSprite::createWithSpriteFrameName("GJ_arrow_03_001.png");
         auto backButton = CCMenuItemSpriteExtra::create(backButtonSprite, this, menu_selector(G3DModelPreviewLayer::onBack));

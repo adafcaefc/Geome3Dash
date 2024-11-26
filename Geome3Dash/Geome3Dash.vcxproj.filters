@@ -87,6 +87,9 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sus3D\Easing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="src\Lib\tinyfiledialogs\tinyfiledialogs.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sus3D\Easing.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

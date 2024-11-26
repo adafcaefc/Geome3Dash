@@ -124,7 +124,7 @@ namespace g3d
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-            std::cerr << "ERROR::FRAMEBUFFER::Framebuffer is not complete!" << std::endl;
+
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

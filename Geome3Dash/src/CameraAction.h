@@ -1,5 +1,8 @@
 #pragma once
+
 #include <vector>
+
+#include "Sus3D/Easing.h"
 
 namespace g3d
 {
@@ -17,10 +20,11 @@ namespace g3d
         std::vector<CameraAction> actions; // List of actions
         double currentTime;                // Time tracker for animation
         size_t currentActionIndex;         // Current action being processed
+        sus3d::easing::Base* easing;       // Easing function used
 
         double interpolate(double start, double end, double progress);
     public:
-        CameraActionHandler() : currentTime(0), currentActionIndex(0) {}
+        CameraActionHandler(sus3d::easing::Base* easingP) : currentTime(0), currentActionIndex(0), easing(easingP) {}
 
         void addAction(const CameraAction& action) { actions.push_back(action); }
         double previousX = 0, previousY = 0, previousZ = 0, previousYaw = 0, previousPitch = 0;
@@ -29,7 +33,4 @@ namespace g3d
             double& deltaX, double& deltaY, double& deltaZ,
             double& deltaYaw, double& deltaPitch);
     };
-
-    double easeInOutQuad(double t, double b, double c, double d);
-    glm::vec3 easeInOutQuad(double t, double d, const glm::vec3& origin, const glm::vec3& target);
 }

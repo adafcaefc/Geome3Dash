@@ -75,7 +75,7 @@ namespace g3d
         sus3d::Camera camera;
         sus3d::Light light;
 
-        CameraActionHandler cameraActionHandler;
+        CameraActionHandler cameraActionHandler = CameraActionHandler(&sus3d::easing::v::easeInOutQuad);
 
         double bezierSegmentMultiplier = 0.6;
         int bezierSegmentCount = 1000000;

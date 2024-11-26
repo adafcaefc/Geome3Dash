@@ -299,9 +299,8 @@ namespace g3d
                 if (distance > startFade)
                 {
                     auto scale = model->getScale();
-                    double normalizedT = (distance - startFade) / (maxRender - startFade);
-                    double duration = 1.0; // Fixed duration for normalized t
-                    model->setScale(easeInOutQuad(normalizedT, duration, scale, glm::vec3(0.0, 0.0, 0.0)));
+                    double tNormal = (distance - startFade) / (maxRender - startFade);
+                    model->setScale(sus3d::easing::easeNormal<sus3d::easing::EaseInSine, glm::vec3>(tNormal, scale, glm::vec3(0.0, 0.0, 0.0)));
                 }
 
                 // animations
