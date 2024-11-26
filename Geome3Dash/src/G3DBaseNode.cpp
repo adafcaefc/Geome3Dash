@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "../pch.h"
 
-#include "G3DBase3DNode.h"
+#include "G3DBaseNode.h"
 
 #include "3SusEngine/ShaderProgram.h"
 #include "3SusEngine/Model.h"

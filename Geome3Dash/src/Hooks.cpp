@@ -3,7 +3,7 @@
 
 #include "Hooks.h"
 
-#include "G3DPlayLayer3D.h"
+#include "G3DPlayLayer.h"
 #include "G3DModelPreviewLayer.h"
 
 namespace g3d
