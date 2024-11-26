@@ -7,6 +7,7 @@
 #include "3SusEngine/Texture.h"
 #include "3SusEngine/Model.h"
 #include "3SusEngine/ShaderScene.h"
+#include "3SusEngine/BasicShaders.h"
 
 #include "Delegate/CustomKeyboard.h"
 #include "Delegate/CustomMouse.h"
@@ -21,8 +22,8 @@
 
 namespace g3d
 {
-    class PlayLayer3D;
-    class PlayerObject3D
+    class G3DPlayLayer3D;
+    class G3DPlayerObject3D
     {
     private:
         Model* cube;
@@ -34,7 +35,7 @@ namespace g3d
         Model* spider;
         Model* swing;
 
-        PlayLayer3D* playLayer3D;
+        G3DPlayLayer3D* playLayer3D;
 
         std::filesystem::path getPlayerModelPath(const std::string& type, const int id);
         std::filesystem::path getFixedPlayerModelPath(const std::string& type, const int id);
@@ -42,20 +43,20 @@ namespace g3d
         void loadPlayerModels();
 
     public:
-        friend class PlayLayer3D;
+        friend class G3DPlayLayer3D;
 
         PlayerObject* playerObject;
         Model* player;
 
-        PlayerObject3D() {}
+        G3DPlayerObject3D() {}
 
-        void init(PlayLayer3D* playLayer3DP, PlayerObject* playerObjectP);
+        void init(G3DPlayLayer3D* playLayer3DP, PlayerObject* playerObjectP);
 
         void updateModel();
         void drawModel();
     };
 
-    class PlayLayer3D
+    class G3DPlayLayer3D
         : public CCNode
         , public CustomKeyboardDelegate
         , public CustomTouchDelegate
@@ -63,7 +64,7 @@ namespace g3d
     {
         Model* bg;
 
-        PlayerObject3D player1;
+        G3DPlayerObject3D player1;
         //PlayerObject3D* player2; // not yet implemented!
 
         std::unordered_map<GameObject*, Model*> blocks;
@@ -91,9 +92,9 @@ namespace g3d
         float lastMouseX = 0.0;
         float lastMouseY = 0.0;
     public:
-        ~PlayLayer3D();
+        ~G3DPlayLayer3D();
 
-        static PlayLayer3D* instance;
+        static G3DPlayLayer3D* instance;
 
         void loadShader();
         void loadPlayers();
@@ -120,11 +121,11 @@ namespace g3d
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
         virtual void scrollWheel(float y, float x);
 
-        friend class PlayerObject3D;
+        friend class G3DPlayerObject3D;
 
     public:
         static auto create() {
-            auto node = new PlayLayer3D;
+            auto node = new G3DPlayLayer3D;
             instance = node;
             if (node->init()) {
                 node->autorelease();

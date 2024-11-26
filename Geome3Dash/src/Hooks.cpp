@@ -3,7 +3,7 @@
 
 #include "Hooks.h"
 
-#include "PlayLayer3D.h"
+#include "G3DPlayLayer3D.h"
 
 namespace g3d
 {
@@ -11,14 +11,14 @@ namespace g3d
     {
         struct Fields
         {
-            PlayLayer3D* playLayer3D = nullptr;
+            G3DPlayLayer3D* playLayer3D = nullptr;
         };
 
         void resetLevel()
         {
             if (!m_fields->playLayer3D)
             {
-                m_fields->playLayer3D = PlayLayer3D::create();
+                m_fields->playLayer3D = G3DPlayLayer3D::create();
                 m_fields->playLayer3D->setZOrder(10);
                 this->addChild(m_fields->playLayer3D);
             }
@@ -71,6 +71,6 @@ namespace g3d
     void HookAll()
     {
         auto mod = geode::Mod::get();
-        for (auto& hook : mod->getHooks()) { hook->enable(); }
+        for (auto& hook : mod->getHooks()) { if (!hook->isEnabled()) { hook->enable(); } }
     }
 }
