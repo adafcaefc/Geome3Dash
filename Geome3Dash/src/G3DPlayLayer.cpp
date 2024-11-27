@@ -77,6 +77,7 @@ namespace g3d
 
     bool G3DPlayerObject::shouldRender()
     {
+        return true;
         return !playerObject->m_isInvisible && playerObject->isVisible() && playerObject->getOpacity();
     }
 
