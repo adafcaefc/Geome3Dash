@@ -117,6 +117,8 @@ namespace g3d
         case KEY_Control:
             isPressingControl = pressed;
             break;
+        case KEY_Escape:
+            keyBackClicked();
         default:
             break;
         }
