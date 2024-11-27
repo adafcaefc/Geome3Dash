@@ -148,7 +148,7 @@ namespace g3d
     }
 
     void G3DModelPreviewLayer::keyBackClicked(void) {
-        CCDirector::sharedDirector()->popSceneWithTransition(0.3, PopTransition::kPopTransitionFade);
+        CCDirector::sharedDirector()->popSceneWithTransition(0.3f, PopTransition::kPopTransitionFade);
     }
 
     void G3DModelPreviewLayer::draw() {
@@ -184,7 +184,7 @@ namespace g3d
             utils::write_to_file(mtl_path, mtl_file);
         }
 
-        layer3d->models.push_back(sus3d::loadModel<sus3d::Model>(path.value(), shaderProgram));
+        layer3d->models.push_back(sus3d::loadModel(path.value(), shaderProgram));
     }
 
     G3DModelPreviewLayer* G3DModelPreviewLayer::create() {

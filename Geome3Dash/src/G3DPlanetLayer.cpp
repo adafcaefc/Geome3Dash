@@ -182,7 +182,7 @@ namespace g3d
     }
 
     void G3DPlanetLayer::keyBackClicked(void) {
-        CCDirector::sharedDirector()->popSceneWithTransition(0.3, PopTransition::kPopTransitionFade);
+        CCDirector::sharedDirector()->popSceneWithTransition(0.3f, PopTransition::kPopTransitionFade);
     }
 
     void G3DPlanetLayer::draw() {

@@ -13,23 +13,24 @@ namespace sus3d
     class ShaderProgram;
 
     class Mesh {
-        unsigned int VAO, VBO, EBO;
+        unsigned int VAO = 0u, VBO = 0u, EBO = 0u;
         std::vector<float> vertices;
         std::vector<unsigned int> indices;
-        bool useTexture = 0;
+        bool useTexture = false;
 
-        glm::vec3 Ka;
-        glm::vec3 Kd;
-        glm::vec3 Ks;
+        glm::vec3 Ka = glm::vec3(0, 0, 0);
+        glm::vec3 Kd = glm::vec3(0, 0, 0);
+        glm::vec3 Ks = glm::vec3(0, 0, 0);
 
-        glm::vec3 CustomKa;
-        glm::vec3 CustomKd;
-        glm::vec3 CustomKs;
+        glm::vec3 CustomKa = glm::vec3(0, 0, 0);
+        glm::vec3 CustomKd = glm::vec3(0, 0, 0);
+        glm::vec3 CustomKs = glm::vec3(0, 0, 0);
+
         bool isCustomKa = false;
         bool isCustomKd = false;
         bool isCustomKs = false;
 
-        unsigned int texture;
+        unsigned int texture = 0u;
 
         Mesh() {}
 

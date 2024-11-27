@@ -13,10 +13,10 @@ namespace sus3d
         static std::unordered_map<std::string, Texture*> loadedTextures;
     public:
         std::filesystem::path name;
-        int width;
-        int height;
-        int nrChannels;
-        unsigned char* data;
+        int width = 0;
+        int height = 0;
+        int nrChannels = 0;
+        unsigned char* data = nullptr;
         GLuint textureID = 0;
 
         Texture() {}

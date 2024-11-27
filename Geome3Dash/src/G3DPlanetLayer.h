@@ -31,11 +31,8 @@ namespace g3d
         bool isPressingControl = false;
         bool isRightClicking = false;
         bool isRightClickingGetPos = false;
-        float lastMouseX = 0.0;
-        float lastMouseY = 0.0;
-
-        GLuint m_vao = 0;
-        GLuint m_vbo = 0;
+        float lastMouseX = 0.0f;
+        float lastMouseY = 0.0f;
 
         virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);

@@ -83,7 +83,7 @@ namespace g3d
 
     void G3DPlayerObject::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
     {
-        *model = sus3d::loadModel<sus3d::Model>(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
+        *model = sus3d::loadModel(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
         (*model)->setScale(glm::vec3(0.75));
     }
 
@@ -197,7 +197,7 @@ namespace g3d
                 parseMtlPath(mtl_path);
                 if (blockModels.find(block->m_objectID) == blockModels.end())
                 {
-                    if (auto blockModel = sus3d::loadModel<sus3d::Model>(model_path, shaderProgram))
+                    if (auto blockModel = sus3d::loadModel(model_path, shaderProgram))
                     {
                         blockModels.emplace(block->m_objectID, blockModel);
                     }

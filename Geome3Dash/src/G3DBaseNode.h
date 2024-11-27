@@ -1,6 +1,10 @@
 #pragma once
 
 #include "Sus3D/Scene.h"
+#include "Sus3D/Model.h"
+
+#include "Helper/CommonHelper.h"
+
 #include "CocosShaderProgram.h"
 
 namespace g3d
@@ -54,7 +58,7 @@ namespace g3d
                 utils::write_to_file(mtl_path, mtl_file);
             }
 
-            auto model = sus3d::loadModel<T>(filePath, shaderProgram);
+            auto model = sus3d::loadModelTemplate<T>(filePath, shaderProgram);
             models.push_back(model);
             return model;
         }

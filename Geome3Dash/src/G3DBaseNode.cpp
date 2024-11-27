@@ -29,7 +29,7 @@ namespace g3d
         getObjectIDByMousePositionShader->use();
         for (int modelIndex = 0; modelIndex < models.size(); modelIndex++) {
             glm::mat4 model = models[modelIndex]->prepareModelMatrix();
-            for (size_t meshIndex = 0; meshIndex < models[modelIndex]->meshes.size(); meshIndex++) {
+            for (int meshIndex = 0; meshIndex < models[modelIndex]->meshes.size(); meshIndex++) {
                 glm::vec3 uniqueColor = generateUniqueColor(modelIndex, meshIndex);
 
                 getObjectIDByMousePositionShader->setMat4("model", model);

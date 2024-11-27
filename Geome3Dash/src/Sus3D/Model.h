@@ -18,8 +18,8 @@ namespace sus3d
 
     class Model {
     protected:
-        glm::vec3 rotation;
-        glm::vec3 position;
+        glm::vec3 rotation = glm::vec3(0, 0, 0);;
+        glm::vec3 position = glm::vec3(0, 0, 0);;
         glm::vec3 scale = glm::vec3(1.0);
         ShaderProgram* shaderProgram;
         bool visible = 1;
@@ -64,7 +64,7 @@ namespace sus3d
     };
 
     template <typename T>
-    T* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
+    T* loadModelTemplate(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path.string(),
             aiProcess_Triangulate |
@@ -76,4 +76,6 @@ namespace sus3d
         importer.FreeScene();
         return model;
     }
+
+    Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
 }

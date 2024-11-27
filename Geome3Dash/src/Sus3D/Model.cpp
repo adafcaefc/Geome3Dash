@@ -13,7 +13,7 @@ namespace sus3d
 {
     bool Model::init(const aiScene* scene) {
 
-        for (int i = 0; i < scene->mNumMeshes; ++i) {
+        for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
             Mesh* mesh = Mesh::create(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
             meshes.push_back(mesh);
         }
@@ -73,5 +73,9 @@ namespace sus3d
             delete mesh;
         }
         meshes.clear();
+    }
+
+    Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
+        return loadModelTemplate<Model>(path, shaderProgram);
     }
 }

@@ -35,7 +35,7 @@ namespace g3d
             auto testLayer = G3DPlanetLayer::create();
 
             scene->addChild(testLayer);
-            CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3, scene));
+            CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3f, scene));
         }
     };
 
