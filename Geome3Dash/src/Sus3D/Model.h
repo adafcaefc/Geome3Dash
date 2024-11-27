@@ -17,6 +17,7 @@ namespace sus3d
     class ShaderProgram;
 
     class Model {
+    protected:
         glm::vec3 rotation;
         glm::vec3 position;
         glm::vec3 scale = glm::vec3(1.0);
@@ -57,10 +58,22 @@ namespace sus3d
 
         void setVisible(bool visible) { this->visible = visible; }
 
-        glm::mat4 prepareModelMatrix();
+        virtual glm::mat4 prepareModelMatrix();
 
         virtual ~Model();
     };
 
-    Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
+    template <typename T>
+    T* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
+        Assimp::Importer importer;
+        const aiScene* scene = importer.ReadFile(path.string(),
+            aiProcess_Triangulate |
+            aiProcess_FlipUVs |
+            aiProcess_JoinIdenticalVertices |
+            aiProcess_SortByPType);
+
+        auto model = T::create(scene, shaderProgram);
+        importer.FreeScene();
+        return model;
+    }
 }

@@ -57,6 +57,7 @@ namespace g3d
 
 
     void G3DBaseNode::draw() {
+        CCNode::draw();
         OpenGLStateHelper::saveState();
         glEnable(GL_BLEND);
         glEnable(GL_ALPHA_TEST);
@@ -128,25 +129,5 @@ namespace g3d
             CC_SAFE_DELETE(node);
         }
         return node;
-    }
-
-    sus3d::Model* G3DBaseNode::loadAndAddModel(const std::filesystem::path& filePath, sus3d::ShaderProgram* shaderProgram)
-    {
-        const auto obj_path = std::filesystem::path(filePath);
-        const auto mtl_path = obj_path.parent_path() / (obj_path.stem().string() + ".mtl");
-
-        if (std::filesystem::exists(mtl_path))
-        {
-            auto mtl_file = utils::read_from_file(mtl_path);
-            if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos)
-            {
-                utils::replace_all(mtl_file, "{{MODEL_PATH}}", mtl_path.parent_path().string());
-            }
-            utils::write_to_file(mtl_path, mtl_file);
-        }
-
-        auto model = sus3d::loadModel(filePath, shaderProgram);
-        models.push_back(model);
-        return model;
     }
 }

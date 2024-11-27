@@ -8,6 +8,13 @@
 
 namespace g3d
 {
+    class PlanetModel : public sus3d::Model {
+    public:
+        ~PlanetModel() override = default;
+        glm::mat4 prepareModelMatrix() override;
+        static PlanetModel* create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram);
+    };
+
     class G3DBaseNode;
     class CocosShaderProgram;
     class G3DPlanetLayer
@@ -18,14 +25,17 @@ namespace g3d
     {
         G3DBaseNode* layer3d;
         CocosShaderProgram* shaderProgram;
-        sus3d::Model* planetModel;
-        sus3d::Model* planetModelWater;
+        PlanetModel* planetModel;
+        PlanetModel* planetModelWater;
 
         bool isPressingControl = false;
         bool isRightClicking = false;
         bool isRightClickingGetPos = false;
         float lastMouseX = 0.0;
         float lastMouseY = 0.0;
+
+        GLuint m_vao = 0;
+        GLuint m_vbo = 0;
 
         virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);

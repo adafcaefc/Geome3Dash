@@ -26,12 +26,12 @@ namespace sus3d
 
         model = glm::translate(model, position);
 
-        if (rotation.z)
-            model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-        if (rotation.y)
-            model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
         if (rotation.x)
             model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+        if (rotation.y)
+            model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        if (rotation.z)
+            model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
         model = glm::scale(model, scale);
 
@@ -46,6 +46,7 @@ namespace sus3d
         }
         return ret;
     }
+
     void Model::render(glm::mat4 view, glm::vec3 lightPos, glm::vec3 lightColor, glm::vec3 cameraPos, glm::mat4 projection) {
 
         if (visible) {
@@ -65,19 +66,6 @@ namespace sus3d
             for (auto mesh : meshes)
                 mesh->render(shaderProgram);
         }
-    }
-
-    Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
-        Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(path.string(),
-            aiProcess_Triangulate |
-            aiProcess_FlipUVs |
-            aiProcess_JoinIdenticalVertices |
-            aiProcess_SortByPType);
-
-        auto model = Model::create(scene, shaderProgram);
-        importer.FreeScene();
-        return model;
     }
 
     Model::~Model() {

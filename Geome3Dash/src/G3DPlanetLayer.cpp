@@ -18,6 +18,40 @@
 
 namespace g3d
 {
+    PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
+        PlanetModel* ret = new PlanetModel();
+        ret->shaderProgram = shaderProgram;
+
+        if (!ret || !ret->init(scene)) {
+            delete ret;  // Cleanup if initialization fails
+            return nullptr;
+        }
+
+        return ret;
+    }
+
+    glm::mat4 PlanetModel::prepareModelMatrix() {
+        glm::mat4 model = glm::mat4(1.0f); // Start with an identity matrix
+
+        // Apply translation
+        model = glm::translate(model, position);
+
+        // Apply rotations (Z, Y, X in this order)
+        if (rotation.z != 0.0f)  // Only apply rotation if non-zero
+            model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate around Z axis
+
+        if (rotation.y != 0.0f)  // Only apply rotation if non-zero
+            model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate around Y axis
+
+        if (rotation.x != 0.0f)  // Only apply rotation if non-zero
+            model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));  // Rotate around X axis
+
+        // Apply scaling
+        model = glm::scale(model, scale);
+
+        return model;
+    }
+
     void G3DPlanetLayer::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
         if (button == GLFW_MOUSE_BUTTON_LEFT) {
             if (action == GLFW_PRESS) {
@@ -63,7 +97,6 @@ namespace g3d
                     planetModelWater->setRotationX(glm::degrees(eulerAngles.x));
                     planetModelWater->setRotationY(glm::degrees(eulerAngles.y));
                     planetModelWater->setRotationZ(glm::degrees(eulerAngles.z));
-
                 }
 
                 lastMouseX = static_cast<float>(x);
@@ -94,6 +127,7 @@ namespace g3d
 
         setKeyboardEnabled(true);
         OpenGLStateHelper::saveState();
+
         auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
         auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
         shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
@@ -110,8 +144,8 @@ namespace g3d
         layer3d = G3DBaseNode::create();
         layer3d->light.setPosition(glm::vec3(0, 50, 1000));
         layer3d->setZOrder(10);
-        planetModel = layer3d->loadAndAddModel(geode::Mod::get()->getResourcesDir() / "model3d" / "planet" / "new_planet_textured.obj", shaderProgram);
-        planetModelWater = layer3d->loadAndAddModel(geode::Mod::get()->getResourcesDir() / "model3d" / "planet" / "planet_water.obj", shaderProgram2);
+        planetModel = layer3d->loadAndAddModel<PlanetModel>(geode::Mod::get()->getResourcesDir() / "model3d" / "planet" / "new_planet_textured.obj", shaderProgram);
+        planetModelWater = layer3d->loadAndAddModel<PlanetModel>(geode::Mod::get()->getResourcesDir() / "model3d" / "planet" / "planet_water.obj", shaderProgram2);
         planetModelWater->setScale(glm::vec3(1.001, 1.001, 1.001));
         this->addChild(layer3d);
         layer3d->camera.setPosition(glm::vec3(0, 0, 25));

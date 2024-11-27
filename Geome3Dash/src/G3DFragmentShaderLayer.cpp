@@ -49,6 +49,7 @@ namespace g3d
     }
 
     void G3DFragmentShaderLayer::draw() {
+        CCLayer::draw();
         OpenGLStateHelper::saveState();
         shaderProgram->use();
 
