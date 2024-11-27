@@ -2,5 +2,6 @@
 
 namespace g3d
 {
-    void HookAll();
+    void setupLibraries();
+    void setupHooks();
 }

@@ -71,6 +71,8 @@ namespace g3d
         case KEY_Control:
             isPressingControl = pressed;
             break;
+        default:
+            break;
         }
     }
 
@@ -82,7 +84,7 @@ namespace g3d
             nullptr,
             1,
             filterPatterns,
-            "OBJ פאיכû",
+            "OBJ",
             0
         );
 

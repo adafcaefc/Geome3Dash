@@ -9,8 +9,8 @@
 namespace sus3d
 {
     bool ShaderProgram::initProgram(Shader* vertexShader, Shader* fragmentShader) {
-        int success;
-        char infoLog[512];
+        int success = 0;
+        char infoLog[512] = { 0 };
         id = glCreateProgram();
         glAttachShader(id, vertexShader->get());
         glAttachShader(id, fragmentShader->get());
@@ -22,8 +22,6 @@ namespace sus3d
         }
         return 1;
     }
-
-
 
     ShaderProgram::~ShaderProgram() {
         if (id)

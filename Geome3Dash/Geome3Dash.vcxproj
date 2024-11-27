@@ -16,6 +16,9 @@
     <ClCompile Include="src\Sus3D\Easing.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Sus3D\ShaderProgram.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\Sus3D\Shaders.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -26,9 +29,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Sus3D\Shader.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\ShaderProgram.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Sus3D\Scene.cpp">
@@ -56,30 +56,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="src\CocosShaderProgram.h" />
-    <ClInclude Include="src\G3DPlanetLayer.h" />
-    <ClInclude Include="src\Sus3D\Easing.h" />
-    <ClInclude Include="src\Sus3D\Shaders.h" />
-    <ClInclude Include="src\Sus3D\Mesh.h" />
-    <ClInclude Include="src\Sus3D\Model.h" />
-    <ClInclude Include="src\Sus3D\Shader.h" />
-    <ClInclude Include="src\Sus3D\ShaderProgram.h" />
-    <ClInclude Include="src\Sus3D\Scene.h" />
-    <ClInclude Include="src\Sus3D\Texture.h" />
     <ClInclude Include="src\BezierManager.h" />
     <ClInclude Include="src\CameraAction.h" />
+    <ClInclude Include="src\CocosShaderProgram.h" />
     <ClInclude Include="src\Delegate\CustomKeyboard.h" />
     <ClInclude Include="src\Delegate\CustomMouse.h" />
     <ClInclude Include="src\Delegate\CustomTouch.h" />
     <ClInclude Include="src\G3DBaseNode.h" />
     <ClInclude Include="src\G3DFragmentShaderLayer.h" />
     <ClInclude Include="src\G3DModelPreviewLayer.h" />
+    <ClInclude Include="src\G3DPlanetLayer.h" />
     <ClInclude Include="src\G3DPlayLayer.h" />
     <ClInclude Include="src\Helper\BezierHelper.h" />
     <ClInclude Include="src\Helper\CommonHelper.h" />
     <ClInclude Include="src\Helper\OpenGLStateHelper.h" />
     <ClInclude Include="src\Hooks.h" />
     <ClInclude Include="src\Lib\tinyfiledialogs\tinyfiledialogs.h" />
+    <ClInclude Include="src\Sus3D\Easing.h" />
+    <ClInclude Include="src\Sus3D\Mesh.h" />
+    <ClInclude Include="src\Sus3D\Model.h" />
+    <ClInclude Include="src\Sus3D\Scene.h" />
+    <ClInclude Include="src\Sus3D\Shader.h" />
+    <ClInclude Include="src\Sus3D\ShaderProgram.h" />
+    <ClInclude Include="src\Sus3D\Shaders.h" />
+    <ClInclude Include="src\Sus3D\Texture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -92,9 +92,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>ClangCL</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -130,6 +130,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opengl32.lib;glew32.lib;libcocos2d.lib;fmod.lib;Geode.lib;assimp-vc143-mt.lib;fmt.lib;glfw3.lib;pugixml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>assimp-vc143-mt.dll;pugixml.dll</DelayLoadDLLs>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>

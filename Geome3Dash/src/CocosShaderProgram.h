@@ -20,6 +20,6 @@ namespace g3d
             return nullptr;
         }
 
-        void setBasicUniforms();
+        void setBasicUniforms() override;
     };
 }

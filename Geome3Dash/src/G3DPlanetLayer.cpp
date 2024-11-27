@@ -84,6 +84,8 @@ namespace g3d
         case KEY_Control:
             isPressingControl = pressed;
             break;
+        default:
+            break;
         }
     }
 

@@ -79,4 +79,11 @@ namespace sus3d
         importer.FreeScene();
         return model;
     }
+
+    Model::~Model() {
+        for (Mesh* mesh : meshes) {
+            delete mesh;
+        }
+        meshes.clear();
+    }
 }

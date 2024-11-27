@@ -12,7 +12,7 @@
 
 namespace g3d
 {
-    bool G3DFragmentShaderLayer::init(const std::filesystem::path& fragmentShaderFile) {
+    bool G3DFragmentShaderLayer::initShader(const std::filesystem::path& fragmentShaderFile) {
         if (!CCLayer::init()) return false;
         OpenGLStateHelper::saveState();
         auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::basicVertexShader, sus3d::ShaderType::kVertexShader);
@@ -69,7 +69,7 @@ namespace g3d
 
     G3DFragmentShaderLayer* G3DFragmentShaderLayer::create(const std::filesystem::path& fragmentShaderFile) {
         auto ret = new G3DFragmentShaderLayer();
-        if (ret && ret->init(fragmentShaderFile)) {
+        if (ret && ret->initShader(fragmentShaderFile)) {
             ret->autorelease();
             return ret;
         }

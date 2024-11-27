@@ -5,9 +5,6 @@
 
 namespace g3d
 {
-    class sus3d::Model;
-    class sus3d::ShaderProgram;
-
     class G3DBaseNode : public CCNode {
         virtual bool init();
         GLuint framebuffer, texture, renderbuffer;

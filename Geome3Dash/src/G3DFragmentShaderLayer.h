@@ -11,7 +11,7 @@ namespace g3d
         static const std::vector<float> vertices;
         static const std::vector<unsigned int> indices;
 
-        virtual bool init(const std::filesystem::path& fragmentShaderFile);
+        virtual bool initShader(const std::filesystem::path& fragmentShaderFile);
         void prepareBuffers();
         virtual void draw();
     public:

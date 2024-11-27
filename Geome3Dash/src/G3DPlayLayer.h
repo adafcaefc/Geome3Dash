@@ -48,7 +48,7 @@ namespace g3d
         friend class G3DPlayLayer;
 
         PlayerObject* playerObject;
-        sus3d::Model* player;
+        sus3d::Model* playerModel;
 
         G3DPlayerObject() {}
 
@@ -56,6 +56,8 @@ namespace g3d
 
         void updateModel();
         void drawModel();
+
+        bool shouldRender();
     };
 
     class G3DPlayLayer
@@ -64,8 +66,10 @@ namespace g3d
         , public CustomTouchDelegate
         , public CustomMouseDelegate
     {
+        PlayLayer* playLayer;
+
         G3DPlayerObject player1;
-        //PlayerObject3D* player2; // not yet implemented!
+        G3DPlayerObject player2;
 
         std::unordered_map<GameObject*, sus3d::Model*> blocks;
         std::unordered_map<int, sus3d::Model*> blockModels;

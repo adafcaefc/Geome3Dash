@@ -75,6 +75,11 @@ namespace g3d
             : getPlayerModelPath(type, 0);
     }
 
+    bool G3DPlayerObject::shouldRender()
+    {
+        return !playerObject->m_isInvisible && playerObject->isVisible() && playerObject->getOpacity();
+    }
+
     void G3DPlayerObject::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
     {
         *model = sus3d::loadModel(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
@@ -91,7 +96,7 @@ namespace g3d
         loadPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
         loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
         loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
-        player = cube;
+        playerModel = cube;
     }
 
     void G3DPlayerObject::init(G3DPlayLayer* playLayer3DP, PlayerObject* playerObjectP)
@@ -103,27 +108,27 @@ namespace g3d
 
     void G3DPlayerObject::updateModel()
     {
-        player = cube;
+        playerModel = cube;
         if (playerObject->m_isShip) {
-            player = ship;
+            playerModel = ship;
         }
         else if (playerObject->m_isBall) {
-            player = ball;
+            playerModel = ball;
         }
         else if (playerObject->m_isBird) {
-            player = bird;
+            playerModel = bird;
         }
         else if (playerObject->m_isDart) {
-            player = dart;
+            playerModel = dart;
         }
         else if (playerObject->m_isRobot) {
-            player = robot;
+            playerModel = robot;
         }
         else if (playerObject->m_isSpider) {
-            player = spider;
+            playerModel = spider;
         }
         else if (playerObject->m_isSwing) {
-            player = swing;
+            playerModel = swing;
         }
 
         auto newX = playerObject->m_position.x * 0.05;
@@ -135,15 +140,15 @@ namespace g3d
             newX, newY, newZ,
             playLayer3D->bezierSegmentCount,
             playLayer3D->bezierSegmentMultiplier);
-        player->setPosition(bCoordinate.position);
-        player->setRotationY(360 - bCoordinate.rotation);
-        player->setRotationZ(360 - newR);
-        player->setScaleY(std::abs(player->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
+        playerModel->setPosition(bCoordinate.position);
+        playerModel->setRotationY(360 - bCoordinate.rotation);
+        playerModel->setRotationZ(360 - newR);
+        playerModel->setScaleY(std::abs(playerModel->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
     }
 
     void G3DPlayerObject::drawModel()
     {
-        player->render(
+        playerModel->render(
             playLayer3D->camera.getViewMat(),
             playLayer3D->light.getPosition(),
             playLayer3D->light.getColor(),
@@ -208,21 +213,22 @@ namespace g3d
 
     void G3DPlayLayer::loadPlayers()
     {
-        auto playLayer = GameManager::sharedState()->m_playLayer;
         player1.init(this, playLayer->m_player1);
-        //player2.init(this, playLayer->m_player2);
+        player2.init(this, playLayer->m_player2);
     }
 
     bool G3DPlayLayer::init()
     {
         CCNode::init();
 
+        playLayer = GameManager::sharedState()->m_playLayer;
+
         // clear cache of bezier segments
         BezierManager::clearCache();
 
-        this->loadShader();
-        this->loadPlayers();
-        this->loadObjectModels();
+        loadShader();
+        loadPlayers();
+        loadObjectModels();
 
         // default camera position
         playerCameraOffset = glm::vec3(-10, 5, 40);
@@ -244,8 +250,8 @@ namespace g3d
 
     void G3DPlayLayer::updateCamera()
     {
-        auto playerPos = player1.player->getPosition();
-        auto newR = player1.player->getRotation();
+        auto playerPos = player1.playerModel->getPosition();
+        auto newR = player1.playerModel->getRotation();
         auto playerYaw = newR.y;
         auto playerYawR = -glm::radians(playerYaw);
 
@@ -347,21 +353,20 @@ namespace g3d
 
     void G3DPlayLayer::updatePlayers()
     {
-        player1.updateModel();
-        //player2.updateModel();
+        if (player1.shouldRender()) { player1.updateModel(); }
+        if (player2.shouldRender()) { player2.updateModel(); }
     }
 
     void G3DPlayLayer::drawPlayers()
     {
-        player1.drawModel();
-        //player2.updateModel();
+        if (player1.shouldRender()) { player1.drawModel(); }
+        if (player2.shouldRender()) { player2.drawModel(); }
     }
 
     void G3DPlayLayer::draw()
     {
         CCNode::draw();
 
-        auto playLayer = GameManager::sharedState()->m_playLayer;
         playLayer->m_player1->getParent()->setVisible(false);
         playLayer->m_groundLayer->setVisible(false);
         playLayer->m_groundLayer2->setVisible(false);
@@ -432,6 +437,8 @@ namespace g3d
         switch (key) {
         case KEY_Control:
             isPressingControl = pressed;
+            break;
+        default:
             break;
         }
     }

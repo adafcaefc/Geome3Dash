@@ -25,7 +25,7 @@ GEODE_API void geodeImplicitEntry() {
     (void)geode::getMod();
 }
 
-void __cdecl geode::log::vlogImpl(
+void  __cdecl geode::log::vlogImpl(
     struct geode::Severity,
     class geode::Mod*,
     class fmt::v10::basic_string_view<char>,

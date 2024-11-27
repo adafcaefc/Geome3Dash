@@ -59,12 +59,7 @@ namespace sus3d
 
         glm::mat4 prepareModelMatrix();
 
-        ~Model() {
-            for (Mesh* mesh : meshes) {
-                delete mesh;
-            }
-            meshes.clear();
-        }
+        virtual ~Model();
     };
 
     Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
