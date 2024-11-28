@@ -1,8 +1,8 @@
 #include "pch.h"
 
-#include "G3DPlanetLayer.h"
-#include "G3DBaseNode.h"
-#include "G3DFragmentShaderLayer.h"
+#include "Game/PlanetLayer/G3DPlanetLayer.h"
+#include "Game/G3DBaseNode.h"
+#include "Game/G3DFragmentShaderLayer.h"
 
 #include "CocosShaderProgram.h"
 

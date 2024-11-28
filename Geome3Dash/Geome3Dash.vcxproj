@@ -36,7 +36,11 @@
     <ClCompile Include="src\Engine\Sus3D\Texture.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\G3DPlanetLayer.cpp" />
+    <ClCompile Include="src\Game\G3DBaseNode.cpp" />
+    <ClCompile Include="src\Game\G3DFragmentShaderLayer.cpp" />
+    <ClCompile Include="src\Game\PlanetLayer\G3DPlanetLayer.cpp" />
+    <ClCompile Include="src\Game\PlayLayer\G3DPlayLayer.cpp" />
+    <ClCompile Include="src\Game\TestLayer\G3DModelPreviewLayer.cpp" />
     <ClCompile Include="src\LevelDataManager.cpp" />
     <ClCompile Include="src\Lib\imgui-cocos\imgui-cocos.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -61,10 +65,6 @@
     <ClCompile Include="src\Delegate\CustomKeyboard.cpp" />
     <ClCompile Include="src\Delegate\CustomMouse.cpp" />
     <ClCompile Include="src\Delegate\CustomTouch.cpp" />
-    <ClCompile Include="src\G3DBaseNode.cpp" />
-    <ClCompile Include="src\G3DFragmentShaderLayer.cpp" />
-    <ClCompile Include="src\G3DModelPreviewLayer.cpp" />
-    <ClCompile Include="src\G3DPlayLayer.cpp" />
     <ClCompile Include="src\Helper\BezierHelper.cpp" />
     <ClCompile Include="src\Helper\CommonHelper.cpp" />
     <ClCompile Include="src\Helper\OpenGLStateHelper.cpp" />
@@ -72,7 +72,7 @@
     <ClCompile Include="src\Lib\tinyfiledialogs\tinyfiledialogs.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\UserInterface.cpp" />
+    <ClCompile Include="src\LevelEditorGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -90,11 +90,11 @@
     <ClInclude Include="src\Engine\Sus3D\ShaderProgram.h" />
     <ClInclude Include="src\Engine\Sus3D\Shaders.h" />
     <ClInclude Include="src\Engine\Sus3D\Texture.h" />
-    <ClInclude Include="src\G3DBaseNode.h" />
-    <ClInclude Include="src\G3DFragmentShaderLayer.h" />
-    <ClInclude Include="src\G3DModelPreviewLayer.h" />
-    <ClInclude Include="src\G3DPlanetLayer.h" />
-    <ClInclude Include="src\G3DPlayLayer.h" />
+    <ClInclude Include="src\Game\G3DBaseNode.h" />
+    <ClInclude Include="src\Game\G3DFragmentShaderLayer.h" />
+    <ClInclude Include="src\Game\PlanetLayer\G3DPlanetLayer.h" />
+    <ClInclude Include="src\Game\PlayLayer\G3DPlayLayer.h" />
+    <ClInclude Include="src\Game\TestLayer\G3DModelPreviewLayer.h" />
     <ClInclude Include="src\Helper\BezierHelper.h" />
     <ClInclude Include="src\Helper\CommonHelper.h" />
     <ClInclude Include="src\Helper\OpenGLStateHelper.h" />
@@ -108,7 +108,10 @@
     <ClInclude Include="src\Lib\imgui-cocos\imstb_textedit.h" />
     <ClInclude Include="src\Lib\imgui-cocos\imstb_truetype.h" />
     <ClInclude Include="src\Lib\tinyfiledialogs\tinyfiledialogs.h" />
-    <ClInclude Include="src\UserInterface.h" />
+    <ClInclude Include="src\LevelEditorGUI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -135,7 +138,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)$(ProjectName);$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\pugixml;$(SolutionDir)library\incl\stb</IncludePath>
+    <IncludePath>$(SolutionDir)$(ProjectName);$(SolutionDir)$(ProjectName)\src;$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\pugixml;$(SolutionDir)library\incl\stb</IncludePath>
     <LibraryPath>$(SolutionDir)library\lib\l_x64\l_release;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <TargetName>rainixgd.geome3dash</TargetName>

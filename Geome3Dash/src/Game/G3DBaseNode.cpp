@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "G3DBaseNode.h"
+#include "Game/G3DBaseNode.h"
 
 #include "Engine/Sus3D/ShaderProgram.h"
 #include "Engine/Sus3D/Model.h"

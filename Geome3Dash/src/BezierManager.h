@@ -17,6 +17,11 @@ namespace g3d
             const CubicBezier& segment,
             double x, double y, double z,
             const int segmentCount, const double segmentMultiplier);
+        static BezierCoordinate transformMultiIntoBezierCoordinate(
+            const std::vector<CubicBezier>& segments,
+            double x, double y, double z,
+            const int segmentCount, const double segmentMultiplier);
         static void clearCache();
+        static constexpr double SCARY_CONSTANT_THAT_I_DONT_WANNA_TOUCH = 0.46080857142;
     };
 }

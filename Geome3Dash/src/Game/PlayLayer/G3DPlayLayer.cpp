@@ -1,67 +1,12 @@
 #include "pch.h"
 #include "pch.h"
 
-#include "G3DPlayLayer.h"
+#include "Game/PlayLayer/G3DPlayLayer.h"
 #include "LevelDataManager.h"
 
 namespace g3d
 {
     G3DPlayLayer* G3DPlayLayer::instance = nullptr;
-
-    // temporary
-    static std::string svgData = R"(
-        <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="200" style="background-color: lightgray;">
-          <path d="M0,0 C2277,1521 -1558,1140 1000,0" stroke="blue" fill="none" />
-        </svg>
-    )";
-
-    // temporary
-    // short worm thingy
-    //static CubicBezier bezier = {
-    //    98.0, 314.0,   // x0, y0: Starting point
-    //    575.0, 335.0,  // cx1, cy1: First control point
-    //    22.0, 192.0,   // cx2, cy2: Second control point
-    //    511.0, 220.0   // x1, y1: End point
-    //};
-
-    // temporary
-    // better short worm thingy
-    //static CubicBezier bezier = {
-    //    167, 355,   // x0, y0: Starting point
-    //    516, 124,  // cx1, cy1: First control point
-    //    121, 557,   // cx2, cy2: Second control point
-    //    412, 352   // x1, y1: End point
-    //};
-
-    // wild stuff
-    //CubicBezier bezier = {
-    //    42, 529,   // x0, y0: Starting point
-    //    245, 439,  // cx1, cy1: First control point
-    //    255, 11,   // cx2, cy2: Second control point
-    //    71, 549   // x1, y1: End point
-    //};
-
-    //CubicBezier bezier = {
-    //    0.0, 0.0,   // x0, y0
-    //    2277.0, 1521.0,   // cx1, cy1
-    //    -1558.0, 1140.0,  // cx2, cy2
-    //    1000.0, 0.0    // x1, y1
-    //};
-
-    //CubicBezier bezier = {
-    //    87.843, 82.446,        // x0, y0
-    //    1000.0, 505.226,       // cx1, cy1
-    //    95.319, 372.064,       // cx2, cy2
-    //    586.566, 1000.0        // x1, y1
-    //};
-
-    //// straight
-    //CubicBezier bezier = {
-    //    100, 300,   // x0, y0: Starting point
-    //    200, 300,  // cx1, cy1: First control point
-    //    300, 300,   // cx2, cy2: Second control point
-    //    500, 300   // x1, y1: End point
-    //};
 
     std::filesystem::path G3DPlayerObject::getPlayerModelPath(const std::string& type, const int id)
     {

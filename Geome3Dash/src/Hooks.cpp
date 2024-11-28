@@ -2,9 +2,9 @@
 
 #include "Hooks.h"
 
-#include "G3DPlayLayer.h"
-#include "G3DModelPreviewLayer.h"
-#include "G3DPlanetLayer.h"
+#include "Game/PlayLayer/G3DPlayLayer.h"
+#include "Game/TestLayer/G3DModelPreviewLayer.h"
+#include "Game/PlanetLayer/G3DPlanetLayer.h"
 
 namespace g3d
 {
