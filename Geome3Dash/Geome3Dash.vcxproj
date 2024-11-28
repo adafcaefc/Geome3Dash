@@ -39,6 +39,7 @@
     <ClCompile Include="src\game\G3DBaseNode.cpp" />
     <ClCompile Include="src\game\G3DFragmentShaderLayer.cpp" />
     <ClCompile Include="src\game\editor\G3DEditorPopup.cpp" />
+    <ClCompile Include="src\game\G3DNumberSetting.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetLayer.cpp" />
     <ClCompile Include="src\game\playing\G3DPlayLayer.cpp" />
     <ClCompile Include="src\game\test\G3DModelPreviewLayer.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="src\game\editor\G3DEditorPopup.h" />
     <ClInclude Include="src\game\G3DBaseNode.h" />
     <ClInclude Include="src\game\G3DFragmentShaderLayer.h" />
+    <ClInclude Include="src\game\G3DNumberSetting.h" />
     <ClInclude Include="src\game\planet\G3DPlanetLayer.h" />
     <ClInclude Include="src\game\playing\G3DPlayLayer.h" />
     <ClInclude Include="src\game\test\G3DModelPreviewLayer.h" />

@@ -185,7 +185,7 @@ namespace g3d
         geode::Popup<>::onClose(ob);
     }
 
-    void G3DEditorPopup::updateState(NumberSettingNodeV3* invoker) 
+    void G3DEditorPopup::updateState(G3DNumberSetting* invoker) 
     {
         for (auto& sett : m_settings) { sett->updateState(nullptr); }
     }
@@ -208,47 +208,40 @@ namespace g3d
         layerBG->ignoreAnchorPointForPosition(false);
         m_mainLayer->addChildAtPosition(layerBG, geode::Anchor::Center);
 
-        //auto searchContainer = CCMenu::create();
-        //searchContainer->setContentSize({ layerSize.width, 30 });
-
-        //m_searchInput = geode::TextInput::create((layerSize.width - 15) / .7f, "Search Settings...");
-        //m_searchInput->setTextAlign(geode::TextInputAlign::Left);
-        //m_searchInput->setScale(.7f);
-        //m_searchInput->setCallback([this](auto const&) {
-        //    //this->updateState();
-        //    m_list->moveToTop();
-        //    });
-        //m_searchInput->setID("search-input");
-        //searchContainer->addChildAtPosition(m_searchInput, geode::Anchor::Left, ccp(7.5f, 0), ccp(0, .5f));
-        //layerBG->addChildAtPosition(searchContainer, geode::Anchor::Top, ccp(0, 0), ccp(.5f, 1));
-
-        //auto searchClearSpr = GeodeSquareSprite::createWithSpriteFrameName("GJ_deleteIcon_001.png", nullptr, m_forceDisableTheme);
-        //searchClearSpr->setScale(.45f);
-        //m_searchClearBtn = CCMenuItemSpriteExtra::create(
-        //    searchClearSpr, this, menu_selector(ModSettingsPopup::onClearSearch)
-        //);
-        //m_searchClearBtn->setID("clear-search-button");
-        //searchContainer->addChildAtPosition(m_searchClearBtn, Anchor::Right, ccp(-20, 0));
-
         m_list = geode::ScrollLayer::create(layerSize /*- ccp(0, searchContainer->getContentHeight())*/);
         m_list->setTouchEnabled(true);
 
-        NumberSettingNodeV3* node;
-        node = NumberSettingNodeV3::create("Cam X", &currentLevelData.x, layerSize.width);
+        G3DNumberSetting* node;
+
+        // "Cam X" Setting
+        node = G3DNumberSetting::create("Cam X", &currentLevelData.x, layerSize.width);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
-        node = NumberSettingNodeV3::create("Cam Y", &currentLevelData.y, layerSize.width);
+        node->m_impl_modDescription = "Controls the X axis (horizontal movement) of the camera.";
+
+        // "Cam Y" Setting
+        node = G3DNumberSetting::create("Cam Y", &currentLevelData.y, layerSize.width);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
-        node = NumberSettingNodeV3::create("Cam Z", &currentLevelData.z, layerSize.width);
+        node->m_impl_modDescription = "Controls the Y axis (vertical movement) of the camera.";
+
+        // "Cam Z" Setting
+        node = G3DNumberSetting::create("Cam Z", &currentLevelData.z, layerSize.width);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
-        node = NumberSettingNodeV3::create("Cam Yaw", &currentLevelData.yaw, layerSize.width);
+        node->m_impl_modDescription = "Controls the Z axis (depth or forward/backward movement) of the camera.";
+
+        // "Cam Yaw" Setting
+        node = G3DNumberSetting::create("Cam Yaw", &currentLevelData.yaw, layerSize.width);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
-        node = NumberSettingNodeV3::create("Cam Pitch", &currentLevelData.pitch, layerSize.width);
+        node->m_impl_modDescription = "Controls the yaw (horizontal rotation) of the camera.";
+
+        // "Cam Pitch" Setting
+        node = G3DNumberSetting::create("Cam Pitch", &currentLevelData.pitch, layerSize.width);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
+        node->m_impl_modDescription = "Controls the pitch (vertical tilt) of the camera.";
 
         m_list->m_contentLayer->setLayout(
             geode::ColumnLayout::create()
@@ -262,7 +255,6 @@ namespace g3d
         const int buttonPriority = m_list->getTouchPriority() - 1;
         //searchContainer->setTouchPriority(buttonPriority);
         //m_mainLayer->addChildAtPosition(createGeodeListBorders(layerSize, m_forceDisableTheme), geode::Anchor::Center);
-
 
         layerBG->addChildAtPosition(m_list, geode::Anchor::BottomLeft);
 
@@ -284,86 +276,6 @@ namespace g3d
         scrollBar->setPositionX(scrollBar->getPositionX() + 90);
 
         return true;
-
-        //const CCSize uiSize = CCDirector::sharedDirector()->getWinSize() - G3DEditorPopup::popupPadding;
-        //this->setTitle("Geome3Dash Level Editor");
-
-        //// Set up scroll layer
-        //auto scrollContentSize = CCSize(uiSize.width, uiSize.height); // Content size for scrolling
-        //this->m_geodeScrollLayer = geode::ScrollLayer::create(scrollContentSize);
-        //m_geodeScrollLayer->setPosition({
-        //    m_bgSprite->getPositionX() - m_geodeScrollLayer->getScaledContentWidth() / 2, 
-        //    m_bgSprite->getPositionY() - m_geodeScrollLayer->getScaledContentHeight() / 2 - 10.f });
-        //m_geodeScrollLayer->m_contentLayer->setLayout(
-        //    geode::ColumnLayout::create()
-        //        ->setAxisReverse(true)
-        //        ->setAxisAlignment(geode::AxisAlignment::End)
-        //        ->setAutoGrowAxis(uiSize.height)
-        //        ->setGap(5.0f));
-        //this->m_mainLayer->addChild(this->m_geodeScrollLayer);
-        //m_spikeScene = G3DEditorScene::create();
-
-        //auto addCameraInput = [&](const char* label, double* value, CCPoint position) {
-        //    auto labelNode = CCLabelBMFont::create(label, "chatFont.fnt");
-        //    labelNode->setScale(0.8f);
-        //    labelNode->setPosition(position);
-        //    this->m_geodeScrollLayer->addChild(labelNode);
-
-        //    auto input = CCTextInputNode::create(150.f, 30.f, std::to_string(*value).c_str(), 12.f, "chatFont.fnt");
-
-        //    input->setAllowedChars("-.0123456789");
-        //    input->setMaxLabelLength(10);
-        //    input->setScale(0.8f);
-        //    input->setPosition({ position.x + 150.0f, position.y });
-        //    this->m_geodeScrollLayer->addChild(input, 5);
-
-        //    auto inputBG = cocos2d::extension::CCScale9Sprite::create("square02_small.png", { 0.0f, 0.0f, 40.0f, 40.0f });
-        //    inputBG->setContentSize({ 150.0f, 30.0f });
-        //    inputBG->setPosition(input->getPosition());
-        //    inputBG->setOpacity(100);
-        //    this->m_geodeScrollLayer->addChild(inputBG, 4);
-
-        //    //auto slider = Slider::create(m_geodeScrollLayer)
-        //    //m_geodeScrollLayer->addChild(slider);
-        //    };
-
-        ////auto addCameraCheckbox = [&](const char* label, bool* value, CCPoint position) {
-        ////    auto labelNode = CCLabelBMFont::create(label, "chatFont.fnt");
-        ////    labelNode->setScale(0.8f);
-        ////    labelNode->setPosition(position);
-        ////    this->m_geodeScrollLayer->addChild(labelNode);
-
-        ////    auto checkbox = CCCheckBox::create("checkbox_unchecked.png", "checkbox_checked.png");
-        ////    checkbox->setPosition({ position.x + 150.0f, position.y });
-        ////    checkbox->setSelected(*value);
-        ////    checkbox->addEventListener([=](CCObject* sender, CheckBoxEventType type) {
-        ////        *value = (type == CheckBoxEventType::SELECTED);
-        ////        });
-        ////    this->m_geodeScrollLayer->addChild(checkbox, 5);
-        ////    };
-
-        //// Camera Input Fields
-        //float startY = scrollContentSize.height - 60;
-        //float spacing = 42.0f;
-        //addCameraInput("Position X:", &currentLevelData.x, { 50, startY });
-        //addCameraInput("Position Y:", &currentLevelData.y, { 50, startY - spacing });
-        //addCameraInput("Position Z:", &currentLevelData.z, { 50, startY - spacing * 2 });
-        //addCameraInput("Yaw:", &currentLevelData.yaw, { 50, startY - spacing * 3 });
-        //addCameraInput("Pitch:", &currentLevelData.pitch, { 50, startY - spacing * 4 });
-        ////addCameraCheckbox("Lock Camera:", &currentLevelData.camera.lock, { 50, startY - spacing * 5 });
-
-        //// Add Camera Preview Area on the Right (optional)
-        //auto cameraPreviewArea = cocos2d::extension::CCScale9Sprite::create("square02_small.png", { 0.0f, 0.0f, 40.0f, 40.0f });
-        //cameraPreviewArea->setContentSize({ uiSize.width / 3, uiSize.height - 80 });
-        //cameraPreviewArea->setPosition({ uiSize.width - uiSize.width / 4, uiSize.height / 2 });
-        //cameraPreviewArea->setOpacity(150);
-        //this->m_mainLayer->addChild(cameraPreviewArea);
-
-
-        //cameraPreviewArea->addChild(m_spikeScene);
-        //cameraPreviewArea->setZOrder(100);
-
-        return true;
     }
 
     void G3DEditorPopup::scene() {
@@ -379,6 +291,83 @@ namespace g3d
         }
         else {
             CC_SAFE_DELETE(instance);
+        }
+    }
+
+    void G3DEditorScene::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+        if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+            if (action == GLFW_PRESS) {
+                isRightClicking = true;
+                isRightClickingGetPos = false;
+            }
+            else if (action == GLFW_RELEASE) {
+                isRightClicking = false;
+            }
+        }
+    }
+
+    void G3DEditorScene::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
+        if (isRightClicking) {
+            if (!isRightClickingGetPos) {
+                lastMouseX = static_cast<float>(x);
+                lastMouseY = static_cast<float>(y);
+                isRightClickingGetPos = true;
+            }
+            else {
+                float deltaX = static_cast<float>(x) - lastMouseX;
+                float deltaY = static_cast<float>(y) - lastMouseY;
+                if (isPressingControl) {
+                    float sensitivity = 0.032f;
+                    playerCameraOffset += camera.getUp() * deltaY * sensitivity;
+                    playerCameraOffset += glm::normalize(glm::cross(camera.getFront(), camera.getUp())) * deltaX * -sensitivity;
+                }
+                else {
+                    float sensitivity = 0.05f;
+                    playerCameraYawOffset -= deltaX * sensitivity;
+                    playerCameraPitchOffset -= deltaY * sensitivity;
+                }
+                lastMouseX = static_cast<float>(x);
+                lastMouseY = static_cast<float>(y);
+
+                currentLevelData.x = playerCameraOffset.x;
+                currentLevelData.y = playerCameraOffset.y;
+                currentLevelData.z = playerCameraOffset.z;
+                currentLevelData.yaw = playerCameraYawOffset;
+                currentLevelData.pitch = playerCameraPitchOffset;
+                if (auto layer = dynamic_cast<G3DEditorPopup*>(this->getParent()->getParent()))
+                {
+                    layer->updateState();
+                }
+            }
+        }
+    }
+
+    void G3DEditorScene::scrollWheel(float y, float x) {
+        if (isPressingControl) {
+            // Adjust the camera zoom level using the scroll wheel
+            float zoomSensitivity = -0.128f;
+            playerCameraOffset += camera.getFront() * y * zoomSensitivity;
+            currentLevelData.x = playerCameraOffset.x;
+            currentLevelData.y = playerCameraOffset.y;
+            currentLevelData.z = playerCameraOffset.z;
+            currentLevelData.yaw = playerCameraYawOffset;
+            currentLevelData.pitch = playerCameraPitchOffset;
+            if (auto layer = dynamic_cast<G3DEditorPopup*>(this->getParent()->getParent())) {
+                layer->updateState();
+            }
+        }
+    }
+
+    void G3DEditorScene::onKey(enumKeyCodes key, bool pressed, bool holding) {
+        switch (key) {
+        case KEY_Control:
+            isPressingControl = pressed;
+            break;
+        case KEY_Shift:
+            isPressingShift = pressed;
+            break;
+        default:
+            break;
         }
     }
 }
