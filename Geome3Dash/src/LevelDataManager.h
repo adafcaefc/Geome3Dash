@@ -25,12 +25,14 @@ namespace g3d
 
 	struct LevelData
 	{
-		CubicBezierLD bezierCurve;         // Bezier 
-		double bezierMultiplier;           // Path size
-		double x, y, z;                    // Position
-		double yaw, pitch;                 // Rotation
-		bool lock;                         // Lock camera
+		CubicBezierLD bezierCurve;           // Bezier values
+		double bezierMultiplier;             // Path size
+		double x, y, z;                      // Position
+		double yaw, pitch;                   // Rotation
+		bool lock;                           // Lock camera
 		std::vector<CameraActionLD> actions; // Camera actions
+
+		static LevelData getDefault();
 
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(LevelData, bezierCurve, bezierMultiplier, x, y, z, yaw, pitch, lock, actions);
 	};

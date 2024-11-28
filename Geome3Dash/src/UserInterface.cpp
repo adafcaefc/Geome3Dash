@@ -139,20 +139,7 @@ namespace g3d
 
         if (ImGui::Button("Reset Data")) 
         { 
-            currentLevelData = LevelData(); 
-            currentLevelData.x = -10;
-            currentLevelData.y = 5;
-            currentLevelData.z = 40;
-            currentLevelData.yaw = -55;
-            currentLevelData.pitch = -6;
-            currentLevelData.bezierMultiplier = 1.0 / 3.0;
-
-            currentLevelData.bezierCurve = {
-                0.167, 0.355,   // x0, y0: Starting point
-                0.516, 0.124,  // cx1, cy1: First control point
-                0.121, 0.557,   // cx2, cy2: Second control point
-                0.412, 0.352   // x1, y1: End point
-            };
+            currentLevelData = LevelData::getDefault();
         }
 
         ImGui::Separator();

@@ -232,36 +232,31 @@ namespace g3d
         loadPlayers();
         loadObjectModels();
 
+        auto data = LevelData::getDefault();
+
         try
         {
-            auto data = getLevelData(playLayer);
-            playerCameraOffset = glm::vec3(data.x, data.y, data.z);
-            playerCameraYawOffset = data.yaw;
-            playerCameraPitchOffset = data.pitch;
-            bezier = data.bezierCurve;
-            constexpr double bezierM = 1000;
-            bezier.cx1 *= bezierM;
-            bezier.cx2 *= bezierM;
-            bezier.cy1 *= bezierM;
-            bezier.cy2 *= bezierM;
-            bezier.x0 *= bezierM;
-            bezier.x1 *= bezierM;
-            bezier.y0 *= bezierM;
-            bezier.y1 *= bezierM;
-            bezierSegmentMultiplier = 1.0 / data.bezierMultiplier;
+            data = getLevelData(playLayer);
         }
         catch (...)
         {
 
         }
-        // default camera position
-        //playerCameraOffset = glm::vec3(-10, 5, 40);
-        //playerCameraYawOffset = -55.f;
-        //playerCameraPitchOffset = -6.f;
 
-        //// Add some example camera actions
-        //cameraActionHandler.addAction({ +1, +2, -2, +5, +3, 1.0, 200 });
-        //cameraActionHandler.addAction({ +5, +3, -1, -5, -3, 2.0, 1000 });
+        playerCameraOffset = glm::vec3(data.x, data.y, data.z);
+        playerCameraYawOffset = data.yaw;
+        playerCameraPitchOffset = data.pitch;
+        bezier = data.bezierCurve;
+        constexpr double bezierM = 1000;
+        bezier.cx1 *= bezierM;
+        bezier.cx2 *= bezierM;
+        bezier.cy1 *= bezierM;
+        bezier.cy2 *= bezierM;
+        bezier.x0 *= bezierM;
+        bezier.x1 *= bezierM;
+        bezier.y0 *= bezierM;
+        bezier.y1 *= bezierM;
+        bezierSegmentMultiplier = 1.0 / data.bezierMultiplier;
 
         return true;
     }

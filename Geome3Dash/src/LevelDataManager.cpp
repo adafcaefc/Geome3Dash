@@ -95,4 +95,23 @@ namespace g3d
         std::string jsonMsg = jsonData.dump();
         msgLevelEncode(layer, jsonMsg);
     }
+
+    LevelData LevelData::getDefault()
+    {
+        LevelData ld;
+        ld.x = -10;
+        ld.y = 5;
+        ld.z = 40;
+        ld.yaw = -55;
+        ld.pitch = -6;
+        ld.bezierMultiplier = 1.0 / 3.0;
+        ld.bezierCurve =
+        {
+           0.167, 0.355,
+           0.516, 0.124,
+           0.121, 0.557,
+           0.412, 0.352
+        };
+        return ld;
+    }
 }
