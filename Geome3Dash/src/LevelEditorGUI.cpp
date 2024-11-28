@@ -207,6 +207,215 @@ namespace g3d
         return (GetAsyncKeyState(VK_TAB) & 0x8000) != 0;
     }
 
+    // ------------ spline 
+
+    static inline float  ImLengthSqr(const ImVec2& lhs) { return (lhs.x * lhs.x) + (lhs.y * lhs.y); }
+    static inline ImVec2  operator*(const ImVec2& lhs, const float rhs) { return ImVec2(lhs.x * rhs, lhs.y * rhs); }
+    static inline ImVec2  operator/(const ImVec2& lhs, const float rhs) { return ImVec2(lhs.x / rhs, lhs.y / rhs); }
+    static inline ImVec2  operator+(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x + rhs.x, lhs.y + rhs.y); }
+    static inline ImVec2  operator-(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x - rhs.x, lhs.y - rhs.y); }
+    static inline ImVec2  operator*(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x * rhs.x, lhs.y * rhs.y); }
+    static inline ImVec2  operator/(const ImVec2& lhs, const ImVec2& rhs) { return ImVec2(lhs.x / rhs.x, lhs.y / rhs.y); }
+    static inline ImVec2  operator-(const ImVec2& lhs) { return ImVec2(-lhs.x, -lhs.y); }
+
+    struct ControlPoint {
+        float x, y;
+    };
+
+    // Globals
+    std::vector<ControlPoint> controlPoints;
+    int degree = 3;  // Default spline degree
+    bool showControlPolygon = true;
+    int resolution = 100;  // Number of points to evaluate on the spline
+
+    ControlPoint DeBoor(int k, int degree, float t, const std::vector<float>& knots, const std::vector<ControlPoint>& points) {
+        std::vector<ControlPoint> d = points;
+
+        for (int r = 1; r <= degree; ++r) {
+            for (int j = k; j > k - r; --j) {
+                float denominator = knots[j + degree - r + 1] - knots[j];
+                float alpha = denominator == 0.0f ? 0.0f : (t - knots[j]) / denominator;
+
+                d[j].x = (1.0f - alpha) * d[j - 1].x + alpha * d[j].x;
+                d[j].y = (1.0f - alpha) * d[j - 1].y + alpha * d[j].y;
+            }
+        }
+
+        return d[k];
+    }
+
+    std::vector<float> GenerateUniformKnots(int n, int degree) {
+        int knotCount = n + degree + 2;
+        std::vector<float> knots(knotCount);
+
+        for (int i = 0; i < knotCount; ++i) {
+            if (i < degree) {
+                knots[i] = 0.0f; // Repeat start knots
+            }
+            else if (i > n) {
+                knots[i] = static_cast<float>(n - degree + 1); // Repeat end knots
+            }
+            else {
+                knots[i] = static_cast<float>(i - degree);
+            }
+        }
+
+        return knots;
+    }
+
+    std::vector<ControlPoint> ComputeBSpline(const std::vector<ControlPoint>& points, int degree, int resolution) {
+        std::vector<ControlPoint> result;
+        if (points.size() < degree + 1) return result;
+
+        int n = points.size() - 1;
+        std::vector<float> knots = GenerateUniformKnots(n, degree);
+
+        float step = (knots[n + 1] - knots[degree]) / static_cast<float>(resolution - 1);
+        for (float t = knots[degree]; t <= knots[n + 1] + step / 2; t += step) {
+            // Clamp t to ensure it doesn't exceed the range
+            if (t > knots[n + 1]) t = knots[n + 1];
+
+            // Find the knot span index k
+            int k = n;
+            for (int i = degree; i <= n; ++i) {
+                if (t >= knots[i] && t < knots[i + 1]) {
+                    k = i;
+                    break;
+                }
+            }
+
+            result.push_back(DeBoor(k, degree, t, knots, points));
+        }
+
+        return result;
+    }
+
+    void RenderBSplineInCanvas(
+        const std::vector<ControlPoint>& controlPoints,
+        int degree,
+        int resolution,
+        const ImVec2& offset,
+        float scale,
+        ImDrawList* drawList
+    ) {
+        if (controlPoints.size() < degree + 1) return;
+
+        std::vector<ControlPoint> splinePoints = ComputeBSpline(controlPoints, degree, resolution);
+
+        for (size_t i = 0; i < splinePoints.size() - 1; ++i) {
+            ImVec2 p1 = ImVec2(offset.x + splinePoints[i].x * scale, offset.y + splinePoints[i].y * scale);
+            ImVec2 p2 = ImVec2(offset.x + splinePoints[i + 1].x * scale, offset.y + splinePoints[i + 1].y * scale);
+
+            drawList->AddLine(p1, p2, IM_COL32(255, 100, 100, 255), 2.0f); // Red curve
+        }
+    }
+
+    void DrawBSplineEditorWithCanvas() {
+        static int selectedPoint = -1; // Index of the currently selected point
+        static bool isDragging = false;
+        ImGui::Begin("B-Spline Editor");
+
+        // Canvas setup
+        ImVec2 canvasSize = ImVec2(400, 400);
+        ImVec2 canvasPos = ImGui::GetCursorScreenPos();
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
+
+        // Draw canvas background and border
+        drawList->AddRectFilled(canvasPos, canvasPos + canvasSize, IM_COL32(50, 50, 50, 255)); // Dark background
+        drawList->AddRect(canvasPos, canvasPos + canvasSize, IM_COL32(255, 255, 255, 255));   // White border
+
+        // Transformations for control points
+        float scale = canvasSize.x * 0.8f;
+        ImVec2 offset = ImVec2(canvasPos.x + canvasSize.x * 0.1f, canvasPos.y + canvasSize.y * 0.1f);
+
+        // Draw control polygon
+        if (controlPoints.size() > 1) {
+            for (size_t i = 0; i < controlPoints.size() - 1; ++i) {
+                ImVec2 p1 = ImVec2(offset.x + controlPoints[i].x * scale, offset.y + controlPoints[i].y * scale);
+                ImVec2 p2 = ImVec2(offset.x + controlPoints[i + 1].x * scale, offset.y + controlPoints[i + 1].y * scale);
+                drawList->AddLine(p1, p2, IM_COL32(150, 150, 150, 255), 2.0f); // Grey line
+            }
+        }
+
+        // Draw and handle control points
+        for (size_t i = 0; i < controlPoints.size(); ++i) {
+            ImVec2 pointPos = ImVec2(offset.x + controlPoints[i].x * scale, offset.y + controlPoints[i].y * scale);
+
+            // Draw point
+            drawList->AddCircleFilled(pointPos, 5.0f, IM_COL32(255, 255, 0, 255)); // Yellow point
+
+            // Check for mouse interaction
+            if (ImGui::IsMouseHoveringRect(canvasPos, canvasPos + canvasSize)) {
+                ImVec2 mousePos = ImGui::GetMousePos();
+                float distance = std::hypot(pointPos.x - mousePos.x, pointPos.y - mousePos.y);
+
+                // Handle selection
+                if (distance < 10.0f && ImGui::IsMouseClicked(0)) {
+                    selectedPoint = i;
+                    isDragging = true;
+                }
+            }
+        }
+
+        // Handle dragging
+        if (isDragging && selectedPoint != -1) {
+            if (ImGui::IsMouseDragging(0)) {
+                ImVec2 mousePos = ImGui::GetMousePos();
+                float normalizedX = (mousePos.x - offset.x) / scale;
+                float normalizedY = (mousePos.y - offset.y) / scale;
+
+                // Clamp the point within canvas bounds
+                controlPoints[selectedPoint].x = std::clamp(normalizedX, 0.0f, 1.0f);
+                controlPoints[selectedPoint].y = std::clamp(normalizedY, 0.0f, 1.0f);
+            }
+            else if (ImGui::IsMouseReleased(0)) {
+                isDragging = false;
+                selectedPoint = -1;
+            }
+        }
+
+        // Draw B-spline curve
+        RenderBSplineInCanvas(controlPoints, degree, resolution, offset, scale, drawList);
+
+        ImGui::End();
+    }
+
+
+    void DrawBSplineEditor() {
+        ImGui::Begin("B-Spline Editor");
+
+        // Spline Degree
+        ImGui::SliderInt("Spline Degree", &degree, 1, 5);
+
+        // Toggle Control Polygon Visibility
+        ImGui::Checkbox("Show Control Polygon", &showControlPolygon);
+
+        // Resolution
+        ImGui::SliderInt("Curve Resolution", &resolution, 10, 500);
+
+        // Control Points
+        if (ImGui::Button("Add Control Point")) {
+            controlPoints.push_back({ 0.0f, 0.0f });
+        }
+
+        for (size_t i = 0; i < controlPoints.size(); ++i) {
+            ImGui::PushID(i);
+            ImGui::DragFloat2("Point", &controlPoints[i].x, 0.1f);
+            if (ImGui::Button("Remove")) {
+                controlPoints.erase(controlPoints.begin() + i);
+                ImGui::PopID();
+                continue;
+            }
+            ImGui::PopID();
+        }
+
+
+        ImGui::End();
+    }
+
+
+    // --------------------
+
     void renderImGui()
     {
         static bool showEditorWindow = false;
@@ -218,6 +427,8 @@ namespace g3d
         {
             renderBezierEditor(currentLevelData.bezierCurve);
             renderLevelDataEditor();
+            DrawBSplineEditor();
+            DrawBSplineEditorWithCanvas();
         }
     }
 
