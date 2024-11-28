@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Sus3D/ShaderProgram.h"
+#include "engine/sus3d/ShaderProgram.h"
 
 namespace g3d
 { 

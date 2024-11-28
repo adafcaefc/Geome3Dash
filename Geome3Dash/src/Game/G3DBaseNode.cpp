@@ -1,15 +1,15 @@
 #include "pch.h"
 
-#include "Game/G3DBaseNode.h"
+#include "game/G3DBaseNode.h"
 
-#include "Engine/Sus3D/ShaderProgram.h"
-#include "Engine/Sus3D/Model.h"
-#include "Engine/Sus3D/Shaders.h"
-#include "Engine/Sus3D/Shader.h"
-#include "Engine/Sus3D/Mesh.h"
+#include "engine/sus3d/ShaderProgram.h"
+#include "engine/sus3d/Model.h"
+#include "engine/sus3d/Shaders.h"
+#include "engine/sus3d/Shader.h"
+#include "engine/sus3d/Mesh.h"
 
-#include "Helper/OpenGLStateHelper.h"
-#include "Helper/CommonHelper.h"
+#include "helper/OpenGLStateHelper.h"
+#include "helper/CommonHelper.h"
 
 namespace g3d
 {

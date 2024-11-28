@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Helper/BezierHelper.h"
+#include "helper/BezierHelper.h"
 
 namespace g3d
 {

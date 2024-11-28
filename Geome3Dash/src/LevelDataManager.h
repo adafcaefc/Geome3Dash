@@ -2,7 +2,7 @@
 
 #include "CameraAction.h"
 
-#include "Helper/BezierHelper.h"
+#include "helper/BezierHelper.h"
 
 #include <nlohmann/json.hpp>
 

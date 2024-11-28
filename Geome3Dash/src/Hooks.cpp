@@ -2,9 +2,10 @@
 
 #include "Hooks.h"
 
-#include "Game/PlayLayer/G3DPlayLayer.h"
-#include "Game/TestLayer/G3DModelPreviewLayer.h"
-#include "Game/PlanetLayer/G3DPlanetLayer.h"
+#include "game/playing/G3DPlayLayer.h"
+#include "game/test/G3DModelPreviewLayer.h"
+#include "game/planet/G3DPlanetLayer.h"
+#include "game/editor/G3DEditorPopup.h"
 
 namespace g3d
 {
@@ -78,6 +79,42 @@ namespace g3d
         {
             CustomTouchManager::updateDelegates(touches, event, type);
             CCTouchDispatcher::touches(touches, event, type);
+        }
+    };
+
+    class $modify(LevelSettingsLayerG3D, LevelSettingsLayer)
+    {
+        void onEditorPopup(CCObject * sender)
+        {
+            G3DEditorPopup::scene();
+        }
+        bool init(LevelSettingsObject * p0, LevelEditorLayer * p1)
+        {
+            if (!LevelSettingsLayer::init(p0, p1)) { return false; }
+
+            auto winSize = CCDirector::sharedDirector()->getWinSize() / 2;
+            auto layer = dynamic_cast<CCLayer*>(this->getChildren()->objectAtIndex(0));
+            if (!layer) { return true; }
+            auto menu = dynamic_cast<CCNode*>(layer->getChildren()->objectAtIndex(1));
+            if (!menu) { return true; }
+
+            auto btnx = ButtonSprite::create("G3D", 0, false, "goldFont.fnt", "GJ_button_01.png", 0, 1);
+            btnx->setScale(0.80f);
+            btnx->setUserObject(this);
+            auto btn = CCMenuItemSpriteExtra::create(btnx, this, menu_selector(LevelSettingsLayerG3D::onEditorPopup));
+            btn->setPosition(menu->convertToNodeSpace({ winSize.width - 180.0f, winSize.height - 130.0f }));
+            menu->addChild(btn);
+
+            return true;
+        }
+    };
+
+    class $modify(MenuLayer) {
+        bool init() {
+            if (!MenuLayer::init()) return false;
+            AllocConsole();
+            freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
+            return true;
         }
     };
 

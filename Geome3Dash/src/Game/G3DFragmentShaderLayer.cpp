@@ -4,11 +4,11 @@
 
 #include "G3DFragmentShaderLayer.h"
 
-#include "Engine/Sus3D/Shader.h"
-#include "Engine/Sus3D/Shaders.h"
-#include "Engine/Sus3D/ShaderProgram.h"
+#include "engine/sus3d/Shader.h"
+#include "engine/sus3d/Shaders.h"
+#include "engine/sus3d/ShaderProgram.h"
 
-#include "Helper/OpenGLStateHelper.h"
+#include "helper/OpenGLStateHelper.h"
 
 namespace g3d
 {

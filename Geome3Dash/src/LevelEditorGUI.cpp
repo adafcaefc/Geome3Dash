@@ -4,7 +4,7 @@
 
 #include "LevelDataManager.h"
 
-#include "Lib/imgui-cocos/imgui-cocos.hpp"
+#include "lib/imgui-cocos/imgui-cocos.hpp"
 
 namespace g3d
 {
@@ -15,7 +15,7 @@ namespace g3d
     }
 
 
-    ImVec2 computeBezierPoint(const CubicBezier& bezier, float t) 
+    ImVec2 computeBezierPoint(const CubicBezier& bezier, float t)
     {
         float u = 1.0f - t;
         float tt = t * t;
