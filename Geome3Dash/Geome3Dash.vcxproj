@@ -13,6 +13,25 @@
     </ClCompile>
     <ClCompile Include="src\CocosShaderProgram.cpp" />
     <ClCompile Include="src\G3DPlanetLayer.cpp" />
+    <ClCompile Include="src\LevelDataManager.cpp" />
+    <ClCompile Include="src\Lib\imgui-cocos\imgui-cocos.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Lib\imgui-cocos\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Lib\imgui-cocos\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Lib\imgui-cocos\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Lib\imgui-cocos\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Lib\imgui-cocos\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\Sus3D\Easing.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -53,6 +72,7 @@
     <ClCompile Include="src\Lib\tinyfiledialogs\tinyfiledialogs.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\UserInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -71,6 +91,14 @@
     <ClInclude Include="src\Helper\CommonHelper.h" />
     <ClInclude Include="src\Helper\OpenGLStateHelper.h" />
     <ClInclude Include="src\Hooks.h" />
+    <ClInclude Include="src\LevelDataManager.h" />
+    <ClInclude Include="src\Lib\imgui-cocos\imconfig.h" />
+    <ClInclude Include="src\Lib\imgui-cocos\imgui-cocos.hpp" />
+    <ClInclude Include="src\Lib\imgui-cocos\imgui.h" />
+    <ClInclude Include="src\Lib\imgui-cocos\imgui_internal.h" />
+    <ClInclude Include="src\Lib\imgui-cocos\imstb_rectpack.h" />
+    <ClInclude Include="src\Lib\imgui-cocos\imstb_textedit.h" />
+    <ClInclude Include="src\Lib\imgui-cocos\imstb_truetype.h" />
     <ClInclude Include="src\Lib\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="src\Sus3D\Easing.h" />
     <ClInclude Include="src\Sus3D\Mesh.h" />
@@ -80,6 +108,7 @@
     <ClInclude Include="src\Sus3D\ShaderProgram.h" />
     <ClInclude Include="src\Sus3D\Shaders.h" />
     <ClInclude Include="src\Sus3D\Texture.h" />
+    <ClInclude Include="src\UserInterface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -1,7 +1,7 @@
 #pragma once
 
 #define GEODE_MOD_ID "rainixgd.geome3dash"
-#define GEODE_COMP_GD_VERSION 22007
+#define GEODE_COMP_GD_VERSION 22074
 #define MAT_JSON_DYNAMIC 0
 
 #define WIN32_LEAN_AND_MEAN

@@ -2,6 +2,7 @@
 #include "pch.h"
 
 #include "G3DPlayLayer.h"
+#include "LevelDataManager.h"
 
 namespace g3d
 {
@@ -25,12 +26,12 @@ namespace g3d
 
     // temporary
     // better short worm thingy
-    static CubicBezier bezier = {
-        167, 355,   // x0, y0: Starting point
-        516, 124,  // cx1, cy1: First control point
-        121, 557,   // cx2, cy2: Second control point
-        412, 352   // x1, y1: End point
-    };
+    //static CubicBezier bezier = {
+    //    167, 355,   // x0, y0: Starting point
+    //    516, 124,  // cx1, cy1: First control point
+    //    121, 557,   // cx2, cy2: Second control point
+    //    412, 352   // x1, y1: End point
+    //};
 
     // wild stuff
     //CubicBezier bezier = {
@@ -137,7 +138,7 @@ namespace g3d
         auto newZ = 20.f;
         auto newR = playerObject->getRotation();
         auto bCoordinate = BezierManager::transformIntoBezierCoordinate(
-            bezier,
+            playLayer3D->bezier,
             newX, newY, newZ,
             playLayer3D->bezierSegmentCount,
             playLayer3D->bezierSegmentMultiplier);
@@ -231,10 +232,30 @@ namespace g3d
         loadPlayers();
         loadObjectModels();
 
+        try
+        {
+            auto data = getLevelData(playLayer);
+            playerCameraOffset = glm::vec3(data.x, data.y, data.z);
+            playerCameraYawOffset = data.yaw;
+            playerCameraPitchOffset = data.pitch;
+            bezier = data.bezierCurve;
+            bezier.cx1 *= 1000;
+            bezier.cx2 *= 1000;
+            bezier.cy1 *= 1000;
+            bezier.cy2 *= 1000;
+            bezier.x0 *= 1000;
+            bezier.x1 *= 1000;
+            bezier.y0 *= 1000;
+            bezier.y1 *= 1000;
+        }
+        catch (...)
+        {
+
+        }
         // default camera position
-        playerCameraOffset = glm::vec3(-10, 5, 40);
-        playerCameraYawOffset = -55.f;
-        playerCameraPitchOffset = -6.f;
+        //playerCameraOffset = glm::vec3(-10, 5, 40);
+        //playerCameraYawOffset = -55.f;
+        //playerCameraPitchOffset = -6.f;
 
         //// Add some example camera actions
         //cameraActionHandler.addAction({ +1, +2, -2, +5, +3, 1.0, 200 });

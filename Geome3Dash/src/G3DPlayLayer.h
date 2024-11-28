@@ -78,12 +78,14 @@ namespace g3d
         double playerCameraPitchOffset;
         CocosShaderProgram* shaderProgram;
 
+        CubicBezier bezier;
+        double bezierSegmentMultiplier = 3;
+
         sus3d::Camera camera;
         sus3d::Light light;
 
         CameraActionHandler cameraActionHandler = CameraActionHandler(&sus3d::easing::v::easeInOutQuad);
 
-        double bezierSegmentMultiplier = 0.6;
         int bezierSegmentCount = 1000000;
 
         // updateCameraAction
