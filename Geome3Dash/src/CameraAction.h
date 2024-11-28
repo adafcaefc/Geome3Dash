@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "Sus3D/Easing.h"
+#include "Engine/Sus3D/Easing.h"
 
 namespace g3d
 {

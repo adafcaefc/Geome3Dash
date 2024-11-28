@@ -145,6 +145,7 @@ namespace g3d
             currentLevelData.z = 40;
             currentLevelData.yaw = -55;
             currentLevelData.pitch = -6;
+            currentLevelData.bezierMultiplier = 1.0 / 3.0;
 
             currentLevelData.bezierCurve = {
                 0.167, 0.355,   // x0, y0: Starting point
@@ -166,6 +167,7 @@ namespace g3d
         ImGui::InputDouble("Control 2 Y", &currentLevelData.bezierCurve.cy2);
         ImGui::InputDouble("End X", &currentLevelData.bezierCurve.x1);
         ImGui::InputDouble("End Y", &currentLevelData.bezierCurve.y1);
+        ImGui::InputDouble("Bezier Multiplier", &currentLevelData.bezierMultiplier);
 
         ImGui::Separator();
 

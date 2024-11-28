@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Sus3D/Scene.h"
-#include "Sus3D/Model.h"
+#include "Engine/Sus3D/Scene.h"
+#include "Engine/Sus3D/Model.h"
 
 #include "Helper/CommonHelper.h"
 

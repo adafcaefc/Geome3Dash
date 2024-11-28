@@ -2,13 +2,13 @@
 
 #include <vector>
 
-#include "Sus3D/ShaderProgram.h"
-#include "Sus3D/Shader.h"
-#include "Sus3D/Mesh.h"
-#include "Sus3D/Texture.h"
-#include "Sus3D/Model.h"
-#include "Sus3D/Scene.h"
-#include "Sus3D/Shaders.h"
+#include "Engine/Sus3D/ShaderProgram.h"
+#include "Engine/Sus3D/Shader.h"
+#include "Engine/Sus3D/Mesh.h"
+#include "Engine/Sus3D/Texture.h"
+#include "Engine/Sus3D/Model.h"
+#include "Engine/Sus3D/Scene.h"
+#include "Engine/Sus3D/Shaders.h"
 
 #include "Delegate/CustomKeyboard.h"
 #include "Delegate/CustomMouse.h"

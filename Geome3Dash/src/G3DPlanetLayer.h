@@ -4,7 +4,7 @@
 #include "Delegate/CustomMouse.h"
 #include "Delegate/CustomTouch.h"
 
-#include "Sus3D/Model.h"
+#include "Engine/Sus3D/Model.h"
 
 namespace g3d
 {

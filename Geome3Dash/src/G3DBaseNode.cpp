@@ -2,11 +2,11 @@
 
 #include "G3DBaseNode.h"
 
-#include "Sus3D/ShaderProgram.h"
-#include "Sus3D/Model.h"
-#include "Sus3D/Shaders.h"
-#include "Sus3D/Shader.h"
-#include "Sus3D/Mesh.h"
+#include "Engine/Sus3D/ShaderProgram.h"
+#include "Engine/Sus3D/Model.h"
+#include "Engine/Sus3D/Shaders.h"
+#include "Engine/Sus3D/Shader.h"
+#include "Engine/Sus3D/Mesh.h"
 
 #include "Helper/OpenGLStateHelper.h"
 #include "Helper/CommonHelper.h"

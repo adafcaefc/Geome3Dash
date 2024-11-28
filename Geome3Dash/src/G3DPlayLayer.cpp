@@ -239,14 +239,16 @@ namespace g3d
             playerCameraYawOffset = data.yaw;
             playerCameraPitchOffset = data.pitch;
             bezier = data.bezierCurve;
-            bezier.cx1 *= 1000;
-            bezier.cx2 *= 1000;
-            bezier.cy1 *= 1000;
-            bezier.cy2 *= 1000;
-            bezier.x0 *= 1000;
-            bezier.x1 *= 1000;
-            bezier.y0 *= 1000;
-            bezier.y1 *= 1000;
+            constexpr double bezierM = 1000;
+            bezier.cx1 *= bezierM;
+            bezier.cx2 *= bezierM;
+            bezier.cy1 *= bezierM;
+            bezier.cy2 *= bezierM;
+            bezier.x0 *= bezierM;
+            bezier.x1 *= bezierM;
+            bezier.y0 *= bezierM;
+            bezier.y1 *= bezierM;
+            bezierSegmentMultiplier = 1.0 / data.bezierMultiplier;
         }
         catch (...)
         {

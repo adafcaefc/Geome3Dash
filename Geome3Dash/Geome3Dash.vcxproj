@@ -12,6 +12,30 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\CocosShaderProgram.cpp" />
+    <ClCompile Include="src\Engine\Sus3D\Easing.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Sus3D\Mesh.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Sus3D\Model.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Sus3D\Scene.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Sus3D\Shader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Sus3D\ShaderProgram.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Sus3D\Shaders.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Sus3D\Texture.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\G3DPlanetLayer.cpp" />
     <ClCompile Include="src\LevelDataManager.cpp" />
     <ClCompile Include="src\Lib\imgui-cocos\imgui-cocos.cpp">
@@ -30,30 +54,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Lib\imgui-cocos\imgui_widgets.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\Easing.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\ShaderProgram.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\Shaders.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\Mesh.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\Model.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\Shader.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\Scene.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Sus3D\Texture.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\BezierManager.cpp" />
@@ -82,6 +82,14 @@
     <ClInclude Include="src\Delegate\CustomKeyboard.h" />
     <ClInclude Include="src\Delegate\CustomMouse.h" />
     <ClInclude Include="src\Delegate\CustomTouch.h" />
+    <ClInclude Include="src\Engine\Sus3D\Easing.h" />
+    <ClInclude Include="src\Engine\Sus3D\Mesh.h" />
+    <ClInclude Include="src\Engine\Sus3D\Model.h" />
+    <ClInclude Include="src\Engine\Sus3D\Scene.h" />
+    <ClInclude Include="src\Engine\Sus3D\Shader.h" />
+    <ClInclude Include="src\Engine\Sus3D\ShaderProgram.h" />
+    <ClInclude Include="src\Engine\Sus3D\Shaders.h" />
+    <ClInclude Include="src\Engine\Sus3D\Texture.h" />
     <ClInclude Include="src\G3DBaseNode.h" />
     <ClInclude Include="src\G3DFragmentShaderLayer.h" />
     <ClInclude Include="src\G3DModelPreviewLayer.h" />
@@ -100,14 +108,6 @@
     <ClInclude Include="src\Lib\imgui-cocos\imstb_textedit.h" />
     <ClInclude Include="src\Lib\imgui-cocos\imstb_truetype.h" />
     <ClInclude Include="src\Lib\tinyfiledialogs\tinyfiledialogs.h" />
-    <ClInclude Include="src\Sus3D\Easing.h" />
-    <ClInclude Include="src\Sus3D\Mesh.h" />
-    <ClInclude Include="src\Sus3D\Model.h" />
-    <ClInclude Include="src\Sus3D\Scene.h" />
-    <ClInclude Include="src\Sus3D\Shader.h" />
-    <ClInclude Include="src\Sus3D\ShaderProgram.h" />
-    <ClInclude Include="src\Sus3D\Shaders.h" />
-    <ClInclude Include="src\Sus3D\Texture.h" />
     <ClInclude Include="src\UserInterface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
