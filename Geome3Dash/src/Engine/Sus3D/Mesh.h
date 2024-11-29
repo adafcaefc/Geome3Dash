@@ -13,24 +13,25 @@ namespace sus3d
     class ShaderProgram;
 
     class Mesh {
-        unsigned int VAO = 0u, VBO = 0u, EBO = 0u;
+        unsigned int VAO, VBO, EBO;
         std::vector<float> vertices;
         std::vector<unsigned int> indices;
-        bool useTexture = false;
+        bool useTexture = 0;
 
-        glm::vec3 Ka = glm::vec3(0, 0, 0);
-        glm::vec3 Kd = glm::vec3(0, 0, 0);
-        glm::vec3 Ks = glm::vec3(0, 0, 0);
+        glm::vec3 Ka;
+        glm::vec3 Kd;
+        glm::vec3 Ks;
 
-        glm::vec3 CustomKa = glm::vec3(0, 0, 0);
-        glm::vec3 CustomKd = glm::vec3(0, 0, 0);
-        glm::vec3 CustomKs = glm::vec3(0, 0, 0);
-
+        glm::vec3 CustomKa;
+        glm::vec3 CustomKd;
+        glm::vec3 CustomKs;
         bool isCustomKa = false;
         bool isCustomKd = false;
         bool isCustomKs = false;
 
-        unsigned int texture = 0u;
+        bool visible = 1;
+
+        unsigned int texture;
 
         Mesh() {}
 
@@ -45,6 +46,8 @@ namespace sus3d
         void disableKa() { isCustomKa = false; }
         void disableKd() { isCustomKd = false; }
         void disableKs() { isCustomKs = false; }
+
+        void setVisible(bool visible) { this->visible = visible; };
 
         static Mesh* create(aiMesh* mesh, aiMaterial* material);
         void render(ShaderProgram* shaderProgram) const;

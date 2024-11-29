@@ -1,8 +1,8 @@
 #include "pch.h"
 
 #include "game/test/G3DModelPreviewLayer.h"
-#include "game/G3DBaseNode.h"
-#include "game/G3DFragmentShaderLayer.h"
+#include "game/component/G3DBaseNode.h"
+#include "game/component/G3DFragmentShaderLayer.h"
 
 #include "CocosShaderProgram.h"
 
@@ -94,6 +94,7 @@ namespace g3d
     }
 
     bool G3DModelPreviewLayer::init() {
+        //FMODAudioEngine::get()->playMusic("A145 - A Newborn Spirit.mp3", true, 1, 0);
         CCLayer::init();
 
         setKeyboardEnabled(true);
@@ -112,7 +113,7 @@ namespace g3d
 
         auto size = CCDirector::sharedDirector()->getWinSize();
 
-        auto testLayer = G3DFragmentShaderLayer::create(geode::Mod::get()->getResourcesDir() / "model3d" / "shader" / "space.fsh");
+        auto testLayer = G3DFragmentShaderLayer::create(geode::Mod::get()->getResourcesDir() / "model3d" / "planet" / "shader" / "space.fsh");
         this->addChild(testLayer);
 
         auto bg = CCSprite::create("GJ_gradientBG.png");
@@ -149,6 +150,7 @@ namespace g3d
 
     void G3DModelPreviewLayer::keyBackClicked(void) {
         CCDirector::sharedDirector()->popSceneWithTransition(0.3f, PopTransition::kPopTransitionFade);
+        //FMODAudioEngine::get()->stopAllMusic(true);
     }
 
     void G3DModelPreviewLayer::draw() {

@@ -106,16 +106,18 @@ namespace sus3d
     }
 
     void Mesh::render(ShaderProgram* shaderProgram) const {
-        glBindVertexArray(VAO);
-        if (useTexture)
-            glBindTexture(GL_TEXTURE_2D, texture);
-        shaderProgram->setInt("isTexture", int(useTexture));
-        shaderProgram->setVec3("Ka", isCustomKa ? CustomKa : Ka);
-        shaderProgram->setVec3("Kd", isCustomKd ? CustomKd : Kd);
-        shaderProgram->setVec3("Ks", isCustomKs ? CustomKs : Ks);
-        shaderProgram->setFloat("shininess", 32);
-        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, NULL);
-        glBindVertexArray(0);
+        if (visible) {
+            glBindVertexArray(VAO);
+            if (useTexture)
+                glBindTexture(GL_TEXTURE_2D, texture);
+            shaderProgram->setInt("isTexture", int(useTexture));
+            shaderProgram->setVec3("Ka", isCustomKa ? CustomKa : Ka);
+            shaderProgram->setVec3("Kd", isCustomKd ? CustomKd : Kd);
+            shaderProgram->setVec3("Ks", isCustomKs ? CustomKs : Ks);
+            shaderProgram->setFloat("shininess", 32);
+            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
+            glBindVertexArray(0);
+        }
     }
 
     Mesh::~Mesh() {

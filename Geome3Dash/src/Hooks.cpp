@@ -7,6 +7,8 @@
 #include "game/planet/G3DPlanetLayer.h"
 #include "game/editor/G3DEditorPopup.h"
 
+#include "PlanetStateManager.h"
+
 namespace g3d
 {
     class $modify(PlayLayer)
@@ -15,6 +17,30 @@ namespace g3d
         {
             G3DPlayLayer* playLayer3D = nullptr;
         };
+
+        void destroyPlayer(PlayerObject* p0, GameObject* p1) {
+            if (G3DPlanetLayer::insideThePlanetLayerFlag) {
+                auto percent = this->getCurrentPercentInt();
+                if (this->m_isPracticeMode) {
+                    PlanetStateManager::getInstance()->setPracticeProgressByLevelID(this->m_level->m_levelID, percent);
+                }
+                else {
+                    PlanetStateManager::getInstance()->setNormalProgressByLevelID(this->m_level->m_levelID, percent);
+                }
+            }
+            PlayLayer::destroyPlayer(p0, p1);
+        }
+        void levelComplete() {
+            if (G3DPlanetLayer::insideThePlanetLayerFlag) {
+                if (this->m_isPracticeMode) {
+                    PlanetStateManager::getInstance()->setPracticeProgressByLevelID(this->m_level->m_levelID, 100);
+                }
+                else {
+                    PlanetStateManager::getInstance()->setNormalProgressByLevelID(this->m_level->m_levelID, 100);
+                }
+            }
+            PlayLayer::levelComplete();
+        }
 
         void resetLevel()
         {
@@ -27,6 +53,18 @@ namespace g3d
             PlayLayer::resetLevel();
         }
     };
+
+    class $modify(GameManager) {
+        void returnToLastScene(GJGameLevel * p0) {
+            if (G3DPlanetLayer::insideThePlanetLayerFlag) {
+                CCDirector::sharedDirector()->popSceneWithTransition(0.3, kPopTransitionFade);
+            }
+            else {
+                GameManager::returnToLastScene(p0);
+            }
+        }
+    };
+
 
     class $modify(CreatorLayer) 
     {
@@ -111,7 +149,7 @@ namespace g3d
 
     class $modify(MenuLayer) {
         bool init() {
-            if (!MenuLayer::init()) return false;
+            if (!MenuLayer::init()) { return false; }
             AllocConsole();
             freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
             return true;

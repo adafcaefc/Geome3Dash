@@ -1,10 +1,12 @@
 #include "pch.h"
 
 #include "game/planet/G3DPlanetLayer.h"
-#include "game/G3DBaseNode.h"
-#include "game/G3DFragmentShaderLayer.h"
+#include "game/planet/G3DPlanetPopup.h"
+#include "game/component/G3DBaseNode.h"
+#include "game/component/G3DFragmentShaderLayer.h"
 
 #include "CocosShaderProgram.h"
+#include "PlanetStateManager.h"
 
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
@@ -18,41 +20,8 @@
 
 namespace g3d
 {
-    PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
-        PlanetModel* ret = new PlanetModel();
-        ret->shaderProgram = shaderProgram;
-
-        if (!ret || !ret->init(scene)) {
-            delete ret;  // Cleanup if initialization fails
-            return nullptr;
-        }
-
-        return ret;
-    }
-
-    glm::mat4 PlanetModel::prepareModelMatrix() {
-        glm::mat4 model = glm::mat4(1.0f); // Start with an identity matrix
-
-        // Apply translation
-        model = glm::translate(model, position);
-
-        // Apply rotations (Z, Y, X in this order)
-        if (rotation.z != 0.0f)  // Only apply rotation if non-zero
-            model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate around Z axis
-
-        if (rotation.y != 0.0f)  // Only apply rotation if non-zero
-            model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate around Y axis
-
-        if (rotation.x != 0.0f)  // Only apply rotation if non-zero
-            model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));  // Rotate around X axis
-
-        // Apply scaling
-        model = glm::scale(model, scale);
-
-        return model;
-    }
-
     void G3DPlanetLayer::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+        if (G3DPlanetPopup::checkIsOpened()) return;
         if (button == GLFW_MOUSE_BUTTON_LEFT) {
             if (action == GLFW_PRESS) {
                 isRightClicking = true;
@@ -60,11 +29,30 @@ namespace g3d
             }
             else if (action == GLFW_RELEASE) {
                 isRightClicking = false;
+
+                auto selected = layer3d->getObjectIDByMousePosition();
+
+                if (selected.first == 0 && selected.second >= 982 && selected.second <= 1061) {
+
+                    int levelID = (selected.second - 982) / 4;
+
+                    std::cout << levelID << std::endl;
+
+                    for (size_t meshIndex = 0; meshIndex < layer3d->models[0]->meshes.size(); meshIndex++) {
+                        if (meshIndex == levelID * 4 + 982 || meshIndex == levelID * 4 + 983 || meshIndex == levelID * 4 + 984 || meshIndex == levelID * 4 + 985)
+                            layer3d->models[0]->meshes[meshIndex]->setCustomKa(glm::vec3(1, 0, 0));
+                        else
+                            layer3d->models[0]->meshes[meshIndex]->disableKa();
+                    }
+
+                    G3DPlanetPopup::tryOpen(levelID);
+                }
             }
         }
     }
 
     void G3DPlanetLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
+        if (G3DPlanetPopup::checkIsOpened()) return;
         if (isRightClicking) {
             if (!isRightClickingGetPos) {
                 lastMouseX = static_cast<float>(x);
@@ -97,6 +85,10 @@ namespace g3d
                     planetModelWater->setRotationX(glm::degrees(eulerAngles.x));
                     planetModelWater->setRotationY(glm::degrees(eulerAngles.y));
                     planetModelWater->setRotationZ(glm::degrees(eulerAngles.z));
+                    cloud->setRotationX(glm::degrees(eulerAngles.x));
+                    cloud->setRotationY(glm::degrees(eulerAngles.y));
+                    cloud->setRotationZ(glm::degrees(eulerAngles.z));
+
                 }
 
                 lastMouseX = static_cast<float>(x);
@@ -117,44 +109,56 @@ namespace g3d
         case KEY_Control:
             isPressingControl = pressed;
             break;
-        case KEY_Escape:
-            keyBackClicked();
-        default:
-            break;
         }
     }
 
     bool G3DPlanetLayer::init() {
         CCLayer::init();
+        insideThePlanetLayerFlag = true;
 
         setKeyboardEnabled(true);
         OpenGLStateHelper::saveState();
-
         auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
         auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
         shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
         delete vertexShader;
         delete fragmentShader;
-        
+
+        const auto planetPath = geode::Mod::get()->getResourcesDir() / "model3d" / "planet";
+        const auto shaderPath = planetPath / "shader";
+        const auto modelPath = planetPath / "model";
+
         auto vertexShader2 = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
-        auto fragmentShader2 = sus3d::Shader::createWithFile(geode::Mod::get()->getResourcesDir() / "model3d" / "shader" / "water2.fsh", sus3d::ShaderType::kFragmentShader);
+        auto fragmentShader2 = sus3d::Shader::createWithFile(shaderPath / "water2.fsh", sus3d::ShaderType::kFragmentShader);
         auto shaderProgram2 = CocosShaderProgram::create(vertexShader2, fragmentShader2);
         delete vertexShader2;
         delete fragmentShader2;
+
+        auto vertexShader3 = sus3d::Shader::createWithFile(shaderPath / "cloud.vsh", sus3d::ShaderType::kVertexShader);
+        auto fragmentShader3 = sus3d::Shader::createWithFile(shaderPath / "cloud.fsh", sus3d::ShaderType::kFragmentShader);
+        auto shaderProgram3 = CocosShaderProgram::create(vertexShader3, fragmentShader3);
+        delete vertexShader3;
+        delete fragmentShader3;
         OpenGLStateHelper::pushState();
 
         layer3d = G3DBaseNode::create();
         layer3d->light.setPosition(glm::vec3(0, 50, 1000));
         layer3d->setZOrder(10);
-        planetModel = layer3d->loadAndAddModel<PlanetModel>(geode::Mod::get()->getResourcesDir() / "model3d" / "planet" / "new_planet_textured.obj", shaderProgram);
-        planetModelWater = layer3d->loadAndAddModel<PlanetModel>(geode::Mod::get()->getResourcesDir() / "model3d" / "planet" / "planet_water.obj", shaderProgram2);
+
+
+        planetModel = layer3d->loadAndAddModel<PlanetModel>(modelPath / "new_planet_textured.obj", shaderProgram);
+        planetModelWater = layer3d->loadAndAddModel<PlanetModel>(modelPath / "planet_water.obj", shaderProgram2);
         planetModelWater->setScale(glm::vec3(1.001, 1.001, 1.001));
+
+        cloud = layer3d->loadAndAddModel<PlanetModel>(modelPath / "clouds.obj", shaderProgram3);
+
         this->addChild(layer3d);
         layer3d->camera.setPosition(glm::vec3(0, 0, 25));
 
         auto size = CCDirector::sharedDirector()->getWinSize();
 
-        auto testLayer = G3DFragmentShaderLayer::create(geode::Mod::get()->getResourcesDir() / "model3d" / "shader" / "space.fsh");
+        auto testLayer = G3DFragmentShaderLayer::create(shaderPath / "space.fsh");
+        //auto testLayer = FragmentShaderLayer::create("./water.fsh");
         this->addChild(testLayer);
 
         auto bg = CCSprite::create("GJ_gradientBG.png");
@@ -177,34 +181,34 @@ namespace g3d
         return true;
     }
 
+    void G3DPlanetLayer::onEnter() {
+        CCLayer::onEnter();
+        for (int i = 0; i < cloud->meshes.size(); i++) {
+            int realMeshId = cloud->meshes.size() - 1 - i;
+            if (i == 0) {
+                cloud->meshes[realMeshId]->setVisible(0);
+                continue;
+            }
+
+            cloud->meshes[realMeshId]->setVisible(
+                (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal == 100)
+                ? 0 : 1);
+        }
+    }
+
     void G3DPlanetLayer::onBack(CCObject*) {
         keyBackClicked();
     }
 
     void G3DPlanetLayer::keyBackClicked(void) {
-        CCDirector::sharedDirector()->popSceneWithTransition(0.3f, PopTransition::kPopTransitionFade);
+        insideThePlanetLayerFlag = false;
+        CCDirector::sharedDirector()->popSceneWithTransition(0.3, PopTransition::kPopTransitionFade);
     }
 
     void G3DPlanetLayer::draw() {
         CCLayer::draw();
 
-        auto selected = layer3d->getObjectIDByMousePosition();
 
-        if (selected.first == 0 && selected.second >= 982 && selected.second <= 1061) {
-
-            int levelID = (selected.second - 982) / 4;
-
-            std::cout << levelID << std::endl;
-
-            for (size_t meshIndex = 0; meshIndex < layer3d->models[0]->meshes.size(); meshIndex++) {
-                if (meshIndex == levelID * 4 + 982 || meshIndex == levelID * 4 + 983 || meshIndex == levelID * 4 + 984 || meshIndex == levelID * 4 + 985)
-                    layer3d->models[0]->meshes[meshIndex]->setCustomKa(glm::vec3(1, 0, 0));
-                else
-                    layer3d->models[0]->meshes[meshIndex]->disableKa();
-            }
-        }
-
-        std::cout << selected.first << " " << selected.second << std::endl;
     }
 
     G3DPlanetLayer* G3DPlanetLayer::create() {
@@ -216,5 +220,41 @@ namespace g3d
             CC_SAFE_DELETE(node);
         }
         return node;
+    }
+
+    bool G3DPlanetLayer::insideThePlanetLayerFlag = false;
+
+    PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
+        PlanetModel* ret = new PlanetModel();
+        ret->shaderProgram = shaderProgram;
+
+        if (!ret || !ret->init(scene)) {
+            delete ret;  // Cleanup if initialization fails
+            return nullptr;
+        }
+
+        return ret;
+    }
+
+    glm::mat4 PlanetModel::prepareModelMatrix() {
+        glm::mat4 model = glm::mat4(1.0f); // Start with an identity matrix
+
+        // Apply translation
+        model = glm::translate(model, position);
+
+        // Apply rotations (Z, Y, X in this order)
+        if (rotation.z != 0.0f)  // Only apply rotation if non-zero
+            model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate around Z axis
+
+        if (rotation.y != 0.0f)  // Only apply rotation if non-zero
+            model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate around Y axis
+
+        if (rotation.x != 0.0f)  // Only apply rotation if non-zero
+            model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));  // Rotate around X axis
+
+        // Apply scaling
+        model = glm::scale(model, scale);
+
+        return model;
     }
 }

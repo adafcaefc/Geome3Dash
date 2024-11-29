@@ -5,7 +5,7 @@
 #include <Geode/ui/Scrollbar.hpp>
 #include <Geode/ui/TextInput.hpp>
 
-#include "game/G3DNumberSetting.h"
+#include "game/component/G3DNumberSetting.h"
 
 #include "delegate/CustomKeyboard.h"
 #include "delegate/CustomMouse.h"

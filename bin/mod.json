@@ -15,7 +15,8 @@
         "files": [
             "resources/binaries/win/pugixml.dll",
             "resources/binaries/win/assimp-vc143-mt.dll",
-			"resources/model3d/*"
+			"resources/model3d/*",
+			"resources/music/*"
         ]
     }
 }

@@ -27,23 +27,26 @@ namespace g3d
         CocosShaderProgram* shaderProgram;
         PlanetModel* planetModel;
         PlanetModel* planetModelWater;
+        PlanetModel* cloud;
 
         bool isPressingControl = false;
         bool isRightClicking = false;
         bool isRightClickingGetPos = false;
-        float lastMouseX = 0.0f;
-        float lastMouseY = 0.0f;
+        float lastMouseX = 0.0;
+        float lastMouseY = 0.0;
 
-        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
-        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
-        virtual void scrollWheel(float y, float x);
-        virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
+        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;
+        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;
+        virtual void scrollWheel(float y, float x) override;
+        virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override;
     private:
         bool init();
         virtual void draw();
         void onBack(CCObject*);
         virtual void keyBackClicked(void);
+        virtual void onEnter() override;
     public:
+        static bool insideThePlanetLayerFlag;
         static G3DPlanetLayer* create();
     };
 }

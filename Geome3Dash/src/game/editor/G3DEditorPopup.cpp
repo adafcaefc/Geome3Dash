@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "game/editor/G3DEditorPopup.h"
-#include "game/G3DBaseNode.h"
+#include "game/component/G3DBaseNode.h"
 
 #include "helper/OpenGLStateHelper.h"
 
