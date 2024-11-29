@@ -200,7 +200,7 @@ namespace g3d
 
         }
         setTitle("Geome3Dash Camera Editor");
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
+        //auto winSize = CCDirector::sharedDirector()->getWinSize();
         auto const layerSize = CCSize(250, 200);
 
         auto layerBG = CCLayerColor::create({ 0, 0, 0, 75 });
@@ -252,7 +252,7 @@ namespace g3d
             ->setGap(0)
         );
         m_list->moveToTop();
-        const int buttonPriority = m_list->getTouchPriority() - 1;
+        //const int buttonPriority = m_list->getTouchPriority() - 1;
         //searchContainer->setTouchPriority(buttonPriority);
         //m_mainLayer->addChildAtPosition(createGeodeListBorders(layerSize, m_forceDisableTheme), geode::Anchor::Center);
 

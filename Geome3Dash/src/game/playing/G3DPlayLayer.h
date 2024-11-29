@@ -84,8 +84,9 @@ namespace g3d
         sus3d::Camera camera;
         sus3d::Light light;
 
-        CameraActionHandler cameraActionHandler = CameraActionHandler(&sus3d::easing::v::easeInOutQuad);
+        CameraActionHandler cameraActionHandler = CameraActionHandler(ease::InOutQuad::get());
 
+        // to do: make this customisable
         int bezierSegmentCount = 1000000;
 
         // updateCameraAction

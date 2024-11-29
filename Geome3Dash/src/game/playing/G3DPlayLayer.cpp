@@ -270,7 +270,11 @@ namespace g3d
                 {
                     auto scale = model->getScale();
                     double tNormal = (distance - startFade) / (maxRender - startFade);
-                    model->setScale(sus3d::easing::easeNormal<sus3d::easing::EaseInOutSine, glm::vec3>(tNormal, scale, glm::vec3(0, 0, 0)));
+                    model->setScale(ease::easeNormal<glm::vec3>(
+                        ease::InOutSine::get(), 
+                        tNormal, 
+                        scale, 
+                        glm::vec3(0, 0, 0)));
                 }
 
                 // animations

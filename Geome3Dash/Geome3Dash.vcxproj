@@ -12,7 +12,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\CocosShaderProgram.cpp" />
-    <ClCompile Include="src\engine\sus3d\Easing.cpp">
+    <ClCompile Include="src\helper\Easing.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\engine\sus3d\Mesh.cpp">
@@ -84,7 +84,7 @@
     <ClInclude Include="src\delegate\CustomKeyboard.h" />
     <ClInclude Include="src\delegate\CustomMouse.h" />
     <ClInclude Include="src\delegate\CustomTouch.h" />
-    <ClInclude Include="src\engine\sus3d\Easing.h" />
+    <ClInclude Include="src\helper\Easing.h" />
     <ClInclude Include="src\engine\sus3d\Mesh.h" />
     <ClInclude Include="src\engine\sus3d\Model.h" />
     <ClInclude Include="src\engine\sus3d\Scene.h" />
