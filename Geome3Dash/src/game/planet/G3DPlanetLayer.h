@@ -45,6 +45,7 @@ namespace g3d
         PlanetModel* planetModel;
         PlanetModel* planetModelWater;
         PlanetModel* cloud;
+        std::array<PlanetModel*, 19> clouds;
 
         bool isPressingControl = false;
         bool isRightClicking = false;
@@ -52,13 +53,18 @@ namespace g3d
         float lastMouseX = 0.0;
         float lastMouseY = 0.0;
 
+        void updatePlanetRotation(const float delta);
+        
+        std::filesystem::path songPath;
+        void playMusicDelayed(const float delta);
+
         virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
         virtual void scrollWheel(float y, float x);
         virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
     private:
         bool init();
-        virtual void draw();
+        virtual void draw() override;
         void onBack(CCObject*);
         virtual void keyBackClicked(void);
         virtual void onEnter() override;

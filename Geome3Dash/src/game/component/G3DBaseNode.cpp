@@ -75,6 +75,19 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
+    //void G3DBaseNode::renderModel(sus3d::Model* model) {
+    //    OpenGLStateHelper::saveState();
+    //    glEnable(GL_BLEND);
+    //    glEnable(GL_ALPHA_TEST);
+    //    glEnable(GL_DEPTH_TEST);
+    //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //    glm::mat4 view = camera.getViewMat();
+    //    glm::mat4 projection = camera.getProjectionMat();
+    //    model->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
+    //    glDisable(GL_DEPTH_TEST);
+    //    OpenGLStateHelper::pushState();
+    //}
+
     G3DBaseNode::~G3DBaseNode() {
         for (auto model : models) {
             delete model;

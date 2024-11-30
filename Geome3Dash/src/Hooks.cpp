@@ -66,7 +66,6 @@ namespace g3d
         }
     };
 
-
     class $modify(CreatorLayer) 
     {
         void onAdventureMap(CCObject*) 
@@ -173,7 +172,7 @@ namespace g3d
             CCNode* mapButton;
         };
 
-        void updateObjectHitbox(const float delta) {
+        void updatePlanetRotation(const float delta) {
             m_fields->planetModelWater->setScale(glm::vec3(0.251 * m_fields->mapButton->getScale()));
             m_fields->planetModel->setScale(glm::vec3(0.25 * m_fields->mapButton->getScale()));
 
@@ -252,7 +251,7 @@ namespace g3d
             m_fields->mapButton->addChild(layer3d);
             layer3d->camera.setPosition(glm::vec3(0, 0, 25));
 
-            this->schedule(schedule_selector(MyCreatorLayer::updateObjectHitbox));
+            this->schedule(schedule_selector(MyCreatorLayer::updatePlanetRotation));
 
             return true;
         }

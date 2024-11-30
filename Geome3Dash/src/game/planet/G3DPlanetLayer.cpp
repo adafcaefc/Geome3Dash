@@ -48,7 +48,38 @@ namespace g3d
         }
     }
 
+    void G3DPlanetLayer::updatePlanetRotation(const float delta) {
+
+        float sensitivityX = 0.004662;
+        float sensitivityY = 0.003665;
+        float sensitivityZ = 0.009160;
+
+        glm::quat rotationX = glm::angleAxis(delta * sensitivityX, glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::quat rotationY = glm::angleAxis(delta * sensitivityY, glm::vec3(0.0f, 1.0f, 0.0f));
+        glm::quat rotationZ = glm::angleAxis(delta * sensitivityZ, glm::vec3(0.0f, 0.0f, 1.0f));
+        glm::quat currentRotation = glm::quat(glm::vec3(
+            glm::radians(planetModel->getRotationX()),
+            glm::radians(planetModel->getRotationY()),
+            glm::radians(planetModel->getRotationZ())
+        ));
+
+        glm::quat newRotation = rotationZ * rotationY * rotationX * currentRotation;
+        glm::vec3 eulerAngles = glm::eulerAngles(newRotation);
+
+        planetModel->setRotationX(glm::degrees(eulerAngles.x));
+        planetModel->setRotationY(glm::degrees(eulerAngles.y));
+        planetModel->setRotationZ(glm::degrees(eulerAngles.z));
+        planetModelWater->setRotationX(glm::degrees(eulerAngles.x));
+        planetModelWater->setRotationY(glm::degrees(eulerAngles.y));
+        planetModelWater->setRotationZ(glm::degrees(eulerAngles.z));
+        cloud->setRotationX(glm::degrees(eulerAngles.x));
+        cloud->setRotationY(glm::degrees(eulerAngles.y));
+        cloud->setRotationZ(glm::degrees(eulerAngles.z));
+    }
+
     void G3DPlanetLayer::detectBiomeMusic() {
+        if (layer3d->camera.getPosition().z > 30) { return setMusicType(MusicType::Default); }
+
         glm::quat currentRotation = glm::quat(glm::vec3(
             glm::radians(planetModel->getRotationX()),
             glm::radians(planetModel->getRotationY()),
@@ -67,18 +98,18 @@ namespace g3d
 
         std::cout << desertAngle << std::endl;
         if (iceAngle < 45.0f || iceAngle > 135.0f) {
-            setMusicType(Ice);
+            setMusicType(MusicType::Ice);
         }
         else if (desertAngle < 30.f) {
-            setMusicType(Desert);
+            setMusicType(MusicType::Desert);
         }
         else {
-            setMusicType(Plains);
+            setMusicType(MusicType::Plains);
         }
     }
 
     void G3DPlanetLayer::playNewSongType() {
-        auto songPath = geode::Mod::get()->getResourcesDir() / "music";
+        songPath = geode::Mod::get()->getResourcesDir() / "music";
         switch (musicType) {
         case MusicType::Plains:
             songPath = songPath / "A145 - A Newborn Spirit.mp3";
@@ -94,9 +125,14 @@ namespace g3d
             songPath = songPath / "A145 - That One Talks.mp3";
             break;
         }
-        static int counter = 0;
-        FMODAudioEngine::get()->fadeOutMusic(3.f, (counter % 2) + 1);
-        FMODAudioEngine::get()->playMusic(songPath.string(), true, 3.f, ((counter + 1) % 2) + 1);
+        FMODAudioEngine::get()->fadeOutMusic(1.f, 0);
+
+        this->schedule(schedule_selector(G3DPlanetLayer::playMusicDelayed), 0, 0, 1.f);
+    }
+
+    void G3DPlanetLayer::playMusicDelayed(const float delta)
+    {
+        FMODAudioEngine::get()->playMusic(songPath.string(), true, 1.f, 0);
     }
 
 
@@ -138,12 +174,7 @@ namespace g3d
                     cloud->setRotationY(glm::degrees(eulerAngles.y));
                     cloud->setRotationZ(glm::degrees(eulerAngles.z));
 
-                    if (layer3d->camera.getPosition().z < 30) {
-                        detectBiomeMusic();
-                    }
-                    else {
-                        setMusicType(Default);
-                    }
+                    detectBiomeMusic();
                 }
 
                 lastMouseX = static_cast<float>(x);
@@ -157,6 +188,8 @@ namespace g3d
         layer3d->camera.setPosition(layer3d->camera.getPosition() + glm::vec3(0, 0, y * zoomSensitivity));
         if (layer3d->camera.getPosition().z < 10) layer3d->camera.setPosition(glm::vec3(layer3d->camera.getPosition().x, layer3d->camera.getPosition().y, 10));
         if (layer3d->camera.getPosition().z > 50) layer3d->camera.setPosition(glm::vec3(layer3d->camera.getPosition().x, layer3d->camera.getPosition().y, 50));
+
+        detectBiomeMusic();
     }
 
     void G3DPlanetLayer::onKey(enumKeyCodes key, bool pressed, bool holding) {
@@ -209,8 +242,12 @@ namespace g3d
         planetModelWater = layer3d->loadAndAddModel<PlanetModel>(modelPath / "planet_water.obj", shaderProgram2);
         planetModelWater->setScale(glm::vec3(1.001, 1.001, 1.001));
 
-        cloud = layer3d->loadAndAddModel<PlanetModel>(modelPath / "clouds.obj", shaderProgram3);
-        cloud->setScale(glm::vec3(0.85));
+        for (int i = 0; i < clouds.size(); i++)
+        {
+            clouds.at(i) = layer3d->loadWithoutAddModel<PlanetModel>(modelPath / fmt::format("clouds_{}.obj", i), shaderProgram3);
+            clouds.at(i)->setScale(glm::vec3(0.85));
+        }
+        cloud = clouds.at(1);
 
         this->addChild(layer3d);
         layer3d->camera.setPosition(glm::vec3(0, 0, 25));
@@ -218,7 +255,7 @@ namespace g3d
         auto size = CCDirector::sharedDirector()->getWinSize();
 
         auto testLayer = G3DFragmentShaderLayer::create(shaderPath / "space.fsh");
-        //auto testLayer = FragmentShaderLayer::create("./water.fsh");
+
         this->addChild(testLayer);
 
         auto bg = CCSprite::create("GJ_gradientBG.png");
@@ -240,22 +277,45 @@ namespace g3d
 
         playNewSongType();
 
+        this->schedule(schedule_selector(G3DPlanetLayer::updatePlanetRotation));
+
+        layer3d->models.push_back(cloud);
+
         return true;
     }
 
     void G3DPlanetLayer::onEnter() {
-        CCLayer::onEnter();
-        for (int i = 0; i < cloud->meshes.size(); i++) {
-            int realMeshId = cloud->meshes.size() - 1 - i;
-            if (i == 0) {
-                cloud->meshes[realMeshId]->setVisible(0);
-                continue;
-            }
-
-            cloud->meshes[realMeshId]->setVisible(
-                (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal == 100)
-                ? 0 : 1);
+        for (int i = 1; i < 19; i++)
+        {
+            if (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal != 100)
+            {
+                cloud = clouds.at(i);
+                for (int j = 0; j < layer3d->models.size(); j++)
+                {
+                    for (auto& currentCloud : clouds)
+                    {
+                        if (currentCloud == layer3d->models.at(j))
+                        {
+                            layer3d->models.erase(layer3d->models.begin() + j);
+                            break;
+                        }
+                    }
+                }
+                layer3d->models.push_back(cloud);
+                break;
+            }     
         }
+        CCLayer::onEnter();
+        //for (int i = 0; i < cloud->meshes.size(); i++) {
+        //    int realMeshId = cloud->meshes.size() - 1 - i;
+        //    if (i == 0) {
+        //        cloud->meshes[realMeshId]->setVisible(0);
+        //        continue;
+        //    }
+        //    cloud->meshes[realMeshId]->setVisible(
+        //        (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal == 100)
+        //        ? 0 : 1);
+        //}
     }
 
     void G3DPlanetLayer::onBack(CCObject*) {
@@ -272,8 +332,6 @@ namespace g3d
 
     void G3DPlanetLayer::draw() {
         CCLayer::draw();
-
-
     }
 
     G3DPlanetLayer* G3DPlanetLayer::create() {

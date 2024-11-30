@@ -250,6 +250,8 @@ namespace g3d
         model->setPosition(bCoordinate.position);
         model->setRotationY(360 - bCoordinate.rotation);;
         model->setScale(glm::vec3(0.75 * (obj->m_startFlipX ? -1 : 1), 0.75 * (obj->m_startFlipY ? -1 : 1), 0.75));
+        model->setScaleX(model->getScaleX() * obj->m_scaleX);
+        model->setScaleY(model->getScaleY() * obj->m_scaleY);
         model->setRotationZ(360 - obj->getRotation()); // block rotation
     }
 
