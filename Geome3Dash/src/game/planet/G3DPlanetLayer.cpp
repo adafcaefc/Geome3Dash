@@ -14,9 +14,6 @@
 #include "engine/sus3d/Mesh.h"
 
 #include "helper/OpenGLStateHelper.h"
-#include "helper/CommonHelper.h"
-
-#include "lib/tinyfiledialogs/tinyfiledialogs.h"
 
 namespace g3d
 {
@@ -50,6 +47,58 @@ namespace g3d
             }
         }
     }
+
+    void G3DPlanetLayer::detectBiomeMusic() {
+        glm::quat currentRotation = glm::quat(glm::vec3(
+            glm::radians(planetModel->getRotationX()),
+            glm::radians(planetModel->getRotationY()),
+            glm::radians(planetModel->getRotationZ())
+        ));
+
+        glm::vec3 iceVector(0.0f, 1.0f, 0.0f);
+        glm::vec3 worldIceVector = currentRotation * iceVector;
+        float iceDotProduct = glm::dot(glm::normalize(worldIceVector), glm::normalize(layer3d->camera.getFront()));
+        float iceAngle = glm::degrees(glm::acos(iceDotProduct));
+
+        glm::vec3 desertVector(0.4f, 0.0f, 1.0f);
+        glm::vec3 worldDesertVector = currentRotation * desertVector;
+        float desertDotProduct = glm::dot(glm::normalize(worldDesertVector), glm::normalize(layer3d->camera.getFront()));
+        float desertAngle = glm::degrees(glm::acos(desertDotProduct));
+
+        std::cout << desertAngle << std::endl;
+        if (iceAngle < 45.0f || iceAngle > 135.0f) {
+            setMusicType(Ice);
+        }
+        else if (desertAngle < 30.f) {
+            setMusicType(Desert);
+        }
+        else {
+            setMusicType(Plains);
+        }
+    }
+
+    void G3DPlanetLayer::playNewSongType() {
+        auto songPath = geode::Mod::get()->getResourcesDir() / "music";
+        switch (musicType) {
+        case MusicType::Plains:
+            songPath = songPath / "A145 - A Newborn Spirit.mp3";
+            break;
+        case MusicType::Ice:
+            songPath = songPath / "A145 - Each Other's Backs.mp3";
+            break;
+        case MusicType::Desert:
+            songPath = songPath / "A145 - On Top Of The Desert.mp3";
+            break;
+        case MusicType::Default:
+        default:
+            songPath = songPath / "A145 - That One Talks.mp3";
+            break;
+        }
+        static int counter = 0;
+        FMODAudioEngine::get()->fadeOutMusic(3.f, (counter % 2) + 1);
+        FMODAudioEngine::get()->playMusic(songPath.string(), true, 3.f, ((counter + 1) % 2) + 1);
+    }
+
 
     void G3DPlanetLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
         if (G3DPlanetPopup::checkIsOpened()) return;
@@ -89,6 +138,12 @@ namespace g3d
                     cloud->setRotationY(glm::degrees(eulerAngles.y));
                     cloud->setRotationZ(glm::degrees(eulerAngles.z));
 
+                    if (layer3d->camera.getPosition().z < 30) {
+                        detectBiomeMusic();
+                    }
+                    else {
+                        setMusicType(Default);
+                    }
                 }
 
                 lastMouseX = static_cast<float>(x);
@@ -109,10 +164,14 @@ namespace g3d
         case KEY_Control:
             isPressingControl = pressed;
             break;
+        case KEY_Escape:
+            onBack(this);
+            break;
         }
     }
 
     bool G3DPlanetLayer::init() {
+        FMODAudioEngine::get()->fadeOutMusic(3.f, 0);
         CCLayer::init();
         insideThePlanetLayerFlag = true;
 
@@ -151,6 +210,7 @@ namespace g3d
         planetModelWater->setScale(glm::vec3(1.001, 1.001, 1.001));
 
         cloud = layer3d->loadAndAddModel<PlanetModel>(modelPath / "clouds.obj", shaderProgram3);
+        cloud->setScale(glm::vec3(0.85));
 
         this->addChild(layer3d);
         layer3d->camera.setPosition(glm::vec3(0, 0, 25));
@@ -178,6 +238,8 @@ namespace g3d
         backButtonMenu->addChild(backButton);
         this->addChild(backButtonMenu);
 
+        playNewSongType();
+
         return true;
     }
 
@@ -202,6 +264,9 @@ namespace g3d
 
     void G3DPlanetLayer::keyBackClicked(void) {
         insideThePlanetLayerFlag = false;
+
+        FMODAudioEngine::get()->fadeInMusic(3.f, 0);
+
         CCDirector::sharedDirector()->popSceneWithTransition(0.3, PopTransition::kPopTransitionFade);
     }
 

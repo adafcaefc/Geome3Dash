@@ -8,10 +8,19 @@
 	"name": "Geome3Dash",
 	"links": {
 	},
-	"tags": ["Content", "Offline", "Modtober24"],
+	"tags": ["content", "offline", "modtober24"],
 	"developers": ["RainixGD", "Adaf"],
 	"description": "3D Geometry Dash",
+	"repository": "https://github.com/adafcaefc/Geome3Dash",
+	"dependencies": [
+        {
+            "id": "geode.node-ids",
+            "version": ">=1.18.0",
+            "importance": "required"
+        }
+	],
 	"resources": {
+		"sprites": ["resources/sprite/*.png"],
         "files": [
             "resources/binaries/win/pugixml.dll",
             "resources/binaries/win/assimp-vc143-mt.dll",

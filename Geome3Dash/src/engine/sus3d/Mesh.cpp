@@ -108,6 +108,9 @@ namespace sus3d
     void Mesh::render(ShaderProgram* shaderProgram) const {
         if (visible) {
             glBindVertexArray(VAO);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_BLEND);
+            glEnable(GL_BLEND_COLOR);
             if (useTexture)
                 glBindTexture(GL_TEXTURE_2D, texture);
             shaderProgram->setInt("isTexture", int(useTexture));
@@ -117,6 +120,9 @@ namespace sus3d
             shaderProgram->setFloat("shininess", 32);
             glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
             glBindVertexArray(0);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_BLEND);
+            glDisable(GL_BLEND_COLOR);
         }
     }
 

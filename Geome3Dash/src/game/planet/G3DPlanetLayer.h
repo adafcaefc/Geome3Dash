@@ -23,6 +23,23 @@ namespace g3d
         , public CustomMouseDelegate
         , public CustomTouchDelegate 
     {
+        enum MusicType {
+            Default,
+            Plains,
+            Ice,
+            Desert
+        };
+        MusicType musicType = Default;
+        void setMusicType(MusicType newMT) {
+            if (newMT != musicType) {
+                musicType = newMT;
+                playNewSongType();
+            }
+        }
+
+        void playNewSongType();
+        void detectBiomeMusic();
+
         G3DBaseNode* layer3d;
         CocosShaderProgram* shaderProgram;
         PlanetModel* planetModel;
@@ -35,10 +52,10 @@ namespace g3d
         float lastMouseX = 0.0;
         float lastMouseY = 0.0;
 
-        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;
-        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;
-        virtual void scrollWheel(float y, float x) override;
-        virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override;
+        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
+        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
+        virtual void scrollWheel(float y, float x);
+        virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
     private:
         bool init();
         virtual void draw();
