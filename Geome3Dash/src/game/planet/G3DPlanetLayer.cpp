@@ -242,12 +242,8 @@ namespace g3d
         planetModelWater = layer3d->loadAndAddModel<PlanetModel>(modelPath / "planet_water.obj", shaderProgram2);
         planetModelWater->setScale(glm::vec3(1.001, 1.001, 1.001));
 
-        for (int i = 0; i < clouds.size(); i++)
-        {
-            clouds.at(i) = layer3d->loadWithoutAddModel<PlanetModel>(modelPath / fmt::format("clouds_{}.obj", i), shaderProgram3);
-            clouds.at(i)->setScale(glm::vec3(0.85));
-        }
-        cloud = clouds.at(1);
+        cloud = layer3d->loadAndAddModel<PlanetModel>(modelPath / "clouds.obj", shaderProgram3);
+        cloud->setScale(glm::vec3(0.85));
 
         this->addChild(layer3d);
         layer3d->camera.setPosition(glm::vec3(0, 0, 25));
@@ -255,7 +251,7 @@ namespace g3d
         auto size = CCDirector::sharedDirector()->getWinSize();
 
         auto testLayer = G3DFragmentShaderLayer::create(shaderPath / "space.fsh");
-
+        //auto testLayer = FragmentShaderLayer::create("./water.fsh");
         this->addChild(testLayer);
 
         auto bg = CCSprite::create("GJ_gradientBG.png");
@@ -279,43 +275,22 @@ namespace g3d
 
         this->schedule(schedule_selector(G3DPlanetLayer::updatePlanetRotation));
 
-        layer3d->models.push_back(cloud);
-
         return true;
     }
 
     void G3DPlanetLayer::onEnter() {
-        for (int i = 1; i < 19; i++)
-        {
-            if (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal != 100)
-            {
-                cloud = clouds.at(i);
-                for (int j = 0; j < layer3d->models.size(); j++)
-                {
-                    for (auto& currentCloud : clouds)
-                    {
-                        if (currentCloud == layer3d->models.at(j))
-                        {
-                            layer3d->models.erase(layer3d->models.begin() + j);
-                            break;
-                        }
-                    }
-                }
-                layer3d->models.push_back(cloud);
-                break;
-            }     
-        }
         CCLayer::onEnter();
-        //for (int i = 0; i < cloud->meshes.size(); i++) {
-        //    int realMeshId = cloud->meshes.size() - 1 - i;
-        //    if (i == 0) {
-        //        cloud->meshes[realMeshId]->setVisible(0);
-        //        continue;
-        //    }
-        //    cloud->meshes[realMeshId]->setVisible(
-        //        (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal == 100)
-        //        ? 0 : 1);
-        //}
+        for (int i = 0; i < cloud->meshes.size(); i++) {
+            int realMeshId = cloud->meshes.size() - 1 - i;
+            if (i == 0) {
+                cloud->meshes[realMeshId]->setVisible(0);
+                continue;
+            }
+
+            cloud->meshes[realMeshId]->setVisible(
+                (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal == 100)
+                ? 0 : 1);
+        }
     }
 
     void G3DPlanetLayer::onBack(CCObject*) {
@@ -332,6 +307,8 @@ namespace g3d
 
     void G3DPlanetLayer::draw() {
         CCLayer::draw();
+
+
     }
 
     G3DPlanetLayer* G3DPlanetLayer::create() {

@@ -45,7 +45,6 @@ namespace g3d
         PlanetModel* planetModel;
         PlanetModel* planetModelWater;
         PlanetModel* cloud;
-        std::array<PlanetModel*, 19> clouds;
 
         bool isPressingControl = false;
         bool isRightClicking = false;
@@ -64,7 +63,7 @@ namespace g3d
         virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
     private:
         bool init();
-        virtual void draw() override;
+        virtual void draw();
         void onBack(CCObject*);
         virtual void keyBackClicked(void);
         virtual void onEnter() override;
