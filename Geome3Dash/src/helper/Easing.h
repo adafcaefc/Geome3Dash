@@ -105,6 +105,10 @@ namespace g3d
             static InOutExpo* get();
         };
 
+        inline double easeFloat(Base* fn, double t, double d, double origin, const double target)
+        {
+            return fn->calculate(t, origin, target - origin, d);
+        }
 
         template<typename VecType>
         VecType ease(Base* fn, double t, double d, const VecType& origin, const VecType& target)

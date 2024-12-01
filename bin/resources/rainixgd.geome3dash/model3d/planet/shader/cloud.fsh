@@ -75,5 +75,5 @@ void main()
     vec2 uv = localPos.xy / iResolution.xy;
     float n = nestedNoise(uv * 100.);
     
-	FragColor = vec4(vec2(n + 0.35), n + 0.4, 0.75 * d / 2);
+	FragColor = vec4(vec2(n + 0.35), n + 0.4, 0.75 * d / 7);
 }

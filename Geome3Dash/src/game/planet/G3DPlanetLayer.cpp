@@ -14,6 +14,7 @@
 #include "engine/sus3d/Mesh.h"
 
 #include "helper/OpenGLStateHelper.h"
+#include "helper/Easing.h"
 
 namespace g3d
 {
@@ -445,11 +446,27 @@ namespace g3d
             model->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
         }
 
-        float sizeBase = 0.80f;
-        float sizeScale = 0.03f;
-        int sizeSteps = 4;
+        //float sizeBase = 0.77f;
+        //float sizeScale = 0.15f;
+        //int sizeSteps = 7;
+        //for (int i = 0; i < sizeSteps; i++) {
+        //    cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, sizeSteps, 0.f, sizeScale) + sizeBase));
+        //    cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
+        //}
+
+        //float sizeBase = 0.80f;
+        //float sizeScale = 0.03f;
+        //int sizeSteps = 4;
+        //for (int i = 0; i < sizeSteps; i++) {
+        //    cloudModel->setScale(glm::vec3(static_cast<float>(i) / static_cast<float>(sizeSteps) * sizeScale + sizeBase));
+        //    cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
+        //}
+
+        float sizeBase = 0.78f;
+        float sizeScale = 0.15f;
+        int sizeSteps = 18;
         for (int i = 0; i < sizeSteps; i++) {
-            cloudModel->setScale(glm::vec3(static_cast<float>(i) / static_cast<float>(sizeSteps) * sizeScale + sizeBase));
+            cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, sizeSteps, 0.f, sizeScale) + sizeBase));
             cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
         }
 
