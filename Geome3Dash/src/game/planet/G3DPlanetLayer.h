@@ -1,10 +1,13 @@
 #pragma once
 
-#include "Delegate/CustomKeyboard.h"
-#include "Delegate/CustomMouse.h"
-#include "Delegate/CustomTouch.h"
+#include "delegate/CustomKeyboard.h"
+#include "delegate/CustomMouse.h"
+#include "delegate/CustomTouch.h"
 
-#include "Engine/Sus3D/Model.h"
+#include "engine/sus3d/Model.h"
+#include "engine/sus3d/Mesh.h"
+
+#include "game/component/G3DBaseNode.h"
 
 namespace g3d
 {
@@ -13,6 +16,28 @@ namespace g3d
         ~PlanetModel() override = default;
         glm::mat4 prepareModelMatrix() override;
         static PlanetModel* create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram);
+    };
+
+    class CloudModel : public PlanetModel {
+    public:
+        ~CloudModel() override = default;
+        virtual bool init(const aiScene* scene) override;
+        static CloudModel* create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram);
+    };
+
+    class CloudMesh : public sus3d::Mesh {
+    public:
+        ~CloudMesh() override = default;
+        virtual bool init(aiMesh* mesh, aiMaterial* material) override;
+        static CloudMesh* create(aiMesh* mesh, aiMaterial* material);
+    };
+
+    class G3DPlanetBaseNode : public G3DBaseNode {
+    public:
+        CloudModel* cloudModel;
+        ~G3DPlanetBaseNode() override = default;
+        static G3DPlanetBaseNode* create();
+        virtual void draw() override;
     };
 
     class G3DBaseNode;
@@ -40,11 +65,11 @@ namespace g3d
         void playNewSongType();
         void detectBiomeMusic();
 
-        G3DBaseNode* layer3d;
+        G3DPlanetBaseNode* layer3d;
         CocosShaderProgram* shaderProgram;
         PlanetModel* planetModel;
-        PlanetModel* planetModelWater;
-        PlanetModel* cloud;
+        PlanetModel* planetWaterModel;
+        CloudModel* cloudModel;
 
         bool isPressingControl = false;
         bool isRightClicking = false;
@@ -57,15 +82,15 @@ namespace g3d
         std::filesystem::path songPath;
         void playMusicDelayed(const float delta);
 
-        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
-        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
-        virtual void scrollWheel(float y, float x);
-        virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
+        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;
+        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;
+        virtual void scrollWheel(float y, float x) override;
+        virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override;
     private:
-        bool init();
-        virtual void draw();
+        bool init() override;
+        virtual void draw() override;
         void onBack(CCObject*);
-        virtual void keyBackClicked(void);
+        virtual void keyBackClicked(void) override;
         virtual void onEnter() override;
     public:
         static bool insideThePlanetLayerFlag;

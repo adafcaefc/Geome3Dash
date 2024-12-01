@@ -1,7 +1,7 @@
 #pragma once
 
-#include "engine/Sus3D/Scene.h"
-#include "engine/Sus3D/Model.h"
+#include "engine/sus3d/Scene.h"
+#include "engine/sus3d/Model.h"
 
 #include "helper/CommonHelper.h"
 
@@ -10,6 +10,7 @@
 namespace g3d
 {
     class G3DBaseNode : public CCNode {
+    protected:
         virtual bool init();
         GLuint framebuffer, texture, renderbuffer;
         CocosShaderProgram* getObjectIDByMousePositionShader;
@@ -38,7 +39,7 @@ namespace g3d
 
         //void renderModel(sus3d::Model* model);
 
-        virtual void draw();
+        virtual void draw() override;
         ~G3DBaseNode();
         static G3DBaseNode* create();
 

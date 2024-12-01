@@ -69,12 +69,12 @@ namespace g3d
         planetModel->setRotationX(glm::degrees(eulerAngles.x));
         planetModel->setRotationY(glm::degrees(eulerAngles.y));
         planetModel->setRotationZ(glm::degrees(eulerAngles.z));
-        planetModelWater->setRotationX(glm::degrees(eulerAngles.x));
-        planetModelWater->setRotationY(glm::degrees(eulerAngles.y));
-        planetModelWater->setRotationZ(glm::degrees(eulerAngles.z));
-        cloud->setRotationX(glm::degrees(eulerAngles.x));
-        cloud->setRotationY(glm::degrees(eulerAngles.y));
-        cloud->setRotationZ(glm::degrees(eulerAngles.z));
+        planetWaterModel->setRotationX(glm::degrees(eulerAngles.x));
+        planetWaterModel->setRotationY(glm::degrees(eulerAngles.y));
+        planetWaterModel->setRotationZ(glm::degrees(eulerAngles.z));
+        cloudModel->setRotationX(glm::degrees(eulerAngles.x));
+        cloudModel->setRotationY(glm::degrees(eulerAngles.y));
+        cloudModel->setRotationZ(glm::degrees(eulerAngles.z));
     }
 
     void G3DPlanetLayer::detectBiomeMusic() {
@@ -167,12 +167,12 @@ namespace g3d
                     planetModel->setRotationX(glm::degrees(eulerAngles.x));
                     planetModel->setRotationY(glm::degrees(eulerAngles.y));
                     planetModel->setRotationZ(glm::degrees(eulerAngles.z));
-                    planetModelWater->setRotationX(glm::degrees(eulerAngles.x));
-                    planetModelWater->setRotationY(glm::degrees(eulerAngles.y));
-                    planetModelWater->setRotationZ(glm::degrees(eulerAngles.z));
-                    cloud->setRotationX(glm::degrees(eulerAngles.x));
-                    cloud->setRotationY(glm::degrees(eulerAngles.y));
-                    cloud->setRotationZ(glm::degrees(eulerAngles.z));
+                    planetWaterModel->setRotationX(glm::degrees(eulerAngles.x));
+                    planetWaterModel->setRotationY(glm::degrees(eulerAngles.y));
+                    planetWaterModel->setRotationZ(glm::degrees(eulerAngles.z));
+                    cloudModel->setRotationX(glm::degrees(eulerAngles.x));
+                    cloudModel->setRotationY(glm::degrees(eulerAngles.y));
+                    cloudModel->setRotationZ(glm::degrees(eulerAngles.z));
 
                     detectBiomeMusic();
                 }
@@ -199,6 +199,8 @@ namespace g3d
             break;
         case KEY_Escape:
             onBack(this);
+            break;
+        default:
             break;
         }
     }
@@ -233,17 +235,18 @@ namespace g3d
         delete fragmentShader3;
         OpenGLStateHelper::pushState();
 
-        layer3d = G3DBaseNode::create();
+        layer3d = G3DPlanetBaseNode::create();
         layer3d->light.setPosition(glm::vec3(0, 50, 1000));
         layer3d->setZOrder(10);
 
 
         planetModel = layer3d->loadAndAddModel<PlanetModel>(modelPath / "new_planet_textured.obj", shaderProgram);
-        planetModelWater = layer3d->loadAndAddModel<PlanetModel>(modelPath / "planet_water.obj", shaderProgram2);
-        planetModelWater->setScale(glm::vec3(1.001, 1.001, 1.001));
+        planetWaterModel = layer3d->loadAndAddModel<PlanetModel>(modelPath / "planet_water.obj", shaderProgram2);
+        planetWaterModel->setScale(glm::vec3(1.001, 1.001, 1.001));
 
-        cloud = layer3d->loadAndAddModel<PlanetModel>(modelPath / "clouds.obj", shaderProgram3);
-        cloud->setScale(glm::vec3(0.85));
+        cloudModel = layer3d->loadWithoutAddModel<CloudModel>(modelPath / "clouds.obj", shaderProgram3);
+        cloudModel->setScale(glm::vec3(0.85));
+        layer3d->cloudModel = cloudModel;
 
         this->addChild(layer3d);
         layer3d->camera.setPosition(glm::vec3(0, 0, 25));
@@ -280,14 +283,14 @@ namespace g3d
 
     void G3DPlanetLayer::onEnter() {
         CCLayer::onEnter();
-        for (int i = 0; i < cloud->meshes.size(); i++) {
-            int realMeshId = cloud->meshes.size() - 1 - i;
+        for (int i = 0; i < cloudModel->meshes.size(); i++) {
+            int realMeshId = cloudModel->meshes.size() - 1 - i;
             if (i == 0) {
-                cloud->meshes[realMeshId]->setVisible(0);
+                cloudModel->meshes[realMeshId]->setVisible(0);
                 continue;
             }
 
-            cloud->meshes[realMeshId]->setVisible(
+            cloudModel->meshes[realMeshId]->setVisible(
                 (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal == 100)
                 ? 0 : 1);
         }
@@ -307,8 +310,6 @@ namespace g3d
 
     void G3DPlanetLayer::draw() {
         CCLayer::draw();
-
-
     }
 
     G3DPlanetLayer* G3DPlanetLayer::create() {
@@ -323,18 +324,6 @@ namespace g3d
     }
 
     bool G3DPlanetLayer::insideThePlanetLayerFlag = false;
-
-    PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
-        PlanetModel* ret = new PlanetModel();
-        ret->shaderProgram = shaderProgram;
-
-        if (!ret || !ret->init(scene)) {
-            delete ret;  // Cleanup if initialization fails
-            return nullptr;
-        }
-
-        return ret;
-    }
 
     glm::mat4 PlanetModel::prepareModelMatrix() {
         glm::mat4 model = glm::mat4(1.0f); // Start with an identity matrix
@@ -356,5 +345,160 @@ namespace g3d
         model = glm::scale(model, scale);
 
         return model;
+    }
+
+    bool CloudModel::init(const aiScene* scene) {
+
+        for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
+            sus3d::Mesh* mesh = CloudMesh::create(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
+            meshes.push_back(mesh);
+        }
+
+        return true;
+    }
+
+    static glm::vec3 calculateNormal(aiMesh* mesh, aiFace& face) {
+        aiVector3D v0 = mesh->mVertices[face.mIndices[0]];
+        aiVector3D v1 = mesh->mVertices[face.mIndices[1]];
+        aiVector3D v2 = mesh->mVertices[face.mIndices[2]];
+
+        glm::vec3 edge1(v1.x - v0.x, v1.y - v0.y, v1.z - v0.z);
+        glm::vec3 edge2(v2.x - v0.x, v2.y - v0.y, v2.z - v0.z);
+
+        glm::vec3 normal = glm::normalize(glm::cross(edge1, edge2));
+        return normal;
+    }
+
+    glm::vec3 calculateCentroid(aiMesh* mesh, aiFace& face) {
+        aiVector3D v0 = mesh->mVertices[face.mIndices[0]];
+        aiVector3D v1 = mesh->mVertices[face.mIndices[1]];
+        aiVector3D v2 = mesh->mVertices[face.mIndices[2]];
+
+        glm::vec3 centroid = glm::vec3(
+            (v0.x + v1.x + v2.x) / 3.0f,
+            (v0.y + v1.y + v2.y) / 3.0f,
+            (v0.z + v1.z + v2.z) / 3.0f
+        );
+        return centroid;
+    }
+
+    bool CloudMesh::init(aiMesh* mesh, aiMaterial* material) {
+        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+            vertices.push_back(mesh->mVertices[i].x);
+            vertices.push_back(mesh->mVertices[i].y);
+            vertices.push_back(mesh->mVertices[i].z);
+
+            if (mesh->mTextureCoords[0]) {
+                vertices.push_back(mesh->mTextureCoords[0][i].x);
+                vertices.push_back(mesh->mTextureCoords[0][i].y);
+            }
+            else {
+                vertices.push_back(0.0f);
+                vertices.push_back(0.0f);
+            }
+
+            vertices.push_back(mesh->mNormals[i].x);
+            vertices.push_back(mesh->mNormals[i].y);
+            vertices.push_back(mesh->mNormals[i].z);
+        }
+
+        glm::vec3 sphereCenter(0.0f, 0.0f, 0.0f);
+
+        for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+            aiFace face = mesh->mFaces[i];
+            glm::vec3 normal = calculateNormal(mesh, face);
+            glm::vec3 centroid = calculateCentroid(mesh, face);
+
+            glm::vec3 centerDirection = glm::normalize(sphereCenter - centroid);
+
+            // Compare face normal with the direction to the center
+            float dot = glm::dot(normal, centerDirection);
+
+            if (std::abs(dot) < 0.9f) { // Face points towards the center
+                continue; // Skip this face
+            }
+
+            for (unsigned int j = 0; j < face.mNumIndices; j++) {
+                indices.push_back(face.mIndices[j]);
+            }
+        }
+
+        initBuffers(material);
+
+
+        return true;
+    }
+
+    void G3DPlanetBaseNode::draw()
+    {
+        CCNode::draw();
+        OpenGLStateHelper::saveState();
+        glEnable(GL_BLEND);
+        glEnable(GL_ALPHA_TEST);
+        glEnable(GL_DEPTH_TEST);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glm::mat4 view = camera.getViewMat();
+        glm::mat4 projection = camera.getProjectionMat();
+
+        for (auto model : models) {
+            model->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
+        }
+
+        float sizeBase = 0.80f;
+        float sizeScale = 0.03f;
+        int sizeSteps = 4;
+        for (int i = 0; i < sizeSteps; i++) {
+            cloudModel->setScale(glm::vec3(static_cast<float>(i) / static_cast<float>(sizeSteps) * sizeScale + sizeBase));
+            cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
+        }
+
+        glDisable(GL_DEPTH_TEST);
+        OpenGLStateHelper::pushState();
+    }
+
+
+    PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
+        PlanetModel* ret = new PlanetModel();
+        ret->shaderProgram = shaderProgram;
+
+        if (!ret || !ret->init(scene)) {
+            delete ret;  // Cleanup if initialization fails
+            return nullptr;
+        }
+
+        return ret;
+    }
+
+    CloudModel* CloudModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
+        CloudModel* ret = new CloudModel();
+        ret->shaderProgram = shaderProgram;
+
+        if (!ret || !ret->init(scene)) {
+            delete ret;  // Cleanup if initialization fails
+            return nullptr;
+        }
+
+        return ret;
+    }
+
+    CloudMesh* CloudMesh::create(aiMesh* mesh, aiMaterial* material) {
+        auto ret = new CloudMesh();
+        if (!ret || !ret->init(mesh, material)) {
+            delete ret;
+            return nullptr;
+        }
+        return ret;
+    }
+
+    G3DPlanetBaseNode* G3DPlanetBaseNode::create() {
+        auto node = new G3DPlanetBaseNode;
+        if (node && node->init()) {
+            node->autorelease();
+        }
+        else {
+            CC_SAFE_DELETE(node);
+        }
+        return node;
     }
 }

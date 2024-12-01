@@ -82,6 +82,7 @@ namespace sus3d
 
         if (material) {
             aiColor4D aiColor;
+            float opacity;
 
             if (material->Get(AI_MATKEY_COLOR_AMBIENT, aiColor) == AI_SUCCESS)
                 Ka = glm::vec3(aiColor.r, aiColor.g, aiColor.b);
@@ -91,6 +92,9 @@ namespace sus3d
 
             if (material->Get(AI_MATKEY_COLOR_SPECULAR, aiColor) == AI_SUCCESS)
                 Ks = glm::vec3(aiColor.r, aiColor.g, aiColor.b);
+
+            if (material->Get(AI_MATKEY_OPACITY, opacity) == AI_SUCCESS)
+                d = opacity;
         }
 
         glBindVertexArray(0);
@@ -114,10 +118,11 @@ namespace sus3d
             if (useTexture)
                 glBindTexture(GL_TEXTURE_2D, texture);
             shaderProgram->setInt("isTexture", int(useTexture));
-            shaderProgram->setVec3("Ka", isCustomKa ? CustomKa : Ka);
-            shaderProgram->setVec3("Kd", isCustomKd ? CustomKd : Kd);
-            shaderProgram->setVec3("Ks", isCustomKs ? CustomKs : Ks);
+            shaderProgram->setVec3("Ka", isCustomKa ? customKa : Ka);
+            shaderProgram->setVec3("Kd", isCustomKd ? customKd : Kd);
+            shaderProgram->setVec3("Ks", isCustomKs ? customKs : Ks);
             shaderProgram->setFloat("shininess", 32);
+            shaderProgram->setFloat("d", isCustomD ? customD : d);
             glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
             glBindVertexArray(0);
             glDisable(GL_DEPTH_TEST);

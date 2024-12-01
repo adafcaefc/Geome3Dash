@@ -11,7 +11,7 @@
 #include "delegate/CustomMouse.h"
 #include "delegate/CustomTouch.h"
 
-#include "helper/BezierHelper.h";
+#include "helper/BezierHelper.h"
 
 #include "engine/sus3d/ShaderProgram.h"
 #include "engine/sus3d/Shader.h"
