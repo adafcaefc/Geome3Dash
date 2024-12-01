@@ -425,10 +425,10 @@ namespace g3d
         prevTabState = currentTabState;
         if (showEditorWindow)
         {
-            renderBezierEditor(currentLevelData.bezierCurve);
-            renderLevelDataEditor();
-            DrawBSplineEditor();
-            DrawBSplineEditorWithCanvas();
+            //renderBezierEditor(currentLevelData.bezierCurve);
+            //renderLevelDataEditor();
+            //DrawBSplineEditor();
+            //DrawBSplineEditorWithCanvas();
         }
     }
 

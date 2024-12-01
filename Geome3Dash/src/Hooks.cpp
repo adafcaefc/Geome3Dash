@@ -158,8 +158,8 @@ namespace g3d
     class $modify(MenuLayer) {
         bool init() {
             if (!MenuLayer::init()) { return false; }
-            AllocConsole();
-            freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
+            //AllocConsole();
+            //freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
             return true;
         }
     };
@@ -201,6 +201,24 @@ namespace g3d
         }
         bool init() {
             if (!CreatorLayer::init()) { return false; }
+
+            // -------------------- waboo --------------------
+
+            {
+                m_fields->mapButton = this->getChildByIDRecursive("map-button");
+                m_fields->mapButton->removeAllChildren();
+                auto sprite = CCSprite::createWithSpriteFrameName("GJ_mapBtn_001.png");
+                auto weeklyButton = this->getChildByIDRecursive("weekly-button");
+                auto weeklyButtonSprite = weeklyButton->getChildByType<CCSprite>(0);
+                sprite->setScale(weeklyButtonSprite->getScale());
+                sprite->setPosition(weeklyButtonSprite->getPosition());
+                m_fields->mapButton->addChild(sprite);
+            }
+
+            return true;
+
+            // -----------------------------------------------
+
             m_fields->mapButton = this->getChildByIDRecursive("map-button");
             auto weeklyButton = this->getChildByIDRecursive("weekly-button");
             const auto mapButtonPos = m_fields->mapButton->getPosition();

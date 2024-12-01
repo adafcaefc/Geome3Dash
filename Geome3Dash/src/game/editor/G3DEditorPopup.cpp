@@ -263,10 +263,6 @@ namespace g3d
             scrollBar, geode::Anchor::Center, ccp(layerBG->getContentWidth() / 2 + 10, 0)
         );
 
-        m_changeListener.bind([this](auto* ev) {
-            this->updateState(ev->getNode());
-            return geode::ListenerResult::Propagate;
-            });
         this->updateState();
 
         m_spikeScene = G3DEditorScene::create();

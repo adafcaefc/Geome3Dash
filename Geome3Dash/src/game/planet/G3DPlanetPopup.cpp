@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "G3DPlanetPopup.h"
+#include "G3DPlanetLayer.h"
 
 #include "game/component/G3DProgressBar.h"
 
@@ -59,6 +60,10 @@ namespace g3d
 
     void G3DPlanetPopup::onEnter() {
         Popup::onEnter();
+
+        if (openOnce) { parentLayer->playNewSongType(); }
+        openOnce = true;
+
         normalBar->setProgress(PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->normal);
         normalBar->setColor(ccc3(0, 255, 0));
 
@@ -81,11 +86,12 @@ namespace g3d
         isOpened = false;
     }
 
-    void G3DPlanetPopup::tryOpen(int levelID) {
+    void G3DPlanetPopup::tryOpen(int levelID, G3DPlanetLayer* parentLayer) {
         if (!isOpened) {
             isOpened = true;
             auto ret = new G3DPlanetPopup();
             if (ret->initAnchored(240.f, 200.f, levelID)) {
+                ret->parentLayer = parentLayer;
                 ret->autorelease();
                 ret->show();
                 return;

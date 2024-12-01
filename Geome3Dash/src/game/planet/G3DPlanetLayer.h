@@ -42,6 +42,7 @@ namespace g3d
 
     class G3DBaseNode;
     class CocosShaderProgram;
+    class G3DRegionNameOverlay;
     class G3DPlanetLayer
         : public CCLayer
         , public CustomKeyboardDelegate
@@ -62,9 +63,9 @@ namespace g3d
             }
         }
 
-        void playNewSongType();
         void detectBiomeMusic();
 
+        G3DRegionNameOverlay* overlay;
         G3DPlanetBaseNode* layer3d;
         CocosShaderProgram* shaderProgram;
         PlanetModel* planetModel;
@@ -95,5 +96,27 @@ namespace g3d
     public:
         static bool insideThePlanetLayerFlag;
         static G3DPlanetLayer* create();
+        void playNewSongType();
+    };
+
+    class G3DRegionNameOverlay : public CCNode
+    {
+    public:
+        CCLabelBMFont* m_regionTitle;
+        CCLabelBMFont* m_musicTitle;
+
+        template <class T>
+        void show(T* child, GLubyte opacity = 255)
+        {
+            child->stopAllActions();
+            child->setOpacity(opacity);
+            child->runAction(CCSequence::create(
+                CCDelayTime::create(1.f),
+                CCFadeTo::create(2.f, 0), nullptr));
+        }
+        void show(const std::string& region, const std::string& music);
+
+        virtual bool init() override;
+        static G3DRegionNameOverlay* create();
     };
 }

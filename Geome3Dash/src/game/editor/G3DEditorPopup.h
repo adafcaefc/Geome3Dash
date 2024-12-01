@@ -90,7 +90,6 @@ namespace g3d
 
         G3DEditorScene* m_spikeScene;
         geode::ScrollLayer* m_list;
-        geode::EventListener<geode::EventFilter<G3DNumberSettingChangeEvent>> m_changeListener;
         geode::TextInput* m_searchInput;
         std::vector<geode::Ref<G3DNumberSetting>> m_settings;
 

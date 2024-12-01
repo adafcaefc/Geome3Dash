@@ -24,6 +24,10 @@ Geome3Dash is made by:
 * [RainixGD](https://www.youtube.com/@rainixgd)
 * [Adaf](https://www.youtube.com/@adaf3003)
 
+Geome3Dash music is made by:
+
+* [A145](https://www.youtube.com/@A145)
+
 Special thanks:
 
 * [Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g) - for providing help with Geode usage

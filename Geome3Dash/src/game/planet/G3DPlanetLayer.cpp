@@ -18,8 +18,50 @@
 
 namespace g3d
 {
+    void G3DRegionNameOverlay::show(const std::string& region, const std::string& music)
+    {
+        m_musicTitle->setString(music.c_str());
+        m_regionTitle->setString(region.c_str());
+        show(m_musicTitle);
+        show(m_regionTitle);
+    }
+
+    G3DRegionNameOverlay* G3DRegionNameOverlay::create()
+    {
+        auto ret = new G3DRegionNameOverlay();
+        if (ret && ret->init())
+        {
+            ret->autorelease();
+            return ret;
+        }
+        CC_SAFE_DELETE(ret);
+        return nullptr;
+    }
+
+    bool G3DRegionNameOverlay::init()
+    {
+        if (!CCNode::init()) { return false; }
+
+        this->setAnchorPoint({ 0.5, 0 });
+        this->setContentSize({ 400, 75 });
+        this->setScale(.5f);
+
+        m_regionTitle = CCLabelBMFont::create("", "bigFont.fnt");
+        m_regionTitle->setAnchorPoint({ .0f, .5f });
+        this->addChildAtPosition(m_regionTitle, geode::Anchor::Center);
+
+        m_musicTitle = CCLabelBMFont::create("", "goldFont.fnt");
+        m_musicTitle->setAnchorPoint({ .0f, .5f });
+        this->addChildAtPosition(m_musicTitle, geode::Anchor::Center, ccp(0, -30));
+
+        this->setPosition(ccp(15, 15));
+        this->setScale(0.4f);
+
+        return true;
+    }
+
     void G3DPlanetLayer::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
-        if (G3DPlanetPopup::checkIsOpened()) return;
+        if (G3DPlanetPopup::checkIsOpened()) { return; }
         if (button == GLFW_MOUSE_BUTTON_LEFT) {
             if (action == GLFW_PRESS) {
                 isRightClicking = true;
@@ -43,7 +85,14 @@ namespace g3d
                             layer3d->models[0]->meshes[meshIndex]->disableKa();
                     }
 
-                    G3DPlanetPopup::tryOpen(levelID);
+                    int maxI = 0;
+                    for (int i = 0; i < 20; i++)
+                    {
+                        if (PlanetStateManager::getInstance()->getProgressByLevelID(i)->normal != 100) { break; }
+                        maxI = i;
+                    }
+
+                    if (levelID <= maxI + 1) { G3DPlanetPopup::tryOpen(levelID, this); }
                 }
             }
         }
@@ -113,16 +162,20 @@ namespace g3d
         songPath = geode::Mod::get()->getResourcesDir() / "music";
         switch (musicType) {
         case MusicType::Plains:
+            if (overlay) { overlay->show("The Whispering Wilds", "A145 - A Newborn Spirit"); }
             songPath = songPath / "A145 - A Newborn Spirit.mp3";
             break;
         case MusicType::Ice:
+            if (overlay) { overlay->show("The Glacial Heights", "A145 - Each Other's Backs"); }
             songPath = songPath / "A145 - Each Other's Backs.mp3";
             break;
         case MusicType::Desert:
+            if (overlay) { overlay->show("The Sunken Sands", "A145 - On Top Of The Desert"); }
             songPath = songPath / "A145 - On Top Of The Desert.mp3";
             break;
         case MusicType::Default:
         default:
+            if (overlay) { overlay->show("The Nebula Drift", "A145 - That One Talks"); }
             songPath = songPath / "A145 - That One Talks.mp3";
             break;
         }
@@ -198,18 +251,18 @@ namespace g3d
         case KEY_Control:
             isPressingControl = pressed;
             break;
-        case KEY_Escape:
-            onBack(this);
-            break;
+        //case KEY_Escape:
+        //    onBack(this);
+        //    break;
         default:
             break;
         }
     }
 
     bool G3DPlanetLayer::init() {
+        insideThePlanetLayerFlag = true;
         FMODAudioEngine::get()->fadeOutMusic(3.f, 0);
         CCLayer::init();
-        insideThePlanetLayerFlag = true;
 
         setKeyboardEnabled(true);
         OpenGLStateHelper::saveState();
@@ -275,9 +328,13 @@ namespace g3d
         backButtonMenu->addChild(backButton);
         this->addChild(backButtonMenu);
 
-        playNewSongType();
 
         this->schedule(schedule_selector(G3DPlanetLayer::updatePlanetRotation));
+
+        overlay = G3DRegionNameOverlay::create();
+        this->addChild(overlay);
+
+        playNewSongType();
 
         return true;
     }
@@ -304,7 +361,7 @@ namespace g3d
     void G3DPlanetLayer::keyBackClicked(void) {
         insideThePlanetLayerFlag = false;
 
-        FMODAudioEngine::get()->fadeInMusic(3.f, 0);
+        GameManager::get()->fadeInMenuMusic();
 
         CCDirector::sharedDirector()->popSceneWithTransition(0.3, PopTransition::kPopTransitionFade);
     }
@@ -370,7 +427,7 @@ namespace g3d
         return normal;
     }
 
-    glm::vec3 calculateCentroid(aiMesh* mesh, aiFace& face) {
+    static glm::vec3 calculateCentroid(aiMesh* mesh, aiFace& face) {
         aiVector3D v0 = mesh->mVertices[face.mIndices[0]];
         aiVector3D v1 = mesh->mVertices[face.mIndices[1]];
         aiVector3D v2 = mesh->mVertices[face.mIndices[2]];
@@ -462,9 +519,9 @@ namespace g3d
         //    cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
         //}
 
-        float sizeBase = 0.78f;
+        float sizeBase = 0.80f;
         float sizeScale = 0.15f;
-        int sizeSteps = 7;
+        int sizeSteps = 9;
         for (int i = 0; i < sizeSteps; i++) {
             cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, sizeSteps, 0.f, sizeScale) + sizeBase));
             cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
@@ -475,12 +532,14 @@ namespace g3d
     }
 
 
+
+
     PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
         PlanetModel* ret = new PlanetModel();
         ret->shaderProgram = shaderProgram;
 
         if (!ret || !ret->init(scene)) {
-            delete ret;  // Cleanup if initialization fails
+            delete ret; 
             return nullptr;
         }
 
@@ -492,7 +551,7 @@ namespace g3d
         ret->shaderProgram = shaderProgram;
 
         if (!ret || !ret->init(scene)) {
-            delete ret;  // Cleanup if initialization fails
+            delete ret;
             return nullptr;
         }
 

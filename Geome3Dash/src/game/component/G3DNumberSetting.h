@@ -105,20 +105,4 @@ namespace g3d
             return nullptr;
         }
     };
-
-    class G3DNumberSettingChangeEvent : public geode::Event {
-    private:
-        G3DNumberSetting* m_impl_node;
-        bool m_impl_commit;
-    public:
-        G3DNumberSettingChangeEvent(G3DNumberSetting* node, bool commit)
-        {
-            m_impl_node = node;
-            m_impl_commit = commit;
-        }
-        virtual ~G3DNumberSettingChangeEvent();
-
-        G3DNumberSetting* getNode() const { return m_impl_node; }
-        bool isCommit() const { return m_impl_commit; }
-    };
 }
