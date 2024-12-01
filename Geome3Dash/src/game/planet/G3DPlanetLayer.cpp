@@ -464,7 +464,7 @@ namespace g3d
 
         float sizeBase = 0.78f;
         float sizeScale = 0.15f;
-        int sizeSteps = 18;
+        int sizeSteps = 7;
         for (int i = 0; i < sizeSteps; i++) {
             cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, sizeSteps, 0.f, sizeScale) + sizeBase));
             cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
