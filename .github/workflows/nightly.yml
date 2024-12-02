@@ -51,7 +51,7 @@ jobs:
       - name: Compress Build Output
         run: |
           cd bin
-          7z\7z.exe a -tzip "rainixgd.geome3dash.geode" -mx9 -x!7z -x!package_adaf.bat -x!package_adaf_mx9.bat -x!rainixgd.geome3dash.exp -x!rainixgd.geome3dash.lib -x!list.bat
+          7z.exe a -tzip "rainixgd.geome3dash.geode" -mx9 -x!7z -x!package_adaf.bat -x!package_adaf_mx9.bat -x!rainixgd.geome3dash.exp -x!rainixgd.geome3dash.lib -x!list.bat
 
       # Upload the compressed file
       - name: Upload Build Artifact
