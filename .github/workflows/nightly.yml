@@ -65,7 +65,7 @@ jobs:
       # Compress contents of bin folder into rainixgd.geome3dash.geode
       - name: Compress Build Output
         run: |
-          D:\a\Geome3Dash\Geome3Dash\bin\
+          cd D:\a\Geome3Dash\Geome3Dash\bin\
           package_workflows.bat
          
       # Upload the compressed file
