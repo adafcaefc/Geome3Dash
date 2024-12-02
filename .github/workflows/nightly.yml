@@ -56,12 +56,6 @@ jobs:
       - name: Build Solution
         run: msbuild Geome3Dash.sln /p:Configuration=Release /p:Platform=x64
 
-      - name: Check for 7-Zip
-        run: where 7z.exe
-      
-      - name: Check for build
-        run: where rainixgd.geome3dash.dll
-
       # Compress contents of bin folder into rainixgd.geome3dash.geode
       - name: Compress Build Output
         run: |
@@ -91,8 +85,8 @@ jobs:
       - name: Create Developmental Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: rainixgd.geome3dash.geode
+          artifacts: nightly-build/*
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: develop-${{ github.sha }}
-          releaseName: Developmental Build
+          name: Developmental Build  # Change from releaseName to name
           prerelease: true
