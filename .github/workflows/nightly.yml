@@ -82,11 +82,14 @@ jobs:
           path: .
 
       # Create GitHub Release
-      - name: Create Developmental Release
-        uses: ncipollo/release-action@v1
+      - name: Update Development Release
+        uses: andelf/nightly-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          artifacts: nightly-build/*
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: develop-${{ github.sha }}
-          name: Developmental Build  # Change from releaseName to name
-          prerelease: true
+          tag_name: develop-${{ github.sha }}
+          name: 'Developmental Build'
+          body: |
+            Geome3dash development release for commit ${{ github.sha }}.
+          files: |
+            ./rainixgd.geome3dash.geode
