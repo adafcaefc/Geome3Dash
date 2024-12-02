@@ -78,4 +78,6 @@ namespace sus3d
     Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
         return loadModelTemplate<Model>(path, shaderProgram);
     }
+
+    std::unordered_map<std::string, Model*> Model::modelCache = std::unordered_map<std::string, Model*>();
 }

@@ -169,8 +169,7 @@ namespace g3d
 
     G3DEditorScene::~G3DEditorScene()
     {
-        if (cube) { delete cube; }
-        if (spike) { delete spike; }
+
     }
 
     bool G3DEditorScene::init()

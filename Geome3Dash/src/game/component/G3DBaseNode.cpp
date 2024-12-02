@@ -89,9 +89,6 @@ namespace g3d
     //}
 
     G3DBaseNode::~G3DBaseNode() {
-        for (auto model : models) {
-            delete model;
-        }
     }
 
     bool G3DBaseNode::init() {
