@@ -47,18 +47,18 @@ jobs:
       - name: Build Solution
         run: msbuild Geome3Dash.sln /p:Configuration=Release /p:Platform=x64
 
-      # Archive built binaries
-      - name: Archive Build Artifacts
+      # Compress contents of bin folder into rainixgd.geome3dash.geode
+      - name: Compress Build Output
         run: |
-          mkdir build-output
-          copy Geome3Dash\bin\x64\Release\* build-output\
+          cd bin
+          7z\7z.exe a -tzip "rainixgd.geome3dash.geode" -mx9 -x!7z -x!package_adaf.bat -x!package_adaf_mx9.bat -x!rainixgd.geome3dash.exp -x!rainixgd.geome3dash.lib -x!list.bat
 
-      # Upload build artifacts
-      - name: Upload Build Artifacts
+      # Upload the compressed file
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-output
-          path: build-output/
+          name: rainixgd.geome3dash.geode
+          path: bin/rainixgd.geome3dash.geode
 
   release:
     name: Create Developmental Release
@@ -66,18 +66,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Download build artifacts
-      - name: Download Build Artifacts
+      # Download the compressed build artifact
+      - name: Download Build Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-output
-          path: nightly-build
+          name: rainixgd.geome3dash.geode
+          path: .
 
       # Create GitHub Release
       - name: Create Developmental Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: nightly-build/*
+          artifacts: rainixgd.geome3dash.geode
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: develop-${{ github.sha }}
           releaseName: Developmental Build
