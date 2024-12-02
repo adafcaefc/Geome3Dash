@@ -10,7 +10,6 @@
 
 #include <filesystem>
 #include <vector>
-#include <unordered_map>
 
 namespace sus3d
 {
@@ -62,16 +61,10 @@ namespace sus3d
         virtual glm::mat4 prepareModelMatrix();
 
         virtual ~Model();
-
-        static std::unordered_map<std::string, Model*> modelCache;
     };
 
     template <typename T>
-    T* loadModelTemplate(const std::filesystem::path& path, ShaderProgram* shaderProgram) 
-    {
-        if (Model::modelCache.find(path.string()) != Model::modelCache.end()) {
-            return dynamic_cast<T*>(Model::modelCache.at(path.string()));
-        }
+    T* loadModelTemplate(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path.string(),
             aiProcess_Triangulate |
@@ -81,7 +74,6 @@ namespace sus3d
 
         auto model = T::create(scene, shaderProgram);
         importer.FreeScene();
-        Model::modelCache[path.string()] = model;
         return model;
     }
 

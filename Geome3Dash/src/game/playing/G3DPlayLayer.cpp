@@ -208,6 +208,7 @@ namespace g3d
 
     G3DPlayLayer::~G3DPlayLayer()
     {
+        for (auto [_, block] : blockModels) { delete block; }
         instance = nullptr;
     }
 
