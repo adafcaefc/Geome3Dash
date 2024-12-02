@@ -100,9 +100,9 @@ namespace g3d
 
     void G3DPlanetLayer::updatePlanetRotation(const float delta) {
 
-        float sensitivityX = 0.004662;
-        float sensitivityY = 0.003665;
-        float sensitivityZ = 0.009160;
+        float sensitivityX = 0.004662f;
+        float sensitivityY = 0.003665f;
+        float sensitivityZ = 0.009160f;
 
         glm::quat rotationX = glm::angleAxis(delta * sensitivityX, glm::vec3(1.0f, 0.0f, 0.0f));
         glm::quat rotationY = glm::angleAxis(delta * sensitivityY, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -299,7 +299,7 @@ namespace g3d
         planetWaterModel->setScale(glm::vec3(1.001, 1.001, 1.001));
 
         cloudModel = layer3d->loadWithoutAddModel<CloudModel>(modelPath / "clouds.obj", shaderProgram3);
-        cloudModel->setScale(glm::vec3(0.85));
+        cloudModel->setScale(glm::vec3(0.85f));
         layer3d->cloudModel = cloudModel;
 
         this->addChild(layer3d);
@@ -341,8 +341,8 @@ namespace g3d
 
     void G3DPlanetLayer::onEnter() {
         CCLayer::onEnter();
-        for (int i = 0; i < cloudModel->meshes.size(); i++) {
-            int realMeshId = cloudModel->meshes.size() - 1 - i;
+        for (size_t i = 0; i < cloudModel->meshes.size(); i++) {
+            size_t realMeshId = cloudModel->meshes.size() - 1u -i;
             if (i == 0) {
                 cloudModel->meshes[realMeshId]->setVisible(0);
                 continue;
@@ -363,7 +363,7 @@ namespace g3d
 
         GameManager::get()->fadeInMenuMusic();
 
-        CCDirector::sharedDirector()->popSceneWithTransition(0.3, PopTransition::kPopTransitionFade);
+        CCDirector::sharedDirector()->popSceneWithTransition(0.3f, PopTransition::kPopTransitionFade);
     }
 
     void G3DPlanetLayer::draw() {

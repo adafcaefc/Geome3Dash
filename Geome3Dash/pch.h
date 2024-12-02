@@ -11,6 +11,10 @@
 
 #include <matjson.hpp>
 #include <Geode/external/result/result.hpp>
+#include <Geode/ui/GeodeUI.hpp>
+#include <Geode/ui/ScrollLayer.hpp>
+#include <Geode/ui/Scrollbar.hpp>
+#include <Geode/ui/TextInput.hpp>
 #include <gd.h>
 
 #include <glm/glm/glm.hpp>

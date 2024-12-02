@@ -19,8 +19,8 @@ namespace g3d
 		this->addChild(clipper);
 
 		filling = CCSprite::create("GJ_progressBar_001.png");
-		filling->setScaleX(0.98);
-		filling->setScaleY(0.7);
+		filling->setScaleX(0.98f);
+		filling->setScaleY(0.7f);
 		filling->setColor(ccc3(255, 255, 0));
 		filling->setPosition(this->getContentSize() / 2);
 		clipper->addChild(filling);

@@ -12,7 +12,6 @@ namespace g3d
     bool G3DPlanetPopup::setup(int levelID) {
         this->setTitle(std::to_string(levelID));
         this->levelID = levelID;
-        auto size = CCDirector::sharedDirector()->getWinSize();
         auto mySize = this->m_bgSprite->getContentSize();
 
         this->m_closeBtn->setZOrder(5);
@@ -78,7 +77,7 @@ namespace g3d
         level->m_normalPercent = PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->normal;
         level->m_practicePercent = PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->practice;
         auto playLayer = PlayLayer::scene(level, 0, 0);
-        CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3, playLayer));
+        CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3f, playLayer));
     }
 
     void G3DPlanetPopup::onClose(cocos2d::CCObject* obj) {

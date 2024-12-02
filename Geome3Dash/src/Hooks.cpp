@@ -58,7 +58,7 @@ namespace g3d
     class $modify(GameManager) {
         void returnToLastScene(GJGameLevel * p0) {
             if (G3DPlanetLayer::insideThePlanetLayerFlag) {
-                CCDirector::sharedDirector()->popSceneWithTransition(0.3, kPopTransitionFade);
+                CCDirector::sharedDirector()->popSceneWithTransition(0.3f, kPopTransitionFade);
             }
             else {
                 GameManager::returnToLastScene(p0);
@@ -176,9 +176,9 @@ namespace g3d
             m_fields->planetModelWater->setScale(glm::vec3(0.251 * m_fields->mapButton->getScale()));
             m_fields->planetModel->setScale(glm::vec3(0.25 * m_fields->mapButton->getScale()));
 
-            float sensitivityX = 0.4662;
-            float sensitivityY = 0.3665;
-            float sensitivityZ = 0.916;
+            float sensitivityX = 0.4662f;
+            float sensitivityY = 0.3665f;
+            float sensitivityZ = 0.916f;
 
             glm::quat rotationX = glm::angleAxis(delta * sensitivityX, glm::vec3(1.0f, 0.0f, 0.0f));
             glm::quat rotationY = glm::angleAxis(delta * sensitivityY, glm::vec3(0.0f, 1.0f, 0.0f));

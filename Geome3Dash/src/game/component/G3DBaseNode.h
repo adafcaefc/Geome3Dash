@@ -11,7 +11,7 @@ namespace g3d
 {
     class G3DBaseNode : public CCNode {
     protected:
-        virtual bool init();
+        virtual bool init() override;
         GLuint framebuffer, texture, renderbuffer;
         CocosShaderProgram* getObjectIDByMousePositionShader;
         glm::vec3 generateUniqueColor(int objectID, int meshID) {
