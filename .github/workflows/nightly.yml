@@ -65,8 +65,7 @@ jobs:
       # Compress contents of bin folder into rainixgd.geome3dash.geode
       - name: Compress Build Output
         run: |
-          cd D:\a\Geome3Dash\Geome3Dash\bin\
-          D:\a\Geome3Dash\Geome3Dash\bin\package_workflows.bat
+          7z.exe a -tzip "D:\a\Geome3Dash\Geome3Dash\bin\rainixgd.geome3dash.geode" -mx9 "D:\a\Geome3Dash\Geome3Dash\bin\*" -x!"D:\a\Geome3Dash\Geome3Dash\bin\7z" -x!"D:\a\Geome3Dash\Geome3Dash\bin\package_adaf.bat" -x!"D:\a\Geome3Dash\Geome3Dash\bin\package_adaf_mx9.bat" -x!"D:\a\Geome3Dash\Geome3Dash\bin\package_workflows.bat" -x!"D:\a\Geome3Dash\Geome3Dash\bin\rainixgd.geome3dash.exp" -x!"D:\a\Geome3Dash\Geome3Dash\bin\rainixgd.geome3dash.lib" -x!"D:\a\Geome3Dash\Geome3Dash\bin\list.bat"
          
       # Upload the compressed file
       - name: Upload Build Artifact
