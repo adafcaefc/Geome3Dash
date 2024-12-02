@@ -66,7 +66,7 @@ jobs:
       - name: Compress Build Output
         run: |
           cd D:\a\Geome3Dash\Geome3Dash\bin\
-          package_workflows.bat
+          D:\a\Geome3Dash\Geome3Dash\bin\package_workflows.bat
          
       # Upload the compressed file
       - name: Upload Build Artifact
