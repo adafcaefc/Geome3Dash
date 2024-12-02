@@ -23,12 +23,15 @@ namespace g3d
         ~CloudModel() override = default;
         virtual bool init(const aiScene* scene) override;
         static CloudModel* create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram);
+        virtual void setCloudOpacity(const float op);
     };
 
     class CloudMesh : public sus3d::Mesh {
     public:
+        float opacityModifier = 1.0f;
         ~CloudMesh() override = default;
         virtual bool init(aiMesh* mesh, aiMaterial* material) override;
+        virtual void render(sus3d::ShaderProgram* shaderProgram) const override;
         static CloudMesh* create(aiMesh* mesh, aiMaterial* material);
     };
 
@@ -36,8 +39,8 @@ namespace g3d
     public:
         CloudModel* cloudModel;
         ~G3DPlanetBaseNode() override = default;
-        static G3DPlanetBaseNode* create();
         virtual void draw() override;
+        static G3DPlanetBaseNode* create();
     };
 
     class G3DBaseNode;

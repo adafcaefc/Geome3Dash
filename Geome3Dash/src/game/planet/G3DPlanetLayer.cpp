@@ -303,7 +303,7 @@ namespace g3d
         layer3d->cloudModel = cloudModel;
 
         this->addChild(layer3d);
-        layer3d->camera.setPosition(glm::vec3(0, 0, 25));
+        layer3d->camera.setPosition(glm::vec3(0, 0, 29));
 
         auto size = CCDirector::sharedDirector()->getWinSize();
 
@@ -488,6 +488,32 @@ namespace g3d
         return true;
     }
 
+    void CloudMesh::render(sus3d::ShaderProgram* shaderProgram) const 
+    {
+        //// same as sus3d::Mesh::render for now
+        //return sus3d::Mesh::render(shaderProgram);
+        if (visible) 
+        {
+            glBindVertexArray(VAO);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_BLEND);
+            glEnable(GL_BLEND_COLOR);
+            if (useTexture)
+                glBindTexture(GL_TEXTURE_2D, texture);
+            shaderProgram->setInt("isTexture", int(useTexture));
+            shaderProgram->setVec3("Ka", isCustomKa ? customKa : Ka);
+            shaderProgram->setVec3("Kd", isCustomKd ? customKd : Kd);
+            shaderProgram->setVec3("Ks", isCustomKs ? customKs : Ks);
+            shaderProgram->setFloat("shininess", 32);
+            shaderProgram->setFloat("d", (isCustomD ? customD : d) * opacityModifier);
+            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
+            glBindVertexArray(0);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_BLEND);
+            glDisable(GL_BLEND_COLOR);
+        }
+    }
+
     void G3DPlanetBaseNode::draw()
     {
         CCNode::draw();
@@ -504,32 +530,56 @@ namespace g3d
             model->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
         }
 
-        //float sizeBase = 0.77f;
-        //float sizeScale = 0.15f;
-        //int sizeSteps = 7;
-        //for (int i = 0; i < sizeSteps; i++) {
-        //    cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, sizeSteps, 0.f, sizeScale) + sizeBase));
-        //    cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
-        //}
-
-        //float sizeBase = 0.80f;
-        //float sizeScale = 0.03f;
-        //int sizeSteps = 4;
-        //for (int i = 0; i < sizeSteps; i++) {
-        //    cloudModel->setScale(glm::vec3(static_cast<float>(i) / static_cast<float>(sizeSteps) * sizeScale + sizeBase));
-        //    cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
-        //}
-
         float sizeBase = 0.80f;
-        float sizeScale = 0.15f;
-        int sizeSteps = 9;
-        for (int i = 0; i < sizeSteps; i++) {
-            cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, sizeSteps, 0.f, sizeScale) + sizeBase));
+        float sizeScale = 0.2f;
+        float opacityBase = 1.0f;
+        float opacityScale = 1.0f;
+        int fSteps = 0;
+        if (camera.getPosition().z > 30) {
+            fSteps = 15;
+        }
+        else if (camera.getPosition().z > 27) {
+            fSteps = 14;
+        }
+        else if (camera.getPosition().z > 26) {
+            fSteps = 13;
+        }
+        else if (camera.getPosition().z > 25) {
+            fSteps = 12;
+        }
+        else if (camera.getPosition().z > 24) {
+            fSteps = 11;
+        }
+        else if (camera.getPosition().z > 23) {
+            fSteps = 10;
+        }
+        else if (camera.getPosition().z > 22) {
+            fSteps = 9;
+        }
+        else {
+            fSteps = 6;
+        }
+        for (int i = 0; i < fSteps; i++) {
+            cloudModel->setCloudOpacity(std::clamp(opacityBase - ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, opacityScale), 0.0, 1.0));
+            cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, sizeScale) + sizeBase));
             cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
         }
 
+        cloudModel->setCloudOpacity(1.0f);
+
         glDisable(GL_DEPTH_TEST);
         OpenGLStateHelper::pushState();
+    }
+
+    void CloudModel::setCloudOpacity(const float op)
+    {
+        for (auto& mesh : meshes)
+        {
+            if (auto cloudMesh = dynamic_cast<CloudMesh*>(mesh))
+            {
+                cloudMesh->opacityModifier = op;
+            }
+        }
     }
 
     PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
