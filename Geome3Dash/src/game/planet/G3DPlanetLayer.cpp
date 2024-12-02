@@ -531,9 +531,6 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-
-
-
     PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
         PlanetModel* ret = new PlanetModel();
         ret->shaderProgram = shaderProgram;
