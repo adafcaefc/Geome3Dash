@@ -4,8 +4,10 @@
 namespace g3d
 {
 	void PlanetStateManager::tryLoadSaveFile() {
-		//later
-
+		// use cc dictionary maybe?
+		// or save it to a json file?
+		// I can't really decide...
+		// yeah I will go with json I think...
 		for (int i = 0; i < 20; i++)
 			levelProgresses.push_back(new LevelProgress(0, 0));
 

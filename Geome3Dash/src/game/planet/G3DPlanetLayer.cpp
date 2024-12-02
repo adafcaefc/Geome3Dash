@@ -74,9 +74,10 @@ namespace g3d
 
                 if (selected.first == 0 && selected.second >= 982 && selected.second <= 1061) {
 
+                    // we totally should prefix this level id like for real it might clash with something
+                    // prefix with like   444630000 + id
+                    // max int is        2147483647
                     int levelID = (selected.second - 982) / 4;
-
-                    std::cout << levelID << std::endl;
 
                     for (size_t meshIndex = 0; meshIndex < layer3d->models[0]->meshes.size(); meshIndex++) {
                         if (meshIndex == levelID * 4 + 982 || meshIndex == levelID * 4 + 983 || meshIndex == levelID * 4 + 984 || meshIndex == levelID * 4 + 985)
@@ -490,8 +491,7 @@ namespace g3d
 
     void CloudMesh::render(sus3d::ShaderProgram* shaderProgram) const 
     {
-        //// same as sus3d::Mesh::render for now
-        //return sus3d::Mesh::render(shaderProgram);
+        // custom renderer just to set the d value
         if (visible) 
         {
             glBindVertexArray(VAO);
@@ -530,11 +530,18 @@ namespace g3d
             model->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
         }
 
+        // probably nobody will know how to use this but I like to tweak the clouds so much
+        // so tldr
+        // opacityBase - opacityScale
+        // sizeBase + sizeScale
+        // why? idk but it is how it works
         float sizeBase = 0.80f;
         float sizeScale = 0.2f;
         float opacityBase = 1.0f;
         float opacityScale = 1.0f;
+
         int fSteps = 0;
+        // set steps so it doesn't lag
         if (camera.getPosition().z > 30) {
             fSteps = 15;
         }
@@ -559,6 +566,7 @@ namespace g3d
         else {
             fSteps = 6;
         }
+
         for (int i = 0; i < fSteps; i++) {
             cloudModel->setCloudOpacity(std::clamp(opacityBase - ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, opacityScale), 0.0, 1.0));
             cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, sizeScale) + sizeBase));

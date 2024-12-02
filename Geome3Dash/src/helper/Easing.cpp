@@ -18,14 +18,11 @@ namespace g3d
             return c * t * t + b;
         }
 
-
         // Method implementations for OutQuad
         double OutQuad::calculate(double t, double b, double c, double d) const {
             t /= d;
             return -c * t * (t - 2) + b;
         }
-        // Similar `calculate` and `get` methods for other structs...
-        // Below are a few examples; repeat the same structure for all remaining classes.
 
         double InCubic::calculate(double t, double b, double c, double d) const {
             t /= d;
