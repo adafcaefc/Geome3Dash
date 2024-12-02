@@ -333,6 +333,7 @@ namespace g3d
 
         overlay = G3DRegionNameOverlay::create();
         this->addChild(overlay);
+        overlay->setZOrder(11);
 
         playNewSongType();
 
