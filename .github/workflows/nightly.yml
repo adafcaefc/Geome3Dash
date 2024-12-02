@@ -1,9 +1,9 @@
 name: Build and Developmental Release
 
 on:
-  push:  # Trigger workflow on any push
+  push:
     branches: 
-      - '*'  # Matches all branches
+      - '*'  # Trigger on any branch push
 
 jobs:
   build:
@@ -33,6 +33,15 @@ jobs:
           restore-keys: |
             msbuild-cache-${{ runner.os }}-
 
+      # Cache the bin directory
+      - name: Cache Build Artifacts
+        uses: actions/cache@v3
+        with:
+          path: bin
+          key: bin-cache-${{ runner.os }}-${{ hashFiles('**/*.sln') }}
+          restore-keys: |
+            bin-cache-${{ runner.os }}-
+
       # Set up MSBuild
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v1
@@ -46,6 +55,12 @@ jobs:
       # Build the project
       - name: Build Solution
         run: msbuild Geome3Dash.sln /p:Configuration=Release /p:Platform=x64
+
+      - name: Check for 7-Zip
+        run: where 7z.exe
+      
+      - name: Check for build
+        run: where rainixgd.geome3dash.dll
 
       # Compress contents of bin folder into rainixgd.geome3dash.geode
       - name: Compress Build Output
