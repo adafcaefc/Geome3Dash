@@ -1,0 +1,84 @@
+name: Build and Developmental Release
+
+on:
+  push:  # Trigger workflow on any push
+    branches: 
+      - '*'  # Matches all branches
+
+jobs:
+  build:
+    name: Build x64-Release
+    runs-on: windows-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Cache NuGet packages
+      - name: Cache NuGet
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln', '**/*.csproj', '**/*.vcxproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      # Cache MSBuild binaries
+      - name: Cache Build Tools
+        uses: actions/cache@v3
+        with:
+          path: C:\Users\runneradmin\AppData\Local\Microsoft\MSBuild
+          key: msbuild-cache-${{ runner.os }}-${{ hashFiles('**/*.sln', '**/*.vcxproj') }}
+          restore-keys: |
+            msbuild-cache-${{ runner.os }}-
+
+      # Set up MSBuild
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      # Set up Visual Studio
+      - name: Set up Visual Studio
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x' # Adjust based on your requirements
+
+      # Build the project
+      - name: Build Solution
+        run: msbuild Geome3Dash.sln /p:Configuration=Release /p:Platform=x64
+
+      # Archive built binaries
+      - name: Archive Build Artifacts
+        run: |
+          mkdir build-output
+          copy Geome3Dash\bin\x64\Release\* build-output\
+
+      # Upload build artifacts
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: build-output/
+
+  release:
+    name: Create Developmental Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download build artifacts
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output
+          path: nightly-build
+
+      # Create GitHub Release
+      - name: Create Developmental Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: nightly-build/*
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: develop-${{ github.sha }}
+          releaseName: Developmental Build
+          prerelease: true
