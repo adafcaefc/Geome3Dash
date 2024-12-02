@@ -2,7 +2,7 @@
 
 #include "Shader.h"
 
-#include <glm/glm/gtc/type_ptr.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <CCGL.h>
 

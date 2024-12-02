@@ -2,7 +2,7 @@
 
 #include "ShaderProgram.h"
 
-#include <glm/glm/glm.hpp>
+#include <glm/glm.hpp>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

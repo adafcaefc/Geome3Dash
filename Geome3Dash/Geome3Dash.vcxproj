@@ -45,6 +45,8 @@
     <ClCompile Include="src\game\planet\G3DPlanetLayer.cpp" />
     <ClCompile Include="src\game\playing\G3DPlayLayer.cpp" />
     <ClCompile Include="src\game\test\G3DModelPreviewLayer.cpp" />
+    <ClCompile Include="src\helper\spline\Curve.cpp" />
+    <ClCompile Include="src\helper\spline\Spline.cpp" />
     <ClCompile Include="src\hook\CCEGLView.cpp" />
     <ClCompile Include="src\hook\CCKeyboardDispatcher.cpp" />
     <ClCompile Include="src\hook\CCMouseDispatcher.cpp" />
@@ -117,6 +119,8 @@
     <ClInclude Include="src\helper\CommonHelper.h" />
     <ClInclude Include="src\helper\OpenGLStateHelper.h" />
     <ClInclude Include="src\Entries.h" />
+    <ClInclude Include="src\helper\spline\Curve.h" />
+    <ClInclude Include="src\helper\spline\Spline.h" />
     <ClInclude Include="src\LevelDataManager.h" />
     <ClInclude Include="src\lib\imgui-cocos\imconfig.h" />
     <ClInclude Include="src\lib\imgui-cocos\imgui-cocos.hpp" />
@@ -157,7 +161,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)$(ProjectName);$(SolutionDir)$(ProjectName)\src;$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\pugixml;$(SolutionDir)library\incl\stb</IncludePath>
+    <IncludePath>$(SolutionDir)$(ProjectName);$(SolutionDir)$(ProjectName)\src;$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\pugixml;$(SolutionDir)library\incl\glm;$(SolutionDir)library\incl\stb</IncludePath>
     <LibraryPath>$(SolutionDir)library\lib\l_x64\l_release;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <TargetName>rainixgd.geome3dash</TargetName>
