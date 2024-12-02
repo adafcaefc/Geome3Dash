@@ -43,8 +43,9 @@ Geome3Dash soundtrack is made by:
 
 Special thanks:
 
-* [Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g) - for providing help with Geode usage
+* [Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g) - for beta-testing and providing help with Geode usage
 * [A145](https://www.youtube.com/@A145) - for beta-testing and providing support <3
+* [Lexi](https://github.com/KontrollFreek) - for beta-testing 
 
 Libraries and assets used:
 
