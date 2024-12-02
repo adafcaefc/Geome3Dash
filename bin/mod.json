@@ -10,7 +10,7 @@
 	},
 	"tags": ["content", "offline", "modtober24"],
 	"developers": ["RainixGD", "Adaf"],
-	"description": "3D Geometry Dash",
+	"description": "Geome3Dash transforms the 2D Geometry Dash you know and love into an exciting, open-source 3D experience. Jump into a new dimension of gameplay, customize levels like never before, and explore the adventure of a lifetime.",
 	"repository": "https://github.com/adafcaefc/Geome3Dash",
 	"dependencies": [
         {
