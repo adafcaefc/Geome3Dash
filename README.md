@@ -1,62 +1,57 @@
 # Geome3Dash
 
-**Geome3Dash** transforms the 2D Geometry Dash you know and love into an exciting, open-source 3D experience. Jump into a new dimension of gameplay, customize levels like never before, and explore the adventure of a lifetime.  
+Geome3Dash is an open-source, three-dimensional Geometry Dash.
 
----
+## Usage
 
-## Key Features  
+Geome3Dash transforms all Geometry Dash levels into a 3D experience. Here’s how you can use and navigate the game:
 
-### Experience Geometry Dash in 3D  
-Every Geometry Dash level gets a fresh perspective as it’s automatically converted into 3D. Classic gameplay meets immersive visuals for an unforgettable experience.  
+### Playing Levels in 3D
+- When you play any Geometry Dash level, it will automatically be converted into 3D.
+- Enjoy the familiar gameplay with a fresh, three-dimensional perspective.
 
-### Level Customization  
-Bring your creativity to life with advanced editing tools:  
-- **3D Level Path**: Adjust the level's 3D trajectory with the **Path button**, conveniently located near the Level Settings button.  
-- **Camera Angles**: Modify the viewing experience by selecting the **Cam button**, giving you full control over how the 3D camera function.  
+### Customizing Levels in the Editor
+- **3D Level Path:** In the level editor, click the **Path button** (located next to the Level Settings button) to adjust the level's 3D trajectory.
+- **Camera Angle:** Modify the camera perspective by clicking the **Cam button** in the same menu.
 
-### Story Mode Adventure  
-Dive into an all-new **Story Mode**:  
-- Access it via the **Globe button** in the Creator menu.  
-- Explore a rotating 3D world map featuring interactive level markers.  
-- Complete 20 levels, with each one unlocking the next stage in your epic journey.  
+### Story Mode
+- Access the **Story Mode** by clicking the **Globe button** in the Creator menu.
+- A 3D world globe will appear, showcasing various level markers.
+- Play through **20 progressive levels**, unlocking a new one after completing the current level.
 
----
+## Contributing
 
-## Contribute to the Geome3Dash Project
+You can contribute to Geome3Dash by:
 
-**Contribute to the Project:**  
-- **Code Contributions**: Submit bug fixes, new features, or enhancements. Simply fork the repository, make your changes, and submit a pull request. Follow the guidelines and include clear documentation for a smoother review process.  
-- **3D Models**: Share your artistic talents by creating and submitting custom 3D models for objects or game modes.  
+1. **Code Contributions**: You can submit bug fixes, features, or improvements by forking the repository and making a pull request. Please follow the coding guidelines and ensure your changes are well-documented.
+2. **3D Models**: We welcome contributions in the form of 3D models. You can create models for different objects or game modes and submit them for inclusion.
 
-Start by visiting the [GitHub repository](https://github.com/adafcaefc/Geome3Dash/).  
+To get started, visit the repository on [GitHub](https://github.com/adafcaefc/Geome3Dash/).
 
-**Join the Conversation:**  
-Have suggestions or need help? Connect with developers and fans on our [Discord server](https://discord.gg/CAVBVgMnSD).  
+If you have any issues, suggestions, or just want to follow the development of the mod, join our [discord server](https://discord.gg/CAVBVgMnSD)!
 
----
+## Credit
 
-## Credits  
+Geome3Dash is developed by:
 
-### Core Development Team  
-- **[RainixGD](https://www.youtube.com/@rainixgd)**  
-- **[Adaf](https://www.youtube.com/@adaf3003)**  
+* [RainixGD](https://www.youtube.com/@rainixgd)
+* [Adaf](https://www.youtube.com/@adaf3003)
 
-### Soundtrack Producer
-- **[A145](https://www.youtube.com/@A145)**  
+Geome3Dash soundtrack is made by:
 
-### Special Thanks  
-- **[Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g)** – Guidance on Geode usage  
-- **[A145](https://www.youtube.com/@A145)** – Beta testing and ongoing support  
+* [A145](https://www.youtube.com/@A145)
 
----
+Special thanks:
 
-## Tools, Libraries, and Assets  
+* [Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g) - for beta-testing and providing help with Geode usage
+* [A145](https://www.youtube.com/@A145) - for beta-testing and providing support <3
+* [Lexi](https://github.com/KontrollFreek) - for beta-testing 
 
-Geome3Dash utilizes a range of open-source tools and assets:  
+Libraries and assets used:
 
-- **[Khalfanel](https://sketchfab.com/Khalfan_el)** ([License](https://creativecommons.org/licenses/by/4.0/))  
-- **[Cartoon Guy](https://sketchfab.com/1003224735)** ([License](https://creativecommons.org/licenses/by/4.0/))  
-- **[Geode](https://github.com/orgs/geode-sdk/people)** ([License](https://github.com/geode-sdk/geode/blob/main/LICENSE.txt))  
-- **[gd-imgui-cocos](https://github.com/matcool/gd-imgui-cocos/tree/geode)** ([License](https://github.com/matcool/gd-imgui-cocos/blob/geode/LICENSE))  
-- **[tinyfiledialogs](https://sourceforge.net/projects/tinyfiledialogs)** ([License](https://sourceforge.net/projects/tinyfiledialogs/files/README.txt/download))  
-- **[assimp](https://github.com/assimp/assimp)** ([License](https://github.com/assimp/assimp/blob/master/LICENSE))  
+* [Khalfanel](https://sketchfab.com/Khalfan_el) - [license](https://creativecommons.org/licenses/by/4.0/)
+* [cartoon guy](https://sketchfab.com/1003224735) - [license](https://creativecommons.org/licenses/by/4.0/)
+* [Geode](https://github.com/orgs/geode-sdk/people) - [license](https://github.com/geode-sdk/geode/blob/main/LICENSE.txt)
+* [gd-imgui-cocos](https://github.com/matcool/gd-imgui-cocos/tree/geode) - [license](https://github.com/matcool/gd-imgui-cocos/blob/geode/LICENSE)
+* [tinyfiledialogs](https://sourceforge.net/projects/tinyfiledialogs) - [license](https://sourceforge.net/projects/tinyfiledialogs/files/README.txt/download)
+* [assimp](https://github.com/assimp/assimp) - [license](https://github.com/assimp/assimp/blob/master/LICENSE)
