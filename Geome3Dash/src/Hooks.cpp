@@ -204,18 +204,17 @@ namespace g3d
 
             // -------------------- waboo --------------------
 
-            {
-                m_fields->mapButton = this->getChildByIDRecursive("map-button");
-                m_fields->mapButton->removeAllChildren();
-                auto sprite = CCSprite::createWithSpriteFrameName("GJ_mapBtn_001.png");
-                auto weeklyButton = this->getChildByIDRecursive("weekly-button");
-                auto weeklyButtonSprite = weeklyButton->getChildByType<CCSprite>(0);
-                sprite->setScale(weeklyButtonSprite->getScale());
-                sprite->setPosition(weeklyButtonSprite->getPosition());
-                m_fields->mapButton->addChild(sprite);
-            }
-
-            return true;
+            //{
+            //    m_fields->mapButton = this->getChildByIDRecursive("map-button");
+            //    m_fields->mapButton->removeAllChildren();
+            //    auto sprite = CCSprite::createWithSpriteFrameName("GJ_mapBtn_001.png");
+            //    auto weeklyButton = this->getChildByIDRecursive("weekly-button");
+            //    auto weeklyButtonSprite = weeklyButton->getChildByType<CCSprite>(0);
+            //    sprite->setScale(weeklyButtonSprite->getScale());
+            //    sprite->setPosition(weeklyButtonSprite->getPosition());
+            //    m_fields->mapButton->addChild(sprite);
+            //}
+            //return true;
 
             // -----------------------------------------------
 
