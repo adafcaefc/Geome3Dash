@@ -45,6 +45,15 @@
     <ClCompile Include="src\game\planet\G3DPlanetLayer.cpp" />
     <ClCompile Include="src\game\playing\G3DPlayLayer.cpp" />
     <ClCompile Include="src\game\test\G3DModelPreviewLayer.cpp" />
+    <ClCompile Include="src\hook\CCEGLView.cpp" />
+    <ClCompile Include="src\hook\CCKeyboardDispatcher.cpp" />
+    <ClCompile Include="src\hook\CCMouseDispatcher.cpp" />
+    <ClCompile Include="src\hook\CCTouchDispatcher.cpp" />
+    <ClCompile Include="src\hook\CreatorLayer.cpp" />
+    <ClCompile Include="src\hook\GameManager.cpp" />
+    <ClCompile Include="src\hook\LevelEditorLayer.cpp" />
+    <ClCompile Include="src\hook\MenuLayer.cpp" />
+    <ClCompile Include="src\hook\PlayLayer.cpp" />
     <ClCompile Include="src\LevelDataManager.cpp" />
     <ClCompile Include="src\lib\imgui-cocos\imgui-cocos.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -72,11 +81,11 @@
     <ClCompile Include="src\helper\BezierHelper.cpp" />
     <ClCompile Include="src\helper\CommonHelper.cpp" />
     <ClCompile Include="src\helper\OpenGLStateHelper.cpp" />
-    <ClCompile Include="src\Hooks.cpp" />
+    <ClCompile Include="src\Entries.cpp" />
     <ClCompile Include="src\lib\tinyfiledialogs\tinyfiledialogs.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\LevelEditorGUI.cpp" />
+    <ClCompile Include="src\LevelEditorImGui.cpp" />
     <ClCompile Include="src\PlanetStateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +116,7 @@
     <ClInclude Include="src\helper\BezierHelper.h" />
     <ClInclude Include="src\helper\CommonHelper.h" />
     <ClInclude Include="src\helper\OpenGLStateHelper.h" />
-    <ClInclude Include="src\Hooks.h" />
+    <ClInclude Include="src\Entries.h" />
     <ClInclude Include="src\LevelDataManager.h" />
     <ClInclude Include="src\lib\imgui-cocos\imconfig.h" />
     <ClInclude Include="src\lib\imgui-cocos\imgui-cocos.hpp" />
@@ -117,7 +126,7 @@
     <ClInclude Include="src\lib\imgui-cocos\imstb_textedit.h" />
     <ClInclude Include="src\lib\imgui-cocos\imstb_truetype.h" />
     <ClInclude Include="src\lib\tinyfiledialogs\tinyfiledialogs.h" />
-    <ClInclude Include="src\LevelEditorGUI.h" />
+    <ClInclude Include="src\LevelEditorImGui.h" />
     <ClInclude Include="src\PlanetStateManager.h" />
   </ItemGroup>
   <ItemGroup>

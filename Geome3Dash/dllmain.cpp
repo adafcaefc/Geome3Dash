@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "src/Hooks.h"
+#include "src/Entries.h"
 
 static DWORD WINAPI mainThread(LPVOID lpParam)
 {
-    g3d::setupLibraries();
-    g3d::setupHooks();
+    g3d::entry::setupLibraries();
+    g3d::entry::setupHooks();
     return 0;
 }
 

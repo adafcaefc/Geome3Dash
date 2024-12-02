@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "LevelEditorGUI.h"
+#include "LevelEditorImGui.h"
 
 #include "LevelDataManager.h"
 
@@ -432,45 +432,45 @@ namespace g3d
         }
     }
 
-    class $modify(PlayLayer)
-    {
-        bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects)
-        {
-            if (PlayLayer::init(level, useReplay, dontCreateObjects))
-            {
-                try
-                {
-                    currentLevelData = getLevelData(this);
-                }
-                catch (...)
-                {
+    //class $modify(PlayLayer)
+    //{
+    //    bool init(GJGameLevel * level, bool useReplay, bool dontCreateObjects)
+    //    {
+    //        if (PlayLayer::init(level, useReplay, dontCreateObjects))
+    //        {
+    //            try
+    //            {
+    //                currentLevelData = getLevelData(this);
+    //            }
+    //            catch (...)
+    //            {
 
-                }
-                return true;
-            }
-            return false;
-        }
-    };
+    //            }
+    //            return true;
+    //        }
+    //        return false;
+    //    }
+    //};
 
-    class $modify(LevelEditorLayer)
-    {
-        bool init(GJGameLevel * p0, bool p1)
-        {
-            if (LevelEditorLayer::init(p0, p1))
-            {
-                try
-                {
-                    currentLevelData = getLevelData(this);
-                }
-                catch (...)
-                {
+    //class $modify(LevelEditorLayer)
+    //{
+    //    bool init(GJGameLevel * p0, bool p1)
+    //    {
+    //        if (LevelEditorLayer::init(p0, p1))
+    //        {
+    //            try
+    //            {
+    //                currentLevelData = getLevelData(this);
+    //            }
+    //            catch (...)
+    //            {
 
-                }
-                return true;
-            }
-            return false;
-        }
-    };
+    //            }
+    //            return true;
+    //        }
+    //        return false;
+    //    }
+    //};
 
     //class $modify(EditorPauseLayer)
     //{

@@ -27,7 +27,7 @@
     <ClCompile Include="src\CameraAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hooks.cpp">
+    <ClCompile Include="src\Entries.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Delegate\CustomKeyboard.cpp">
@@ -129,10 +129,37 @@
     <ClCompile Include="src\lib\imgui-cocos\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\LevelEditorGUI.cpp">
+    <ClCompile Include="src\LevelEditorImGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PlanetStateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\CCEGLView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\CCKeyboardDispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\CCMouseDispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\CCTouchDispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\CreatorLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\LevelEditorLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\MenuLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\PlayLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +170,7 @@
     <ClInclude Include="src\CocosShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hooks.h">
+    <ClInclude Include="src\Entries.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\BezierManager.h">
@@ -248,7 +275,7 @@
     <ClInclude Include="src\lib\imgui-cocos\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\LevelEditorGUI.h">
+    <ClInclude Include="src\LevelEditorImGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PlanetStateManager.h">
