@@ -8,7 +8,7 @@ namespace g3d
         bool init() {
             // load cache
             auto bms = BlockModelsStorage::getInstance();
-            auto model = bms->getBlockModel(1);
+            bms->getBlockModel(1);
             const auto planetPath = geode::Mod::get()->getResourcesDir() / "model3d" / "planet";
             const auto modelPath = planetPath / "model";
             bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");

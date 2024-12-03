@@ -8,6 +8,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="lib\imgui-cocos\imgui-cocos.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\imgui-cocos\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\imgui-cocos\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\imgui-cocos\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\imgui-cocos\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\imgui-cocos\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\tinyfiledialogs\tinyfiledialogs.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -58,24 +79,6 @@
     <ClCompile Include="src\hook\MenuLayer.cpp" />
     <ClCompile Include="src\hook\PlayLayer.cpp" />
     <ClCompile Include="src\LevelDataManager.cpp" />
-    <ClCompile Include="src\lib\imgui-cocos\imgui-cocos.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\lib\imgui-cocos\imgui.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\lib\imgui-cocos\imgui_demo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\lib\imgui-cocos\imgui_draw.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\lib\imgui-cocos\imgui_tables.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\lib\imgui-cocos\imgui_widgets.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\BezierManager.cpp" />
     <ClCompile Include="src\CameraAction.cpp" />
     <ClCompile Include="src\delegate\CustomKeyboard.cpp" />
@@ -85,13 +88,18 @@
     <ClCompile Include="src\helper\CommonHelper.cpp" />
     <ClCompile Include="src\helper\OpenGLStateHelper.cpp" />
     <ClCompile Include="src\Entries.cpp" />
-    <ClCompile Include="src\lib\tinyfiledialogs\tinyfiledialogs.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\LevelEditorImGui.cpp" />
     <ClCompile Include="src\PlanetStateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="lib\imgui-cocos\imconfig.h" />
+    <ClInclude Include="lib\imgui-cocos\imgui-cocos.hpp" />
+    <ClInclude Include="lib\imgui-cocos\imgui.h" />
+    <ClInclude Include="lib\imgui-cocos\imgui_internal.h" />
+    <ClInclude Include="lib\imgui-cocos\imstb_rectpack.h" />
+    <ClInclude Include="lib\imgui-cocos\imstb_textedit.h" />
+    <ClInclude Include="lib\imgui-cocos\imstb_truetype.h" />
+    <ClInclude Include="lib\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\BezierManager.h" />
     <ClInclude Include="src\BlockModelsStorage.h" />
@@ -124,14 +132,6 @@
     <ClInclude Include="src\helper\spline\Curve.h" />
     <ClInclude Include="src\helper\spline\Spline.h" />
     <ClInclude Include="src\LevelDataManager.h" />
-    <ClInclude Include="src\lib\imgui-cocos\imconfig.h" />
-    <ClInclude Include="src\lib\imgui-cocos\imgui-cocos.hpp" />
-    <ClInclude Include="src\lib\imgui-cocos\imgui.h" />
-    <ClInclude Include="src\lib\imgui-cocos\imgui_internal.h" />
-    <ClInclude Include="src\lib\imgui-cocos\imstb_rectpack.h" />
-    <ClInclude Include="src\lib\imgui-cocos\imstb_textedit.h" />
-    <ClInclude Include="src\lib\imgui-cocos\imstb_truetype.h" />
-    <ClInclude Include="src\lib\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="src\LevelEditorImGui.h" />
     <ClInclude Include="src\PlanetStateManager.h" />
   </ItemGroup>

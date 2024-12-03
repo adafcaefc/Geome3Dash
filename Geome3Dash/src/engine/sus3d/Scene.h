@@ -9,7 +9,7 @@ namespace sus3d
     class Model;
     class ShaderProgram;
 
-    struct Light {
+    class Light {
     private:
         glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -20,7 +20,7 @@ namespace sus3d
         glm::vec3 getColor() { return this->color; }
     };
 
-    struct Camera {
+    class Camera {
     private:
         glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);
