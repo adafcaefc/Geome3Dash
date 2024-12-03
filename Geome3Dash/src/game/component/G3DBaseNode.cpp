@@ -11,6 +11,8 @@
 #include "helper/OpenGLStateHelper.h"
 #include "helper/CommonHelper.h"
 
+#include "BlockModelsStorage.h"
+
 namespace g3d
 {
     std::pair<int, int> G3DBaseNode::getObjectIDByMousePosition() {
@@ -68,7 +70,13 @@ namespace g3d
         glm::mat4 projection = camera.getProjectionMat();
 
         for (auto model : models) {
-            model->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
+            model->render(
+                BlockModelsStorage::getInstance()->getSP(), 
+                view, 
+                light.getPosition(), 
+                light.getColor(), 
+                camera.getPosition(), 
+                projection);
         }
 
         glDisable(GL_DEPTH_TEST);
@@ -89,9 +97,7 @@ namespace g3d
     //}
 
     G3DBaseNode::~G3DBaseNode() {
-        for (auto model : models) {
-            delete model;
-        }
+
     }
 
     bool G3DBaseNode::init() {

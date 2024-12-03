@@ -6,6 +6,7 @@
 #include "helper/OpenGLStateHelper.h"
 
 #include "LevelDataManager.h"
+#include "BlockModelsStorage.h"
 
 namespace g3d
 {
@@ -27,20 +28,12 @@ namespace g3d
 
     void G3DEditorScene::loadModel()
     {
-        auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
-        auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
+        auto bms = BlockModelsStorage::getInstance();
 
-        shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
-
-        delete vertexShader;
-        delete fragmentShader;
-
-        auto playerDir = geode::Mod::get()->getResourcesDir() / "model3d" / "player" / "cube" / "0" / "model.obj";
-        cube = G3DBaseNode::loadModelMtl<sus3d::Model>(playerDir, shaderProgram);
+        cube = bms->getModel(bms->getBP() / "player" / "cube" / "0" / "model.obj");
         cube->setScale(glm::vec3(0.75));
 
-        auto spikeDir = geode::Mod::get()->getResourcesDir() / "model3d" / "object" / "8" / "model.obj";
-        spike = G3DBaseNode::loadModelMtl<sus3d::Model>(spikeDir, shaderProgram);
+        spike = bms->getBlockModel(8);
         spike->setScale(glm::vec3(0.75));
     }
 
@@ -99,6 +92,9 @@ namespace g3d
             }
         }
 
+
+        auto bms = BlockModelsStorage::getInstance();
+
         // End jumping logic
 
 
@@ -116,6 +112,7 @@ namespace g3d
         light.setPosition(camera.getPosition());
 
         cube->render(
+            bms->getSP(),
             camera.getViewMat(),
             light.getPosition(),
             light.getColor(),
@@ -124,15 +121,7 @@ namespace g3d
 
         spike->setPosition(spikePosition / glm::vec3(20));
         spike->render(
-            camera.getViewMat(),
-            light.getPosition(),
-            light.getColor(),
-            camera.getPosition(),
-            camera.getProjectionMat());
-
-        spikePosition.x += 30;
-        spike->setPosition(spikePosition / glm::vec3(20));
-        spike->render(
+            bms->getSP(),
             camera.getViewMat(),
             light.getPosition(),
             light.getColor(),
@@ -142,6 +131,17 @@ namespace g3d
         spikePosition.x += 30;
         spike->setPosition(spikePosition / glm::vec3(20));
         spike->render(
+            bms->getSP(),
+            camera.getViewMat(),
+            light.getPosition(),
+            light.getColor(),
+            camera.getPosition(),
+            camera.getProjectionMat());
+
+        spikePosition.x += 30;
+        spike->setPosition(spikePosition / glm::vec3(20));
+        spike->render(
+            bms->getSP(),
             camera.getViewMat(),
             light.getPosition(),
             light.getColor(),
@@ -169,8 +169,7 @@ namespace g3d
 
     G3DEditorScene::~G3DEditorScene()
     {
-        if (cube) { delete cube; }
-        if (spike) { delete spike; }
+
     }
 
     bool G3DEditorScene::init()

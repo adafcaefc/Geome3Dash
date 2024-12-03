@@ -99,7 +99,59 @@ namespace g3d
         }
     }
 
-    void G3DPlanetLayer::updatePlanetRotation(const float delta) {
+    void G3DPlanetLayer::updatePlanetRotation(const float delta) 
+    {
+        if (!insideThePlanetLayerFlag) { return; }
+
+        // Store previous scales
+        static glm::vec3 previousWaterScale = planetWaterModel->getScale();
+        static glm::vec3 previousPlanetScale = planetModel->getScale();
+
+        // Set target scales
+        const glm::vec3 waterTargetScale = glm::vec3(1.001f);
+        const glm::vec3 planetTargetScale = glm::vec3(1.0f);
+
+        // Calculate scale differences
+        float waterScaleDiff = glm::length(previousWaterScale - waterTargetScale);
+        float planetScaleDiff = glm::length(previousPlanetScale - planetTargetScale);
+
+        // Threshold for triggering animation
+        constexpr float threshold = 0.2f;
+
+        // Static animation state
+        static bool isAnimating = false;
+        static double timeElapsed = 0.0;
+        constexpr double duration = 1.0; // Animation duration
+
+        // Trigger animation if the scale difference exceeds the threshold
+        if (!isAnimating && (waterScaleDiff > threshold || planetScaleDiff > threshold)) {
+            isAnimating = true;
+            timeElapsed = 0.0; // Reset animation timer
+        }
+
+        // Perform animation if active
+        if (isAnimating) {
+            timeElapsed += delta;
+            if (timeElapsed <= duration) {
+                double t = timeElapsed / duration;
+                planetWaterModel->setScale(
+                    ease::ease<glm::vec3>(ease::InOutCubic::get(), t, duration, previousWaterScale, waterTargetScale)
+                );
+                planetModel->setScale(
+                    ease::ease<glm::vec3>(ease::InOutCubic::get(), t, duration, previousPlanetScale, planetTargetScale)
+                );
+            }
+            else {
+                // Animation complete, set to final target scales
+                planetWaterModel->setScale(waterTargetScale);
+                planetModel->setScale(planetTargetScale);
+                isAnimating = false; // End animation
+            }
+        }
+
+        // Update previous scales for the next frame
+        previousWaterScale = planetWaterModel->getScale();
+        previousPlanetScale = planetModel->getScale();
 
         float sensitivityX = 0.004662f;
         float sensitivityY = 0.003665f;
@@ -266,6 +318,7 @@ namespace g3d
         CCLayer::init();
 
         setKeyboardEnabled(true);
+
         OpenGLStateHelper::saveState();
         auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
         auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
@@ -279,13 +332,13 @@ namespace g3d
 
         auto vertexShader2 = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
         auto fragmentShader2 = sus3d::Shader::createWithFile(shaderPath / "water2.fsh", sus3d::ShaderType::kFragmentShader);
-        auto shaderProgram2 = CocosShaderProgram::create(vertexShader2, fragmentShader2);
+        shaderProgram2 = CocosShaderProgram::create(vertexShader2, fragmentShader2);
         delete vertexShader2;
         delete fragmentShader2;
 
         auto vertexShader3 = sus3d::Shader::createWithFile(shaderPath / "cloud.vsh", sus3d::ShaderType::kVertexShader);
         auto fragmentShader3 = sus3d::Shader::createWithFile(shaderPath / "cloud.fsh", sus3d::ShaderType::kFragmentShader);
-        auto shaderProgram3 = CocosShaderProgram::create(vertexShader3, fragmentShader3);
+        shaderProgram3 = CocosShaderProgram::create(vertexShader3, fragmentShader3);
         delete vertexShader3;
         delete fragmentShader3;
         OpenGLStateHelper::pushState();
@@ -294,14 +347,14 @@ namespace g3d
         layer3d->light.setPosition(glm::vec3(0, 50, 1000));
         layer3d->setZOrder(10);
 
+        auto bms = BlockModelsStorage::getInstance();
 
-        planetModel = layer3d->loadAndAddModel<PlanetModel>(modelPath / "new_planet_textured.obj", shaderProgram);
-        planetWaterModel = layer3d->loadAndAddModel<PlanetModel>(modelPath / "planet_water.obj", shaderProgram2);
-        planetWaterModel->setScale(glm::vec3(1.001, 1.001, 1.001));
+        planetModel = bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");
+        planetWaterModel = bms->getModelT<PlanetModel>(modelPath / "planet_water.obj");
+        cloudModel = bms->getModelT<CloudModel>(modelPath / "clouds.obj");
 
-        cloudModel = layer3d->loadWithoutAddModel<CloudModel>(modelPath / "clouds.obj", shaderProgram3);
-        cloudModel->setScale(glm::vec3(0.85f));
-        layer3d->cloudModel = cloudModel;
+        // probably should put this in constructor but too lazy rn
+        layer3d->planetLayer = this;
 
         this->addChild(layer3d);
         layer3d->camera.setPosition(glm::vec3(0, 0, 29));
@@ -526,9 +579,21 @@ namespace g3d
         glm::mat4 view = camera.getViewMat();
         glm::mat4 projection = camera.getProjectionMat();
 
-        for (auto model : models) {
-            model->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
-        }
+        planetLayer->planetModel->render(
+            planetLayer->shaderProgram, 
+            view, 
+            light.getPosition(), 
+            light.getColor(), 
+            camera.getPosition(), 
+            projection);
+
+        planetLayer->planetWaterModel->render(
+            planetLayer->shaderProgram2, 
+            view, 
+            light.getPosition(), 
+            light.getColor(), 
+            camera.getPosition(), 
+            projection);
 
         // probably nobody will know how to use this but I like to tweak the clouds so much
         // so tldr
@@ -568,12 +633,19 @@ namespace g3d
         }
 
         for (int i = 0; i < fSteps; i++) {
-            cloudModel->setCloudOpacity(std::clamp(opacityBase - ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, opacityScale), 0.0, 1.0));
-            cloudModel->setScale(glm::vec3(ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, sizeScale) + sizeBase));
-            cloudModel->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
+            planetLayer->cloudModel->setCloudOpacity(std::clamp(opacityBase - ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, opacityScale), 0.0, 1.0));
+            planetLayer->cloudModel->setScale(
+                glm::vec3(ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, sizeScale) + sizeBase) * planetLayer->planetModel->getScale());
+            planetLayer->cloudModel->render(
+                planetLayer->shaderProgram3, 
+                view, 
+                light.getPosition(), 
+                light.getColor(), 
+                camera.getPosition(), 
+                projection);
         }
 
-        cloudModel->setCloudOpacity(1.0f);
+        planetLayer->cloudModel->setCloudOpacity(1.0f);
 
         glDisable(GL_DEPTH_TEST);
         OpenGLStateHelper::pushState();
@@ -590,9 +662,8 @@ namespace g3d
         }
     }
 
-    PlanetModel* PlanetModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
+    PlanetModel* PlanetModel::create(const aiScene* scene) {
         PlanetModel* ret = new PlanetModel();
-        ret->shaderProgram = shaderProgram;
 
         if (!ret || !ret->init(scene)) {
             delete ret; 
@@ -602,9 +673,8 @@ namespace g3d
         return ret;
     }
 
-    CloudModel* CloudModel::create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram) {
+    CloudModel* CloudModel::create(const aiScene* scene) {
         CloudModel* ret = new CloudModel();
-        ret->shaderProgram = shaderProgram;
 
         if (!ret || !ret->init(scene)) {
             delete ret;

@@ -38,18 +38,23 @@ namespace sus3d
         return model;
     }
 
-    Model* Model::create(const aiScene* scene, ShaderProgram* shaderProgram) {
+    Model* Model::create(const aiScene* scene) 
+    {
         Model* ret = new Model();
-        ret->shaderProgram = shaderProgram;
-        if (!ret || !ret->init(scene)) {
-            return nullptr;
-        }
+        if (!ret || !ret->init(scene)) { return nullptr; }
         return ret;
     }
 
-    void Model::render(glm::mat4 view, glm::vec3 lightPos, glm::vec3 lightColor, glm::vec3 cameraPos, glm::mat4 projection) {
-
-        if (visible) {
+    void Model::render(
+        ShaderProgram* shaderProgram,
+        const glm::mat4& view,
+        const glm::vec3& lightPos,
+        const glm::vec3& lightColor,
+        const glm::vec3& cameraPos,
+        const glm::mat4& projection)
+    {
+        if (visible) 
+        {
             glm::mat4 model = prepareModelMatrix();
 
             shaderProgram->use();
@@ -63,19 +68,17 @@ namespace sus3d
             shaderProgram->setVec3("lightPos", lightPos);
             shaderProgram->setVec3("viewPos", cameraPos);
 
-            for (auto mesh : meshes)
-                mesh->render(shaderProgram);
+            for (auto mesh : meshes) { mesh->render(shaderProgram); }
         }
     }
 
     Model::~Model() {
-        for (Mesh* mesh : meshes) {
-            delete mesh;
-        }
+        for (Mesh* mesh : meshes) { delete mesh; }
         meshes.clear();
     }
 
-    Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
-        return loadModelTemplate<Model>(path, shaderProgram);
+    Model* loadModel(const std::filesystem::path& path) 
+    {
+        return loadModelT<Model>(path);
     }
 }

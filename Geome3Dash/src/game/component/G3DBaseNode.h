@@ -6,6 +6,7 @@
 #include "helper/CommonHelper.h"
 
 #include "CocosShaderProgram.h"
+#include "BlockModelsStorage.h"
 
 namespace g3d
 {
@@ -43,70 +44,16 @@ namespace g3d
         ~G3DBaseNode();
         static G3DBaseNode* create();
 
-        template <typename T>
-        static T* loadModelMtl(
-            const std::filesystem::path& filePath,
-            sus3d::ShaderProgram* shaderProgram)
-        {
-            const auto obj_path = std::filesystem::path(filePath);
-            const auto mtl_path = obj_path.parent_path() / (obj_path.stem().string() + ".mtl");
-
-            if (std::filesystem::exists(mtl_path))
-            {
-                auto mtl_file = utils::read_from_file(mtl_path);
-                if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos)
-                {
-                    utils::replace_all(mtl_file, "{{MODEL_PATH}}", mtl_path.parent_path().string());
-                }
-                utils::write_to_file(mtl_path, mtl_file);
-            }
-
-            return sus3d::loadModelTemplate<T>(filePath, shaderProgram);
-        }
+ 
 
         template <typename T>
-        T* loadAndAddModel(
-            const std::filesystem::path& filePath, 
-            sus3d::ShaderProgram* shaderProgram)
+        T* loadAndAddModel(const std::filesystem::path& filePath)
         {
-            const auto obj_path = std::filesystem::path(filePath);
-            const auto mtl_path = obj_path.parent_path() / (obj_path.stem().string() + ".mtl");
-
-            if (std::filesystem::exists(mtl_path))
-            {
-                auto mtl_file = utils::read_from_file(mtl_path);
-                if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos)
-                {
-                    utils::replace_all(mtl_file, "{{MODEL_PATH}}", mtl_path.parent_path().string());
-                }
-                utils::write_to_file(mtl_path, mtl_file);
-            }
-
-            auto model = sus3d::loadModelTemplate<T>(filePath, shaderProgram);
-            models.push_back(model);
+            auto model = BlockModelsStorage::getInstance()->getModelT<T>(filePath);
+            if (model) { models.push_back(model); }
             return model;
         }
 
-        template <typename T>
-        T* loadWithoutAddModel(
-            const std::filesystem::path& filePath, 
-            sus3d::ShaderProgram* shaderProgram)
-        {
-            const auto obj_path = std::filesystem::path(filePath);
-            const auto mtl_path = obj_path.parent_path() / (obj_path.stem().string() + ".mtl");
-
-            if (std::filesystem::exists(mtl_path))
-            {
-                auto mtl_file = utils::read_from_file(mtl_path);
-                if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos)
-                {
-                    utils::replace_all(mtl_file, "{{MODEL_PATH}}", mtl_path.parent_path().string());
-                }
-                utils::write_to_file(mtl_path, mtl_file);
-            }
-
-            auto model = sus3d::loadModelTemplate<T>(filePath, shaderProgram);
-            return model;
-        }
+  
     };
 }

@@ -5,6 +5,7 @@
 #include "game/component/G3DFragmentShaderLayer.h"
 
 #include "CocosShaderProgram.h"
+#include "BlockModelsStorage.h"
 
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
@@ -169,24 +170,12 @@ namespace g3d
         }
     }
 
-    void G3DModelPreviewLayer::onSelectModel(CCObject*) {
+    void G3DModelPreviewLayer::onSelectModel(CCObject*) 
+    {
         auto path = openModelSelectModal();
-        if (!path.has_value()) return;
-
+        if (!path.has_value()) { return; }
         const auto obj_path = std::filesystem::path(path.value());
-        const auto mtl_path = obj_path.parent_path() / (obj_path.stem().string() + ".mtl");
-
-        if (std::filesystem::exists(mtl_path))
-        {
-            auto mtl_file = utils::read_from_file(mtl_path);
-            if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos)
-            {
-                utils::replace_all(mtl_file, "{{MODEL_PATH}}", mtl_path.parent_path().string());
-            }
-            utils::write_to_file(mtl_path, mtl_file);
-        }
-
-        layer3d->models.push_back(sus3d::loadModel(path.value(), shaderProgram));
+        layer3d->models.push_back(BlockModelsStorage::getInstance()->getModel(path.value()));
     }
 
     G3DModelPreviewLayer* G3DModelPreviewLayer::create() {

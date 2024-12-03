@@ -21,13 +21,18 @@ namespace sus3d
         glm::vec3 rotation = glm::vec3(0, 0, 0);;
         glm::vec3 position = glm::vec3(0, 0, 0);;
         glm::vec3 scale = glm::vec3(1.0);
-        ShaderProgram* shaderProgram;
         bool visible = 1;
         virtual bool init(const aiScene* scene);
     public:
         std::vector<Mesh*> meshes;
-        static Model* create(const aiScene* scene, ShaderProgram* shaderProgram);
-        void render(glm::mat4 view, glm::vec3 lightPos, glm::vec3 lightColor, glm::vec3 cameraPos, glm::mat4 projection);
+        static Model* create(const aiScene* scene);
+        void render(
+            ShaderProgram* shaderProgram, 
+            const glm::mat4& view, 
+            const glm::vec3& lightPos, 
+            const glm::vec3& lightColor, 
+            const glm::vec3& cameraPos, 
+            const glm::mat4& projection);
 
         void setRotation(glm::vec3 rotation) { this->rotation = rotation; }
         void setRotationX(float rotation) { this->rotation.x = rotation; }
@@ -64,18 +69,20 @@ namespace sus3d
     };
 
     template <typename T>
-    T* loadModelTemplate(const std::filesystem::path& path, ShaderProgram* shaderProgram) {
+    T* loadModelT(const std::filesystem::path& path) 
+    {
         Assimp::Importer importer;
-        const aiScene* scene = importer.ReadFile(path.string(),
+        const aiScene* scene = importer.ReadFile(
+            path.string(),
             aiProcess_Triangulate |
             aiProcess_FlipUVs |
             aiProcess_JoinIdenticalVertices |
             aiProcess_SortByPType);
 
-        auto model = T::create(scene, shaderProgram);
+        auto model = T::create(scene);
         importer.FreeScene();
         return model;
     }
 
-    Model* loadModel(const std::filesystem::path& path, ShaderProgram* shaderProgram);
+    Model* loadModel(const std::filesystem::path& path);
 }

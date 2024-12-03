@@ -13,16 +13,17 @@ namespace g3d
 {
     class PlanetModel : public sus3d::Model {
     public:
+        sus3d::ShaderProgram* shaderProgram = nullptr;
         ~PlanetModel() override = default;
         glm::mat4 prepareModelMatrix() override;
-        static PlanetModel* create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram);
+        static PlanetModel* create(const aiScene* scene);
     };
 
     class CloudModel : public PlanetModel {
     public:
         ~CloudModel() override = default;
         virtual bool init(const aiScene* scene) override;
-        static CloudModel* create(const aiScene* scene, sus3d::ShaderProgram* shaderProgram);
+        static CloudModel* create(const aiScene* scene);
         virtual void setCloudOpacity(const float op);
     };
 
@@ -35,9 +36,10 @@ namespace g3d
         static CloudMesh* create(aiMesh* mesh, aiMaterial* material);
     };
 
+    class G3DPlanetLayer;
     class G3DPlanetBaseNode : public G3DBaseNode {
     public:
-        CloudModel* cloudModel;
+        G3DPlanetLayer* planetLayer;
         ~G3DPlanetBaseNode() override = default;
         virtual void draw() override;
         static G3DPlanetBaseNode* create();
@@ -70,10 +72,6 @@ namespace g3d
 
         G3DRegionNameOverlay* overlay;
         G3DPlanetBaseNode* layer3d;
-        CocosShaderProgram* shaderProgram;
-        PlanetModel* planetModel;
-        PlanetModel* planetWaterModel;
-        CloudModel* cloudModel;
 
         bool isPressingControl = false;
         bool isRightClicking = false;
@@ -97,6 +95,13 @@ namespace g3d
         virtual void keyBackClicked(void) override;
         virtual void onEnter() override;
     public:
+        CocosShaderProgram* shaderProgram;
+        CocosShaderProgram* shaderProgram2;
+        CocosShaderProgram* shaderProgram3;
+        PlanetModel* planetModel;
+        PlanetModel* planetWaterModel;
+        CloudModel* cloudModel;
+
         static bool insideThePlanetLayerFlag;
         static G3DPlanetLayer* create();
         void playNewSongType();

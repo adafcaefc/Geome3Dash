@@ -71,8 +71,9 @@ namespace g3d
         G3DPlayerObject player1;
         G3DPlayerObject player2;
 
-        std::unordered_map<GameObject*, sus3d::Model*> blocks;
-        std::unordered_map<int, sus3d::Model*> blockModels;
+        // !! moved to block storage !!
+        //std::unordered_map<GameObject*, sus3d::Model*> blocks;
+        //std::unordered_map<int, sus3d::Model*> blockModels;
         glm::vec3 playerCameraOffset;
         double playerCameraYawOffset;
         double playerCameraPitchOffset;
@@ -107,8 +108,9 @@ namespace g3d
         void loadPlayers();
 
         // mtl model path fix (model path must be absolute)
-        void parseMtlPath(const std::filesystem::path& mtl_path);
-        void loadObjectModels();
+        // void parseMtlPath(const std::filesystem::path& mtl_path);
+        // void loadObjectModels();
+        // !! moved to block storage !!
 
         bool init();
 

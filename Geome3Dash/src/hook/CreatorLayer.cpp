@@ -1,12 +1,69 @@
 #include "pch.h"
 #include "game/planet/G3DPlanetLayer.h"
 #include "helper/OpenGLStateHelper.h"
+#include "helper/Easing.h"
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
+#include "BlockModelsStorage.h"
 
 namespace g3d
 {
-    class $modify(MyCreatorLayer, CreatorLayer) {
+    class G3DPlanetCreatorLayerBaseNode : public G3DBaseNode {
+    public:
+        sus3d::ShaderProgram* shaderProgram;
+        sus3d::ShaderProgram* shaderProgram2;
+        PlanetModel* planetModel;
+        PlanetModel* planetWaterModel;
+        ~G3DPlanetCreatorLayerBaseNode() override = default;
+        virtual void draw() override;
+        static G3DPlanetCreatorLayerBaseNode* create();
+    };
+
+    void G3DPlanetCreatorLayerBaseNode::draw()
+    {
+        CCNode::draw();
+        OpenGLStateHelper::saveState();
+        glEnable(GL_BLEND);
+        glEnable(GL_ALPHA_TEST);
+        glEnable(GL_DEPTH_TEST);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glm::mat4 view = camera.getViewMat();
+        glm::mat4 projection = camera.getProjectionMat();
+
+        planetModel->render(
+            shaderProgram,
+            view,
+            light.getPosition(),
+            light.getColor(),
+            camera.getPosition(),
+            projection);
+
+        planetWaterModel->render(
+            shaderProgram2,
+            view,
+            light.getPosition(),
+            light.getColor(),
+            camera.getPosition(),
+            projection);
+
+        glDisable(GL_DEPTH_TEST);
+        OpenGLStateHelper::pushState();
+    }
+
+    G3DPlanetCreatorLayerBaseNode* G3DPlanetCreatorLayerBaseNode::create() {
+        G3DPlanetCreatorLayerBaseNode* ret = new G3DPlanetCreatorLayerBaseNode();
+
+        if (!ret || !ret->init()) {
+            delete ret;
+            return nullptr;
+        }
+
+        return ret;
+    }
+
+    class $modify(MyCreatorLayer, CreatorLayer) 
+    {
         struct Fields
         {
             PlanetModel* planetModel;
@@ -14,9 +71,64 @@ namespace g3d
             CCNode* mapButton;
         };
 
-        void updatePlanetRotation(const float delta) {
-            m_fields->planetModelWater->setScale(glm::vec3(0.251 * m_fields->mapButton->getScale()));
-            m_fields->planetModel->setScale(glm::vec3(0.25 * m_fields->mapButton->getScale()));
+        void updatePlanetRotation(const float delta) 
+        {
+            if (G3DPlanetLayer::insideThePlanetLayerFlag) { return; }
+
+            // Store previous scales
+            static glm::vec3 previousWaterScale = m_fields->planetModelWater->getScale();
+            static glm::vec3 previousPlanetScale = m_fields->planetModel->getScale();
+
+            // Set target scales
+            const glm::vec3 waterTargetScale = glm::vec3(0.251f);
+            const glm::vec3 planetTargetScale = glm::vec3(0.250f);
+
+            // Calculate scale differences
+            float waterScaleDiff = glm::length(previousWaterScale - waterTargetScale);
+            float planetScaleDiff = glm::length(previousPlanetScale - planetTargetScale);
+
+            // Threshold for triggering animation
+            constexpr float threshold = 0.2f;
+
+            // Static animation state
+            static bool isAnimating = false;
+            static double timeElapsed = 0.0;
+            constexpr double duration = 1.5; // Animation duration
+
+            // Trigger animation if the scale difference exceeds the threshold
+            if (!isAnimating && (waterScaleDiff > threshold || planetScaleDiff > threshold)) {
+                isAnimating = true;
+                timeElapsed = 0.0; // Reset animation timer
+            }
+
+            // Perform animation if active
+            if (isAnimating) {
+                timeElapsed += delta;
+                if (timeElapsed <= duration) {
+                    double t = timeElapsed / duration;
+                    m_fields->planetModelWater->setScale(
+                        ease::ease<glm::vec3>(ease::InOutCubic::get(), t, duration, previousWaterScale, waterTargetScale)
+                    );
+                    m_fields->planetModel->setScale(
+                        ease::ease<glm::vec3>(ease::InOutCubic::get(), t, duration, previousPlanetScale, planetTargetScale)
+                    );
+                }
+                else {
+                    // Animation complete, set to final target scales
+                    m_fields->planetModelWater->setScale(waterTargetScale);
+                    m_fields->planetModel->setScale(planetTargetScale);
+                    isAnimating = false; // End animation
+                }
+            }
+
+            // Update previous scales for the next frame
+            previousWaterScale = m_fields->planetModelWater->getScale();
+            previousPlanetScale = m_fields->planetModel->getScale();
+
+            if (!isAnimating) {
+                m_fields->planetModelWater->setScale(glm::vec3(0.251f * m_fields->mapButton->getScale()));
+                m_fields->planetModel->setScale(glm::vec3(0.250f * m_fields->mapButton->getScale()));
+            }
 
             float sensitivityX = 0.4662f;
             float sensitivityY = 0.3665f;
@@ -41,7 +153,9 @@ namespace g3d
             m_fields->planetModelWater->setRotationY(glm::degrees(eulerAngles.y));
             m_fields->planetModelWater->setRotationZ(glm::degrees(eulerAngles.z));
         }
-        bool init() {
+
+        bool init() 
+        {
             if (!CreatorLayer::init()) { return false; }
 
             // -------------------- waboo --------------------
@@ -59,6 +173,24 @@ namespace g3d
             //return true;
 
             // -----------------------------------------------
+
+            OpenGLStateHelper::saveState();
+            auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
+            auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
+            auto shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
+            delete vertexShader;
+            delete fragmentShader;
+
+            const auto planetPath = geode::Mod::get()->getResourcesDir() / "model3d" / "planet";
+            const auto shaderPath = planetPath / "shader";
+            const auto modelPath = planetPath / "model";
+
+            auto vertexShader2 = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
+            auto fragmentShader2 = sus3d::Shader::createWithFile(shaderPath / "water2.fsh", sus3d::ShaderType::kFragmentShader);
+            auto shaderProgram2 = CocosShaderProgram::create(vertexShader2, fragmentShader2);
+            delete vertexShader2;
+            delete fragmentShader2;
+            OpenGLStateHelper::pushState();
 
             m_fields->mapButton = this->getChildByIDRecursive("map-button");
             auto weeklyButton = this->getChildByIDRecursive("weekly-button");
@@ -81,31 +213,19 @@ namespace g3d
             //label->setZOrder(20);
             //m_fields->mapButton->addChild(label);
 
-            OpenGLStateHelper::saveState();
-            auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
-            auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
-            auto shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
-            delete vertexShader;
-            delete fragmentShader;
-
-            const auto planetPath = geode::Mod::get()->getResourcesDir() / "model3d" / "planet";
-            const auto shaderPath = planetPath / "shader";
-            const auto modelPath = planetPath / "model";
-
-            auto vertexShader2 = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
-            auto fragmentShader2 = sus3d::Shader::createWithFile(shaderPath / "water2.fsh", sus3d::ShaderType::kFragmentShader);
-            auto shaderProgram2 = CocosShaderProgram::create(vertexShader2, fragmentShader2);
-            delete vertexShader2;
-            delete fragmentShader2;
-
-            OpenGLStateHelper::pushState();
-
-            auto layer3d = G3DBaseNode::create();
+            auto layer3d = G3DPlanetCreatorLayerBaseNode::create();
             layer3d->light.setPosition(glm::vec3(0, 50, 1000));
             layer3d->setZOrder(10);
 
-            m_fields->planetModel = layer3d->loadAndAddModel<PlanetModel>(modelPath / "new_planet_textured.obj", shaderProgram);
-            m_fields->planetModelWater = layer3d->loadAndAddModel<PlanetModel>(modelPath / "planet_water.obj", shaderProgram2);
+            auto bms = BlockModelsStorage::getInstance();
+
+            m_fields->planetModel = bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");
+            m_fields->planetModelWater = bms->getModelT<PlanetModel>(modelPath / "planet_water.obj");
+
+            layer3d->planetModel = m_fields->planetModel;
+            layer3d->planetWaterModel = m_fields->planetModelWater;
+            layer3d->shaderProgram = shaderProgram;
+            layer3d->shaderProgram2 = shaderProgram2;
 
             m_fields->mapButton->addChild(layer3d);
             layer3d->camera.setPosition(glm::vec3(0, 0, 25));
@@ -119,7 +239,6 @@ namespace g3d
         {
             auto scene = CCScene::create();
             auto testLayer = G3DPlanetLayer::create();
-
             scene->addChild(testLayer);
             CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3f, scene));
         }

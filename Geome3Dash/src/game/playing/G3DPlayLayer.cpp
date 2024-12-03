@@ -3,6 +3,7 @@
 
 #include "game/playing/G3DPlayLayer.h"
 #include "LevelDataManager.h"
+#include "BlockModelsStorage.h"
 
 namespace g3d
 {
@@ -29,7 +30,7 @@ namespace g3d
 
     void G3DPlayerObject::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
     {
-        *model = sus3d::loadModel(getFixedPlayerModelPath(type, id), playLayer3D->shaderProgram);
+        *model = sus3d::loadModel(getFixedPlayerModelPath(type, id));
         (*model)->setScale(glm::vec3(0.75));
     }
 
@@ -96,6 +97,7 @@ namespace g3d
     void G3DPlayerObject::drawModel()
     {
         playerModel->render(
+            playLayer3D->shaderProgram,
             playLayer3D->camera.getViewMat(),
             playLayer3D->light.getPosition(),
             playLayer3D->light.getColor(),
@@ -112,50 +114,6 @@ namespace g3d
 
         delete vertexShader;
         delete fragmentShader;
-    }
-
-    // mtl model path fix (model path must be absolute)
-    void G3DPlayLayer::parseMtlPath(const std::filesystem::path& mtl_path)
-    {
-        if (std::filesystem::exists(mtl_path))
-        {
-            auto mtl_file = utils::read_from_file(mtl_path);
-            // to do: leave the model png!!!
-            if (mtl_file.find("{{MODEL_PATH}}") != std::string::npos)
-            {
-                utils::replace_all(mtl_file, "{{MODEL_PATH}}", mtl_path.parent_path().string());
-            }
-            utils::write_to_file(mtl_path, mtl_file);
-        }
-    }
-
-    void G3DPlayLayer::loadObjectModels()
-    {
-        CCObject* obj;
-        CCARRAY_FOREACH(GameManager::sharedState()->m_playLayer->m_objects, obj)
-        {
-            auto block = dynamic_cast<GameObject*>(obj);
-            const auto model_dir = geode::Mod::get()->getResourcesDir() / "model3d" / "object" / std::to_string(block->m_objectID);
-            const auto model_path = model_dir / "model.obj";
-            const auto mtl_path = model_dir / "model.mtl";
-            if (std::filesystem::exists(model_path))
-            {
-                parseMtlPath(mtl_path);
-                if (blockModels.find(block->m_objectID) == blockModels.end())
-                {
-                    if (auto blockModel = sus3d::loadModel(model_path, shaderProgram))
-                    {
-                        blockModels.emplace(block->m_objectID, blockModel);
-                    }
-                }
-                if (blockModels.find(block->m_objectID) != blockModels.end())
-                {
-                    blocks.emplace(block, blockModels.at(block->m_objectID));
-                    // cache
-                    updateBlock(block, blockModels.at(block->m_objectID));
-                }
-            }
-        }
     }
 
     void G3DPlayLayer::loadPlayers()
@@ -175,7 +133,6 @@ namespace g3d
 
         loadShader();
         loadPlayers();
-        loadObjectModels();
 
         auto data = LevelData::getDefault();
 
@@ -208,7 +165,6 @@ namespace g3d
 
     G3DPlayLayer::~G3DPlayLayer()
     {
-        for (auto [_, block] : blockModels) { delete block; }
         instance = nullptr;
     }
 
@@ -261,41 +217,49 @@ namespace g3d
         constexpr double startFade = 400;
 
         auto playLayer = GameManager::sharedState()->m_playLayer;
-        for (auto [obj, model] : blocks)
+        CCObject* objxx = nullptr;
+        CCARRAY_FOREACH(playLayer->m_objects, objxx)
         {
-            auto distance = std::abs(playLayer->m_player1->m_position.x - obj->getPositionX());
-            if (distance < maxRender)
+            if (auto obj = dynamic_cast<GameObject*>(objxx))
             {
-                updateBlock(obj, model);
-                // apply fade
-                if (distance > startFade)
+                auto distance = std::abs(playLayer->m_player1->m_position.x - obj->getPositionX());
+                if (distance < maxRender)
                 {
-                    auto scale = model->getScale();
-                    double tNormal = (distance - startFade) / (maxRender - startFade);
-                    model->setScale(ease::easeNormal<glm::vec3>(
-                        ease::InOutSine::get(), 
-                        tNormal, 
-                        scale, 
-                        glm::vec3(0, 0, 0)));
-                }
+                    if (auto model = BlockModelsStorage::getInstance()->getBlockModel(obj->m_objectID))
+                    {
+                        updateBlock(obj, model);
+                        // apply fade
+                        if (distance > startFade)
+                        {
+                            auto scale = model->getScale();
+                            double tNormal = (distance - startFade) / (maxRender - startFade);
+                            model->setScale(ease::easeNormal<glm::vec3>(
+                                ease::InOutSine::get(),
+                                tNormal,
+                                scale,
+                                glm::vec3(0, 0, 0)));
+                        }
 
-                // animations
-                if (obj->m_objectID == 36)
-                {
-                    // jump rings
-                    model->setRotation(model->getRotation() + glm::vec3(3, 7, 1));
+                        // animations
+                        if (obj->m_objectID == 36)
+                        {
+                            // jump rings
+                            model->setRotation(model->getRotation() + glm::vec3(3, 7, 1));
+                        }
+                        //else if (obj->m_objectID == 142)
+                        //{
+                        //    // secret coins
+                        //    model->setRotation(model->getRotation() + glm::vec3(0, 11, 0));
+                        //}
+                        model->render(
+                            shaderProgram,
+                            camera.getViewMat(),
+                            light.getPosition(),
+                            light.getColor(),
+                            camera.getPosition(),
+                            camera.getProjectionMat());
+                    }  
                 }
-                //else if (obj->m_objectID == 142)
-                //{
-                //    // secret coins
-                //    model->setRotation(model->getRotation() + glm::vec3(0, 11, 0));
-                //}
-                model->render(
-                    camera.getViewMat(),
-                    light.getPosition(),
-                    light.getColor(),
-                    camera.getPosition(),
-                    camera.getProjectionMat());
             }
         }
     }
