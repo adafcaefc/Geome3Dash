@@ -30,7 +30,7 @@ namespace g3d
 
     void G3DPlayerObject::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
     {
-        *model = sus3d::loadModel(getFixedPlayerModelPath(type, id));
+        *model = BlockModelsStorage::getInstance()->loadAndParseMtl(getFixedPlayerModelPath(type, id));
         (*model)->setScale(glm::vec3(0.75));
     }
 

@@ -22,6 +22,7 @@ namespace g3d
 		std::unordered_map<std::filesystem::path, sus3d::Model*> allModels;
 		sus3d::ShaderProgram* blockShaderProgram;
 		static BlockModelsStorage* instance;
+		void loadAllModels();
 		bool init();
 		BlockModelsStorage() {}
 		std::filesystem::path basePath;
@@ -33,7 +34,6 @@ namespace g3d
 			sus3d::Camera* camera, 
 			sus3d::Light* light);
 		void parseMtlPath(const std::filesystem::path& path);
-		void loadAllModels();
 		sus3d::Model* getModel(const std::filesystem::path& path);
 		sus3d::Model* getBlockModel(const int id);
 		static BlockModelsStorage* getInstance();

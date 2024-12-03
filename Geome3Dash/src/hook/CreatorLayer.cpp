@@ -227,7 +227,7 @@ namespace g3d
             layer3d->shaderProgram = shaderProgram;
             layer3d->shaderProgram2 = shaderProgram2;
 
-            m_fields->mapButton->addChild(layer3d);
+            this->addChild(layer3d);
             layer3d->camera.setPosition(glm::vec3(0, 0, 25));
 
             this->schedule(schedule_selector(MyCreatorLayer::updatePlanetRotation));

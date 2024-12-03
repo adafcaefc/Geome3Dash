@@ -380,6 +380,7 @@ namespace g3d
         auto backButtonMenu = CCMenu::create();
         backButtonMenu->setPosition(25, size.height - 25);
         backButtonMenu->addChild(backButton);
+        backButtonMenu->setZOrder(11);
         this->addChild(backButtonMenu);
 
 
