@@ -102,6 +102,8 @@ namespace g3d
         playerCameraPitchOffset = currentLevelData.pitch;
         playerCameraYawOffset = currentLevelData.yaw;
         
+        cube->setRotation(glm::vec3(0));
+        spike->setRotation(glm::vec3(0));
 
         cube->setPosition(cubePosition / glm::vec3(20));
         cube->setRotationZ(360 - cubeRotationZ);

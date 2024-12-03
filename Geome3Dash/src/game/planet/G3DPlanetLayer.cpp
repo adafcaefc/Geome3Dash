@@ -86,14 +86,13 @@ namespace g3d
                             layer3d->models[0]->meshes[meshIndex]->disableKa();
                     }
 
-                    G3DPlanetPopup::tryOpen(levelID, this);
-                    //int maxI = 0;
-                    //for (int i = 0; i < 20; i++)
-                    //{
-                    //    if (PlanetStateManager::getInstance()->getProgressByLevelID(i)->normal != 100) { break; }
-                    //    maxI = i;
-                    //}
-                    //if (levelID <= maxI + 1) { G3DPlanetPopup::tryOpen(levelID, this); }
+                    int maxI = 0;
+                    for (int i = 0; i < 19; i++)
+                    {
+                        if (PlanetStateManager::getInstance()->getProgressByLevelID(i)->normal != 100) { break; }
+                        maxI = i + 1;
+                    }
+                    if (levelID <= maxI) { G3DPlanetPopup::tryOpen(levelID, this); }
                 }
             }
         }
