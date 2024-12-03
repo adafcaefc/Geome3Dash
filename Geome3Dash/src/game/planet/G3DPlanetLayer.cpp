@@ -86,14 +86,14 @@ namespace g3d
                             layer3d->models[0]->meshes[meshIndex]->disableKa();
                     }
 
-                    int maxI = 0;
-                    for (int i = 0; i < 20; i++)
-                    {
-                        if (PlanetStateManager::getInstance()->getProgressByLevelID(i)->normal != 100) { break; }
-                        maxI = i;
-                    }
-
-                    if (levelID <= maxI + 1) { G3DPlanetPopup::tryOpen(levelID, this); }
+                    G3DPlanetPopup::tryOpen(levelID, this);
+                    //int maxI = 0;
+                    //for (int i = 0; i < 20; i++)
+                    //{
+                    //    if (PlanetStateManager::getInstance()->getProgressByLevelID(i)->normal != 100) { break; }
+                    //    maxI = i;
+                    //}
+                    //if (levelID <= maxI + 1) { G3DPlanetPopup::tryOpen(levelID, this); }
                 }
             }
         }
@@ -389,6 +389,9 @@ namespace g3d
         overlay = G3DRegionNameOverlay::create();
         this->addChild(overlay);
         overlay->setZOrder(11);
+
+        // for object id calculation
+        layer3d->models.push_back(planetModel);
 
         playNewSongType();
 
