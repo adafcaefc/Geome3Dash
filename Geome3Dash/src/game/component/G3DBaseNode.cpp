@@ -104,6 +104,7 @@ namespace g3d
         if (!CCNode::init()) return false;
 
         OpenGLStateHelper::saveState();
+
         getObjectIDByMousePositionShader = CocosShaderProgram::create(
             sus3d::Shader::createWithString(sus3d::shaders::idBufferingVertexShader, sus3d::ShaderType::kVertexShader),
             sus3d::Shader::createWithString(sus3d::shaders::idBufferingFragmentShader, sus3d::ShaderType::kFragmentShader));

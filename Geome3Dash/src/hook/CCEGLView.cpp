@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "delegate/CustomTouch.h"
+#include "delegate/CustomKeyboard.h"
 
 namespace g3d
 {
@@ -15,6 +16,12 @@ namespace g3d
         {
             CustomTouchManager::onGLFWMouseCallBack(window, button, action, mods);
             CCEGLView::onGLFWMouseCallBack(window, button, action, mods);
+        }
+
+        void onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+        {
+            CustomKeyboardManager::updateDelegates(window, key, scancode, action, mods);
+            CCEGLView::onGLFWKeyCallback(window, key, scancode, action, mods);       
         }
     };
 }

@@ -29,6 +29,12 @@ namespace g3d
         for (auto delegate : delegates) {
             delegate->onKey(key, pressed, holding);
         }
+    }   
+
+    void CustomKeyboardManager::updateDelegates(GLFWwindow* window, int key, int scancode, int action, int mods) {
+        for (auto delegate : delegates) {
+            delegate->onGLFWKeyCallback(window, key, scancode, action, mods);
+        }
     }
 
     std::vector<CustomKeyboardDelegate*> CustomKeyboardManager::delegates = {};

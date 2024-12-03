@@ -26,6 +26,72 @@
     <ClCompile Include="lib\imgui-cocos\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="lib\terrain\App.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\external_files\stb_image.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\external_files\tiny_obj_loader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\graphics\ObjContainer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\graphics\SceneCalculations.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\graphics\TerrainShader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\graphics\Shape.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\graphics\Viewer.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\Fire.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\Fountain.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\MirrorBox.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\ObjInstanced.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\ObjSingle.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\Player.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\SceneComponent.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\Skybox.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\scene\Terrain.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\utils\FileUtils.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\utils\Logger.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\utils\Random.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\utils\Sound.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib\terrain\utils\Time.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="lib\tinyfiledialogs\tinyfiledialogs.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -99,6 +165,29 @@
     <ClInclude Include="lib\imgui-cocos\imstb_rectpack.h" />
     <ClInclude Include="lib\imgui-cocos\imstb_textedit.h" />
     <ClInclude Include="lib\imgui-cocos\imstb_truetype.h" />
+    <ClInclude Include="lib\terrain\App.h" />
+    <ClInclude Include="lib\terrain\external_files\stb_image.h" />
+    <ClInclude Include="lib\terrain\external_files\tiny_obj_loader.h" />
+    <ClInclude Include="lib\terrain\graphics\InputState.h" />
+    <ClInclude Include="lib\terrain\graphics\ObjContainer.h" />
+    <ClInclude Include="lib\terrain\graphics\SceneCalculations.h" />
+    <ClInclude Include="lib\terrain\graphics\Shader.h" />
+    <ClInclude Include="lib\terrain\graphics\Shape.h" />
+    <ClInclude Include="lib\terrain\graphics\Viewer.h" />
+    <ClInclude Include="lib\terrain\scene\Fire.h" />
+    <ClInclude Include="lib\terrain\scene\Fountain.h" />
+    <ClInclude Include="lib\terrain\scene\MirrorBox.h" />
+    <ClInclude Include="lib\terrain\scene\ObjInstanced.h" />
+    <ClInclude Include="lib\terrain\scene\ObjSingle.h" />
+    <ClInclude Include="lib\terrain\scene\Player.h" />
+    <ClInclude Include="lib\terrain\scene\SceneComponent.h" />
+    <ClInclude Include="lib\terrain\scene\Skybox.h" />
+    <ClInclude Include="lib\terrain\scene\Terrain.h" />
+    <ClInclude Include="lib\terrain\utils\FileUtils.h" />
+    <ClInclude Include="lib\terrain\utils\Logger.h" />
+    <ClInclude Include="lib\terrain\utils\Random.h" />
+    <ClInclude Include="lib\terrain\utils\Sound.h" />
+    <ClInclude Include="lib\terrain\utils\Time.h" />
     <ClInclude Include="lib\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\BezierManager.h" />
@@ -163,7 +252,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)$(ProjectName);$(SolutionDir)$(ProjectName)\src;$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\pugixml;$(SolutionDir)library\incl\glm;$(SolutionDir)library\incl\stb</IncludePath>
+    <IncludePath>$(SolutionDir)$(ProjectName);$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\lib\terrain;$(SolutionDir)library\incl;$(SolutionDir)library\incl\Geode\cocos;$(SolutionDir)library\incl\Geode\cocos\include;$(SolutionDir)library\incl\Geode\cocos\kazmath\include;$(SolutionDir)library\incl\Geode\cocos\platform\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32;$(SolutionDir)library\incl\Geode\cocos\platform\third_party\win32\OGLES;$(SolutionDir)library\incl\Geode\cocos\extensions;$(SolutionDir)library\incl\Geode;$(SolutionDir)library\incl\Geode\codegen-base;$(SolutionDir)library\incl\Geode\c++stl;$(SolutionDir)library\incl\Geode\loader;$(SolutionDir)library\incl\Geode\utils;$(SolutionDir)library\incl\Geode\meta;$(SolutionDir)library\incl\gd.h\include;$(SolutionDir)library\incl\matjson;$(SolutionDir)library\incl\fmod;$(SolutionDir)library\incl\pugixml;$(SolutionDir)library\incl\glm;$(SolutionDir)library\incl\stb</IncludePath>
     <LibraryPath>$(SolutionDir)library\lib\l_x64\l_release;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <TargetName>rainixgd.geome3dash</TargetName>

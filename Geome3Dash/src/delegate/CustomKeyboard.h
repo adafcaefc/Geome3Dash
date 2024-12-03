@@ -9,6 +9,7 @@ namespace g3d
         CustomKeyboardDelegate();
         ~CustomKeyboardDelegate();
         virtual void onKey(enumKeyCodes key, bool pressed, bool holding) {};
+        virtual void onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {};
     };
 
     class CustomKeyboardManager {
@@ -17,5 +18,6 @@ namespace g3d
         static void addDelegate(CustomKeyboardDelegate* obj);
         static void removeDelegate(CustomKeyboardDelegate* obj);
         static void updateDelegates(enumKeyCodes key, bool pressed, bool holding);
+        static void updateDelegates(GLFWwindow* window, int key, int scancode, int action, int mods);
     };
 }
