@@ -6,10 +6,6 @@ namespace g3d
 {
     class $modify(MenuLayer) {
         bool init() {
-            if (!MenuLayer::init()) { return false; }
-            //AllocConsole();
-            //freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
-
             // load cache
             auto bms = BlockModelsStorage::getInstance();
             auto model = bms->getBlockModel(1);
@@ -18,7 +14,9 @@ namespace g3d
             bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");
             bms->getModelT<PlanetModel>(modelPath / "planet_water.obj");
             bms->getModelT<CloudModel>(modelPath / "clouds.obj");
-
+            if (!MenuLayer::init()) { return false; }
+            //AllocConsole();
+            //freopen_s(reinterpret_cast<FILE**>(stdout), "CONOUT$", "w", stdout);
             return true;
         }
     };
