@@ -185,8 +185,7 @@ namespace g3d
         glm::quat currentRotation = glm::quat(glm::vec3(
             glm::radians(planetModel->getRotationX()),
             glm::radians(planetModel->getRotationY()),
-            glm::radians(planetModel->getRotationZ())
-        ));
+            glm::radians(planetModel->getRotationZ())));
 
         glm::vec3 iceVector(0.0f, 1.0f, 0.0f);
         glm::vec3 worldIceVector = currentRotation * iceVector;
@@ -198,16 +197,9 @@ namespace g3d
         float desertDotProduct = glm::dot(glm::normalize(worldDesertVector), glm::normalize(layer3d->camera.getFront()));
         float desertAngle = glm::degrees(glm::acos(desertDotProduct));
 
-        std::cout << desertAngle << std::endl;
-        if (iceAngle < 45.0f || iceAngle > 135.0f) {
-            setMusicType(MusicType::Ice);
-        }
-        else if (desertAngle < 30.f) {
-            setMusicType(MusicType::Desert);
-        }
-        else {
-            setMusicType(MusicType::Plains);
-        }
+        if (iceAngle < 45.0f || iceAngle > 135.0f) { setMusicType(MusicType::Ice); }
+        else if (desertAngle < 30.f) { setMusicType(MusicType::Desert); }
+        else { setMusicType(MusicType::Plains); }
     }
 
     void G3DPlanetLayer::playNewSongType() {
@@ -242,46 +234,46 @@ namespace g3d
     }
 
 
-    void G3DPlanetLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
-        if (G3DPlanetPopup::checkIsOpened()) return;
-        if (isRightClicking) {
-            if (!isRightClickingGetPos) {
+    void G3DPlanetLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) 
+    {
+        if (G3DPlanetPopup::checkIsOpened()) { return; }
+        if (isRightClicking) 
+        {
+            if (!isRightClickingGetPos) 
+            {
                 lastMouseX = static_cast<float>(x);
                 lastMouseY = static_cast<float>(y);
                 isRightClickingGetPos = true;
             }
-            else {
+            else 
+            {
                 float deltaX = static_cast<float>(x) - lastMouseX;
                 float deltaY = static_cast<float>(y) - lastMouseY;
-                if (isPressingControl) {
 
-                }
-                else {
-                    float sensitivity = 0.005f;
+                float sensitivity = 0.005f;
 
-                    glm::quat rotationX = glm::angleAxis(deltaY * sensitivity, glm::vec3(1.0f, 0.0f, 0.0f));
-                    glm::quat rotationY = glm::angleAxis(deltaX * sensitivity, glm::vec3(0.0f, 1.0f, 0.0f));
-                    glm::quat currentRotation = glm::quat(glm::vec3(
-                        glm::radians(planetModel->getRotationX()),
-                        glm::radians(planetModel->getRotationY()),
-                        glm::radians(planetModel->getRotationZ())
-                    ));
+                glm::quat rotationX = glm::angleAxis(deltaY * sensitivity, glm::vec3(1.0f, 0.0f, 0.0f));
+                glm::quat rotationY = glm::angleAxis(deltaX * sensitivity, glm::vec3(0.0f, 1.0f, 0.0f));
+                glm::quat currentRotation = glm::quat(glm::vec3(
+                    glm::radians(planetModel->getRotationX()),
+                    glm::radians(planetModel->getRotationY()),
+                    glm::radians(planetModel->getRotationZ())
+                ));
 
-                    glm::quat newRotation = rotationY * rotationX * currentRotation;
-                    glm::vec3 eulerAngles = glm::eulerAngles(newRotation);
+                glm::quat newRotation = rotationY * rotationX * currentRotation;
+                glm::vec3 eulerAngles = glm::eulerAngles(newRotation);
 
-                    planetModel->setRotationX(glm::degrees(eulerAngles.x));
-                    planetModel->setRotationY(glm::degrees(eulerAngles.y));
-                    planetModel->setRotationZ(glm::degrees(eulerAngles.z));
-                    planetWaterModel->setRotationX(glm::degrees(eulerAngles.x));
-                    planetWaterModel->setRotationY(glm::degrees(eulerAngles.y));
-                    planetWaterModel->setRotationZ(glm::degrees(eulerAngles.z));
-                    cloudModel->setRotationX(glm::degrees(eulerAngles.x));
-                    cloudModel->setRotationY(glm::degrees(eulerAngles.y));
-                    cloudModel->setRotationZ(glm::degrees(eulerAngles.z));
+                planetModel->setRotationX(glm::degrees(eulerAngles.x));
+                planetModel->setRotationY(glm::degrees(eulerAngles.y));
+                planetModel->setRotationZ(glm::degrees(eulerAngles.z));
+                planetWaterModel->setRotationX(glm::degrees(eulerAngles.x));
+                planetWaterModel->setRotationY(glm::degrees(eulerAngles.y));
+                planetWaterModel->setRotationZ(glm::degrees(eulerAngles.z));
+                cloudModel->setRotationX(glm::degrees(eulerAngles.x));
+                cloudModel->setRotationY(glm::degrees(eulerAngles.y));
+                cloudModel->setRotationZ(glm::degrees(eulerAngles.z));
 
-                    detectBiomeMusic();
-                }
+                detectBiomeMusic();
 
                 lastMouseX = static_cast<float>(x);
                 lastMouseY = static_cast<float>(y);
@@ -289,17 +281,21 @@ namespace g3d
         }
     }
 
-    void G3DPlanetLayer::scrollWheel(float y, float x) {
+    void G3DPlanetLayer::scrollWheel(float y, float x)
+    {
         float zoomSensitivity = 0.128f;
         layer3d->camera.setPosition(layer3d->camera.getPosition() + glm::vec3(0, 0, y * zoomSensitivity));
+
         if (layer3d->camera.getPosition().z < 10) layer3d->camera.setPosition(glm::vec3(layer3d->camera.getPosition().x, layer3d->camera.getPosition().y, 10));
         if (layer3d->camera.getPosition().z > 50) layer3d->camera.setPosition(glm::vec3(layer3d->camera.getPosition().x, layer3d->camera.getPosition().y, 50));
 
         detectBiomeMusic();
     }
 
-    void G3DPlanetLayer::onKey(enumKeyCodes key, bool pressed, bool holding) {
-        switch (key) {
+    void G3DPlanetLayer::onKey(enumKeyCodes key, bool pressed, bool holding) 
+    {
+        switch (key)
+        {
         case KEY_Control:
             isPressingControl = pressed;
             break;
@@ -311,14 +307,18 @@ namespace g3d
         }
     }
 
-    bool G3DPlanetLayer::init() {
+    bool G3DPlanetLayer::init() 
+    {
         insideThePlanetLayerFlag = true;
+
         FMODAudioEngine::get()->fadeOutMusic(3.f, 0);
+
         CCLayer::init();
 
         setKeyboardEnabled(true);
 
         OpenGLStateHelper::saveState();
+
         auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
         auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
         shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
@@ -340,6 +340,7 @@ namespace g3d
         shaderProgram3 = CocosShaderProgram::create(vertexShader3, fragmentShader3);
         delete vertexShader3;
         delete fragmentShader3;
+
         OpenGLStateHelper::pushState();
 
         layer3d = G3DPlanetBaseNode::create();
@@ -382,7 +383,6 @@ namespace g3d
         backButtonMenu->setZOrder(11);
         this->addChild(backButtonMenu);
 
-
         this->schedule(schedule_selector(G3DPlanetLayer::updatePlanetRotation));
 
         overlay = G3DRegionNameOverlay::create();
@@ -397,26 +397,31 @@ namespace g3d
         return true;
     }
 
-    void G3DPlanetLayer::onEnter() {
+    void G3DPlanetLayer::onEnter() 
+    {
         CCLayer::onEnter();
-        for (size_t i = 0; i < cloudModel->meshes.size(); i++) {
+        for (size_t i = 0; i < cloudModel->meshes.size(); i++) 
+        {
             size_t realMeshId = cloudModel->meshes.size() - 1u -i;
-            if (i == 0) {
+            if (i == 0) 
+            {
                 cloudModel->meshes[realMeshId]->setVisible(0);
                 continue;
             }
 
-            cloudModel->meshes[realMeshId]->setVisible(
-                (PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal == 100)
-                ? 0 : 1);
+            const auto percentage = PlanetStateManager::getInstance()->getProgressByLevelID(i - 1)->normal;
+
+            cloudModel->meshes[realMeshId]->setVisible(percentage == 100 ? 0 : 1);
         }
     }
 
-    void G3DPlanetLayer::onBack(CCObject*) {
+    void G3DPlanetLayer::onBack(CCObject*) 
+    {
         keyBackClicked();
     }
 
-    void G3DPlanetLayer::keyBackClicked(void) {
+    void G3DPlanetLayer::keyBackClicked(void) 
+    {
         insideThePlanetLayerFlag = false;
 
         GameManager::get()->fadeInMenuMusic();
@@ -424,7 +429,8 @@ namespace g3d
         CCDirector::sharedDirector()->popSceneWithTransition(0.3f, PopTransition::kPopTransitionFade);
     }
 
-    void G3DPlanetLayer::draw() {
+    void G3DPlanetLayer::draw() 
+    {
         CCLayer::draw();
     }
 
@@ -463,17 +469,21 @@ namespace g3d
         return model;
     }
 
-    bool CloudModel::init(const aiScene* scene) {
-
-        for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
-            sus3d::Mesh* mesh = CloudMesh::create(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
+    bool CloudModel::init(const aiScene* scene) 
+    {
+        for (unsigned int i = 0; i < scene->mNumMeshes; ++i) 
+        {
+            sus3d::Mesh* mesh = CloudMesh::create(
+                scene->mMeshes[i],
+                scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
             meshes.push_back(mesh);
         }
 
         return true;
     }
 
-    static glm::vec3 calculateNormal(aiMesh* mesh, aiFace& face) {
+    static glm::vec3 calculateNormal(aiMesh* mesh, aiFace& face) 
+    {
         aiVector3D v0 = mesh->mVertices[face.mIndices[0]];
         aiVector3D v1 = mesh->mVertices[face.mIndices[1]];
         aiVector3D v2 = mesh->mVertices[face.mIndices[2]];
@@ -485,7 +495,8 @@ namespace g3d
         return normal;
     }
 
-    static glm::vec3 calculateCentroid(aiMesh* mesh, aiFace& face) {
+    static glm::vec3 calculateCentroid(aiMesh* mesh, aiFace& face) 
+    {
         aiVector3D v0 = mesh->mVertices[face.mIndices[0]];
         aiVector3D v1 = mesh->mVertices[face.mIndices[1]];
         aiVector3D v2 = mesh->mVertices[face.mIndices[2]];
@@ -493,22 +504,26 @@ namespace g3d
         glm::vec3 centroid = glm::vec3(
             (v0.x + v1.x + v2.x) / 3.0f,
             (v0.y + v1.y + v2.y) / 3.0f,
-            (v0.z + v1.z + v2.z) / 3.0f
-        );
+            (v0.z + v1.z + v2.z) / 3.0f);
+
         return centroid;
     }
 
-    bool CloudMesh::init(aiMesh* mesh, aiMaterial* material) {
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+    bool CloudMesh::init(aiMesh* mesh, aiMaterial* material) 
+    {
+        for (unsigned int i = 0; i < mesh->mNumVertices; i++) 
+        {
             vertices.push_back(mesh->mVertices[i].x);
             vertices.push_back(mesh->mVertices[i].y);
             vertices.push_back(mesh->mVertices[i].z);
 
-            if (mesh->mTextureCoords[0]) {
+            if (mesh->mTextureCoords[0]) 
+            {
                 vertices.push_back(mesh->mTextureCoords[0][i].x);
                 vertices.push_back(mesh->mTextureCoords[0][i].y);
             }
-            else {
+            else 
+            {
                 vertices.push_back(0.0f);
                 vertices.push_back(0.0f);
             }
@@ -520,7 +535,8 @@ namespace g3d
 
         glm::vec3 sphereCenter(0.0f, 0.0f, 0.0f);
 
-        for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+        for (unsigned int i = 0; i < mesh->mNumFaces; i++) 
+        {
             aiFace face = mesh->mFaces[i];
             glm::vec3 normal = calculateNormal(mesh, face);
             glm::vec3 centroid = calculateCentroid(mesh, face);
@@ -530,11 +546,12 @@ namespace g3d
             // Compare face normal with the direction to the center
             float dot = glm::dot(normal, centerDirection);
 
-            if (std::abs(dot) < 0.9f) { // Face points towards the center
-                continue; // Skip this face
-            }
+            // Face points towards the center
+            // Skip this face
+            if (std::abs(dot) < 0.9f) { continue; }
 
-            for (unsigned int j = 0; j < face.mNumIndices; j++) {
+            for (unsigned int j = 0; j < face.mNumIndices; j++) 
+            {
                 indices.push_back(face.mIndices[j]);
             }
         }
@@ -610,6 +627,11 @@ namespace g3d
 
         int fSteps = 0;
         // set steps so it doesn't lag
+        //float z = camera.getPosition().z;
+        //if (z > 30) { fSteps = 15; }
+        //else if (z > 27) { fSteps = 14; }
+        //else { fSteps = std::clamp(0, 30, static_cast<int>(z) - 13); }
+
         if (camera.getPosition().z > 30) {
             fSteps = 15;
         }
@@ -635,7 +657,9 @@ namespace g3d
             fSteps = 6;
         }
 
-        for (int i = 0; i < fSteps; i++) {
+        for (int i = 0; i < fSteps; i++) 
+        {
+            // easing stuff I don't care
             planetLayer->cloudModel->setCloudOpacity(std::clamp(opacityBase - ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, opacityScale), 0.0, 1.0));
             planetLayer->cloudModel->setScale(
                 glm::vec3(ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, sizeScale) + sizeBase) * planetLayer->planetModel->getScale());
@@ -667,23 +691,19 @@ namespace g3d
 
     PlanetModel* PlanetModel::create(const aiScene* scene) {
         PlanetModel* ret = new PlanetModel();
-
         if (!ret || !ret->init(scene)) {
             delete ret; 
             return nullptr;
         }
-
         return ret;
     }
 
     CloudModel* CloudModel::create(const aiScene* scene) {
         CloudModel* ret = new CloudModel();
-
         if (!ret || !ret->init(scene)) {
             delete ret;
             return nullptr;
         }
-
         return ret;
     }
 

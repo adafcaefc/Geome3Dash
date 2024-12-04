@@ -41,7 +41,7 @@
     <ClCompile Include="lib\terrain\graphics\SceneCalculations.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="lib\terrain\graphics\TerrainShader.cpp">
+    <ClCompile Include="lib\terrain\graphics\ShaderTerrainLib.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="lib\terrain\graphics\Shape.cpp">
@@ -101,6 +101,7 @@
     <ClCompile Include="src\BlockModelsStorage.cpp" />
     <ClCompile Include="src\CocosShaderProgram.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
+    <ClCompile Include="src\game\editor\G3DCurveEditorLayer.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
     <ClCompile Include="src\helper\Easing.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -198,6 +199,7 @@
     <ClInclude Include="src\delegate\CustomMouse.h" />
     <ClInclude Include="src\delegate\CustomTouch.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
+    <ClInclude Include="src\game\editor\G3DCurveEditorLayer.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />
     <ClInclude Include="src\helper\Easing.h" />
     <ClInclude Include="src\engine\sus3d\Mesh.h" />

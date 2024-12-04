@@ -75,31 +75,22 @@ namespace g3d
 
 		int segmentIndex = std::floor(pointIndex / 3);
 		int offset = pointIndex % 3;
+		auto deltaP1 = position - segments[segmentIndex]->p1;
 		switch (offset) {
 		case 0:
-		{
-			auto deltaP1 = position - segments[segmentIndex]->p1;
 			segments[segmentIndex]->p1 = position;
 			segments[segmentIndex - 1]->p2 = position;
 			segments[segmentIndex]->m1 += deltaP1;
 			segments[segmentIndex - 1]->m2 += deltaP1;
 			break;
-		}
-
 		case 1:
-		{
 			segments[segmentIndex]->m1 = position;
 			segments[segmentIndex - 1]->m2 = 2.f * segments[segmentIndex]->p1 - segments[segmentIndex]->m1;
 			break;
-		}
-
 		case 2:
-		{
 			segments[segmentIndex]->m2 = position;
 			segments[segmentIndex + 1]->m1 = 2.f * segments[segmentIndex + 1]->p1 - segments[segmentIndex]->m2;
 			break;
-		}
-
 		}
 		parameterListShouldBeUpdated = true;
 	}

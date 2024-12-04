@@ -10,11 +10,13 @@
 
 namespace g3d
 {
-    class G3DBaseNode : public CCNode {
+    class G3DCurveEditorLayer;
+    class G3DBaseNode : public CCNode
+    {
+        friend class G3DCurveEditorLayer;
     protected:
         virtual bool init() override;
         GLuint framebuffer, texture, renderbuffer;
-        CocosShaderProgram* getObjectIDByMousePositionShader;
         glm::vec3 generateUniqueColor(int objectID, int meshID) {
             int uniqueID = (objectID + 1) << 16 | (meshID + 1);
 
@@ -32,12 +34,14 @@ namespace g3d
 
             return { objectID, meshID };
         }
+        CocosShaderProgram* getObjectIDByMousePositionShader;
     public:
-        std::pair<int, int> getObjectIDByMousePosition();
         std::vector<sus3d::Model*> models;
         sus3d::Camera camera;
         sus3d::Light light;
+        sus3d::ShaderProgram* shaderProgram;
 
+        std::pair<int, int> getObjectIDByMousePosition();
         //void renderModel(sus3d::Model* model);
 
         virtual void draw() override;
