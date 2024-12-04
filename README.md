@@ -47,7 +47,7 @@ Have suggestions or need help? Connect with developers and fans on our [Discord 
 ### Special Thanks  
 - **[Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g)** – Help on Geode usage  
 - **[A145](https://www.youtube.com/@A145)** – Beta testing and ongoing support  
-- **[Lexi](https://github.com/KontrollFreek) - Beta testing
+- **[Lexi](https://github.com/KontrollFreek)** - Beta testing
 
 ---
 
