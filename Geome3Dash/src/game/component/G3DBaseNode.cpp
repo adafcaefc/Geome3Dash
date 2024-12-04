@@ -71,7 +71,7 @@ namespace g3d
 
         for (auto model : models) {
             model->render(
-                BlockModelsStorage::getInstance()->getSP(), 
+                shaderProgram, 
                 view, 
                 light.getPosition(), 
                 light.getColor(), 
@@ -104,6 +104,8 @@ namespace g3d
         if (!CCNode::init()) return false;
 
         OpenGLStateHelper::saveState();
+
+        shaderProgram = BlockModelsStorage::getInstance()->getSP();
 
         getObjectIDByMousePositionShader = CocosShaderProgram::create(
             sus3d::Shader::createWithString(sus3d::shaders::idBufferingVertexShader, sus3d::ShaderType::kVertexShader),

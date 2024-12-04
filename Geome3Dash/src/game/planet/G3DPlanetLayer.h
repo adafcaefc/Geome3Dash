@@ -54,15 +54,20 @@ namespace g3d
         , public CustomMouseDelegate
         , public CustomTouchDelegate 
     {
-        enum MusicType {
+        enum MusicType 
+        {
             Default,
             Plains,
             Ice,
             Desert
         };
-        MusicType musicType = Default;
-        void setMusicType(MusicType newMT) {
-            if (newMT != musicType) {
+
+        MusicType musicType = MusicType::Default;
+
+        void setMusicType(MusicType newMT) 
+        {
+            if (newMT != musicType) 
+            {
                 musicType = newMT;
                 playNewSongType();
             }
