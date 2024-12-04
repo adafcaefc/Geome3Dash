@@ -87,7 +87,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: develop-${{ github.sha }}
+          tag_name: develop
           name: 'Developmental Build'
           body: |
             Geome3dash development release for commit ${{ github.sha }}.
