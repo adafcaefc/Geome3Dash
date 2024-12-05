@@ -1,6 +1,6 @@
 # Geome3Dash
 
-![titlebar](screenshots/world1.png)
+![titlebar](screenshots/gp1.jps)
 
 **Geome3Dash** transforms the 2D Geometry Dash you know and love into an exciting, open-source 3D experience. Jump into a new dimension of gameplay, customize levels like never before, and explore the adventure of a lifetime.  
 
