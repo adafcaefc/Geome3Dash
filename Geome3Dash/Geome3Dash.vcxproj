@@ -102,6 +102,9 @@
     <ClCompile Include="src\CocosShaderProgram.cpp" />
     <ClCompile Include="src\GameObjectModel.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
+    <ClCompile Include="src\game\editor\CameraKeyframeBuffer.cpp" />
+    <ClCompile Include="src\game\editor\CameraKeyframeEditorLoader.cpp" />
+    <ClCompile Include="src\game\editor\CameraKeyframeEditorPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
@@ -211,6 +214,9 @@
     <ClInclude Include="src\delegate\CustomTouch.h" />
     <ClInclude Include="src\GameObjectModel.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
+    <ClInclude Include="src\game\editor\CameraKeyframeBuffer.h" />
+    <ClInclude Include="src\game\editor\CameraKeyframeEditorLoader.h" />
+    <ClInclude Include="src\game\editor\CameraKeyframeEditorPopup.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />

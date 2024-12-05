@@ -273,6 +273,15 @@
     <ClCompile Include="src\transformer\SplineCameraPlayerObjectModelTransformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\editor\CameraKeyframeBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\editor\CameraKeyframeEditorLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\editor\CameraKeyframeEditorPopup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -504,6 +513,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\SplineCameraPlayerObjectModelTransformer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\editor\CameraKeyframeBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\editor\CameraKeyframeEditorLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\editor\CameraKeyframeEditorPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

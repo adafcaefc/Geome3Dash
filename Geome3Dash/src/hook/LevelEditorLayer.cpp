@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "game/editor/G3DEditorPopup.h"
 #include "game/editor/G3DCurveEditorLoader.h"
+#include "game/editor/CameraKeyframeEditorLoader.h"
 #include "helper/spline/Spline.h"
 #include "helper/spline/Curve.h"
 
@@ -10,7 +11,18 @@ namespace g3d
     {
         struct Fields {
             G3DCurveEditorLoader* curveEditorLayer = nullptr;
+            CameraKeyframeEditorLoader* keyframeEditorLayer = nullptr;
         };
+
+        void onCameraKeyframesEditor(CCObject* obj) {
+            this->onPlaytest();
+            m_fields->keyframeEditorLayer->show();
+        }
+
+        void onStopPlaytest() {
+            LevelEditorLayer::onStopPlaytest();
+            m_fields->keyframeEditorLayer->hide();
+        }
 
         //std::optional<std::string> getFrameName(CCSprite* sprite)
         //{
@@ -42,7 +54,7 @@ namespace g3d
         }
 
         void addG3DMenu(
-            const int shiftAmount,
+            const CCPoint& shift,
             const char* text,
             CCNode * settingsButton,
             CCNode * settingsMenu,
@@ -55,7 +67,7 @@ namespace g3d
             sprite->setPosition(settingsButtonSprite->getPosition());
             menu->setContentSize(settingsButton->getContentSize());
             menu->setScale(settingsButton->getScale());
-            menu->setPosition(settingsButton->getPosition() + CCPoint(-44.5 - 40.0 * shiftAmount, -2.75));
+            menu->setPosition(settingsButton->getPosition() + CCPoint(-44.5, -2.75) + shift);
             auto label = CCLabelBMFont::create(text, "bigFont.fnt", sprite->getContentWidth());
             sprite->addChild(label);
             label->setPosition(CCPoint(23.5, 24.5));
@@ -73,14 +85,23 @@ namespace g3d
 
             auto sprite = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
             auto menu = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(LevelEditorLayerG3D::onEditorPopup));
-            addG3DMenu(0, "CAM", settingsButton, settingsMenu, menu, sprite);
+            addG3DMenu(ccp(0, 0), "CAM", settingsButton, settingsMenu, menu, sprite);
 
             auto sprite2 = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
             auto menu2 = CCMenuItemSpriteExtra::create(sprite2, this, menu_selector(LevelEditorLayerG3D::onSplineEditor));
-            addG3DMenu(1, "PATH", settingsButton, settingsMenu, menu2, sprite2);
+            addG3DMenu(ccp(-40, 0), "PATH", settingsButton, settingsMenu, menu2, sprite2);
+
+            auto sprite3 = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
+            auto menu3 = CCMenuItemSpriteExtra::create(sprite3, this, menu_selector(LevelEditorLayerG3D::onCameraKeyframesEditor));
+            addG3DMenu(ccp(-40, -40), "KEY", settingsButton, settingsMenu, menu3, sprite3);
 
             m_fields->curveEditorLayer = G3DCurveEditorLoader::create(this);
             this->addChild(m_fields->curveEditorLayer);
+
+
+            m_fields->keyframeEditorLayer = CameraKeyframeEditorLoader::create(this, &m_fields->curveEditorLayer->spline, nullptr);
+            this->addChild(m_fields->keyframeEditorLayer);
+
 
             return true;
         }
