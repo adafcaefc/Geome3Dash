@@ -79,7 +79,7 @@ namespace g3d
             auto menu2 = CCMenuItemSpriteExtra::create(sprite2, this, menu_selector(LevelEditorLayerG3D::onSplineEditor));
             addG3DMenu(1, "PATH", settingsButton, settingsMenu, menu2, sprite2);
 
-            m_fields->curveEditorLayer = G3DCurveEditorLoader::create(this, nullptr);
+            m_fields->curveEditorLayer = G3DCurveEditorLoader::create(this);
             this->addChild(m_fields->curveEditorLayer);
 
             return true;

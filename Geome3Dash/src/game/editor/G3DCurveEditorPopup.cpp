@@ -13,9 +13,11 @@
 #include "engine/sus3d/Shaders.h"
 
 #include "BlockModelStorage.h"
+#include "LevelDataManager.h"
 
 namespace g3d
 {
+	static LevelData currentLevelData = LevelData::getDefault();
 
 	void G3DCurveEditorPopup::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
 		if (!this->isVisible()) return;
@@ -71,7 +73,7 @@ namespace g3d
 							mesh->render(cel->layer3d->getObjectIDByMousePositionShader);
 						};
 
-					auto points = cel->spline->getAllPoints();
+					auto points = cel->spline.getAllPoints();
 
 					for (int pointIndex = 0; pointIndex < points.size(); pointIndex++) {
 
@@ -103,7 +105,7 @@ namespace g3d
 					newPosition -= tangent * (deltaX * 0.01f);
 					newPosition -= bionormal * (deltaY * 0.01f);
 
-					cel->spline->editPointSymmetricCenterFix(selected, newPosition);
+					cel->spline.editPointSymmetricCenterFix(selected, newPosition);
 
 				}
 				else if (isPressingControl) {
@@ -160,11 +162,26 @@ namespace g3d
 	}
 
 	void G3DCurveEditorPopup::onClose(CCObject* obj) {
+		currentLevelData.spline = cel->spline;
+		setLevelData(LevelEditorLayer::get(), currentLevelData);
 		this->setMouseEnabled(false);
 		Popup::onClose(obj);
 	}
 
 	bool G3DCurveEditorPopup::setup(G3DCurveEditorLoader* cel) {
+
+		currentLevelData = LevelData::getDefault();
+		try {
+			currentLevelData = getLevelData(LevelEditorLayer::get());
+		}
+		catch (...) {
+
+		}
+		cel->spline = currentLevelData.spline;
+		cel->updateLevel();
+		cel->spline.updateParameterList();
+
+
 		this->setMouseEnabled(true);
 		this->cel = cel;
 
@@ -222,30 +239,30 @@ namespace g3d
 	void G3DCurveEditorPopup::draw() {
 
 		if (!isRightClicking) {
-			cel->spline->updateParameterList();
+			cel->spline.updateParameterList();
 		}
 		auto shaderProgram = BlockModelStorage::get()->getBlockSP();
 
 		OpenGLStateHelper::saveState();
-		for (auto segment : cel->spline->segments) {
+		for (auto segment : cel->spline.segments) {
 			cel->pointModel->meshes[0]->setCustomKa(glm::vec3(1, 0, 0));
 			cel->pointModel->setScale(glm::vec3(0.07));
-			cel->pointModel->setPosition(segment->p1);
+			cel->pointModel->setPosition(segment.p1);
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
-			cel->pointModel->setPosition(segment->p2);
+			cel->pointModel->setPosition(segment.p2);
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
 
 			cel->pointModel->meshes[0]->setCustomKa(glm::vec3(0, 1, 0));
 			cel->pointModel->setScale(glm::vec3(0.05));
-			cel->pointModel->setPosition(segment->m1);
+			cel->pointModel->setPosition(segment.m1);
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
-			cel->pointModel->setPosition(segment->m2);
+			cel->pointModel->setPosition(segment.m2);
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
 		}
 
 
 		for (float i = 0; i < 3; i += 0.005) {
-			cel->pointModel->setPosition(cel->spline->get(i));
+			cel->pointModel->setPosition(cel->spline.get(i));
 			cel->pointModel->meshes[0]->setCustomKa(glm::vec3(0.5, 0.5, 0.5));
 			cel->pointModel->setScale(glm::vec3(0.001));
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
@@ -253,25 +270,23 @@ namespace g3d
 
 
 		CCObject* obj;
-		CCARRAY_FOREACH(cel->lel->m_objects, obj) {
+		CCARRAY_FOREACH(cel->lel->m_objects, obj) 
+		{
 			auto block = static_cast<GameObject*>(obj);
 
-			auto data = cel->spline->findClosestByLength(block->getPositionX() * cel->lengthScaleFactor);
+			auto data = cel->spline.findClosestByLength(block->getPositionX() * cel->lengthScaleFactor);
 
 			auto pos = data.value;
-			auto normal = glm::normalize(cel->spline->normal(data.t));
-			auto tangent = glm::normalize(cel->spline->tangent(data.t));
+			auto normal = glm::normalize(cel->spline.normal(data.t));
+			auto tangent = glm::normalize(cel->spline.tangent(data.t));
 
 			glm::vec3 side(1.f, 0.f, 0.f);
 			float normalDeltaAngle = glm::radians(block->getRotation());
 
 			glm::quat firstRotationQuat = glm::angleAxis(normalDeltaAngle, side);
 
-
-
 			glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
 			glm::vec3 adjustedNormal = glm::normalize(glm::cross(tangent, binormal));
-
 
 			glm::mat3 rotationMatrix(
 				binormal,

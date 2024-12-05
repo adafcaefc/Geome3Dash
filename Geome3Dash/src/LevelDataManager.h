@@ -3,8 +3,11 @@
 #include "CameraAction.h"
 
 #include "helper/BezierHelper.h"
+#include "helper/spline/Spline.h"
 
 #include <nlohmann/json.hpp>
+
+#include <glm/glm.hpp>
 
 #include <string>
 #include <vector>
@@ -25,16 +28,19 @@ namespace g3d
 
 	struct LevelData
 	{
-		CubicBezierLD bezierCurve;           // Bezier values
-		double bezierMultiplier;             // Path size
+		//CubicBezierLD bezierCurve;           // Bezier values
+		//double bezierMultiplier;             // Path size
+		//std::vector<CameraActionLD> actions; // Camera actions
+
+
 		double x, y, z;                      // Position
 		double yaw, pitch;                   // Rotation
 		bool lock;                           // Lock camera
-		std::vector<CameraActionLD> actions; // Camera actions
+		Spline spline;                       // Spline path
 
 		static LevelData getDefault();
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(LevelData, bezierCurve, bezierMultiplier, x, y, z, yaw, pitch, lock, actions);
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(LevelData, spline, x, y, z, yaw, pitch, lock);
 	};
 
 	void msgLevelEncode(GJBaseGameLayer* layer, const std::string& message);

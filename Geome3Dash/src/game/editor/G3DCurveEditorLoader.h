@@ -4,6 +4,8 @@
 #include "delegate/CustomMouse.h"
 #include "delegate/CustomTouch.h"
 
+#include "helper/spline/Spline.h"
+
 namespace sus3d
 {
 	class Model;
@@ -24,7 +26,7 @@ namespace g3d
 		float levelLength = 0;
 		float lengthScaleFactor;
 
-		virtual bool init(LevelEditorLayer* lel, Spline* defaultSpline);
+		virtual bool init(LevelEditorLayer* lel);
 
 		void updateLevel();
 
@@ -32,10 +34,10 @@ namespace g3d
 		void removeSegment();
 
 	public:
-		Spline* spline;
+		Spline spline;
 		void show();
 
-		static G3DCurveEditorLoader* create(LevelEditorLayer* lel, Spline* defaultSpline = nullptr);
+		static G3DCurveEditorLoader* create(LevelEditorLayer* lel);
 
 		friend class KeyframeEditorLayer;
 		friend class G3DCurveEditorPopup;

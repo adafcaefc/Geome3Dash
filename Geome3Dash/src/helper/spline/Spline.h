@@ -1,18 +1,23 @@
 #pragma once
 
+#include "Curve.h"
+
 namespace g3d
 {
-	class Curve;
-
-	struct Spline {
-		struct ParameterData {
+	struct Spline 
+	{
+		struct ParameterData 
+		{
 			float t;
 			glm::vec3 value;
 			float l;
 			ParameterData(float t, glm::vec3 value, float l) : t(t), value(value), l(l) {};
 		};
 
-		std::vector<Curve*> segments;
+		std::vector<Curve> segments;
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(Spline, segments);
+
 		std::vector<ParameterData> parameterList;
 		bool parameterListShouldBeUpdated = true;
 
@@ -26,7 +31,7 @@ namespace g3d
 		void editPointSymmetric(int pointIndex, glm::vec3 position);
 		void editPoint(int pointIndex, glm::vec3 position);
 
-		void addSegment(Curve* curve);
+		void addSegment(const Curve& curve);
 		void removeLastSegment();
 
 		ParameterData findClosestByLength(float l);
@@ -36,5 +41,7 @@ namespace g3d
 		glm::vec3 normal(float t);
 
 		float length(int stepsProCurve);
+
+		Spline() {}
 	};
 }

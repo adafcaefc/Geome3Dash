@@ -13,6 +13,7 @@
 #include "engine/sus3d/Shaders.h"
 
 #include "BlockModelStorage.h"
+#include "LevelDataManager.h"
 
 namespace g3d
 {
@@ -21,26 +22,18 @@ namespace g3d
 
 		CCObject* obj;
 		CCARRAY_FOREACH(lel->m_objects, obj) {
-			auto block = static_cast<GameObject*>(obj);
+			auto block = dynamic_cast<GameObject*>(obj);
 
 			levelLength = std::max(block->getPositionX(), levelLength);
 		}
 
-		lengthScaleFactor = spline->length(10000) / levelLength;
+		lengthScaleFactor = spline.length(10000) / levelLength;
 	}
 
-	bool G3DCurveEditorLoader::init(LevelEditorLayer* lel, Spline* defaultSpline) {
+	bool G3DCurveEditorLoader::init(LevelEditorLayer* lel) {
 		if (!CCNode::init()) return false;
 
 		this->lel = lel;
-
-		if (defaultSpline) {
-			spline = defaultSpline;
-		}
-		else {
-			spline = new Spline();
-			spline->addSegment(new Curve(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(2.0f, 0.0f, 0.0f), glm::vec3(3.0f, 0.0f, 0.0f)));
-		}
 
 		layer3d = G3DBaseNode::create();
 		layer3d->camera.setPosition(glm::vec3(0, 0, 15));
@@ -54,29 +47,24 @@ namespace g3d
 
 		pointModel = bms->getModel(bms->getBP() / "editor" / "model" / "sphere.obj");
 
-		updateLevel();
-		spline->updateParameterList();
-
 		return true;
 	}
 
-
-
 	void G3DCurveEditorLoader::addSegment() {
-		auto p1 = spline->segments.back()->p2;
-		auto m1 = spline->segments.back()->p2 * 2.f - spline->segments.back()->m2;
-		auto m2 = spline->segments.back()->p2 * 2.f - spline->segments.back()->m1;
-		auto p2 = spline->segments.back()->p2 * 2.f - spline->segments.back()->p1;
+		auto p1 = spline.segments.back().p2;
+		auto m1 = spline.segments.back().p2 * 2.f - spline.segments.back().m2;
+		auto m2 = spline.segments.back().p2 * 2.f - spline.segments.back().m1;
+		auto p2 = spline.segments.back().p2 * 2.f - spline.segments.back().p1;
 
-		spline->addSegment(new Curve(p1, m1, m2, p2));
+		spline.addSegment(Curve(p1, m1, m2, p2));
 
 		updateLevel();
 	}
 
 
 	void G3DCurveEditorLoader::removeSegment() {
-		if (spline->segments.size() > 1) {
-			spline->removeLastSegment();
+		if (spline.segments.size() > 1) {
+			spline.removeLastSegment();
 			updateLevel();
 		}
 	}
@@ -87,9 +75,9 @@ namespace g3d
 	}
 
 
-	G3DCurveEditorLoader* G3DCurveEditorLoader::create(LevelEditorLayer* lel, Spline* defaultSpline) {
+	G3DCurveEditorLoader* G3DCurveEditorLoader::create(LevelEditorLayer* lel) {
 		auto ret = new G3DCurveEditorLoader();
-		if (ret && ret->init(lel, defaultSpline)) {
+		if (ret && ret->init(lel)) {
 			ret->autorelease();
 			return ret;
 		}

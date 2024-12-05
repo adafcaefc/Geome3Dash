@@ -38,58 +38,58 @@ namespace g3d
 		std::vector<glm::vec3> ret;
 
 		for (int i = 0; i < segments.size(); i++) {
-			ret.push_back(segments[i]->p1);
-			ret.push_back(segments[i]->m1);
-			ret.push_back(segments[i]->m2);
+			ret.push_back(segments[i].p1);
+			ret.push_back(segments[i].m1);
+			ret.push_back(segments[i].m2);
 		}
-		ret.push_back(segments.back()->p2);
+		ret.push_back(segments.back().p2);
 
 		return ret;
 	}
 
 	void Spline::editPointSymmetricCenterFix(int pointIndex, glm::vec3 position) {
 		if (pointIndex == 0) {
-			auto deltaP1 = position - segments[0]->p1;
-			segments[0]->p1 = position;
-			segments[0]->m1 += deltaP1;
+			auto deltaP1 = position - segments[0].p1;
+			segments[0].p1 = position;
+			segments[0].m1 += deltaP1;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
 		if (pointIndex == getPointsCount() - 1) {
-			auto deltaP1 = position - segments.back()->p2;
-			segments.back()->p2 = position;
-			segments.back()->m2 += deltaP1;
+			auto deltaP1 = position - segments.back().p2;
+			segments.back().p2 = position;
+			segments.back().m2 += deltaP1;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
 		if (pointIndex == 1) {
-			segments[0]->m1 = position;
+			segments[0].m1 = position;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
 		if (pointIndex == getPointsCount() - 2) {
-			segments.back()->m2 = position;
+			segments.back().m2 = position;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
 
 		int segmentIndex = std::floor(pointIndex / 3);
 		int offset = pointIndex % 3;
-		auto deltaP1 = position - segments[segmentIndex]->p1;
+		auto deltaP1 = position - segments[segmentIndex].p1;
 		switch (offset) {
 		case 0:
-			segments[segmentIndex]->p1 = position;
-			segments[segmentIndex - 1]->p2 = position;
-			segments[segmentIndex]->m1 += deltaP1;
-			segments[segmentIndex - 1]->m2 += deltaP1;
+			segments[segmentIndex].p1 = position;
+			segments[segmentIndex - 1].p2 = position;
+			segments[segmentIndex].m1 += deltaP1;
+			segments[segmentIndex - 1].m2 += deltaP1;
 			break;
 		case 1:
-			segments[segmentIndex]->m1 = position;
-			segments[segmentIndex - 1]->m2 = 2.f * segments[segmentIndex]->p1 - segments[segmentIndex]->m1;
+			segments[segmentIndex].m1 = position;
+			segments[segmentIndex - 1].m2 = 2.f * segments[segmentIndex].p1 - segments[segmentIndex].m1;
 			break;
 		case 2:
-			segments[segmentIndex]->m2 = position;
-			segments[segmentIndex + 1]->m1 = 2.f * segments[segmentIndex + 1]->p1 - segments[segmentIndex]->m2;
+			segments[segmentIndex].m2 = position;
+			segments[segmentIndex + 1].m1 = 2.f * segments[segmentIndex + 1].p1 - segments[segmentIndex].m2;
 			break;
 		}
 		parameterListShouldBeUpdated = true;
@@ -97,22 +97,22 @@ namespace g3d
 
 	void Spline::editPointSymmetric(int pointIndex, glm::vec3 position) {
 		if (pointIndex == 0) {
-			segments[0]->p1 = position;
+			segments[0].p1 = position;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
 		if (pointIndex == getPointsCount() - 1) {
-			segments.back()->p2 = position;
+			segments.back().p2 = position;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
 		if (pointIndex == 1) {
-			segments[0]->m1 = position;
+			segments[0].m1 = position;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
 		if (pointIndex == getPointsCount() - 2) {
-			segments.back()->m2 = position;
+			segments.back().m2 = position;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
@@ -121,16 +121,16 @@ namespace g3d
 		int offset = pointIndex % 3;
 		switch (offset) {
 		case 0:
-			segments[segmentIndex]->p1 = position;
-			segments[segmentIndex - 1]->p2 = position;
+			segments[segmentIndex].p1 = position;
+			segments[segmentIndex - 1].p2 = position;
 			break;
 		case 1:
-			segments[segmentIndex]->m1 = position;
-			segments[segmentIndex - 1]->m2 = 2.f * segments[segmentIndex]->p1 - segments[segmentIndex]->m1;
+			segments[segmentIndex].m1 = position;
+			segments[segmentIndex - 1].m2 = 2.f * segments[segmentIndex].p1 - segments[segmentIndex].m1;
 			break;
 		case 2:
-			segments[segmentIndex]->m2 = position;
-			segments[segmentIndex + 1]->m1 = 2.f * segments[segmentIndex + 1]->p1 - segments[segmentIndex]->m2;
+			segments[segmentIndex].m2 = position;
+			segments[segmentIndex + 1].m1 = 2.f * segments[segmentIndex + 1].p1 - segments[segmentIndex].m2;
 			break;
 		}
 		parameterListShouldBeUpdated = true;
@@ -138,12 +138,12 @@ namespace g3d
 
 	void Spline::editPoint(int pointIndex, glm::vec3 position) {
 		if (pointIndex == 0) {
-			segments[0]->p1 = position;
+			segments[0].p1 = position;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
 		if (pointIndex == getPointsCount() - 1) {
-			segments.back()->p2 = position;
+			segments.back().p2 = position;
 			parameterListShouldBeUpdated = true;
 			return;
 		}
@@ -152,20 +152,20 @@ namespace g3d
 		int offset = pointIndex % 3;
 		switch (offset) {
 		case 0:
-			segments[segmentIndex]->p1 = position;
-			segments[segmentIndex - 1]->p2 = position;
+			segments[segmentIndex].p1 = position;
+			segments[segmentIndex - 1].p2 = position;
 			break;
 		case 1:
-			segments[segmentIndex]->m1 = position;
+			segments[segmentIndex].m1 = position;
 			break;
 		case 2:
-			segments[segmentIndex]->m2 = position;
+			segments[segmentIndex].m2 = position;
 			break;
 		}
 		parameterListShouldBeUpdated = true;
 	}
 
-	void Spline::addSegment(Curve* curve) {
+	void Spline::addSegment(const Curve& curve) {
 		segments.push_back(curve);
 		parameterListShouldBeUpdated = true;
 	}
@@ -179,7 +179,7 @@ namespace g3d
 	float Spline::length(int stepsProCurve) {
 		float totalLength = 0;
 		for (int i = 0; i < segments.size(); i++) {
-			totalLength += segments[i]->length(stepsProCurve);
+			totalLength += segments[i].length(stepsProCurve);
 		}
 
 		return totalLength;
@@ -208,7 +208,7 @@ namespace g3d
 
 		size_t segmentIndex = static_cast<size_t>(t);
 		float localT = t - segmentIndex;
-		return segments[segmentIndex]->get(localT);
+		return segments[segmentIndex].get(localT);
 	}
 
 	glm::vec3 Spline::tangent(float t) {
@@ -218,7 +218,7 @@ namespace g3d
 
 		size_t segmentIndex = static_cast<size_t>(t);
 		float localT = t - segmentIndex;
-		return segments[segmentIndex]->tangent(localT);
+		return segments[segmentIndex].tangent(localT);
 	}
 
 	glm::vec3 Spline::normal(float t) {
@@ -228,6 +228,6 @@ namespace g3d
 
 		size_t segmentIndex = static_cast<size_t>(t);
 		float localT = t - segmentIndex;
-		return segments[segmentIndex]->normal(localT);
+		return segments[segmentIndex].normal(localT);
 	}
 }
