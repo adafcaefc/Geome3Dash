@@ -100,6 +100,7 @@
     </ClCompile>
     <ClCompile Include="src\BlockModelStorage.cpp" />
     <ClCompile Include="src\CocosShaderProgram.cpp" />
+    <ClCompile Include="src\GameObjectModel.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorLayer.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="src\delegate\CustomKeyboard.h" />
     <ClInclude Include="src\delegate\CustomMouse.h" />
     <ClInclude Include="src\delegate\CustomTouch.h" />
+    <ClInclude Include="src\GameObjectModel.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorLayer.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />

@@ -15,9 +15,9 @@ namespace sus3d
         glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
     public:
         void setPosition(glm::vec3 position) { this->position = position; }
-        glm::vec3 getPosition() { return this->position; }
+        glm::vec3 getPosition() const { return this->position; }
         void setColor(glm::vec3 color) { this->color = color; }
-        glm::vec3 getColor() { return this->color; }
+        glm::vec3 getColor() const { return this->color; }
     };
 
     class Camera {
@@ -38,16 +38,16 @@ namespace sus3d
         }
     public:
         void setPosition(glm::vec3 position) { this->position = position; }
-        glm::vec3 getPosition() { return this->position; }
+        glm::vec3 getPosition() const { return this->position; }
         void setYaw(float yaw) { this->yaw = yaw; updateFront(); }
-        float getYaw() { return this->yaw; }
+        float getYaw() const { return this->yaw; }
         void setPitch(float pitch) { this->pitch = pitch; updateFront(); }
-        float getPitch() { return this->pitch; }
+        float getPitch() const { return this->pitch; }
         void setFov(float fov) { this->fov = fov; }
-        float getFov() { return this->fov; }
-        glm::vec3 getFront() { return front; }
-        glm::vec3 getUp() { return up; }
-        glm::mat4 getViewMat();
-        glm::mat4 getProjectionMat();
+        float getFov() const { return this->fov; }
+        glm::vec3 getFront() const { return front; }
+        glm::vec3 getUp() const { return up; }
+        glm::mat4 getViewMat() const;
+        glm::mat4 getProjectionMat() const;
     };
 }

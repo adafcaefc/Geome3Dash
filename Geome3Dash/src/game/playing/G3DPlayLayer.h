@@ -21,45 +21,12 @@
 #include "CameraAction.h"
 #include "BezierManager.h"
 #include "CocosShaderProgram.h"
+#include "GameObjectModel.h"
 
 namespace g3d
 {
     class G3DPlayLayer;
-    class G3DPlayerObject
-    {
-    private:
-        sus3d::Model* cube;
-        sus3d::Model* ship;
-        sus3d::Model* ball;
-        sus3d::Model* bird;
-        sus3d::Model* dart;
-        sus3d::Model* robot;
-        sus3d::Model* spider;
-        sus3d::Model* swing;
-
-        G3DPlayLayer* playLayer3D;
-
-        std::filesystem::path getPlayerModelPath(const std::string& type, const int id);
-        std::filesystem::path getFixedPlayerModelPath(const std::string& type, const int id);
-        void loadPlayerModel(sus3d::Model** model, const std::string& type, const int id);
-        void loadPlayerModels();
-
-    public:
-        friend class G3DPlayLayer;
-
-        PlayerObject* playerObject;
-        sus3d::Model* playerModel;
-
-        G3DPlayerObject() {}
-
-        void init(G3DPlayLayer* playLayer3DP, PlayerObject* playerObjectP);
-
-        void updateModel();
-        void drawModel();
-
-        bool shouldRender();
-    };
-
+    class BezierCameraPlayerObjectModelTransformer;
     class G3DPlayLayer
         : public CCNode
         , public CustomKeyboardDelegate
@@ -68,8 +35,8 @@ namespace g3d
     {
         PlayLayer* playLayer;
 
-        G3DPlayerObject player1;
-        G3DPlayerObject player2;
+        PlayerObjectModel player1;
+        PlayerObjectModel player2;
 
         // !! moved to block storage !!
         //std::unordered_map<GameObject*, sus3d::Model*> blocks;
@@ -81,17 +48,22 @@ namespace g3d
 
         CubicBezier bezier;
         double bezierSegmentMultiplier = 3;
+        // to do: make this customisable
+        int bezierSegmentCount = 1000000;
 
         sus3d::Camera camera;
         sus3d::Light light;
 
         CameraActionHandler cameraActionHandler = CameraActionHandler(ease::InOutQuad::get());
 
-        // to do: make this customisable
-        int bezierSegmentCount = 1000000;
-
         // updateCameraAction
         std::chrono::steady_clock::time_point lastUpdate;
+
+        // transformers
+        GameObjectModelTransformer* bezierTr;
+        GameObjectModelTransformer* fadeTr;
+        GameObjectModelTransformer* animTr;
+        GameObjectModelTransformer* camTr;
 
         // delegates
         bool isPressingControl = false;
@@ -106,6 +78,9 @@ namespace g3d
 
         void loadShader();
         void loadPlayers();
+        void loadBlocks();
+
+        std::vector<GameObjectModel> blocks;
 
         // mtl model path fix (model path must be absolute)
         // void parseMtlPath(const std::filesystem::path& mtl_path);
@@ -114,10 +89,9 @@ namespace g3d
 
         bool init();
 
-        void updatePlayers();
         void updateCamera();
         void updateLight();
-        void updateBlock(GameObject* obj, sus3d::Model* model);
+        //void updateBlock(GameObject* obj, sus3d::Model* model);
         void updateCameraAction(const float currentXPosition);
 
         void drawPlayers();
@@ -130,7 +104,7 @@ namespace g3d
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
         virtual void scrollWheel(float y, float x);
 
-        friend class G3DPlayerObject;
+        friend class BezierCameraPlayerObjectModelTransformer;
 
     public:
         static auto create() {
