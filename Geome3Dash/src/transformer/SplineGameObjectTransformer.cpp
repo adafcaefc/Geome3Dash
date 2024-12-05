@@ -8,7 +8,7 @@ namespace g3d
 	void SplineGameObjectTransformer::transform(GameObjectModel* gom)
 	{
 		auto block = gom->getGameObject();
-		auto data = spline->findClosestByLength(block->getPositionX() * *lengthScaleFactor);
+		auto data = spline->findClosestByLength(block->m_positionX * (*lengthScaleFactor));
 
 		auto pos = data.value;
 		auto normal = glm::normalize(spline->normal(data.t));
@@ -30,7 +30,7 @@ namespace g3d
 		glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
 		glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat * firstRotationQuat));
 
-		gom->setPosition(pos + (normal * (*lengthScaleFactor) * (block->getPositionY() - 110)));
+		gom->setPosition(pos + (normal * (*lengthScaleFactor) * (static_cast<float>(block->m_positionY) - 110)));
 		gom->setRotation(eulerDegrees);
 		gom->setScale(glm::vec3(
 			0.5 * (block->m_startFlipX ? -1 : 1) * (*lengthScaleFactor) * 30,

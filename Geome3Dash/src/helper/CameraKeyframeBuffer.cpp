@@ -20,7 +20,7 @@ namespace g3d
     }
 
     void CameraKeyframeBuffer::removeLastKeyframe() {
-        keyframes.pop_back();
+        if (keyframes.size()) { keyframes.pop_back(); }
     }
 
     CameraKeyframe CameraKeyframeBuffer::getInterpolatedCameraKeyframe(float playersXpos) {

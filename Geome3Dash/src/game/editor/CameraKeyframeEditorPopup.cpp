@@ -185,9 +185,8 @@ namespace g3d
 		return true;
 	}
 
-
-
 	void CameraKeyframeEditorPopup::onClose(CCObject* obj) {
+		if (ckel->keyframeBuffer.keyframes.empty()) { ckel->keyframeBuffer.setKeyframe(0, glm::vec3(0), glm::vec3(0)); }
 		currentLevelData.keyframe = ckel->keyframeBuffer;
 		setLevelData(LevelEditorLayer::get(), currentLevelData);
 		this->setMouseEnabled(false);
