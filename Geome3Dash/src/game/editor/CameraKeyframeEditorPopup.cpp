@@ -111,6 +111,15 @@ namespace g3d
 		ckel->updateLevel();
 		ckel->spline.updateParameterList();
 
+		glm::vec3 newFront;
+		newFront.x = cos(glm::radians(currentLevelData.yaw)) * cos(glm::radians(currentLevelData.pitch));
+		newFront.y = sin(glm::radians(currentLevelData.pitch));
+		newFront.z = sin(glm::radians(currentLevelData.yaw)) * cos(glm::radians(currentLevelData.pitch));
+		const auto front = glm::normalize(newFront);
+		ckel->keyframeBuffer.setKeyframe(0, glm::vec3(currentLevelData.x, currentLevelData.y, currentLevelData.z) * glm::vec3(ckel->lengthScaleFactor * 16 / 9), newFront);
+		
+		std::cout << nlohmann::json(ckel->keyframeBuffer).dump() << '\n';
+
 		this->setMouseEnabled(true);
 		this->ckel = ckel;
 
@@ -252,8 +261,7 @@ namespace g3d
 			auto deltaFront = ckel->layer3d->camera.getFront() - getPlayerOrientedCameraFront();
 			ckel->keyframeBuffer.setKeyframe(ckel->lel->m_player1->getPositionX(),
 				deltaPos,
-				deltaFront
-			);
+				deltaFront);
 		}
 		else {
 
