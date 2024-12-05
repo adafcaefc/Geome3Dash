@@ -60,10 +60,10 @@ namespace g3d
         std::chrono::steady_clock::time_point lastUpdate;
 
         // transformers
-        GameObjectModelTransformer* bezierTr;
-        GameObjectModelTransformer* fadeTr;
-        GameObjectModelTransformer* animTr;
-        GameObjectModelTransformer* camTr;
+        BezierGameObjectModelTransformer* bezierTr;
+        FadeGameObjectModelTransformer* fadeTr;
+        AnimationGameObjectModelTransformer* animTr;
+        BezierCameraPlayerObjectModelTransformer* camTr;
 
         // delegates
         bool isPressingControl = false;

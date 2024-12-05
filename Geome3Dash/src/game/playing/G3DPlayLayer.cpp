@@ -120,7 +120,12 @@ namespace g3d
 
     void G3DPlayLayer::drawBlocks()
     {
-        for (auto& block : blocks) { block.render(shaderProgram, camera, light); }
+        for (auto& block : blocks) 
+        { 
+            auto distance = std::abs(playLayer->m_player1->m_position.x - block.getGameObject()->getPositionX());
+            auto maxRender = fadeTr->getMaxRender();
+            if (distance < maxRender) { block.render(shaderProgram, camera, light); }
+        }
     }
 
     void G3DPlayLayer::updateCameraAction(const float currentXPosition)
