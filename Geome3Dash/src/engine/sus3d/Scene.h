@@ -36,6 +36,12 @@ namespace sus3d
             newFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
             front = glm::normalize(newFront);
         }
+
+        void updateYawAndPitch() {
+            front = glm::normalize(front);
+            pitch = glm::degrees(asin(front.y));
+            yaw = glm::degrees(atan2(front.z, front.x));
+        }
     public:
         void setPosition(glm::vec3 position) { this->position = position; }
         glm::vec3 getPosition() const { return this->position; }
@@ -49,5 +55,6 @@ namespace sus3d
         glm::vec3 getUp() const { return up; }
         glm::mat4 getViewMat() const;
         glm::mat4 getProjectionMat() const;
+        void setFront(glm::vec3 front) { this->front = front; updateYawAndPitch(); }
     };
 }

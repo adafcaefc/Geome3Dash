@@ -9,11 +9,11 @@ namespace g3d
 	{
 	protected:
 		Spline* spline;
-		float lengthScaleFactor;
+		float* lengthScaleFactor;
 	public:
 		virtual void transform(GameObjectModel* gom) override;
 		virtual ~SplineGameObjectTransformer() = default;
-		SplineGameObjectTransformer(Spline* spline, float lengthScaleFactor)
+		SplineGameObjectTransformer(Spline* spline, float* lengthScaleFactor)
 			: spline(spline)
 			, lengthScaleFactor(lengthScaleFactor)
 		{

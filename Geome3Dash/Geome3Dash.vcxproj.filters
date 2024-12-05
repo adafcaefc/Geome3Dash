@@ -270,6 +270,9 @@
     <ClCompile Include="src\transformer\SplineGameObjectTransformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\transformer\SplineCameraPlayerObjectModelTransformer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -498,6 +501,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\SplineGameObjectTransformer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\transformer\SplineCameraPlayerObjectModelTransformer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

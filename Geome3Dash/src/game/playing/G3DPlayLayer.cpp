@@ -16,8 +16,8 @@ namespace g3d
 
     void G3DPlayLayer::loadPlayers()
     {
-        player1 = PlayerObjectModel(playLayer->m_player1, { bezierTr, camTr });
-        player2 = PlayerObjectModel(playLayer->m_player2, { bezierTr });
+        player1 = PlayerObjectModel(playLayer->m_player1, { splineTr, splineCamTr });
+        player2 = PlayerObjectModel(playLayer->m_player2, { splineTr });
     }
 
     bool G3DPlayLayer::init()
@@ -29,20 +29,13 @@ namespace g3d
         // clear cache of bezier segments
         BezierManager::clearCache();
 
-        auto data = LevelData::getDefault();
+        levelData = LevelData::getDefault();
 
-        try
-        {
-            data = getLevelData(playLayer);
-        }
-        catch (...)
-        {
+        try { levelData = getLevelData(playLayer); } catch (...) { }
 
-        }
-
-        playerCameraOffset = glm::vec3(data.x, data.y, data.z);
-        playerCameraYawOffset = data.yaw;
-        playerCameraPitchOffset = data.pitch;
+        playerCameraOffset = glm::vec3(levelData.x, levelData.y, levelData.z);
+        playerCameraYawOffset = levelData.yaw;
+        playerCameraPitchOffset = levelData.pitch;
         //bezier = data.bezierCurve;
         //constexpr double bezierM = 1000;
         //bezier.cx1 *= bezierM;
@@ -55,10 +48,23 @@ namespace g3d
         //bezier.y1 *= bezierM;
         //bezierSegmentMultiplier = 1.0 / data.bezierMultiplier;
 
-        bezierTr = new BezierGameObjectModelTransformer(bezier, bezierSegmentMultiplier, bezierSegmentCount);
+        float levelLength = 0;
+
+        CCObject* obj;
+        CCARRAY_FOREACH(playLayer->m_objects, obj) 
+        {
+            auto block = dynamic_cast<GameObject*>(obj);
+            levelLength = std::max(block->getPositionX(), levelLength);
+        }
+        lengthScaleFactor = levelData.spline.length(10000) / levelLength;
+        levelData.spline.updateParameterList();
+
+        //bezierTr = new BezierGameObjectModelTransformer(bezier, bezierSegmentMultiplier, bezierSegmentCount);
         fadeTr = new FadeGameObjectModelTransformer(playLayer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
         animTr = new AnimationGameObjectModelTransformer();
         camTr = new BezierCameraPlayerObjectModelTransformer(this);
+        splineTr = new SplineGameObjectTransformer(&levelData.spline, &lengthScaleFactor);
+        splineCamTr = new SplineCameraPlayerObjectModelTransformer(this);
             
         loadShader();
         loadPlayers();
@@ -70,10 +76,11 @@ namespace g3d
     G3DPlayLayer::~G3DPlayLayer()
     {
         instance = nullptr;
-        delete bezierTr;
+        //delete bezierTr;
         delete fadeTr;
         delete animTr;
         delete camTr;
+        delete splineTr;
     }
 
     void G3DPlayLayer::updateCamera()
@@ -112,7 +119,7 @@ namespace g3d
             {
                 if (auto model = BlockModelStorage::get()->getBlockModel(obj->m_objectID))
                 {
-                    blocks.push_back(GameObjectModel(obj, { bezierTr, fadeTr, animTr }));
+                    blocks.push_back(GameObjectModel(obj, { splineTr, fadeTr, animTr }));
                 }
             }
         }

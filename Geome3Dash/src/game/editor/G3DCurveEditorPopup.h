@@ -4,6 +4,9 @@
 #include "delegate/CustomMouse.h"
 #include "delegate/CustomTouch.h"
 
+#include "GameObjectModel.h"
+#include "transformer/SplineGameObjectTransformer.h"
+
 namespace sus3d
 {
 	class Model;
@@ -34,6 +37,9 @@ namespace g3d
 		bool isRightClickingGetPos = false;
 		float lastMouseX = 0.0;
 		float lastMouseY = 0.0;
+
+		SplineGameObjectTransformer* splineTr;
+		std::vector<GameObjectModel> blocks;
 
 		virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
 		virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);

@@ -22,11 +22,14 @@
 #include "transformer/BezierCameraPlayerObjectModelTransformer.h"
 #include "transformer/BezierGameObjectModelTransformer.h"
 #include "transformer/FadeGameObjectModelTransformer.h"
+#include "transformer/SplineGameObjectTransformer.h"
+#include "transformer/SplineCameraPlayerObjectModelTransformer.h"
 
 #include "CameraAction.h"
 #include "BezierManager.h"
 #include "CocosShaderProgram.h"
 #include "PlayerObjectModel.h"
+#include "LevelDataManager.h"
 
 namespace g3d
 {
@@ -51,10 +54,10 @@ namespace g3d
         double playerCameraPitchOffset;
         CocosShaderProgram* shaderProgram;
 
-        CubicBezier bezier;
-        double bezierSegmentMultiplier = 3;
-        // to do: make this customisable
-        int bezierSegmentCount = 1000000;
+        //CubicBezier bezier;
+        //double bezierSegmentMultiplier = 3;
+        //// to do: make this customisable
+        //int bezierSegmentCount = 1000000;
 
         sus3d::Camera camera;
         sus3d::Light light;
@@ -65,10 +68,18 @@ namespace g3d
         std::chrono::steady_clock::time_point lastUpdate;
 
         // transformers
-        BezierGameObjectModelTransformer* bezierTr;
+        //BezierGameObjectModelTransformer* bezierTr;
         FadeGameObjectModelTransformer* fadeTr;
         AnimationGameObjectModelTransformer* animTr;
         BezierCameraPlayerObjectModelTransformer* camTr;
+        SplineGameObjectTransformer* splineTr;
+        SplineCameraPlayerObjectModelTransformer* splineCamTr;
+
+        // for spline
+        float lengthScaleFactor;
+
+        // level data
+        LevelData levelData;
 
         // delegates
         bool isPressingControl = false;
@@ -110,6 +121,7 @@ namespace g3d
         virtual void scrollWheel(float y, float x);
 
         friend class BezierCameraPlayerObjectModelTransformer;
+        friend class SplineCameraPlayerObjectModelTransformer;
 
     public:
         static auto create() {

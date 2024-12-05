@@ -92,7 +92,7 @@ namespace g3d
 
 					auto ids = cel->layer3d->getObjectAndMeshIDFromColor(pixelColor);
 
-					std::cout << ids.first << " " << ids.second << std::endl;
+					//std::cout << ids.first << " " << ids.second << std::endl;
 					if (ids.second != -1) {
 						selected = ids.second;
 					}
@@ -143,8 +143,6 @@ namespace g3d
 		}
 	}
 
-
-
 	void G3DCurveEditorPopup::scrollWheel(float y, float x) {
 		float zoomSensitivity = -0.0328f;
 		cel->layer3d->camera.setPosition(cel->layer3d->camera.getPosition() + cel->layer3d->camera.getFront() * y * zoomSensitivity);
@@ -181,6 +179,20 @@ namespace g3d
 		cel->updateLevel();
 		cel->spline.updateParameterList();
 
+		// need to delete this on destructor (later)
+		splineTr = new SplineGameObjectTransformer(&cel->spline, &cel->lengthScaleFactor);
+
+		CCObject* obj;
+		CCARRAY_FOREACH(cel->lel->m_objects, obj)
+		{
+			if (auto block = dynamic_cast<GameObject*>(obj))
+			{
+				if (BlockModelStorage::get()->getBlockModel(block->m_objectID))
+				{
+					blocks.push_back(GameObjectModel(block, { splineTr }));
+				}
+			}
+		}
 
 		this->setMouseEnabled(true);
 		this->cel = cel;
@@ -268,48 +280,7 @@ namespace g3d
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
 		}
 
-
-		CCObject* obj;
-		CCARRAY_FOREACH(cel->lel->m_objects, obj) 
-		{
-			auto block = static_cast<GameObject*>(obj);
-
-			auto data = cel->spline.findClosestByLength(block->getPositionX() * cel->lengthScaleFactor);
-
-			auto pos = data.value;
-			auto normal = glm::normalize(cel->spline.normal(data.t));
-			auto tangent = glm::normalize(cel->spline.tangent(data.t));
-
-			glm::vec3 side(1.f, 0.f, 0.f);
-			float normalDeltaAngle = glm::radians(block->getRotation());
-
-			glm::quat firstRotationQuat = glm::angleAxis(normalDeltaAngle, side);
-
-			glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
-			glm::vec3 adjustedNormal = glm::normalize(glm::cross(tangent, binormal));
-
-			glm::mat3 rotationMatrix(
-				binormal,
-				adjustedNormal,
-				tangent
-			);
-
-			glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
-			glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat * firstRotationQuat));
-
-			if (auto model = BlockModelStorage::get()->getBlockModel(block->m_objectID))
-			{
-				model->setPosition(pos + (normal * cel->lengthScaleFactor * (block->getPositionY() - 110)));
-				model->setRotation(eulerDegrees);
-				model->setScale(glm::vec3(0.5 * (block->m_startFlipX ? -1 : 1) * cel->lengthScaleFactor * 30, 0.5 * (block->m_startFlipY ? -1 : 1) * cel->lengthScaleFactor * 30 * block->getScaleY(), 0.5 * cel->lengthScaleFactor * 30 * block->getScaleX()));
-
-				BlockModelStorage::get()->tryRenderBlock(
-					block->m_objectID,
-					&cel->layer3d->camera,
-					&cel->layer3d->light);
-			}
-		}
-
+		for (auto& block : blocks) { block.render(shaderProgram, cel->layer3d->camera, cel->layer3d->light); }
 
 		OpenGLStateHelper::pushState();
 	}

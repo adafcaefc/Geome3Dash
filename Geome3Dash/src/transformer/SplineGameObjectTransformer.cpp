@@ -7,38 +7,34 @@ namespace g3d
 {
 	void SplineGameObjectTransformer::transform(GameObjectModel* gom)
 	{
-		auto playerDataStruct = spline->findClosestByLength(gom->getGameObject()->getPositionX() * lengthScaleFactor);
-		auto normal = glm::normalize(spline->normal(playerDataStruct.t));
-		auto tangent = glm::normalize(spline->tangent(playerDataStruct.t));
+		auto block = gom->getGameObject();
+		auto data = spline->findClosestByLength(block->getPositionX() * *lengthScaleFactor);
+
+		auto pos = data.value;
+		auto normal = glm::normalize(spline->normal(data.t));
+		auto tangent = glm::normalize(spline->tangent(data.t));
 
 		glm::vec3 side(1.f, 0.f, 0.f);
-		float normalDeltaAngle = glm::radians(gom->getGameObject()->getRotation());
+		float normalDeltaAngle = glm::radians(block->getRotation());
 
 		glm::quat firstRotationQuat = glm::angleAxis(normalDeltaAngle, side);
 
 		glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
 		glm::vec3 adjustedNormal = glm::normalize(glm::cross(tangent, binormal));
 
-
 		glm::mat3 rotationMatrix(
 			binormal,
 			adjustedNormal,
-			tangent
-		);
+			tangent);
 
 		glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
 		glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat * firstRotationQuat));
 
-		// what if mini?
+		gom->setPosition(pos + (normal * (*lengthScaleFactor) * (block->getPositionY() - 110)));
 		gom->setRotation(eulerDegrees);
 		gom->setScale(glm::vec3(
-			0.5 * lengthScaleFactor * 30, 
-			0.5 * lengthScaleFactor * 30, 
-			0.5 * lengthScaleFactor * 30));
-
-		gom->setPosition(glm::vec3(playerDataStruct.value
-			+ (spline->normal(playerDataStruct.t)
-			* lengthScaleFactor
-			* (gom->getGameObject()->getPositionY() - 110))));
+			0.5 * (block->m_startFlipX ? -1 : 1) * (*lengthScaleFactor) * 30,
+			0.5 * (block->m_startFlipY ? -1 : 1) * (*lengthScaleFactor) * 30 * block->getScaleY(),
+			0.5 * (*lengthScaleFactor) * 30 * block->getScaleX()));
 	}
 }
