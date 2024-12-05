@@ -200,7 +200,7 @@ namespace g3d
 		if (isEditing) {
 			
 			auto deltaPos = ckel->layer3d->camera.getPosition() - splineCamTr->getPlayerOrientedCameraPosition(&player1);
-			auto deltaFront = ckel->layer3d->camera.getFront() - splineCamTr->getPlayerOrientedCameraPosition(&player1);
+			auto deltaFront = ckel->layer3d->camera.getFront() - splineCamTr->getPlayerOrientedCameraFront(&player1);
 			ckel->keyframeBuffer.setKeyframe(ckel->lel->m_player1->getPositionX(),
 				deltaPos,
 				deltaFront);
