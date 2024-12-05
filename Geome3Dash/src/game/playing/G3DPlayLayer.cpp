@@ -16,8 +16,8 @@ namespace g3d
 
     void G3DPlayLayer::loadPlayers()
     {
-        player1 = PlayerObjectModel(playLayer->m_player1, { splineTr, splineCamTr });
-        player2 = PlayerObjectModel(playLayer->m_player2, { splineTr });
+        player1 = PlayerObjectModel(playLayer->m_player1, { splinePlayerTr, splineCamTr });
+        player2 = PlayerObjectModel(playLayer->m_player2, { splinePlayerTr });
     }
 
     bool G3DPlayLayer::init()
