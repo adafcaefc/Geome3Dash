@@ -63,7 +63,7 @@ namespace g3d
         animTr = new AnimationGameObjectModelTransformer();
         camTr = new BezierCameraPlayerObjectModelTransformer(this);
         splineTr = new SplineGameObjectTransformer(&levelData.spline, &lengthScaleFactor);
-        splineCamTr = new SplineCameraPlayerObjectModelTransformer(this);
+        //splineCamTr = new SplineCameraPlayerObjectModelTransformer(this);
             
         loadShader();
         loadPlayers();

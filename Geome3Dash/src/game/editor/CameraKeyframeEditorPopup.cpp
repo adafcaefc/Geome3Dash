@@ -121,6 +121,7 @@ namespace g3d
 		// need to delete this on destructor (later)
 		splineTr = new SplineGameObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
 		splinePlayerTr = new SplinePlayerObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
+		splineCamTr = new SplineCameraPlayerObjectModelTransformer(&ckel->spline, &ckel->keyframeBuffer, &ckel->layer3d->camera, &ckel->lengthScaleFactor, &isEditing);
 
 		CCObject* obj;
 		CCARRAY_FOREACH(ckel->lel->m_objects, obj)
@@ -134,7 +135,7 @@ namespace g3d
 			}
 		}
 
-		player1 = PlayerObjectModel(ckel->lel->m_player1, { splinePlayerTr });
+		player1 = PlayerObjectModel(ckel->lel->m_player1, { splinePlayerTr, splineCamTr });
 		player2 = PlayerObjectModel(ckel->lel->m_player2, { splinePlayerTr });
 
 		this->setMouseEnabled(true);
@@ -195,20 +196,11 @@ namespace g3d
 		Popup::onClose(obj);
 	}
 
-	glm::vec3 CameraKeyframeEditorPopup::getPlayerOrientedCameraFront() {
-		auto playerDataStruct = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
-		return ckel->spline.tangent(playerDataStruct.t);
-	}
-
-	glm::vec3 CameraKeyframeEditorPopup::getPlayerOrientedCameraPosition() {
-		auto playerDataStruct = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
-		return playerDataStruct.value + (ckel->spline.normal(playerDataStruct.t) * ckel->lengthScaleFactor * (ckel->lel->m_player1->getPositionY() - 110));
-	}
-
 	void CameraKeyframeEditorPopup::onAdd(CCObject*) {
 		if (isEditing) {
-			auto deltaPos = ckel->layer3d->camera.getPosition() - getPlayerOrientedCameraPosition();
-			auto deltaFront = ckel->layer3d->camera.getFront() - getPlayerOrientedCameraFront();
+			
+			auto deltaPos = ckel->layer3d->camera.getPosition() - splineCamTr->getPlayerOrientedCameraPosition(&player1);
+			auto deltaFront = ckel->layer3d->camera.getFront() - splineCamTr->getPlayerOrientedCameraPosition(&player1);
 			ckel->keyframeBuffer.setKeyframe(ckel->lel->m_player1->getPositionX(),
 				deltaPos,
 				deltaFront);
@@ -231,13 +223,6 @@ namespace g3d
 		glEnable(GL_ALPHA_TEST);
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		if (!isEditing) {
-			auto cameraState = ckel->keyframeBuffer.getInterpolatedCameraKeyframe(ckel->lel->m_player1->getPositionX());
-
-			ckel->layer3d->camera.setPosition(getPlayerOrientedCameraPosition() + cameraState.offset);
-			ckel->layer3d->camera.setFront(getPlayerOrientedCameraFront() + cameraState.front);
-		}
 
 		player1.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light);
 		player2.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light);

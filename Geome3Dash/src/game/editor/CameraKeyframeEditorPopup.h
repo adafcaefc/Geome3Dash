@@ -51,9 +51,6 @@ namespace g3d
 		void onAdd(CCObject*);
 		void onRemoveLast(CCObject*);
 
-		glm::vec3 getPlayerOrientedCameraFront();
-		glm::vec3 getPlayerOrientedCameraPosition();
-
 		PlayerObjectModel player1;
 		PlayerObjectModel player2;
 
