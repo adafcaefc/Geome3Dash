@@ -2,11 +2,11 @@
 
 #include "CameraKeyframeEditorLoader.h"
 #include "CameraKeyframeEditorPopup.h"
-#include "CameraKeyframeBuffer.h"
 
 #include "helper/spline/Curve.h"
 #include "helper/spline/Spline.h"
 #include "helper/OpenGLStateHelper.h"
+#include "helper/CameraKeyframeBuffer.h"
 #include "game/component/G3DBaseNode.h"
 
 #include "engine/sus3d/Mesh.h"
@@ -18,20 +18,10 @@
 
 namespace g3d
 {
-	bool CameraKeyframeEditorLoader::init(LevelEditorLayer* lel, Spline* spline, CameraKeyframeBuffer* defaultKeyframeBuffer) {
+	bool CameraKeyframeEditorLoader::init(LevelEditorLayer* lel) {
 		if (!CCNode::init()) return false;
 
 		this->lel = lel;
-
-		this->spline = spline;
-
-		if (defaultKeyframeBuffer) {
-			this->keyframeBuffer = defaultKeyframeBuffer;
-		}
-		else {
-			keyframeBuffer = new CameraKeyframeBuffer();
-			keyframeBuffer->setKeyframe(0, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
-		}
 
 		auto size = CCDirector::sharedDirector()->getWinSize();
 
@@ -63,7 +53,7 @@ namespace g3d
 			levelLength = std::max(block->getPositionX(), levelLength);
 		}
 
-		lengthScaleFactor = spline->length(10000) / levelLength;
+		lengthScaleFactor = spline.length(10000) / levelLength;
 	}
 
 	void CameraKeyframeEditorLoader::show() {
@@ -78,9 +68,9 @@ namespace g3d
 		}
 	}
 
-	CameraKeyframeEditorLoader* CameraKeyframeEditorLoader::create(LevelEditorLayer* lel, Spline* spline, CameraKeyframeBuffer* defaultKeyframeBuffer) {
+	CameraKeyframeEditorLoader* CameraKeyframeEditorLoader::create(LevelEditorLayer* lel) {
 		auto ret = new CameraKeyframeEditorLoader();
-		if (ret && ret->init(lel, spline, defaultKeyframeBuffer)) {
+		if (ret && ret->init(lel)) {
 			ret->autorelease();
 			return ret;
 		}

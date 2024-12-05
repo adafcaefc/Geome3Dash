@@ -9,7 +9,6 @@ namespace nlohmann {
 		static void to_json(json& j, const glm::vec3& vec) {
 			j = json{ {"x", vec.x}, {"y", vec.y}, {"z", vec.z} };
 		}
-
 		static void from_json(const json& j, glm::vec3& vec) {
 			j.at("x").get_to(vec.x);
 			j.at("y").get_to(vec.y);

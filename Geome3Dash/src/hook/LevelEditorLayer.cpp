@@ -98,10 +98,8 @@ namespace g3d
             m_fields->curveEditorLayer = G3DCurveEditorLoader::create(this);
             this->addChild(m_fields->curveEditorLayer);
 
-
-            m_fields->keyframeEditorLayer = CameraKeyframeEditorLoader::create(this, &m_fields->curveEditorLayer->spline, nullptr);
+            m_fields->keyframeEditorLayer = CameraKeyframeEditorLoader::create(this);
             this->addChild(m_fields->keyframeEditorLayer);
-
 
             return true;
         }

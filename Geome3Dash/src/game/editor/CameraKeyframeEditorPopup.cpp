@@ -2,11 +2,11 @@
 
 #include "CameraKeyframeEditorPopup.h"
 #include "CameraKeyframeEditorLoader.h"
-#include "CameraKeyframeBuffer.h"
 
 #include "helper/spline/Curve.h"
 #include "helper/spline/Spline.h"
 #include "helper/OpenGLStateHelper.h"
+#include "helper/CameraKeyframeBuffer.h"
 #include "game/component/G3DBaseNode.h"
 
 #include "engine/sus3d/Mesh.h"
@@ -16,8 +16,9 @@
 #include "BlockModelStorage.h"
 #include "LevelDataManager.h"
 
-namespace g3d {
-
+namespace g3d 
+{
+	static LevelData currentLevelData = LevelData::getDefault();
 
 	void CameraKeyframeEditorPopup::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
 		if (!isEditing) return;
@@ -95,6 +96,21 @@ namespace g3d {
 	}
 
 	bool CameraKeyframeEditorPopup::setup(CameraKeyframeEditorLoader* ckel) {
+
+		currentLevelData = LevelData::getDefault();
+		try {
+			currentLevelData = getLevelData(LevelEditorLayer::get());
+		}
+		catch (...) {
+
+		}
+
+		ckel->keyframeBuffer = currentLevelData.keyframe;
+		ckel->spline = currentLevelData.spline;
+		if (ckel->keyframeBuffer.keyframes.empty()) { ckel->keyframeBuffer.setKeyframe(0, glm::vec3(0), glm::vec3(0)); }
+		ckel->updateLevel();
+		ckel->spline.updateParameterList();
+
 		this->setMouseEnabled(true);
 		this->ckel = ckel;
 
@@ -121,9 +137,9 @@ namespace g3d {
 
 		auto addCurveSprite = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
 		addCurveSprite->setScale(0.7);
-		auto addCurveLabel = CCLabelBMFont::create("ADD", "bigFont.fnt");
-		addCurveLabel->setScale(0.3);
-		addCurveLabel->setPosition(addCurveSprite->getContentSize() / 2);
+		auto addCurveLabel = CCLabelBMFont::create("+", "bigFont.fnt", 80.f);
+		addCurveLabel->setScale(1.2);
+		addCurveLabel->setPosition(addCurveSprite->getContentSize() / 2 - ccp(0, -4.f));
 		addCurveSprite->addChild(addCurveLabel);
 		auto addCurveBtn = CCMenuItemSpriteExtra::create(addCurveSprite, this, menu_selector(CameraKeyframeEditorPopup::onAdd));
 		addCurveBtn->setPosition(60, size.height - 20);
@@ -131,9 +147,9 @@ namespace g3d {
 
 		auto removeCurveSprite = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
 		removeCurveSprite->setScale(0.7);
-		auto removeCurveLabel = CCLabelBMFont::create("REMOVE", "bigFont.fnt");
-		removeCurveLabel->setScale(0.3);
-		removeCurveLabel->setPosition(removeCurveSprite->getContentSize() / 2);
+		auto removeCurveLabel = CCLabelBMFont::create("-", "bigFont.fnt", 80.f);
+		removeCurveLabel->setScale(1.2);
+		removeCurveLabel->setPosition(removeCurveSprite->getContentSize() / 2 - ccp(0, -4.f));
 		removeCurveSprite->addChild(removeCurveLabel);
 		auto removeCurveBtn = CCMenuItemSpriteExtra::create(removeCurveSprite, this, menu_selector(CameraKeyframeEditorPopup::onRemoveLast));
 		removeCurveBtn->setPosition(100, size.height - 20);
@@ -144,9 +160,9 @@ namespace g3d {
 
 
 	void CameraKeyframeEditorPopup::renderPlayer() {
-		auto playerDataStruct = ckel->spline->findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
-		auto normal = glm::normalize(ckel->spline->normal(playerDataStruct.t));
-		auto tangent = glm::normalize(ckel->spline->tangent(playerDataStruct.t));
+		auto playerDataStruct = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
+		auto normal = glm::normalize(ckel->spline.normal(playerDataStruct.t));
+		auto tangent = glm::normalize(ckel->spline.tangent(playerDataStruct.t));
 
 		glm::vec3 side(1.f, 0.f, 0.f);
 		float normalDeltaAngle = glm::radians(ckel->lel->m_player1->getRotation());
@@ -170,14 +186,14 @@ namespace g3d {
 
 		ckel->cube->setRotation(eulerDegrees);
 		ckel->cube->setScale(glm::vec3(0.5 * ckel->lengthScaleFactor * 30, 0.5 * ckel->lengthScaleFactor * 30, 0.5 * ckel->lengthScaleFactor * 30));
-		ckel->cube->setPosition(glm::vec3(playerDataStruct.value + (ckel->spline->normal(playerDataStruct.t) * ckel->lengthScaleFactor * (ckel->lel->m_player1->getPositionY() - 110))));
+		ckel->cube->setPosition(glm::vec3(playerDataStruct.value + (ckel->spline.normal(playerDataStruct.t) * ckel->lengthScaleFactor * (ckel->lel->m_player1->getPositionY() - 110))));
 		ckel->cube->render(ckel->layer3d->shaderProgram, ckel->layer3d->camera.getViewMat(), ckel->layer3d->light.getPosition(), ckel->layer3d->light.getColor(), ckel->layer3d->camera.getPosition(), ckel->layer3d->camera.getProjectionMat());
 	}
 
 	void CameraKeyframeEditorPopup::renderGround() {
 		glm::vec3 groundSize = glm::vec3(0.5 * ckel->lengthScaleFactor * 30 * 3);
 
-		auto playerData = ckel->spline->findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
+		auto playerData = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
 
 		const int groundPartsForRender = 20;
 
@@ -185,10 +201,10 @@ namespace g3d {
 
 			if (l < playerData.l - groundSize.x * groundPartsForRender) continue;
 
-			auto groundData = ckel->spline->findClosestByLength(l);
+			auto groundData = ckel->spline.findClosestByLength(l);
 
-			auto normal = glm::normalize(ckel->spline->normal(groundData.t));
-			auto tangent = glm::normalize(ckel->spline->tangent(groundData.t));
+			auto normal = glm::normalize(ckel->spline.normal(groundData.t));
+			auto tangent = glm::normalize(ckel->spline.tangent(groundData.t));
 
 
 			glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
@@ -212,6 +228,8 @@ namespace g3d {
 	}
 
 	void CameraKeyframeEditorPopup::onClose(CCObject* obj) {
+		currentLevelData.keyframe = ckel->keyframeBuffer;
+		setLevelData(LevelEditorLayer::get(), currentLevelData);
 		this->setMouseEnabled(false);
 		ckel->popup = nullptr;
 		ckel->lel->onStopPlaytest();
@@ -219,24 +237,23 @@ namespace g3d {
 	}
 
 	glm::vec3 CameraKeyframeEditorPopup::getPlayerOrientedCameraFront() {
-		auto playerDataStruct = ckel->spline->findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
-		return ckel->spline->tangent(playerDataStruct.t);
+		auto playerDataStruct = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
+		return ckel->spline.tangent(playerDataStruct.t);
 	}
 
 	glm::vec3 CameraKeyframeEditorPopup::getPlayerOrientedCameraPosition() {
-		auto playerDataStruct = ckel->spline->findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
-		return playerDataStruct.value + (ckel->spline->normal(playerDataStruct.t) * ckel->lengthScaleFactor * (ckel->lel->m_player1->getPositionY() - 110));
+		auto playerDataStruct = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
+		return playerDataStruct.value + (ckel->spline.normal(playerDataStruct.t) * ckel->lengthScaleFactor * (ckel->lel->m_player1->getPositionY() - 110));
 	}
 
 	void CameraKeyframeEditorPopup::onAdd(CCObject*) {
 		if (isEditing) {
 			auto deltaPos = ckel->layer3d->camera.getPosition() - getPlayerOrientedCameraPosition();
 			auto deltaFront = ckel->layer3d->camera.getFront() - getPlayerOrientedCameraFront();
-			ckel->keyframeBuffer->setKeyframe(ckel->lel->m_player1->getPositionX(),
+			ckel->keyframeBuffer.setKeyframe(ckel->lel->m_player1->getPositionX(),
 				deltaPos,
 				deltaFront
 			);
-			std::cout << "adding keyframe: " << deltaPos.x << " " << deltaPos.y << " " << deltaPos.z << "   " << deltaFront.x << " " << deltaFront.y << " " << deltaFront.z << std::endl;
 		}
 		else {
 
@@ -245,23 +262,22 @@ namespace g3d {
 		isEditing = !isEditing;
 	}
 	void CameraKeyframeEditorPopup::onRemoveLast(CCObject*) {
-		ckel->keyframeBuffer->removeLastKeyframe();
+		ckel->keyframeBuffer.removeLastKeyframe();
 	}
 
 	void CameraKeyframeEditorPopup::draw() {
 		OpenGLStateHelper::saveState();
 
-		std::cout << ckel->keyframeBuffer->keyframes.size() << std::endl;
 
 		glEnable(GL_BLEND);
 		glEnable(GL_ALPHA_TEST);
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		//auto playerDataStruct = ckel->spline->findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
+		//auto playerDataStruct = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
 
 		if (!isEditing) {
-			auto cameraState = ckel->keyframeBuffer->getInterpolatedCameraKeyframe(ckel->lel->m_player1->getPositionX());
+			auto cameraState = ckel->keyframeBuffer.getInterpolatedCameraKeyframe(ckel->lel->m_player1->getPositionX());
 
 			ckel->layer3d->camera.setPosition(getPlayerOrientedCameraPosition() + cameraState.offset);
 			ckel->layer3d->camera.setFront(getPlayerOrientedCameraFront() + cameraState.front);
@@ -281,11 +297,11 @@ namespace g3d {
 
 			if (abs(block->getPositionX() - ckel->lel->m_player1->getPositionX()) > 150 * 30) continue;
 
-			auto data = ckel->spline->findClosestByLength(block->getPositionX() * ckel->lengthScaleFactor);
+			auto data = ckel->spline.findClosestByLength(block->getPositionX() * ckel->lengthScaleFactor);
 
 			auto pos = data.value;
-			auto normal = glm::normalize(ckel->spline->normal(data.t));
-			auto tangent = glm::normalize(ckel->spline->tangent(data.t));
+			auto normal = glm::normalize(ckel->spline.normal(data.t));
+			auto tangent = glm::normalize(ckel->spline.tangent(data.t));
 
 			glm::vec3 side(1.f, 0.f, 0.f);
 			float normalDeltaAngle = glm::radians(block->getRotation());

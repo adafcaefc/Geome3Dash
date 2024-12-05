@@ -1,6 +1,7 @@
 #pragma once
 
 #include "helper/spline/Spline.h"
+#include "helper/CameraKeyframeBuffer.h"
 
 namespace sus3d
 {
@@ -20,7 +21,7 @@ namespace g3d
 		G3DBaseNode* layer3d;
 		sus3d::ShaderProgram* blockShaderProgram;
 		LevelEditorLayer* lel;
-		Spline* spline;
+		Spline spline;
 		float levelLength;
 		//sus3d::Model* bgModel;
 		//sus3d::Model* groundModel;
@@ -30,19 +31,19 @@ namespace g3d
 
 		sus3d::Model* cube;
 
-		bool init(LevelEditorLayer* lel, Spline* spline, CameraKeyframeBuffer* defaultKeyframeBuffer);
+		bool init(LevelEditorLayer* lel);
 
 
 		CameraKeyframeEditorPopup* popup;
 	public:
-		CameraKeyframeBuffer* keyframeBuffer;
+		CameraKeyframeBuffer keyframeBuffer;
 
 		void updateLevel();
 
 		void show();
 		void hide();
 
-		static CameraKeyframeEditorLoader* create(LevelEditorLayer* lel, Spline* spline, CameraKeyframeBuffer* defaultKeyframeBuffer);
+		static CameraKeyframeEditorLoader* create(LevelEditorLayer* lel);
 		friend class CameraKeyframeEditorPopup;
 	};
 }

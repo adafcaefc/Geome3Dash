@@ -2,6 +2,7 @@
 
 #include "CameraAction.h"
 
+#include "helper/CameraKeyframeBuffer.h"
 #include "helper/BezierHelper.h"
 #include "helper/spline/Spline.h"
 
@@ -32,15 +33,15 @@ namespace g3d
 		//double bezierMultiplier;             // Path size
 		//std::vector<CameraActionLD> actions; // Camera actions
 
-
 		double x, y, z;                      // Position
 		double yaw, pitch;                   // Rotation
 		bool lock;                           // Lock camera
 		Spline spline;                       // Spline path
+		CameraKeyframeBuffer keyframe;       // Keyframe
 
 		static LevelData getDefault();
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(LevelData, spline, x, y, z, yaw, pitch, lock);
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(LevelData, keyframe, spline, x, y, z, yaw, pitch, lock);
 	};
 
 	void msgLevelEncode(GJBaseGameLayer* layer, const std::string& message);

@@ -102,12 +102,12 @@
     <ClCompile Include="src\CocosShaderProgram.cpp" />
     <ClCompile Include="src\GameObjectModel.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
-    <ClCompile Include="src\game\editor\CameraKeyframeBuffer.cpp" />
     <ClCompile Include="src\game\editor\CameraKeyframeEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\CameraKeyframeEditorPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
+    <ClCompile Include="src\helper\CameraKeyframeBuffer.cpp" />
     <ClCompile Include="src\helper\Easing.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -214,12 +214,12 @@
     <ClInclude Include="src\delegate\CustomTouch.h" />
     <ClInclude Include="src\GameObjectModel.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
-    <ClInclude Include="src\game\editor\CameraKeyframeBuffer.h" />
     <ClInclude Include="src\game\editor\CameraKeyframeEditorLoader.h" />
     <ClInclude Include="src\game\editor\CameraKeyframeEditorPopup.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />
+    <ClInclude Include="src\helper\CameraKeyframeBuffer.h" />
     <ClInclude Include="src\helper\Easing.h" />
     <ClInclude Include="src\engine\sus3d\Mesh.h" />
     <ClInclude Include="src\engine\sus3d\Model.h" />

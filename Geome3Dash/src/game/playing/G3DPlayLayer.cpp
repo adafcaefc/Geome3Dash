@@ -49,7 +49,6 @@ namespace g3d
         //bezierSegmentMultiplier = 1.0 / data.bezierMultiplier;
 
         float levelLength = 0;
-
         CCObject* obj;
         CCARRAY_FOREACH(playLayer->m_objects, obj) 
         {

@@ -5,12 +5,17 @@
 #include <vector>
 #include <string>
 
+#include "spline/Curve.h"
+
 namespace g3d
 {
-	struct CameraKeyframe {
+	struct CameraKeyframe 
+	{
 		float playersXpos;
 		glm::vec3 offset;
 		glm::vec3 front;
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(CameraKeyframe, playersXpos, offset, front);
 
 		CameraKeyframe() {}
 		CameraKeyframe(float playersXpos, glm::vec3 offset, glm::vec3 front) : playersXpos(playersXpos), offset(offset), front(front) {}
@@ -19,6 +24,8 @@ namespace g3d
 	class CameraKeyframeBuffer {
 	public:
 		std::vector<CameraKeyframe> keyframes;
+
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(CameraKeyframeBuffer, keyframes);
 
 		void setKeyframe(float playersXpos, glm::vec3 offset, glm::vec3 front);
 

@@ -17,7 +17,8 @@ namespace g3d
 	class G3DBaseNode;
 	class Spline;
 
-	class G3DCurveEditorLoader : public CCNode {
+	class G3DCurveEditorLoader : public CCNode 
+	{
 		G3DBaseNode* layer3d;
 		sus3d::Model* pointModel;
 		LevelEditorLayer* lel;
