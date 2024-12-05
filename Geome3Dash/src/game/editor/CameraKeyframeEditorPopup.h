@@ -6,6 +6,12 @@
 
 #include "helper/spline/Spline.h"
 
+#include "transformer/SplineCameraPlayerObjectModelTransformer.h"
+#include "transformer/SplineGameObjectTransformer.h"
+#include "transformer/SplinePlayerObjectTransformer.h"
+
+#include "PlayerObjectModel.h"
+
 namespace sus3d
 {
 	class Model;
@@ -40,9 +46,6 @@ namespace g3d
 
 		bool setup(CameraKeyframeEditorLoader* cel) override;
 
-		void renderPlayer();
-		void renderGround();
-
 		void draw() override;
 
 		void onAdd(CCObject*);
@@ -50,6 +53,15 @@ namespace g3d
 
 		glm::vec3 getPlayerOrientedCameraFront();
 		glm::vec3 getPlayerOrientedCameraPosition();
+
+		PlayerObjectModel player1;
+		PlayerObjectModel player2;
+
+		SplineGameObjectTransformer* splineTr;
+		SplinePlayerObjectTransformer* splinePlayerTr;
+		SplineCameraPlayerObjectModelTransformer* splineCamTr;
+
+		std::vector<GameObjectModel> blocks;
 	public:
 		void onClose(CCObject* obj);
 

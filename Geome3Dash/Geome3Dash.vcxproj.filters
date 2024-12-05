@@ -282,6 +282,9 @@
     <ClCompile Include="src\helper\CameraKeyframeBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\transformer\SplinePlayerObjectTransformer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -522,6 +525,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\helper\CameraKeyframeBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\transformer\SplinePlayerObjectTransformer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

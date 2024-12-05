@@ -118,7 +118,24 @@ namespace g3d
 		const auto front = glm::normalize(newFront);
 		ckel->keyframeBuffer.setKeyframe(0, glm::vec3(currentLevelData.x, currentLevelData.y, currentLevelData.z) * glm::vec3(ckel->lengthScaleFactor * 16 / 9), newFront);
 		
-		std::cout << nlohmann::json(ckel->keyframeBuffer).dump() << '\n';
+		// need to delete this on destructor (later)
+		splineTr = new SplineGameObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
+		splinePlayerTr = new SplinePlayerObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
+
+		CCObject* obj;
+		CCARRAY_FOREACH(ckel->lel->m_objects, obj)
+		{
+			if (auto block = dynamic_cast<GameObject*>(obj))
+			{
+				if (BlockModelStorage::get()->getBlockModel(block->m_objectID))
+				{
+					blocks.push_back(GameObjectModel(block, { splineTr }));
+				}
+			}
+		}
+
+		player1 = PlayerObjectModel(ckel->lel->m_player1, { splinePlayerTr });
+		player2 = PlayerObjectModel(ckel->lel->m_player2, { splinePlayerTr });
 
 		this->setMouseEnabled(true);
 		this->ckel = ckel;
@@ -168,73 +185,6 @@ namespace g3d
 	}
 
 
-	void CameraKeyframeEditorPopup::renderPlayer() {
-		auto playerDataStruct = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
-		auto normal = glm::normalize(ckel->spline.normal(playerDataStruct.t));
-		auto tangent = glm::normalize(ckel->spline.tangent(playerDataStruct.t));
-
-		glm::vec3 side(1.f, 0.f, 0.f);
-		float normalDeltaAngle = glm::radians(ckel->lel->m_player1->getRotation());
-
-		glm::quat firstRotationQuat = glm::angleAxis(normalDeltaAngle, side);
-
-
-
-		glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
-		glm::vec3 adjustedNormal = glm::normalize(glm::cross(tangent, binormal));
-
-
-		glm::mat3 rotationMatrix(
-			binormal,
-			adjustedNormal,
-			tangent
-		);
-
-		glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
-		glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat * firstRotationQuat));
-
-		ckel->cube->setRotation(eulerDegrees);
-		ckel->cube->setScale(glm::vec3(0.5 * ckel->lengthScaleFactor * 30, 0.5 * ckel->lengthScaleFactor * 30, 0.5 * ckel->lengthScaleFactor * 30));
-		ckel->cube->setPosition(glm::vec3(playerDataStruct.value + (ckel->spline.normal(playerDataStruct.t) * ckel->lengthScaleFactor * (ckel->lel->m_player1->getPositionY() - 110))));
-		ckel->cube->render(ckel->layer3d->shaderProgram, ckel->layer3d->camera.getViewMat(), ckel->layer3d->light.getPosition(), ckel->layer3d->light.getColor(), ckel->layer3d->camera.getPosition(), ckel->layer3d->camera.getProjectionMat());
-	}
-
-	void CameraKeyframeEditorPopup::renderGround() {
-		glm::vec3 groundSize = glm::vec3(0.5 * ckel->lengthScaleFactor * 30 * 3);
-
-		auto playerData = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
-
-		const int groundPartsForRender = 20;
-
-		for (float l = 0; l < playerData.l + groundSize.x * groundPartsForRender; l += groundSize.x * 2) {
-
-			if (l < playerData.l - groundSize.x * groundPartsForRender) continue;
-
-			auto groundData = ckel->spline.findClosestByLength(l);
-
-			auto normal = glm::normalize(ckel->spline.normal(groundData.t));
-			auto tangent = glm::normalize(ckel->spline.tangent(groundData.t));
-
-
-			glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
-			glm::vec3 adjustedNormal = glm::normalize(glm::cross(tangent, binormal));
-
-
-			glm::mat3 rotationMatrix(
-				binormal,
-				adjustedNormal,
-				tangent
-			);
-
-			glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
-			glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat));
-
-			//ckel->groundModel->setRotation(eulerDegrees);
-			//ckel->groundModel->setPosition(groundData.value - normal * groundSize * 1.5f);
-			//ckel->groundModel->setScale(groundSize);
-			//ckel->groundModel->render(ckel->layer3d->shaderProgram, ckel->layer3d->camera.getViewMat(), ckel->layer3d->light.getPosition(), ckel->layer3d->light.getColor(), ckel->layer3d->camera.getPosition(), ckel->layer3d->camera.getProjectionMat());
-		}
-	}
 
 	void CameraKeyframeEditorPopup::onClose(CCObject* obj) {
 		currentLevelData.keyframe = ckel->keyframeBuffer;
@@ -273,16 +223,14 @@ namespace g3d
 		ckel->keyframeBuffer.removeLastKeyframe();
 	}
 
-	void CameraKeyframeEditorPopup::draw() {
+	void CameraKeyframeEditorPopup::draw() 
+	{
 		OpenGLStateHelper::saveState();
-
 
 		glEnable(GL_BLEND);
 		glEnable(GL_ALPHA_TEST);
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		//auto playerDataStruct = ckel->spline.findClosestByLength(ckel->lel->m_player1->getPositionX() * ckel->lengthScaleFactor);
 
 		if (!isEditing) {
 			auto cameraState = ckel->keyframeBuffer.getInterpolatedCameraKeyframe(ckel->lel->m_player1->getPositionX());
@@ -290,58 +238,10 @@ namespace g3d
 			ckel->layer3d->camera.setPosition(getPlayerOrientedCameraPosition() + cameraState.offset);
 			ckel->layer3d->camera.setFront(getPlayerOrientedCameraFront() + cameraState.front);
 		}
-		//layer3d->camera->setPosition(playerDataStruct.value + (spline->normal(playerDataStruct.t) * lengthScaleFactor * (pl->m_player1->getPositionY() - 110)) + spline->tangent(playerDataStruct.t) * -0.5f);
-		//layer3d->camera->setFront(spline->tangent(playerDataStruct.t));
 
-		renderPlayer();
-
-		renderGround();
-
-		//ckel->bgModel->render(ckel->layer3d->shaderProgram, ckel->layer3d->camera.getViewMat(), ckel->layer3d->light.getPosition(), ckel->layer3d->light.getColor(), ckel->layer3d->camera.getPosition(), ckel->layer3d->camera.getProjectionMat());
-
-		CCObject* obj;
-		CCARRAY_FOREACH(ckel->lel->m_objects, obj) {
-			auto block = static_cast<GameObject*>(obj);
-
-			if (abs(block->getPositionX() - ckel->lel->m_player1->getPositionX()) > 150 * 30) continue;
-
-			auto data = ckel->spline.findClosestByLength(block->getPositionX() * ckel->lengthScaleFactor);
-
-			auto pos = data.value;
-			auto normal = glm::normalize(ckel->spline.normal(data.t));
-			auto tangent = glm::normalize(ckel->spline.tangent(data.t));
-
-			glm::vec3 side(1.f, 0.f, 0.f);
-			float normalDeltaAngle = glm::radians(block->getRotation());
-
-			glm::quat firstRotationQuat = glm::angleAxis(normalDeltaAngle, side);
-
-
-
-			glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
-			glm::vec3 adjustedNormal = glm::normalize(glm::cross(tangent, binormal));
-
-
-			glm::mat3 rotationMatrix(
-				binormal,
-				adjustedNormal,
-				tangent
-			);
-
-			glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
-			glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat * firstRotationQuat));
-
-			if (auto model = BlockModelStorage::get()->getBlockModel(block->m_objectID))
-			{
-				model->setPosition(pos + (normal * ckel->lengthScaleFactor * (block->getPositionY() - 110)));
-				model->setRotation(eulerDegrees);
-				model->setScale(glm::vec3(0.5 * (block->m_startFlipX ? -1 : 1) * ckel->lengthScaleFactor * 30, 0.5 * (block->m_startFlipY ? -1 : 1) * ckel->lengthScaleFactor * 30 * block->getScaleY(), 0.5 * ckel->lengthScaleFactor * 30 * block->getScaleX()));
-				BlockModelStorage::get()->tryRenderBlock(
-					block->m_objectID,
-					&ckel->layer3d->camera,
-					&ckel->layer3d->light);
-			}
-		}
+		player1.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light);
+		player2.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light);
+		for (auto& block : blocks) { block.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light); }
 
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);

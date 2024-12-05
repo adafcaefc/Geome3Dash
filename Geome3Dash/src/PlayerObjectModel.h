@@ -20,6 +20,7 @@ namespace g3d
 		PlayerObject* playerObject;
 	public:
 		virtual void update() override;
+		PlayerObject* getPlayerObject() const { return playerObject; }
 
 		std::filesystem::path getPlayerModelPath(const std::string& type, const int id);
 		std::filesystem::path getFixedPlayerModelPath(const std::string& type, const int id);

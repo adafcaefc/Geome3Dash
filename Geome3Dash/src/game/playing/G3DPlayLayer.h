@@ -22,8 +22,9 @@
 #include "transformer/BezierCameraPlayerObjectModelTransformer.h"
 #include "transformer/BezierGameObjectModelTransformer.h"
 #include "transformer/FadeGameObjectModelTransformer.h"
-#include "transformer/SplineGameObjectTransformer.h"
 #include "transformer/SplineCameraPlayerObjectModelTransformer.h"
+#include "transformer/SplineGameObjectTransformer.h"
+#include "transformer/SplinePlayerObjectTransformer.h"
 
 #include "CameraAction.h"
 #include "BezierManager.h"
