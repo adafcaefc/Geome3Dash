@@ -27,6 +27,7 @@ namespace g3d
 		sus3d::ShaderProgram* cloudShaderProgram;
 		sus3d::ShaderProgram* idBufferShaderProgram;
 		static BlockModelStorage* instance;
+		sus3d::ShaderProgram* loadShader(const std::string& vsString, const std::string& fsString);
 		void loadAllShaders();
 		void loadAllModels();
 		bool init();

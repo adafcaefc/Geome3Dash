@@ -37,7 +37,7 @@ namespace sus3d
         return 1;
     }
 
-    bool Shader::initShader(std::string shaderString) {
+    bool Shader::initShader(const std::string& shaderString) {
         switch (type) {
         case kVertexShader:
             return initVertexShader(shaderString.c_str());
@@ -52,8 +52,7 @@ namespace sus3d
     }
 
     Shader::~Shader() {
-        if (id)
-            glDeleteShader(id);
+        if (id) { glDeleteShader(id); }
     }
 
     std::string Shader::readFile(const std::filesystem::path& filename) {
@@ -66,7 +65,7 @@ namespace sus3d
         return buffer.str();
     }
 
-    Shader* Shader::createWithString(std::string shaderString, ShaderType type) {
+    Shader* Shader::createWithString(const std::string& shaderString, ShaderType type) {
         auto ret = new Shader();
         ret->type = type;
         if (!ret || !ret->initShader(shaderString)) {

@@ -3,12 +3,16 @@
 
 namespace g3d
 {
-    class $modify(GameManager) {
-        void returnToLastScene(GJGameLevel * p0) {
-            if (G3DPlanetLayer::insideThePlanetLayerFlag) {
+    class $modify(GameManager) 
+    {
+        void returnToLastScene(GJGameLevel * p0) 
+        {
+            if (G3DPlanetLayer::insideThePlanetLayerFlag) 
+            {
                 CCDirector::sharedDirector()->popSceneWithTransition(0.3f, kPopTransitionFade);
             }
-            else {
+            else 
+            {
                 GameManager::returnToLastScene(p0);
             }
         }

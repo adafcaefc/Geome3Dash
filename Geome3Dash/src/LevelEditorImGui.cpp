@@ -444,7 +444,6 @@ namespace g3d
     //            }
     //            catch (...)
     //            {
-
     //            }
     //            return true;
     //        }
@@ -464,7 +463,6 @@ namespace g3d
     //            }
     //            catch (...)
     //            {
-
     //            }
     //            return true;
     //        }

@@ -17,55 +17,47 @@
 
 namespace g3d
 {
+	sus3d::ShaderProgram* BlockModelStorage::loadShader(
+		const std::string& vsString, 
+		const std::string& fsString)
+	{
+		auto vertexShader = sus3d::Shader::createWithString(
+			vsString,
+			sus3d::ShaderType::kVertexShader);
+
+		auto fragmentShader = sus3d::Shader::createWithString(
+			fsString,
+			sus3d::ShaderType::kFragmentShader);
+
+		auto tmpSP = CocosShaderProgram::create(vertexShader, fragmentShader);
+
+		delete vertexShader;
+		delete fragmentShader;
+
+		return tmpSP;
+	}
+
 	void BlockModelStorage::loadAllShaders()
 	{
 		OpenGLStateHelper::saveState();
 
 		const auto shaderPath = basePath / "planet" / "shader";
 
-		auto vertexShader = sus3d::Shader::createWithString(
+		blockShaderProgram = loadShader(
 			sus3d::shaders::vertexShaderSource,
-			sus3d::ShaderType::kVertexShader);
-		auto fragmentShader = sus3d::Shader::createWithString(
-			sus3d::shaders::fragmentShaderSource,
-			sus3d::ShaderType::kFragmentShader);
-		//if (blockShaderProgram) { delete blockShaderProgram; }
-		blockShaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
-		delete vertexShader;
-		delete fragmentShader;
+			sus3d::shaders::fragmentShaderSource);
 
-		auto vertexShader2 = sus3d::Shader::createWithString(
+		waterShaderProgram = loadShader(
 			sus3d::shaders::vertexShaderSource,
-			sus3d::ShaderType::kVertexShader);
-		auto fragmentShader2 = sus3d::Shader::createWithFile(
-			shaderPath / "water2.fsh",
-			sus3d::ShaderType::kFragmentShader);
-		//if (waterShaderProgram) { delete waterShaderProgram; }
-		waterShaderProgram = CocosShaderProgram::create(vertexShader2, fragmentShader2);
-		delete vertexShader2;
-		delete fragmentShader2;
+			utils::read_from_file(shaderPath / "water2.fsh"));
 
-		auto vertexShader3 = sus3d::Shader::createWithFile(
-			shaderPath / "cloud.vsh",
-			sus3d::ShaderType::kVertexShader);
-		auto fragmentShader3 = sus3d::Shader::createWithFile(
-			shaderPath / "cloud.fsh",
-			sus3d::ShaderType::kFragmentShader);
-		//if (cloudShaderProgram) { delete cloudShaderProgram; }
-		cloudShaderProgram = CocosShaderProgram::create(vertexShader3, fragmentShader3);
-		delete vertexShader3;
-		delete fragmentShader3;
+		cloudShaderProgram = loadShader(
+			utils::read_from_file(shaderPath / "cloud.vsh"),
+			utils::read_from_file(shaderPath / "cloud.fsh"));
 
-		auto vertexShader4 = sus3d::Shader::createWithString(
+		idBufferShaderProgram = loadShader(
 			sus3d::shaders::idBufferingVertexShader,
-			sus3d::ShaderType::kVertexShader);
-		auto fragmentShader4 = sus3d::Shader::createWithString(
-			sus3d::shaders::idBufferingFragmentShader,
-			sus3d::ShaderType::kFragmentShader);
-		//if (idBufferShaderProgram) { delete idBufferShaderProgram; }
-		idBufferShaderProgram = CocosShaderProgram::create(vertexShader4, fragmentShader4);
-		delete vertexShader4;
-		delete fragmentShader4;
+			sus3d::shaders::idBufferingFragmentShader);
 
 		OpenGLStateHelper::pushState();
 	}
@@ -107,10 +99,10 @@ namespace g3d
 				}
 			}
 
-			constexpr int MAX_OBJECT_ID = 3000;
+			constexpr int MAX_OBJECT_ID = 10000;
 			for (int i = 0; i < MAX_OBJECT_ID; i++)
 			{
-				const auto modelPath = basePath /  "object" / std::to_string(i) / "model.obj";
+				const auto modelPath = basePath / "object" / std::to_string(i) / "model.obj";
 				if (auto blockModel = getModel(modelPath)) { blockModels[i] = blockModel; }
 			}
 		}
