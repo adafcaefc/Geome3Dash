@@ -3,7 +3,7 @@
 
 #include "game/playing/G3DPlayLayer.h"
 #include "LevelDataManager.h"
-#include "BlockModelsStorage.h"
+#include "BlockModelStorage.h"
 
 namespace g3d
 {
@@ -11,7 +11,7 @@ namespace g3d
 
     std::filesystem::path G3DPlayerObject::getPlayerModelPath(const std::string& type, const int id)
     {
-        return geode::Mod::get()->getResourcesDir() / "model3d" / "player" / type / std::to_string(id) / "model.obj";
+        return BlockModelStorage::get()->getBP() / "player" / type / std::to_string(id) / "model.obj";
     }
 
     std::filesystem::path G3DPlayerObject::getFixedPlayerModelPath(const std::string& type, const int id)
@@ -30,7 +30,7 @@ namespace g3d
 
     void G3DPlayerObject::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
     {
-        *model = BlockModelsStorage::getInstance()->loadAndParseMtl(getFixedPlayerModelPath(type, id));
+        *model = BlockModelStorage::get()->loadAndParseMtl(getFixedPlayerModelPath(type, id));
         (*model)->setScale(glm::vec3(0.75));
     }
 
@@ -229,7 +229,7 @@ namespace g3d
                 auto distance = std::abs(playLayer->m_player1->m_position.x - obj->getPositionX());
                 if (distance < maxRender)
                 {
-                    if (auto model = BlockModelsStorage::getInstance()->getBlockModel(obj->m_objectID))
+                    if (auto model = BlockModelStorage::get()->getBlockModel(obj->m_objectID))
                     {
                         updateBlock(obj, model);
                         // apply fade

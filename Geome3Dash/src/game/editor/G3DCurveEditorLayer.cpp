@@ -11,7 +11,7 @@
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
 
-#include "BlockModelsStorage.h"
+#include "BlockModelStorage.h"
 
 namespace g3d
 {
@@ -195,7 +195,7 @@ namespace g3d
 
 		setKeyboardEnabled(true);
 
-		auto bms = BlockModelsStorage::getInstance();
+		auto bms = BlockModelStorage::get();
 		pointModel = bms->getModel(bms->getBP() / "editor" / "model" / "point.obj");
 		pointModel->setScale(glm::vec3(0.2f));
 		layer3d->models.push_back(pointModel);
@@ -286,7 +286,7 @@ namespace g3d
 			glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
 			glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat * firstRotationQuat));
 
-			auto bms = BlockModelsStorage::getInstance();
+			auto bms = BlockModelStorage::get();
 			if (auto blockModel = bms->getBlockModel(block->m_objectID))
 			{
 				blockModel->setPosition(pos + (normal * lengthScaleFactor * (block->getPositionY() - 110)));

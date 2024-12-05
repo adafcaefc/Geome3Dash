@@ -6,7 +6,7 @@
 #include "helper/OpenGLStateHelper.h"
 
 #include "LevelDataManager.h"
-#include "BlockModelsStorage.h"
+#include "BlockModelStorage.h"
 
 namespace g3d
 {
@@ -28,7 +28,7 @@ namespace g3d
 
     void G3DEditorScene::loadModel()
     {
-        auto bms = BlockModelsStorage::getInstance();
+        auto bms = BlockModelStorage::get();
 
         cube = bms->getModel(bms->getBP() / "player" / "cube" / "0" / "model.obj");
         cube->setScale(glm::vec3(0.75));
@@ -93,7 +93,7 @@ namespace g3d
         }
 
 
-        auto bms = BlockModelsStorage::getInstance();
+        auto bms = BlockModelStorage::get();
 
         // End jumping logic
 

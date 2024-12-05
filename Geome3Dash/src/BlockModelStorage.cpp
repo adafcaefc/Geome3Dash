@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "BlockModelsStorage.h"
+#include "BlockModelStorage.h"
 
 #include "engine/sus3d/ShaderProgram.h"
 #include "engine/sus3d/Shader.h"
@@ -17,39 +17,41 @@
 
 namespace g3d
 {
-	bool BlockModelsStorage::init() 
+	void BlockModelStorage::loadAllShaders()
 	{
-		basePath = geode::Mod::get()->getResourcesDir() / "model3d";
 		OpenGLStateHelper::saveState();
 
 		const auto shaderPath = basePath / "planet" / "shader";
 
 		auto vertexShader = sus3d::Shader::createWithString(
-			sus3d::shaders::vertexShaderSource, 
+			sus3d::shaders::vertexShaderSource,
 			sus3d::ShaderType::kVertexShader);
 		auto fragmentShader = sus3d::Shader::createWithString(
-			sus3d::shaders::fragmentShaderSource, 
+			sus3d::shaders::fragmentShaderSource,
 			sus3d::ShaderType::kFragmentShader);
+		//if (blockShaderProgram) { delete blockShaderProgram; }
 		blockShaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
 		delete vertexShader;
 		delete fragmentShader;
 
 		auto vertexShader2 = sus3d::Shader::createWithString(
-			sus3d::shaders::vertexShaderSource, 
+			sus3d::shaders::vertexShaderSource,
 			sus3d::ShaderType::kVertexShader);
 		auto fragmentShader2 = sus3d::Shader::createWithFile(
-			shaderPath / "water2.fsh", 
+			shaderPath / "water2.fsh",
 			sus3d::ShaderType::kFragmentShader);
+		//if (waterShaderProgram) { delete waterShaderProgram; }
 		waterShaderProgram = CocosShaderProgram::create(vertexShader2, fragmentShader2);
 		delete vertexShader2;
 		delete fragmentShader2;
 
 		auto vertexShader3 = sus3d::Shader::createWithFile(
-			shaderPath / "cloud.vsh", 
+			shaderPath / "cloud.vsh",
 			sus3d::ShaderType::kVertexShader);
 		auto fragmentShader3 = sus3d::Shader::createWithFile(
-			shaderPath / "cloud.fsh", 
+			shaderPath / "cloud.fsh",
 			sus3d::ShaderType::kFragmentShader);
+		//if (cloudShaderProgram) { delete cloudShaderProgram; }
 		cloudShaderProgram = CocosShaderProgram::create(vertexShader3, fragmentShader3);
 		delete vertexShader3;
 		delete fragmentShader3;
@@ -58,20 +60,26 @@ namespace g3d
 			sus3d::shaders::idBufferingVertexShader,
 			sus3d::ShaderType::kVertexShader);
 		auto fragmentShader4 = sus3d::Shader::createWithString(
-			sus3d::shaders::idBufferingFragmentShader, 
+			sus3d::shaders::idBufferingFragmentShader,
 			sus3d::ShaderType::kFragmentShader);
+		//if (idBufferShaderProgram) { delete idBufferShaderProgram; }
 		idBufferShaderProgram = CocosShaderProgram::create(vertexShader4, fragmentShader4);
 		delete vertexShader4;
 		delete fragmentShader4;
 
-
-		loadAllModels();
 		OpenGLStateHelper::pushState();
+	}
+
+	bool BlockModelStorage::init() 
+	{
+		basePath = geode::Mod::get()->getResourcesDir() / "model3d";
+		loadAllShaders();
+		loadAllModels();
 		return true;
 	}
 	
     // mtl model path fix (model path must be absolute)
-    void BlockModelsStorage::parseMtlPath(const std::filesystem::path& path)
+    void BlockModelStorage::parseMtlPath(const std::filesystem::path& path)
     {
         if (std::filesystem::exists(path))
         {
@@ -84,7 +92,7 @@ namespace g3d
         }
     }
 
-    void BlockModelsStorage::loadAllModels()
+    void BlockModelStorage::loadAllModels()
     {
 		try 
 		{
@@ -112,21 +120,21 @@ namespace g3d
 		}
     }
 
-	sus3d::Model* BlockModelsStorage::getBlockModel(const int id)
+	sus3d::Model* BlockModelStorage::getBlockModel(const int id)
 	{
 		auto it = blockModels.find(id);
 		if (it == blockModels.end()) { return nullptr; }
 		return it->second;
 	}
 
-	sus3d::Model* BlockModelsStorage::getModel(const std::filesystem::path& path)
+	sus3d::Model* BlockModelStorage::getModel(const std::filesystem::path& path)
 	{
 		auto it = allModels.find(path);
 		if (it == allModels.end()) { return nullptr; }
 		return it->second;
 	}
 
-	void BlockModelsStorage::tryRenderBlock(
+	void BlockModelStorage::tryRenderBlock(
 		const int objectId,
 		sus3d::Camera* camera,
 		sus3d::Light* light)
@@ -143,16 +151,15 @@ namespace g3d
 		}
 	}
 
-	BlockModelsStorage* BlockModelsStorage::getInstance() 
+	BlockModelStorage* BlockModelStorage::get() 
 	{
-
 		if (!instance) 
 		{
-			instance = new BlockModelsStorage;
+			instance = new BlockModelStorage;
 			instance->init();
 		}
 		return instance;
 	}
 
-	BlockModelsStorage* BlockModelsStorage::instance = nullptr;
+	BlockModelStorage* BlockModelStorage::instance = nullptr;
 }

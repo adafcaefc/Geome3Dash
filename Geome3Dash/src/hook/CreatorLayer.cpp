@@ -4,11 +4,12 @@
 #include "helper/Easing.h"
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
-#include "BlockModelsStorage.h"
+#include "BlockModelStorage.h"
 
 namespace g3d
 {
-    class G3DPlanetCreatorLayerBaseNode : public G3DBaseNode {
+    class G3DPlanetCreatorLayerBaseNode : public G3DBaseNode 
+    {
     public:
         sus3d::ShaderProgram* shaderProgram;
         sus3d::ShaderProgram* shaderProgram2;
@@ -51,14 +52,14 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-    G3DPlanetCreatorLayerBaseNode* G3DPlanetCreatorLayerBaseNode::create() {
+    G3DPlanetCreatorLayerBaseNode* G3DPlanetCreatorLayerBaseNode::create() 
+    {
         G3DPlanetCreatorLayerBaseNode* ret = new G3DPlanetCreatorLayerBaseNode();
-
-        if (!ret || !ret->init()) {
+        if (!ret || !ret->init()) 
+        {
             delete ret;
             return nullptr;
         }
-
         return ret;
     }
 
@@ -125,7 +126,8 @@ namespace g3d
             previousWaterScale = m_fields->planetModelWater->getScale();
             previousPlanetScale = m_fields->planetModel->getScale();
 
-            if (!isAnimating) {
+            if (!isAnimating) 
+            {
                 m_fields->planetModelWater->setScale(glm::vec3(0.251f * m_fields->mapButton->getScale()));
                 m_fields->planetModel->setScale(glm::vec3(0.250f * m_fields->mapButton->getScale()));
             }
@@ -174,7 +176,7 @@ namespace g3d
 
             // -----------------------------------------------
 
-            auto bms = BlockModelsStorage::getInstance();
+            auto bms = BlockModelStorage::get();
 
             m_fields->mapButton = this->getChildByIDRecursive("map-button");
             auto weeklyButton = this->getChildByIDRecursive("weekly-button");

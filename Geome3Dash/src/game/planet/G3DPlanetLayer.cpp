@@ -120,7 +120,7 @@ namespace g3d
         // Static animation state
         static bool isAnimating = false;
         static double timeElapsed = 0.0;
-        constexpr double duration = 1.0; // Animation duration
+        constexpr double duration = 1.25; // Animation duration
 
         // Trigger animation if the scale difference exceeds the threshold
         if (!isAnimating && (waterScaleDiff > threshold || planetScaleDiff > threshold)) {
@@ -318,7 +318,7 @@ namespace g3d
         setKeyboardEnabled(true);
 
 
-        auto bms = BlockModelsStorage::getInstance();
+        auto bms = BlockModelStorage::get();
 
         const auto planetPath = bms->getBP() / "planet";
         const auto shaderPath = planetPath / "shader";

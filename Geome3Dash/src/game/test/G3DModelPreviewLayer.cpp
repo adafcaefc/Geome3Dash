@@ -5,15 +5,15 @@
 #include "game/component/G3DFragmentShaderLayer.h"
 
 #include "CocosShaderProgram.h"
-#include "BlockModelsStorage.h"
+#include "BlockModelStorage.h"
 
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
 #include "engine/sus3d/Model.h"
 #include "engine/sus3d/Mesh.h"
 
-#include "Helper/OpenGLStateHelper.h"
-#include "Helper/CommonHelper.h"
+#include "helper/OpenGLStateHelper.h"
+#include "helper/CommonHelper.h"
 
 #include "lib/tinyfiledialogs/tinyfiledialogs.h"
 
@@ -114,7 +114,7 @@ namespace g3d
 
         auto size = CCDirector::sharedDirector()->getWinSize();
 
-        auto testLayer = G3DFragmentShaderLayer::create(geode::Mod::get()->getResourcesDir() / "model3d" / "planet" / "shader" / "space.fsh");
+        auto testLayer = G3DFragmentShaderLayer::create(BlockModelStorage::get()->getBP() / "planet" / "shader" / "space.fsh");
         this->addChild(testLayer);
 
         auto bg = CCSprite::create("GJ_gradientBG.png");
@@ -175,7 +175,7 @@ namespace g3d
         auto path = openModelSelectModal();
         if (!path.has_value()) { return; }
         const auto obj_path = std::filesystem::path(path.value());
-        layer3d->models.push_back(BlockModelsStorage::getInstance()->getModel(path.value()));
+        layer3d->models.push_back(BlockModelStorage::get()->getModel(path.value()));
     }
 
     G3DModelPreviewLayer* G3DModelPreviewLayer::create() {

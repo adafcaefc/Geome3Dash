@@ -147,7 +147,7 @@
     <ClCompile Include="src\helper\spline\Spline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BlockModelsStorage.cpp">
+    <ClCompile Include="src\BlockModelStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lib\imgui-cocos\imgui.cpp">
@@ -341,7 +341,7 @@
     <ClInclude Include="src\helper\spline\Spline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\BlockModelsStorage.h">
+    <ClInclude Include="src\BlockModelStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\imgui-cocos\imconfig.h">

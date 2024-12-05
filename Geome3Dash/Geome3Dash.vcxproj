@@ -98,7 +98,7 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\BlockModelsStorage.cpp" />
+    <ClCompile Include="src\BlockModelStorage.cpp" />
     <ClCompile Include="src\CocosShaderProgram.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorLayer.cpp" />
@@ -192,7 +192,7 @@
     <ClInclude Include="lib\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\BezierManager.h" />
-    <ClInclude Include="src\BlockModelsStorage.h" />
+    <ClInclude Include="src\BlockModelStorage.h" />
     <ClInclude Include="src\CameraAction.h" />
     <ClInclude Include="src\CocosShaderProgram.h" />
     <ClInclude Include="src\delegate\CustomKeyboard.h" />
