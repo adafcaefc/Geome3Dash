@@ -21,13 +21,19 @@ namespace g3d
 		std::unordered_map<int, sus3d::Model*> blockModels;
 		std::unordered_map<std::filesystem::path, sus3d::Model*> allModels;
 		sus3d::ShaderProgram* blockShaderProgram;
+		sus3d::ShaderProgram* waterShaderProgram;
+		sus3d::ShaderProgram* cloudShaderProgram;
+		sus3d::ShaderProgram* idBufferShaderProgram;
 		static BlockModelsStorage* instance;
 		void loadAllModels();
 		bool init();
 		BlockModelsStorage() {}
 		std::filesystem::path basePath;
 	public:
-		sus3d::ShaderProgram* getSP() { return blockShaderProgram; }
+		sus3d::ShaderProgram* getBlockSP() { return blockShaderProgram; }
+		sus3d::ShaderProgram* getWaterSP() { return waterShaderProgram; }
+		sus3d::ShaderProgram* getCloudSP() { return cloudShaderProgram; }
+		sus3d::ShaderProgram* getIdBufferSP() { return idBufferShaderProgram; }
 		std::filesystem::path getBP() { return basePath; }
 		void tryRenderBlock(
 			const int objectId, 

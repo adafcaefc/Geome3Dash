@@ -34,7 +34,7 @@ namespace g3d
 
             return { objectID, meshID };
         }
-        CocosShaderProgram* getObjectIDByMousePositionShader;
+        sus3d::ShaderProgram* getObjectIDByMousePositionShader;
     public:
         std::vector<sus3d::Model*> models;
         sus3d::Camera camera;

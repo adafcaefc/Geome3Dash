@@ -105,12 +105,10 @@ namespace g3d
 
         OpenGLStateHelper::saveState();
 
-        shaderProgram = BlockModelsStorage::getInstance()->getSP();
+        auto bms = BlockModelsStorage::getInstance();
 
-        getObjectIDByMousePositionShader = CocosShaderProgram::create(
-            sus3d::Shader::createWithString(sus3d::shaders::idBufferingVertexShader, sus3d::ShaderType::kVertexShader),
-            sus3d::Shader::createWithString(sus3d::shaders::idBufferingFragmentShader, sus3d::ShaderType::kFragmentShader));
-
+        shaderProgram = bms->getBlockSP();
+        getObjectIDByMousePositionShader = bms->getIdBufferSP();
 
         auto size = CCDirector::sharedDirector()->m_obResolutionInPixels;
 
@@ -133,7 +131,7 @@ namespace g3d
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbuffer);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-            std::cerr << "ERROR::FRAMEBUFFER::Framebuffer is not complete!" << std::endl;
+
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

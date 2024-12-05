@@ -114,7 +114,7 @@ namespace g3d
         light.setPosition(camera.getPosition());
 
         cube->render(
-            bms->getSP(),
+            bms->getBlockSP(),
             camera.getViewMat(),
             light.getPosition(),
             light.getColor(),
@@ -123,17 +123,7 @@ namespace g3d
 
         spike->setPosition(spikePosition / glm::vec3(20));
         spike->render(
-            bms->getSP(),
-            camera.getViewMat(),
-            light.getPosition(),
-            light.getColor(),
-            camera.getPosition(),
-            camera.getProjectionMat());
-
-        spikePosition.x += 30;
-        spike->setPosition(spikePosition / glm::vec3(20));
-        spike->render(
-            bms->getSP(),
+            bms->getBlockSP(),
             camera.getViewMat(),
             light.getPosition(),
             light.getColor(),
@@ -143,7 +133,17 @@ namespace g3d
         spikePosition.x += 30;
         spike->setPosition(spikePosition / glm::vec3(20));
         spike->render(
-            bms->getSP(),
+            bms->getBlockSP(),
+            camera.getViewMat(),
+            light.getPosition(),
+            light.getColor(),
+            camera.getPosition(),
+            camera.getProjectionMat());
+
+        spikePosition.x += 30;
+        spike->setPosition(spikePosition / glm::vec3(20));
+        spike->render(
+            bms->getBlockSP(),
             camera.getViewMat(),
             light.getPosition(),
             light.getColor(),

@@ -317,37 +317,20 @@ namespace g3d
 
         setKeyboardEnabled(true);
 
-        OpenGLStateHelper::saveState();
 
-        auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
-        auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
-        shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
-        delete vertexShader;
-        delete fragmentShader;
+        auto bms = BlockModelsStorage::getInstance();
 
-        const auto planetPath = geode::Mod::get()->getResourcesDir() / "model3d" / "planet";
+        const auto planetPath = bms->getBP() / "planet";
         const auto shaderPath = planetPath / "shader";
         const auto modelPath = planetPath / "model";
 
-        auto vertexShader2 = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
-        auto fragmentShader2 = sus3d::Shader::createWithFile(shaderPath / "water2.fsh", sus3d::ShaderType::kFragmentShader);
-        shaderProgram2 = CocosShaderProgram::create(vertexShader2, fragmentShader2);
-        delete vertexShader2;
-        delete fragmentShader2;
-
-        auto vertexShader3 = sus3d::Shader::createWithFile(shaderPath / "cloud.vsh", sus3d::ShaderType::kVertexShader);
-        auto fragmentShader3 = sus3d::Shader::createWithFile(shaderPath / "cloud.fsh", sus3d::ShaderType::kFragmentShader);
-        shaderProgram3 = CocosShaderProgram::create(vertexShader3, fragmentShader3);
-        delete vertexShader3;
-        delete fragmentShader3;
-
-        OpenGLStateHelper::pushState();
+        shaderProgram = dynamic_cast<CocosShaderProgram*>(bms->getBlockSP());
+        shaderProgram2 = dynamic_cast<CocosShaderProgram*>(bms->getWaterSP());
+        shaderProgram3 = dynamic_cast<CocosShaderProgram*>(bms->getCloudSP());
 
         layer3d = G3DPlanetBaseNode::create();
         layer3d->light.setPosition(glm::vec3(0, 50, 1000));
         layer3d->setZOrder(10);
-
-        auto bms = BlockModelsStorage::getInstance();
 
         planetModel = bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");
         planetWaterModel = bms->getModelT<PlanetModel>(modelPath / "planet_water.obj");

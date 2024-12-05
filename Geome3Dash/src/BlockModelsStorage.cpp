@@ -21,6 +21,9 @@ namespace g3d
 	{
 		basePath = geode::Mod::get()->getResourcesDir() / "model3d";
 		OpenGLStateHelper::saveState();
+
+		const auto shaderPath = basePath / "planet" / "shader";
+
 		auto vertexShader = sus3d::Shader::createWithString(
 			sus3d::shaders::vertexShaderSource, 
 			sus3d::ShaderType::kVertexShader);
@@ -30,6 +33,38 @@ namespace g3d
 		blockShaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
 		delete vertexShader;
 		delete fragmentShader;
+
+		auto vertexShader2 = sus3d::Shader::createWithString(
+			sus3d::shaders::vertexShaderSource, 
+			sus3d::ShaderType::kVertexShader);
+		auto fragmentShader2 = sus3d::Shader::createWithFile(
+			shaderPath / "water2.fsh", 
+			sus3d::ShaderType::kFragmentShader);
+		waterShaderProgram = CocosShaderProgram::create(vertexShader2, fragmentShader2);
+		delete vertexShader2;
+		delete fragmentShader2;
+
+		auto vertexShader3 = sus3d::Shader::createWithFile(
+			shaderPath / "cloud.vsh", 
+			sus3d::ShaderType::kVertexShader);
+		auto fragmentShader3 = sus3d::Shader::createWithFile(
+			shaderPath / "cloud.fsh", 
+			sus3d::ShaderType::kFragmentShader);
+		cloudShaderProgram = CocosShaderProgram::create(vertexShader3, fragmentShader3);
+		delete vertexShader3;
+		delete fragmentShader3;
+
+		auto vertexShader4 = sus3d::Shader::createWithString(
+			sus3d::shaders::idBufferingVertexShader,
+			sus3d::ShaderType::kVertexShader);
+		auto fragmentShader4 = sus3d::Shader::createWithString(
+			sus3d::shaders::idBufferingFragmentShader, 
+			sus3d::ShaderType::kFragmentShader);
+		idBufferShaderProgram = CocosShaderProgram::create(vertexShader4, fragmentShader4);
+		delete vertexShader4;
+		delete fragmentShader4;
+
+
 		loadAllModels();
 		OpenGLStateHelper::pushState();
 		return true;

@@ -174,23 +174,7 @@ namespace g3d
 
             // -----------------------------------------------
 
-            OpenGLStateHelper::saveState();
-            auto vertexShader = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
-            auto fragmentShader = sus3d::Shader::createWithString(sus3d::shaders::fragmentShaderSource, sus3d::ShaderType::kFragmentShader);
-            auto shaderProgram = CocosShaderProgram::create(vertexShader, fragmentShader);
-            delete vertexShader;
-            delete fragmentShader;
-
-            const auto planetPath = geode::Mod::get()->getResourcesDir() / "model3d" / "planet";
-            const auto shaderPath = planetPath / "shader";
-            const auto modelPath = planetPath / "model";
-
-            auto vertexShader2 = sus3d::Shader::createWithString(sus3d::shaders::vertexShaderSource, sus3d::ShaderType::kVertexShader);
-            auto fragmentShader2 = sus3d::Shader::createWithFile(shaderPath / "water2.fsh", sus3d::ShaderType::kFragmentShader);
-            auto shaderProgram2 = CocosShaderProgram::create(vertexShader2, fragmentShader2);
-            delete vertexShader2;
-            delete fragmentShader2;
-            OpenGLStateHelper::pushState();
+            auto bms = BlockModelsStorage::getInstance();
 
             m_fields->mapButton = this->getChildByIDRecursive("map-button");
             auto weeklyButton = this->getChildByIDRecursive("weekly-button");
@@ -217,15 +201,16 @@ namespace g3d
             layer3d->light.setPosition(glm::vec3(0, 50, 1000));
             layer3d->setZOrder(10);
 
-            auto bms = BlockModelsStorage::getInstance();
+            const auto planetPath = bms->getBP() / "planet";
+            const auto modelPath = planetPath / "model";
 
             m_fields->planetModel = bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");
             m_fields->planetModelWater = bms->getModelT<PlanetModel>(modelPath / "planet_water.obj");
 
             layer3d->planetModel = m_fields->planetModel;
             layer3d->planetWaterModel = m_fields->planetModelWater;
-            layer3d->shaderProgram = shaderProgram;
-            layer3d->shaderProgram2 = shaderProgram2;
+            layer3d->shaderProgram = dynamic_cast<CocosShaderProgram*>(bms->getBlockSP());
+            layer3d->shaderProgram2 = dynamic_cast<CocosShaderProgram*>(bms->getWaterSP());
 
             this->addChild(layer3d);
             layer3d->camera.setPosition(glm::vec3(0, 0, 25));
