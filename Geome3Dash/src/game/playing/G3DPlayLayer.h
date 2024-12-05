@@ -72,8 +72,9 @@ namespace g3d
         //BezierGameObjectModelTransformer* bezierTr;
         FadeGameObjectModelTransformer* fadeTr;
         AnimationGameObjectModelTransformer* animTr;
-        BezierCameraPlayerObjectModelTransformer* camTr;
+        //BezierCameraPlayerObjectModelTransformer* camTr;
         SplineGameObjectTransformer* splineTr;
+        SplinePlayerObjectTransformer* splinePlayerTr;
         SplineCameraPlayerObjectModelTransformer* splineCamTr;
 
         // for spline

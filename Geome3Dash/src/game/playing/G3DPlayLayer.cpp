@@ -61,9 +61,16 @@ namespace g3d
         //bezierTr = new BezierGameObjectModelTransformer(bezier, bezierSegmentMultiplier, bezierSegmentCount);
         fadeTr = new FadeGameObjectModelTransformer(playLayer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
         animTr = new AnimationGameObjectModelTransformer();
-        camTr = new BezierCameraPlayerObjectModelTransformer(this);
+        //camTr = new BezierCameraPlayerObjectModelTransformer(this);
         splineTr = new SplineGameObjectTransformer(&levelData.spline, &lengthScaleFactor);
-        //splineCamTr = new SplineCameraPlayerObjectModelTransformer(this);
+        splinePlayerTr = new SplinePlayerObjectTransformer(&levelData.spline, &lengthScaleFactor);
+        static bool isEditing = false;
+        splineCamTr = new SplineCameraPlayerObjectModelTransformer(
+            &levelData.spline, 
+            &levelData.keyframe,
+            &camera,
+            &lengthScaleFactor,
+            &isEditing);
             
         loadShader();
         loadPlayers();
@@ -78,7 +85,7 @@ namespace g3d
         //delete bezierTr;
         delete fadeTr;
         delete animTr;
-        delete camTr;
+        //delete camTr;
         delete splineTr;
     }
 
