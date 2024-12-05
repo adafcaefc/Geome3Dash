@@ -15,6 +15,7 @@
 #include <Geode/ui/ScrollLayer.hpp>
 #include <Geode/ui/Scrollbar.hpp>
 #include <Geode/ui/TextInput.hpp>
+#include <Geode/utils/cocos.hpp>
 #include <gd.h>
 
 #include <glm/glm.hpp>

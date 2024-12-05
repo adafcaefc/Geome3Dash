@@ -89,6 +89,7 @@ namespace g3d
             playLayer3D->bezierSegmentCount,
             playLayer3D->bezierSegmentMultiplier);
         playerModel->setPosition(bCoordinate.position);
+        playerModel->setRotationX(0);
         playerModel->setRotationY(360 - bCoordinate.rotation);
         playerModel->setRotationZ(360 - newR);
         playerModel->setScaleY(std::abs(playerModel->getScaleY()) * (playerObject->m_isUpsideDown ? -1.f : 1.f));
@@ -208,7 +209,10 @@ namespace g3d
         model->setScale(glm::vec3(0.75 * (obj->m_startFlipX ? -1 : 1), 0.75 * (obj->m_startFlipY ? -1 : 1), 0.75));
         model->setScaleX(model->getScaleX() * obj->m_scaleX);
         model->setScaleY(model->getScaleY() * obj->m_scaleY);
-        model->setRotationZ(360 - obj->getRotation()); // block rotation
+        model->setRotationZ(360 - obj->getRotation()); // block rotatio
+        model->setRotationX(0);
+        
+        for (auto& mesh : model->meshes) { mesh->setCustomD(obj->groupOpacityMod()); }
     }
 
     void G3DPlayLayer::drawBlocks()
@@ -258,6 +262,8 @@ namespace g3d
                             light.getColor(),
                             camera.getPosition(),
                             camera.getProjectionMat());
+
+                        for (auto& mesh : model->meshes) { mesh->disableD(); }
                     }  
                 }
             }

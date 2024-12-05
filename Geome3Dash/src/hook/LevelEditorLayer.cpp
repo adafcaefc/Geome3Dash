@@ -10,7 +10,27 @@ namespace g3d
             G3DCurveEditorLayer* curveEditorLayer = nullptr;
         };
 
-        void onSplineEditor(CCObject * obj) {
+        //std::optional<std::string> getFrameName(CCSprite* sprite)
+        //{
+        //    auto texture = sprite->getTexture();
+        //    auto rect = sprite->getTextureRect();
+        //    auto* cachedFrames = CCSpriteFrameCache::sharedSpriteFrameCache()->m_pSpriteFrames;
+        //    for (auto [key, frame] : geode::cocos::CCDictionaryExt<std::string, CCSpriteFrame*>(cachedFrames))
+        //    {
+        //        if (frame->getTexture() == texture && frame->getRect() == rect) { return key; }
+        //    }
+        //    return std::nullopt;
+        //}
+
+        void onSplineEditor(CCObject * obj) 
+        {
+            //auto editorUI = dynamic_cast<EditorUI*>(this->getChildByID("EditorUI"));
+            //auto playtestButton = this->getChildByIDRecursive("playtest-button");
+            //auto playtestButtonSprite = playtestButton->getChildByType<CCSprite>(0);
+            //bool isPlayTesting = false;
+            //auto cFrame = getFrameName(playtestButtonSprite);
+            //if (cFrame.has_value() && cFrame.value() == "GJ_pauseEditorBtn_001.png") { isPlayTesting = true; }
+            //if (isPlayTesting) { editorUI->onPlaytest(playtestButton); }
             m_fields->curveEditorLayer->show();
         }
 
@@ -20,12 +40,12 @@ namespace g3d
         }
 
         void addG3DMenu(
-            const int shiftAmount, 
-            const char* text, 
-            CCNode* settingsButton, 
-            CCNode* settingsMenu,
-            CCMenuItemSpriteExtra* menu,
-            CCSprite* sprite)
+            const int shiftAmount,
+            const char* text,
+            CCNode * settingsButton,
+            CCNode * settingsMenu,
+            CCMenuItemSpriteExtra * menu,
+            CCSprite * sprite)
         {
             auto settingsButtonSprite = settingsButton->getChildByType<CCSprite>(0);
             sprite->setContentSize(settingsButtonSprite->getContentSize());

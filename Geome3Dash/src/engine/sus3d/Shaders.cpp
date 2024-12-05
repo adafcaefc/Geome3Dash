@@ -79,6 +79,7 @@ namespace sus3d
             uniform vec3 lightPos; // Light position
             uniform vec3 viewPos; // View position
             uniform float shininess; // Shininess factor
+            uniform float d; // Opacity
 
             out vec4 FragColor;
 
@@ -103,9 +104,9 @@ namespace sus3d
                 vec4 color;
                 if (isTexture == 1) {
                     vec4 texColor = texture(texture1, TexCoord);
-                    color = texColor * vec4(result, 1.0);
+                    color = texColor * vec4(result, d);
                 } else {
-                    color = vec4(result, 1.0);
+                    color = vec4(result, d);
                 }
     
                 FragColor = color;
