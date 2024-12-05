@@ -166,6 +166,7 @@
     <ClCompile Include="src\transformer\DefaultGameObjectModelTransformer.cpp" />
     <ClCompile Include="src\transformer\FadeGameObjectModelTransformer.cpp" />
     <ClCompile Include="src\transformer\GameObjectModelTransformer.cpp" />
+    <ClCompile Include="src\transformer\SplineGameObjectTransformer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\imgui-cocos\imconfig.h" />
@@ -243,6 +244,7 @@
     <ClInclude Include="src\transformer\DefaultGameObjectModelTransformer.h" />
     <ClInclude Include="src\transformer\FadeGameObjectModelTransformer.h" />
     <ClInclude Include="src\transformer\GameObjectModelTransformer.h" />
+    <ClInclude Include="src\transformer\SplineGameObjectTransformer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

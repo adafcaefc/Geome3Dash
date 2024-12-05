@@ -282,12 +282,17 @@ namespace g3d
 			glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
 			glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat * firstRotationQuat));
 
+			if (auto model = BlockModelStorage::get()->getBlockModel(block->m_objectID))
+			{
+				model->setPosition(pos + (normal * cel->lengthScaleFactor * (block->getPositionY() - 110)));
+				model->setRotation(eulerDegrees);
+				model->setScale(glm::vec3(0.5 * (block->m_startFlipX ? -1 : 1) * cel->lengthScaleFactor * 30, 0.5 * (block->m_startFlipY ? -1 : 1) * cel->lengthScaleFactor * 30 * block->getScaleY(), 0.5 * cel->lengthScaleFactor * 30 * block->getScaleX()));
 
-
-			BlockModelStorage::get()->tryRenderBlock(
-				block->m_objectID,
-				&cel->layer3d->camera,
-				&cel->layer3d->light);
+				BlockModelStorage::get()->tryRenderBlock(
+					block->m_objectID,
+					&cel->layer3d->camera,
+					&cel->layer3d->light);
+			}
 		}
 
 
