@@ -14,6 +14,7 @@ namespace g3d
     class G3DBaseNode : public CCNode
     {
         friend class G3DCurveEditorLayer;
+        friend class G3DCurveEditorPopup;
     protected:
         virtual bool init() override;
         GLuint framebuffer, texture, renderbuffer;
@@ -48,8 +49,6 @@ namespace g3d
         ~G3DBaseNode();
         static G3DBaseNode* create();
 
- 
-
         template <typename T>
         T* loadAndAddModel(const std::filesystem::path& filePath)
         {
@@ -57,7 +56,5 @@ namespace g3d
             if (model) { models.push_back(model); }
             return model;
         }
-
-  
     };
 }

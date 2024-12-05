@@ -1,13 +1,15 @@
 #include "pch.h"
 #include "game/editor/G3DEditorPopup.h"
-#include "game/editor/G3DCurveEditorLayer.h"
+#include "game/editor/G3DCurveEditorLoader.h"
+#include "helper/spline/Spline.h"
+#include "helper/spline/Curve.h"
 
 namespace g3d
 {
     class $modify(LevelEditorLayerG3D, LevelEditorLayer)
     {
         struct Fields {
-            G3DCurveEditorLayer* curveEditorLayer = nullptr;
+            G3DCurveEditorLoader* curveEditorLayer = nullptr;
         };
 
         //std::optional<std::string> getFrameName(CCSprite* sprite)
@@ -77,7 +79,11 @@ namespace g3d
             auto menu2 = CCMenuItemSpriteExtra::create(sprite2, this, menu_selector(LevelEditorLayerG3D::onSplineEditor));
             addG3DMenu(1, "PATH", settingsButton, settingsMenu, menu2, sprite2);
 
-            m_fields->curveEditorLayer = G3DCurveEditorLayer::create(this);
+            // testing
+            auto spline = new Spline();
+            spline->addSegment(new Curve(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(2.0f, 0.0f, 0.0f), glm::vec3(3.0f, 0.0f, 0.0f)));
+
+            m_fields->curveEditorLayer = G3DCurveEditorLoader::create(this, spline);
             this->addChild(m_fields->curveEditorLayer);
 
             return true;

@@ -18,10 +18,15 @@
 #include "helper/OpenGLStateHelper.h"
 #include "helper/BezierHelper.h"
 
+#include "transformer/AnimationGameObjectModelTransformer.h"
+#include "transformer/BezierCameraPlayerObjectModelTransformer.h"
+#include "transformer/BezierGameObjectModelTransformer.h"
+#include "transformer/FadeGameObjectModelTransformer.h"
+
 #include "CameraAction.h"
 #include "BezierManager.h"
 #include "CocosShaderProgram.h"
-#include "GameObjectModel.h"
+#include "PlayerObjectModel.h"
 
 namespace g3d
 {

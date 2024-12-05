@@ -15,20 +15,16 @@ namespace g3d
 	class G3DBaseNode;
 	class Spline;
 
-	class G3DCurveEditorLayer 
-		: public CCLayer
+	class G3DCurveEditorLoader;
+
+	class G3DCurveEditorPopup 
+		: public geode::Popup<G3DCurveEditorLoader*>
 		, public CustomKeyboardDelegate
 		, public CustomMouseDelegate
 		, public CustomTouchDelegate 
 	{
-		G3DBaseNode* layer3d;
-		sus3d::Model* pointModel;
-
-		LevelEditorLayer* lel;
-
-		CCSprite* bg;
-
-		float levelLength = 0;
+	protected:
+		G3DCurveEditorLoader* cel;
 
 		int selected = -1;
 
@@ -44,35 +40,15 @@ namespace g3d
 		virtual void scrollWheel(float y, float x);
 		virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
 
-		virtual bool init(LevelEditorLayer* lel);
-		virtual void draw();
+		bool setup(G3DCurveEditorLoader* cel) override;
 
-		void updateLevel();
+		void draw() override;
 
 		void onAddSegment(CCObject*);
 		void onRemoveSegment(CCObject*);
 
+		void onClose(CCObject* obj);
 	public:
-		Spline* spline;
-		void show() {
-
-			CCObject* obj;
-			CCARRAY_FOREACH(lel->getChildren(), obj) {
-				auto node = static_cast<CCNode*>(obj);
-				node->setVisible(0);
-			}
-			this->setVisible(1);
-			updateLevel();
-		}
-		void hide(CCObject*) {
-			CCObject* obj;
-			CCARRAY_FOREACH(lel->getChildren(), obj) {
-				auto node = static_cast<CCNode*>(obj);
-				node->setVisible(1);
-			}
-			this->setVisible(0);
-		}
-
-		static G3DCurveEditorLayer* create(LevelEditorLayer* lel);
+		static G3DCurveEditorPopup* create(G3DCurveEditorLoader* cel);
 	};
 }

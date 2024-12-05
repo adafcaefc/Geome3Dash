@@ -102,7 +102,8 @@
     <ClCompile Include="src\CocosShaderProgram.cpp" />
     <ClCompile Include="src\GameObjectModel.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
-    <ClCompile Include="src\game\editor\G3DCurveEditorLayer.cpp" />
+    <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp" />
+    <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
     <ClCompile Include="src\helper\Easing.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -158,6 +159,13 @@
     <ClCompile Include="src\Entries.cpp" />
     <ClCompile Include="src\LevelEditorImGui.cpp" />
     <ClCompile Include="src\PlanetStateManager.cpp" />
+    <ClCompile Include="src\PlayerObjectModel.cpp" />
+    <ClCompile Include="src\transformer\AnimationGameObjectModelTransformer.cpp" />
+    <ClCompile Include="src\transformer\BezierCameraPlayerObjectModelTransformer.cpp" />
+    <ClCompile Include="src\transformer\BezierGameObjectModelTransformer.cpp" />
+    <ClCompile Include="src\transformer\DefaultGameObjectModelTransformer.cpp" />
+    <ClCompile Include="src\transformer\FadeGameObjectModelTransformer.cpp" />
+    <ClCompile Include="src\transformer\GameObjectModelTransformer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\imgui-cocos\imconfig.h" />
@@ -201,7 +209,8 @@
     <ClInclude Include="src\delegate\CustomTouch.h" />
     <ClInclude Include="src\GameObjectModel.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
-    <ClInclude Include="src\game\editor\G3DCurveEditorLayer.h" />
+    <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h" />
+    <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />
     <ClInclude Include="src\helper\Easing.h" />
     <ClInclude Include="src\engine\sus3d\Mesh.h" />
@@ -227,6 +236,13 @@
     <ClInclude Include="src\LevelDataManager.h" />
     <ClInclude Include="src\LevelEditorImGui.h" />
     <ClInclude Include="src\PlanetStateManager.h" />
+    <ClInclude Include="src\PlayerObjectModel.h" />
+    <ClInclude Include="src\transformer\AnimationGameObjectModelTransformer.h" />
+    <ClInclude Include="src\transformer\BezierCameraPlayerObjectModelTransformer.h" />
+    <ClInclude Include="src\transformer\BezierGameObjectModelTransformer.h" />
+    <ClInclude Include="src\transformer\DefaultGameObjectModelTransformer.h" />
+    <ClInclude Include="src\transformer\FadeGameObjectModelTransformer.h" />
+    <ClInclude Include="src\transformer\GameObjectModelTransformer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
