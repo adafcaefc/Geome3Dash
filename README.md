@@ -55,9 +55,13 @@ Have suggestions or need help? Connect with developers and fans on our [Discord 
 - **[A145](https://www.youtube.com/@A145)**  
 
 ### Special Thanks  
+- **[A145](https://www.youtube.com/@A145)** – For all the support you have given <3
 - **[Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g)** – Help on Geode usage  
-- **[A145](https://www.youtube.com/@A145)** – Beta testing and ongoing support  
-- **[Lexi](https://github.com/KontrollFreek)** - Beta testing
+
+### Beta Testers
+- **[Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g)**  
+- **[A145](https://www.youtube.com/@A145)**
+- **[Lexi](https://github.com/KontrollFreek)**
 
 ---
 
