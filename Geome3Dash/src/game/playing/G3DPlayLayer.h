@@ -47,6 +47,8 @@ namespace g3d
         sus3d::Camera camera;
         sus3d::Light light;
 
+        sus3d::Model* groundModel;
+
         // transformers
         FadeGameObjectModelTransformer* fadeTr;
         AnimationGameObjectModelTransformer* animTr;
@@ -83,6 +85,8 @@ namespace g3d
         void drawBlocks();
 
         virtual void draw();
+
+        void renderGround();
 
         friend class BezierCameraPlayerObjectModelTransformer;
         friend class SplineCameraPlayerObjectModelTransformer;
