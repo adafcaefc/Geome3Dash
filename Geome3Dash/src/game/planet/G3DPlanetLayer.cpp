@@ -78,13 +78,13 @@ namespace g3d
                     // prefix with like   444630000 + id
                     // max int is        2147483647
                     int levelID = (selected.second - 982) / 4;
-
+                    /*
                     for (size_t meshIndex = 0; meshIndex < layer3d->models[0]->meshes.size(); meshIndex++) {
                         if (meshIndex == levelID * 4 + 982 || meshIndex == levelID * 4 + 983 || meshIndex == levelID * 4 + 984 || meshIndex == levelID * 4 + 985)
                             layer3d->models[0]->meshes[meshIndex]->setCustomKa(glm::vec3(1, 0, 0));
                         else
                             layer3d->models[0]->meshes[meshIndex]->disableKa();
-                    }
+                    }*/
                     int keyLevelID = levelID + 900000000;
                     int maxI = 0;
                     for (int i = 0; i < 19; i++)

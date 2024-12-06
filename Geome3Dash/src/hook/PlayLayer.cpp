@@ -17,12 +17,16 @@ namespace g3d
             if (G3DPlanetLayer::insideThePlanetLayerFlag) {
                 auto percent = this->getCurrentPercentInt();
                 if (this->m_isPracticeMode) {
-                    m_fields->psm->currentProgress[this->m_level->m_levelID].practice = percent;
-                    PlanetStateManager::save();
+                    if (m_fields->psm->currentProgress[this->m_level->m_levelID].practice < percent) {
+                        m_fields->psm->currentProgress[this->m_level->m_levelID].practice = percent;
+                        PlanetStateManager::save();
+                    }
                 }
                 else {
-                    m_fields->psm->currentProgress[this->m_level->m_levelID].normal = percent;
-                    PlanetStateManager::save();
+                    if (m_fields->psm->currentProgress[this->m_level->m_levelID].normal < percent) {
+                        m_fields->psm->currentProgress[this->m_level->m_levelID].normal = percent;
+                        PlanetStateManager::save();
+                    }
                 }
             }
             PlayLayer::destroyPlayer(p0, p1);
