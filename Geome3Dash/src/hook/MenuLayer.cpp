@@ -8,11 +8,11 @@ namespace g3d
     {
         bool init() 
         {
-            // load cache
             auto bms = BlockModelStorage::get();
 
             if (bms->shouldReloadShaders)
             {
+                // reload shaders when going fullscreen (or vice-versa)
                 bms->reloadAllShaders();
                 bms->shouldReloadShaders = false;
             }
