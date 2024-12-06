@@ -25,7 +25,6 @@ namespace g3d
             if (enabled) { m_fields->keyframeEditorLayer->hide(); }
         }
 
-
         void onSplineEditor(CCObject * obj) 
         {
             m_fields->curveEditorLayer->show();

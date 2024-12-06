@@ -36,10 +36,12 @@
     <ClCompile Include="src\CocosShaderProgram.cpp" />
     <ClCompile Include="src\GameObjectModel.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
+    <ClCompile Include="src\game\component\G3DRainixPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCameraKeyframeEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCameraKeyframeEditorPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
+    <ClCompile Include="src\game\component\G3DComingSoonPopup.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
     <ClCompile Include="src\helper\CameraKeyframeBuffer.cpp" />
     <ClCompile Include="src\helper\Easing.cpp">
@@ -81,6 +83,7 @@
     <ClCompile Include="src\hook\CreatorLayer.cpp" />
     <ClCompile Include="src\hook\GameManager.cpp" />
     <ClCompile Include="src\hook\LevelEditorLayer.cpp" />
+    <ClCompile Include="src\hook\MenuGameLayer.cpp" />
     <ClCompile Include="src\hook\MenuLayer.cpp" />
     <ClCompile Include="src\hook\PlayLayer.cpp" />
     <ClCompile Include="src\LevelDataManager.cpp" />
@@ -118,10 +121,12 @@
     <ClInclude Include="src\delegate\CustomTouch.h" />
     <ClInclude Include="src\GameObjectModel.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
+    <ClInclude Include="src\game\component\G3DRainixPopup.h" />
     <ClInclude Include="src\game\editor\G3DCameraKeyframeEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCameraKeyframeEditorPopup.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
+    <ClInclude Include="src\game\component\G3DComingSoonPopup.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />
     <ClInclude Include="src\helper\CameraKeyframeBuffer.h" />
     <ClInclude Include="src\helper\Easing.h" />

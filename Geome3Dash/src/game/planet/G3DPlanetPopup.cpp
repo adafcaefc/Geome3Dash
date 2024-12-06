@@ -95,7 +95,6 @@ namespace g3d
                 ret->show();
                 return;
             }
-
             delete ret;
         }
     }

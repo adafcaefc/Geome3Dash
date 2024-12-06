@@ -201,6 +201,15 @@
     <ClCompile Include="src\transformer\SplinePlayerObjectTransformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\component\G3DRainixPopup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hook\MenuGameLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\component\G3DComingSoonPopup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -357,6 +366,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\SplinePlayerObjectTransformer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\component\G3DRainixPopup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\component\G3DComingSoonPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

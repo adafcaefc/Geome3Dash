@@ -640,6 +640,11 @@ namespace g3d
             fSteps = 6;
         }
 
+        if (geode::Mod::get()->getSettingValue<bool>("disable-cloud"))
+        {
+            fSteps = 0;
+        }
+
         for (int i = 0; i < fSteps; i++) 
         {
             // easing stuff I don't care

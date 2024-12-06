@@ -24,6 +24,7 @@ namespace g3d
             bms->getModelT<CloudModel>(modelPath / "clouds.obj");
 
             if (!MenuLayer::init()) { return false; }
+
             return true;
         }
     };
