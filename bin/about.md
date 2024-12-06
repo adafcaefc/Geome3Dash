@@ -1,7 +1,5 @@
 # Geome3Dash  
 
-![gp1](screenshots/gp1.jpg)  
-
 **Geome3Dash** transforms the 2D Geometry Dash you know and love into an exciting, open-source 3D experience. Jump into a new dimension of gameplay, customize levels like never before, and explore the adventure of a lifetime.  
 
 ---
@@ -48,14 +46,6 @@ Start by visiting the [GitHub repository](https://github.com/adafcaefc/Geome3Das
 
 ### Join the Conversation  
 Have suggestions or need help? Connect with developers and fans on our [Discord server](https://discord.gg/CAVBVgMnSD).  
-
----
-
-## Screenshots  
-
-![gp2](screenshots/gp2.png)  
-![world1](screenshots/world1.png)  
-![world2](screenshots/world2.png)  
 
 ---
 
