@@ -4,6 +4,7 @@
 #include "G3DPlanetLayer.h"
 
 #include "game/component/G3DProgressBar.h"
+#include "helper/CommonHelper.h"
 
 #include "PlanetStateManager.h"
 
@@ -71,11 +72,16 @@ namespace g3d
     }
 
     void G3DPlanetPopup::onPlayLevel(CCObject*) {
+
+        auto levelString = utils::read_from_file("./test.txt");
+
         auto level = GJGameLevel::create();
         level->m_levelID = levelID;
-        level->m_levelType = GJLevelType::Editor;
+        level->m_levelType = GJLevelType::Saved;
         level->m_normalPercent = PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->normal;
         level->m_practicePercent = PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->practice;
+        level->m_levelString = levelString;
+        level->m_songID = 467339;
         auto playLayer = PlayLayer::scene(level, 0, 0);
         CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3f, playLayer));
     }
