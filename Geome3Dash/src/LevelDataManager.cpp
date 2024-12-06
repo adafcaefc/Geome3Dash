@@ -94,10 +94,9 @@ namespace g3d
         nlohmann::json jsonData = data;
         std::string jsonMsg = jsonData.dump();
         msgLevelEncode(layer, jsonMsg);
-
-        // debug
-        std::ofstream out("g3d.out.json");
-        out << jsonMsg;
+        //// debug
+        //std::ofstream out("g3d.out.json");
+        //out << jsonMsg;
     }
 
     LevelData LevelData::getDefault()

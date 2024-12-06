@@ -30,20 +30,41 @@ namespace g3d
 	//	}
 	//};
 
-	void PlanetStateManager::tryLoadSaveFile() {
-		// use cc dictionary maybe?
-		// or save it to a json file?
-		// I can't really decide...
-		// yeah I will go with json I think...
-		for (int i = 0; i < 20; i++)
-			levelProgresses.push_back(new LevelProgress(0, 0));
+	void PlanetStateManager::save()
+	{
+		try {
+			nlohmann::json jsonData = *getInstance(); 
+			std::string jsonMsg = jsonData.dump();
+			const auto path = geode::Mod::get()->getSaveDir() / "G3DSaveData.json";
+			std::ofstream outFile(path);
+			if (outFile) { outFile << jsonMsg; }
+		}
+		catch (const std::exception& e) {
 
+		}
 	}
 
-	PlanetStateManager* PlanetStateManager::getInstance() {
-		if (!instance) {
+	void PlanetStateManager::load()
+	{
+		try {
+			const auto path = geode::Mod::get()->getSaveDir() / "G3DSaveData.json";
+			nlohmann::json jsonData;
+			std::ifstream inFile(path);
+			if (inFile) { inFile >> jsonData; }
+			*getInstance() = jsonData;
+		}
+		catch (const std::exception& e) {
+
+		}
+	}
+
+
+	PlanetStateManager* PlanetStateManager::getInstance() 
+	{
+		if (!instance) 
+		{ 
 			instance = new PlanetStateManager;
-			instance->tryLoadSaveFile();
+			load();
 		}
 		return instance;
 	}

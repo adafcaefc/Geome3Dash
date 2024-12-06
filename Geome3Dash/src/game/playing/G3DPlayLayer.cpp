@@ -113,9 +113,14 @@ namespace g3d
         glEnable(GL_DEPTH_TEST);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        drawPlayers();
-        renderGround();
-        drawBlocks();
+        try {
+            drawPlayers();
+            renderGround();
+            drawBlocks();
+        }
+        catch (...) {
+
+        }
 
         glDisable(GL_DEPTH_TEST);
         OpenGLStateHelper::pushState();

@@ -8,7 +8,9 @@ namespace g3d
 	{
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-		this->setTitle("Stay tuned!");
+		this->setTitle("Coming Soon!");
+		m_title->setScale(1.25);
+		m_title->setPosition(m_title->getPosition() - ccp(0, 15.f));
 
 		auto textLayer = CCLayer::create();
 		m_buttonMenu->addChild(textLayer);

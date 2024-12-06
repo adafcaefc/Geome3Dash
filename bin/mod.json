@@ -3,7 +3,7 @@
 	"gd": {
 		"win": "2.2074"
 	},
-	"version": "v0.1.0",
+	"version": "v1.0.0-beta.1",
 	"id": "rainixgd.geome3dash",
 	"name": "Geome3Dash",
 	"links": {
@@ -16,6 +16,11 @@
         {
             "id": "geode.node-ids",
             "version": ">=1.18.0",
+            "importance": "required"
+        },
+        {
+            "id": "hjfod.gmd-api",
+            "version": ">=1.4.1",
             "importance": "required"
         }
 	],
