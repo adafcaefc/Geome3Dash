@@ -104,14 +104,6 @@ namespace g3d
         ld.z = 38;
         ld.yaw = -100;
         ld.pitch = -6;
-        //ld.bezierMultiplier = 1.0 / 3.0;
-        //ld.bezierCurve =
-        //{
-        //   0.167 * 6, 0.355 * 6,
-        //   0.516 * 6, 0.124 * 6,
-        //   0.121 * 6, 0.557 * 6,
-        //   0.412 * 6, 0.352 * 6
-        //};
         ld.spline = Spline();
         ld.spline.addSegment(Curve(
             glm::vec3(0.0f, 0.0f, 0.0f),
