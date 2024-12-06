@@ -50,7 +50,7 @@ namespace g3d
 
         void onEditorPopup(CCObject * sender)
         {
-            G3DEditorPopup::scene();
+            G3DEditorPopup::scene(this);
         }
 
         void addG3DMenu(

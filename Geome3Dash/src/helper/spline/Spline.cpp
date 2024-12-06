@@ -26,7 +26,6 @@ namespace g3d
 
 		for (int i = parameterList.size() - 10; i < parameterList.size(); i++) {
 			auto data = parameterList[i];
-			std::cout << data.t << " " << data.value.x << " " << data.l << std::endl;
 		}
 	}
 

@@ -56,8 +56,7 @@ namespace g3d
 					ckel->layer3d->camera.setPosition(
 						ckel->layer3d->camera.getPosition() +
 						deltaY * sensitivity * localUp +
-						deltaX * -sensitivity * side
-					);
+						deltaX * -sensitivity * side);
 				}
 				else {
 					float sensitivity = 0.05f;
@@ -107,16 +106,35 @@ namespace g3d
 
 		ckel->keyframeBuffer = currentLevelData.keyframe;
 		ckel->spline = currentLevelData.spline;
-		if (ckel->keyframeBuffer.keyframes.empty()) { ckel->keyframeBuffer.setKeyframe(0, glm::vec3(0), glm::vec3(0)); }
 		ckel->updateLevel();
 		ckel->spline.updateParameterList();
 
-		glm::vec3 newFront;
-		newFront.x = cos(glm::radians(currentLevelData.yaw)) * cos(glm::radians(currentLevelData.pitch));
-		newFront.y = sin(glm::radians(currentLevelData.pitch));
-		newFront.z = sin(glm::radians(currentLevelData.yaw)) * cos(glm::radians(currentLevelData.pitch));
-		const auto front = glm::normalize(newFront);
-		ckel->keyframeBuffer.setKeyframe(0, glm::vec3(currentLevelData.x, currentLevelData.y, currentLevelData.z) * glm::vec3(ckel->lengthScaleFactor * 16 / 9), newFront);
+		//auto& cld = currentLevelData;
+		//auto data = ckel->spline.findClosestByLength(cld.x * ckel->lengthScaleFactor * 20);
+		//auto pos = data.value;
+		//auto normal = glm::normalize(ckel->spline.normal(data.t));
+		//auto offset = pos + (normal * ckel->lengthScaleFactor * (static_cast<float>(cld.y * 20) - 110));
+		//offset.z += cld.z * 20;
+
+		//glm::vec3 newFront;
+		//newFront.x = cos(glm::radians(cld.yaw)) * cos(glm::radians(cld.pitch));
+		//newFront.y = sin(glm::radians(cld.pitch));
+		//newFront.z = sin(glm::radians(cld.yaw)) * cos(glm::radians(cld.pitch));
+		//const auto front = glm::normalize(newFront);
+		//ckel->keyframeBuffer.setKeyframe(0, offset, front);
+
+		auto& cld = currentLevelData;
+		sus3d::Camera fakeCamera;
+		fakeCamera.setPitch(cld.pitch);
+		fakeCamera.setYaw(cld.yaw);
+		fakeCamera.setPosition(glm::vec3(cld.x, cld.y, cld.z));
+		const auto kfcopy = ckel->keyframeBuffer.keyframes;
+		ckel->keyframeBuffer.keyframes.clear();
+		for (auto& kf : kfcopy)
+		{
+			if (kf.playersXpos != 0.f) { ckel->keyframeBuffer.keyframes.push_back(kf); }
+		}
+		ckel->keyframeBuffer.setKeyframe(0, fakeCamera.getPosition() * glm::vec3(ckel->lengthScaleFactor * 20), fakeCamera.getFront());
 		
 		// need to delete this on destructor (later)
 		splineTr = new SplineGameObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
@@ -186,7 +204,21 @@ namespace g3d
 	}
 
 	void CameraKeyframeEditorPopup::onClose(CCObject* obj) {
-		if (ckel->keyframeBuffer.keyframes.empty()) { ckel->keyframeBuffer.setKeyframe(0, glm::vec3(0), glm::vec3(0)); }
+		if (ckel->keyframeBuffer.keyframes.empty()) 
+		{ 
+			auto& cld = currentLevelData;
+			sus3d::Camera fakeCamera;
+			fakeCamera.setPitch(cld.pitch);
+			fakeCamera.setYaw(cld.yaw);
+			fakeCamera.setPosition(glm::vec3(cld.x, cld.y, cld.z));
+			const auto kfcopy = ckel->keyframeBuffer.keyframes;
+			ckel->keyframeBuffer.keyframes.clear();
+			for (auto& kf : kfcopy)
+			{
+				if (kf.playersXpos != 0.f) { ckel->keyframeBuffer.keyframes.push_back(kf); }
+			}
+			ckel->keyframeBuffer.setKeyframe(0, fakeCamera.getPosition() * glm::vec3(ckel->lengthScaleFactor * 20), fakeCamera.getFront());
+		}
 		currentLevelData.keyframe = ckel->keyframeBuffer;
 		setLevelData(LevelEditorLayer::get(), currentLevelData);
 		this->setMouseEnabled(false);
@@ -212,6 +244,21 @@ namespace g3d
 	}
 	void CameraKeyframeEditorPopup::onRemoveLast(CCObject*) {
 		ckel->keyframeBuffer.removeLastKeyframe();
+		if (ckel->keyframeBuffer.keyframes.empty())
+		{
+			auto& cld = currentLevelData;
+			sus3d::Camera fakeCamera;
+			fakeCamera.setPitch(cld.pitch);
+			fakeCamera.setYaw(cld.yaw);
+			fakeCamera.setPosition(glm::vec3(cld.x, cld.y, cld.z));
+			const auto kfcopy = ckel->keyframeBuffer.keyframes;
+			ckel->keyframeBuffer.keyframes.clear();
+			for (auto& kf : kfcopy)
+			{
+				if (kf.playersXpos != 0.f) { ckel->keyframeBuffer.keyframes.push_back(kf); }
+			}
+			ckel->keyframeBuffer.setKeyframe(0, fakeCamera.getPosition() * glm::vec3(ckel->lengthScaleFactor * 20), fakeCamera.getFront());
+		}
 	}
 
 	void CameraKeyframeEditorPopup::draw() 

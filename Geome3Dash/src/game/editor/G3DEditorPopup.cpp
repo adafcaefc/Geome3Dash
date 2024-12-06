@@ -14,28 +14,24 @@ namespace g3d
 
     static LevelData currentLevelData = LevelData::getDefault();
 
-    void G3DEditorPopup::addLabel(const char* text, const CCPoint& position) {
-        constexpr const char* _font = "chatFont.fnt";
+    //void G3DEditorPopup::addLabel(const char* text, const CCPoint& position) {
+    //    constexpr const char* _font = "chatFont.fnt";
+    //    // Create the label using the specified font and text
+    //    auto label = CCLabelBMFont::create(text, _font);
+    //    label->setScale(0.8f);  // Adjust the size of the label
+    //    label->setPosition(position);  // Position the label at the desired location
+    //    // Add the label to the popup layer
+    //    //this->m_geodeScrollLayer->addChild(label);
+    //}
 
-        // Create the label using the specified font and text
-        auto label = CCLabelBMFont::create(text, _font);
-        label->setScale(0.8f);  // Adjust the size of the label
-        label->setPosition(position);  // Position the label at the desired location
-
-        // Add the label to the popup layer
-       //this->m_geodeScrollLayer->addChild(label);
-    }
-
-    void G3DEditorScene::loadModel()
-    {
-        auto bms = BlockModelStorage::get();
-
-        cube = bms->getModel(bms->getBP() / "player" / "cube" / "0" / "model.obj");
-        cube->setScale(glm::vec3(0.75));
-
-        spike = bms->getBlockModel(8);
-        spike->setScale(glm::vec3(0.75));
-    }
+    //void G3DEditorScene::loadModel()
+    //{
+    //    //auto bms = BlockModelStorage::get();
+    //    //cube = bms->getModel(bms->getBP() / "player" / "cube" / "0" / "model.obj");
+    //    //cube->setScale(glm::vec3(0.75));
+    //    //spike = bms->getBlockModel(8);
+    //    //spike->setScale(glm::vec3(0.75));
+    //}
 
     void G3DEditorScene::drawModel()
     {
@@ -46,19 +42,19 @@ namespace g3d
         double deltaTime = elapsedTime.count();
 
         cubePosition.x += deltaTime * 300;
-        cubePosition.x = std::fmod(cubePosition.x, 1500);
+        cubePosition.x = std::fmod(cubePosition.x, 1800);
 
         // Jumping logic
 
         static bool isJumping = false;
         static double jumpTime = 0.0;
         const double jumpDuration = 0.6;  // Jump duration in seconds
-        const double jumpHeight = 80.0; // Height of the jump
+        const double jumpHeight = 65.0; // Height of the jump
         const double groundPositionY = 105.0; // Ground position
         static double initialRotationZ = 0.0; // Initial rotation at jump start
 
         // Handle jump logic
-        if (!isJumping && cubePosition.x >= 630.0 && cubePosition.x < 700.0 + deltaTime * 300) {
+        if (!isJumping && cubePosition.x >= 840.0 && cubePosition.x < 900.0 + deltaTime * 300) {
             isJumping = true;
             jumpTime = 0.0; // Reset jump timer
             initialRotationZ = cubeRotationZ; // Store the initial rotation
@@ -92,65 +88,28 @@ namespace g3d
             }
         }
 
+        for (float i = -900.f; i < 2400.f; i += 30.f)
+        {
+            auto obj = blockObjs[i];
+            obj->m_positionX = i;
+            obj->m_positionY = spikePosition.y - 30.f;
+            obj->setPosition(ccp(obj->m_positionX, obj->m_positionY));
+        }
 
-        auto bms = BlockModelStorage::get();
+        for (int i = 0; i < spikeObjs.size(); i++)
+        {
+            auto obj = spikeObjs.at(i);
+            obj->m_positionX = spikePosition.x + i * 30.f;
+            obj->m_positionY = spikePosition.y;
+            obj->setPosition(ccp(obj->m_positionX, obj->m_positionY));
+        }
 
-        // End jumping logic
+        playerObj->m_position = ccp(cubePosition.x, cubePosition.y);
+        playerObj->setRotation(cubeRotationZ);
+        playerObj->setPosition(playerObj->m_position);
 
-
-        playerCameraOffset = glm::vec3(currentLevelData.x, currentLevelData.y, currentLevelData.z);
-        playerCameraPitchOffset = currentLevelData.pitch;
-        playerCameraYawOffset = currentLevelData.yaw;
-        
-        cube->setRotation(glm::vec3(0));
-        spike->setRotation(glm::vec3(0));
-
-        cube->setPosition(cubePosition / glm::vec3(20));
-        cube->setRotationZ(360 - cubeRotationZ);
-
-        camera.setPitch(playerCameraPitchOffset);
-        camera.setYaw(playerCameraYawOffset);
-        camera.setPosition(cube->getPosition() + playerCameraOffset);
-        light.setPosition(camera.getPosition());
-
-        cube->render(
-            bms->getBlockSP(),
-            camera.getViewMat(),
-            light.getPosition(),
-            light.getColor(),
-            camera.getPosition(),
-            camera.getProjectionMat());
-
-        spike->setPosition(spikePosition / glm::vec3(20));
-        spike->render(
-            bms->getBlockSP(),
-            camera.getViewMat(),
-            light.getPosition(),
-            light.getColor(),
-            camera.getPosition(),
-            camera.getProjectionMat());
-
-        spikePosition.x += 30;
-        spike->setPosition(spikePosition / glm::vec3(20));
-        spike->render(
-            bms->getBlockSP(),
-            camera.getViewMat(),
-            light.getPosition(),
-            light.getColor(),
-            camera.getPosition(),
-            camera.getProjectionMat());
-
-        spikePosition.x += 30;
-        spike->setPosition(spikePosition / glm::vec3(20));
-        spike->render(
-            bms->getBlockSP(),
-            camera.getViewMat(),
-            light.getPosition(),
-            light.getColor(),
-            camera.getPosition(),
-            camera.getProjectionMat());
-
-        spikePosition.x -= 60;
+        player1.render(shaderProgram, camera, light);
+        for (auto& block : blocks) { block.render(shaderProgram, camera, light); }
     }
 
     void G3DEditorScene::draw()
@@ -174,32 +133,107 @@ namespace g3d
 
     }
 
-    bool G3DEditorScene::init()
+    bool G3DEditorScene::init(LevelEditorLayer* lel)
     {
-        loadModel();
+        this->lel = lel;
+        playerObj = PlayerObject::create(0, 0, lel, lel->m_objectLayer, false);
+
+        auto gameLayer = CCLayer::create();
+        gameLayer->setScale(0.2f);
+        gameLayer->addChild(playerObj);
+
+        this->addChild(gameLayer);
+
+        float levelLength = 0;
+        CCObject* obj;
+        CCARRAY_FOREACH(lel->m_objects, obj)
+        {
+            auto block = dynamic_cast<GameObject*>(obj);
+            levelLength = std::max(block->getPositionX(), levelLength);
+        }
+        lengthScaleFactor = currentLevelData.spline.length(10000) / levelLength;
+        currentLevelData.spline.updateParameterList();
+
+        // don't forget to delete these
+        static bool isEditing = false;
+        splineTr = new SplineGameObjectTransformer(&currentLevelData.spline, &lengthScaleFactor);
+        splinePlayerTr = new SplinePlayerObjectTransformer(&currentLevelData.spline, &lengthScaleFactor);
+        splineCamTr = new SplineCameraPlayerObjectModelTransformer(
+            &currentLevelData.spline,
+            &currentLevelData.keyframe,
+            &camera,
+            &lengthScaleFactor,
+            &isEditing);
+
+        for (int i = 0; i < 3; i++)
+        {
+            spikeObjs.push_back(GameObject::createWithKey(8));
+            gameLayer->addChild(spikeObjs.back());
+            blocks.push_back(GameObjectModel(spikeObjs.back(), { splineTr }));
+        }
+
+        for (float i = -900.f; i < 2400.f; i += 30.f)
+        {
+            blockObjs[i] = GameObject::createWithKey(1);
+            gameLayer->addChild(blockObjs[i]);
+            blocks.push_back(GameObjectModel(blockObjs[i], { splineTr }));
+        }
+
+        player1 = PlayerObjectModel(playerObj, { splinePlayerTr, splineCamTr });
+
+        shaderProgram = BlockModelStorage::get()->getBlockSP();
+
         return CCNode::init();
     }
 
     void G3DEditorPopup::onClose(CCObject* ob)
     {
-        setLevelData(LevelEditorLayer::get(), currentLevelData);
-        geode::Popup<>::onClose(ob);
+        setLevelData(lel, currentLevelData);
+        geode::Popup<LevelEditorLayer*>::onClose(ob);
+    }
+
+    void G3DEditorPopup::updateCamera()
+    {
+        if (m_spikeScene)
+        {
+            auto& cld = currentLevelData;
+            cld.x = m_spikeScene->playerCameraOffset.x;
+            cld.y = m_spikeScene->playerCameraOffset.y;
+            cld.z = m_spikeScene->playerCameraOffset.z;
+            cld.yaw = m_spikeScene->playerCameraYawOffset;
+            cld.pitch = m_spikeScene->playerCameraPitchOffset;
+            sus3d::Camera fakeCamera;
+            fakeCamera.setPitch(cld.pitch);
+            fakeCamera.setYaw(cld.yaw);
+            fakeCamera.setPosition(glm::vec3(cld.x, cld.y, cld.z));
+            const auto kfcopy = cld.keyframe.keyframes;
+            cld.keyframe.keyframes.clear();
+            for (auto& kf : kfcopy)
+            {
+                if (kf.playersXpos != 0.f) { cld.keyframe.keyframes.push_back(kf); }
+            }
+            cld.keyframe.setKeyframe(0, fakeCamera.getPosition() * glm::vec3(m_spikeScene->lengthScaleFactor * 20), fakeCamera.getFront());
+        }
     }
 
     void G3DEditorPopup::updateState(G3DNumberSetting* invoker) 
     {
+        updateCamera();
         for (auto& sett : m_settings) { sett->updateState(nullptr); }
     }
 
-    bool G3DEditorPopup::setup()
+    bool G3DEditorPopup::setup(LevelEditorLayer* plel)
     {
+        lel = plel;
+
         currentLevelData = LevelData::getDefault();
         try {
-            currentLevelData = getLevelData(LevelEditorLayer::get());
+            currentLevelData = getLevelData(lel);
         }
         catch (...) {
 
         }
+
         setTitle("Geome3Dash Camera Editor");
         //auto winSize = CCDirector::sharedDirector()->getWinSize();
         auto const layerSize = CCSize(250, 200);
@@ -264,29 +298,37 @@ namespace g3d
             scrollBar, geode::Anchor::Center, ccp(layerBG->getContentWidth() / 2 + 10, 0)
         );
 
-        this->updateState();
-
-        m_spikeScene = G3DEditorScene::create();
+        m_spikeScene = G3DEditorScene::create(lel);
         this->m_mainLayer->addChild(m_spikeScene);
 
         layerBG->setPositionX(layerBG->getPositionX() + 90);
         scrollBar->setPositionX(scrollBar->getPositionX() + 90);
 
+        m_spikeScene->playerCameraOffset = glm::vec3(
+            currentLevelData.x,
+            currentLevelData.y,
+            currentLevelData.z);
+        m_spikeScene->playerCameraYawOffset = currentLevelData.yaw;
+        m_spikeScene->playerCameraPitchOffset = currentLevelData.pitch;
+
+        this->updateState();
+
         return true;
     }
 
-    void G3DEditorPopup::scene() {
+    void G3DEditorPopup::scene(LevelEditorLayer* plel) 
+    {
         const CCSize uiSize = CCDirector::sharedDirector()->getWinSize() - CCSize(60, 40);
-
         G3DEditorPopup* instance = new G3DEditorPopup();
-
-        if (instance && instance->initAnchored(uiSize.width, uiSize.height)) {
+        if (instance && instance->initAnchored(uiSize.width, uiSize.height, plel)) 
+        {
             instance->m_noElasticity = true;
             instance->setID("g3d_editor_popup"_spr);
             instance->autorelease();
             instance->show();
         }
-        else {
+        else 
+        {
             CC_SAFE_DELETE(instance);
         }
     }

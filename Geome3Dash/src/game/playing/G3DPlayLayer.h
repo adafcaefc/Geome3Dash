@@ -107,10 +107,10 @@ namespace g3d
 
         bool init();
 
-        void updateCamera();
-        void updateLight();
+        //void updateCamera();
+        //void updateLight();
         //void updateBlock(GameObject* obj, sus3d::Model* model);
-        void updateCameraAction(const float currentXPosition);
+        //void updateCameraAction(const float currentXPosition);
 
         void drawPlayers();
         void drawBlocks();

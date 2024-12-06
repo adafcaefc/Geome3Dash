@@ -87,33 +87,33 @@ namespace g3d
         delete animTr;
         //delete camTr;
         delete splineTr;
+        delete splinePlayerTr;
+        delete splineCamTr;
     }
 
-    void G3DPlayLayer::updateCamera()
-    {
-        auto playerPos = player1.getPosition();
-        auto newR = player1.getRotation();
-        auto playerYaw = newR.y;
-        auto playerYawR = -glm::radians(playerYaw);
+    //void G3DPlayLayer::updateCamera()
+    //{
+    //    auto playerPos = player1.getPosition();
+    //    auto newR = player1.getRotation();
+    //    auto playerYaw = newR.y;
+    //    auto playerYawR = -glm::radians(playerYaw);
+    //    glm::vec3 rotatedOffset =
+    //    {
+    //        playerCameraOffset.x * std::cos(playerYawR) - playerCameraOffset.z * std::sin(playerYawR),
+    //        playerCameraOffset.y,
+    //        playerCameraOffset.x * std::sin(playerYawR) + playerCameraOffset.z * std::cos(playerYawR)
+    //    };
+    //    camera.setPosition(playerPos + rotatedOffset);
+    //    // Clamp pitch to prevent flipping
+    //    camera.setYaw(playerCameraYawOffset - playerYaw);
+    //    auto pitch = std::clamp(static_cast<float>(playerCameraPitchOffset), -89.0f, 89.0f);
+    //    camera.setPitch(pitch);
+    //}
 
-        glm::vec3 rotatedOffset =
-        {
-            playerCameraOffset.x * std::cos(playerYawR) - playerCameraOffset.z * std::sin(playerYawR),
-            playerCameraOffset.y,
-            playerCameraOffset.x * std::sin(playerYawR) + playerCameraOffset.z * std::cos(playerYawR)
-        };
-
-        camera.setPosition(playerPos + rotatedOffset);
-        // Clamp pitch to prevent flipping
-        camera.setYaw(playerCameraYawOffset - playerYaw);
-        auto pitch = std::clamp(static_cast<float>(playerCameraPitchOffset), -89.0f, 89.0f);
-        camera.setPitch(pitch);
-    }
-
-    void G3DPlayLayer::updateLight()
-    {
-        light.setPosition(camera.getPosition());
-    }
+    //void G3DPlayLayer::updateLight()
+    //{
+    //    light.setPosition(camera.getPosition());
+    //}
 
     void G3DPlayLayer::loadBlocks()
     {
@@ -141,26 +141,23 @@ namespace g3d
         }
     }
 
-    void G3DPlayLayer::updateCameraAction(const float currentXPosition)
-    {
-        // Calculate delta time
-        auto now = std::chrono::steady_clock::now();
-        std::chrono::duration<double> elapsedTime = now - lastUpdate;
-        lastUpdate = now;
-        double deltaTime = elapsedTime.count();
-
-        // Prepare variables for deltas
-        double deltaX = 0.0, deltaY = 0.0, deltaZ = 0.0;
-        double deltaYaw = 0.0, deltaPitch = 0.0;
-
-        // Update camera action handler and get deltas
-        cameraActionHandler.update(deltaTime, currentXPosition, deltaX, deltaY, deltaZ, deltaYaw, deltaPitch);
-
-        // Apply deltas to the camera offsets
-        playerCameraOffset += glm::vec3(deltaX, deltaY, deltaZ);
-        playerCameraYawOffset += deltaYaw;
-        playerCameraPitchOffset += deltaPitch;
-    }
+    //void G3DPlayLayer::updateCameraAction(const float currentXPosition)
+    //{
+    //    // Calculate delta time
+    //    auto now = std::chrono::steady_clock::now();
+    //    std::chrono::duration<double> elapsedTime = now - lastUpdate;
+    //    lastUpdate = now;
+    //    double deltaTime = elapsedTime.count();
+    //    // Prepare variables for deltas
+    //    double deltaX = 0.0, deltaY = 0.0, deltaZ = 0.0;
+    //    double deltaYaw = 0.0, deltaPitch = 0.0;
+    //    // Update camera action handler and get deltas
+    //    cameraActionHandler.update(deltaTime, currentXPosition, deltaX, deltaY, deltaZ, deltaYaw, deltaPitch);
+    //    // Apply deltas to the camera offsets
+    //    playerCameraOffset += glm::vec3(deltaX, deltaY, deltaZ);
+    //    playerCameraYawOffset += deltaYaw;
+    //    playerCameraPitchOffset += deltaPitch;
+    //}
        
     void G3DPlayLayer::drawPlayers()
     {
@@ -186,9 +183,9 @@ namespace g3d
         drawPlayers();
         drawBlocks();
 
-        updateCameraAction(playLayer->m_player1->m_position.x);
-        updateCamera();
-        updateLight();
+        //updateCameraAction(playLayer->m_player1->m_position.x);
+        //updateCamera();
+        //updateLight();
 
         glDisable(GL_DEPTH_TEST);
         OpenGLStateHelper::pushState();

@@ -22,6 +22,11 @@
 #include "engine/sus3d/Shaders.h"
 
 #include "CocosShaderProgram.h"
+#include "PlayerObjectModel.h"
+
+#include "transformer/SplineCameraPlayerObjectModelTransformer.h"
+#include "transformer/SplineGameObjectTransformer.h"
+#include "transformer/SplinePlayerObjectTransformer.h"
 
 namespace g3d
 {
@@ -37,20 +42,34 @@ namespace g3d
         glm::vec3 playerCameraOffset;
         double playerCameraYawOffset;
         double playerCameraPitchOffset;
-        CocosShaderProgram* shaderProgram;
+        sus3d::ShaderProgram* shaderProgram;
 
         // don't forget fo free these or else memory leak
         glm::vec3 cubePosition = glm::vec3(0, 105, 400);
         double cubeRotationZ = 0;
-        glm::vec3 spikePosition = glm::vec3(700, 105, 400);
-        sus3d::Model* cube;
-        sus3d::Model* spike;
+        glm::vec3 spikePosition = glm::vec3(900, 105, 400);
+        //sus3d::Model* cube;
+        //sus3d::Model* spike;
 
-        void loadModel();
+        SplineGameObjectTransformer* splineTr;
+        SplinePlayerObjectTransformer* splinePlayerTr;
+        SplineCameraPlayerObjectModelTransformer* splineCamTr;
+
+        LevelEditorLayer* lel;
+        std::vector<GameObject*> spikeObjs;
+        std::unordered_map<float, GameObject*> blockObjs;
+        PlayerObject* playerObj;
+
+        PlayerObjectModel player1;
+        std::vector<GameObjectModel> blocks;
+
+        float lengthScaleFactor;
+
+        //void loadModel();
         void drawModel();
 
         virtual void draw() override;
-        virtual bool init() override;
+        virtual bool init(LevelEditorLayer* lel);
 
         // delegates
         bool isPressingControl = false;
@@ -67,9 +86,9 @@ namespace g3d
 
         ~G3DEditorScene();
 
-        static auto create() {
+        static auto create(LevelEditorLayer* lel) {
             auto node = new G3DEditorScene;
-            if (node->init()) {
+            if (node->init(lel)) {
                 node->autorelease();
             }
             else {
@@ -79,19 +98,23 @@ namespace g3d
         }
     };
 
-    class G3DEditorPopup : public geode::Popup<> {
+    class G3DEditorPopup : public geode::Popup<LevelEditorLayer*> 
+    {
     public:
-        static void scene();
+        static void scene(LevelEditorLayer* plel);
         void updateState(G3DNumberSetting* invoker = nullptr);
+        void updateCamera();
 
     protected:
-        bool setup() override;
-        void addLabel(const char* text, const CCPoint& position);
+        bool setup(LevelEditorLayer*) override;
+        //void addLabel(const char* text, const CCPoint& position);
 
         G3DEditorScene* m_spikeScene;
         geode::ScrollLayer* m_list;
         geode::TextInput* m_searchInput;
         std::vector<geode::Ref<G3DNumberSetting>> m_settings;
+
+        LevelEditorLayer* lel;
 
         virtual void onClose(CCObject*) override;
 
