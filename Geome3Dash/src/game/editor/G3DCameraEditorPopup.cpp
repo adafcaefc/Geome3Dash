@@ -184,7 +184,7 @@ namespace g3d
         }
     }
 
-    void G3DCameraEditorPopup::updateState(G3DNumberSetting* invoker) 
+    void G3DCameraEditorPopup::updateState(G3DNumberSetting* invoker)
     {
         updateCamera();
         for (auto& sett : m_settings) { sett->updateState(nullptr); }
@@ -202,6 +202,16 @@ namespace g3d
 
         }
 
+        m_spikeScene = G3DCameraEditorScene::create(lel);
+        this->m_mainLayer->addChild(m_spikeScene);
+
+        m_spikeScene->playerCameraOffset = glm::vec3(
+            currentLevelData.x,
+            currentLevelData.y,
+            currentLevelData.z);
+        m_spikeScene->playerCameraYawOffset = currentLevelData.yaw;
+        m_spikeScene->playerCameraPitchOffset = currentLevelData.pitch;
+
         setTitle("Geome3Dash Camera Editor");
         //auto winSize = CCDirector::sharedDirector()->getWinSize();
         auto const layerSize = CCSize(250, 200);
@@ -214,34 +224,34 @@ namespace g3d
         m_list = geode::ScrollLayer::create(layerSize /*- ccp(0, searchContainer->getContentHeight())*/);
         m_list->setTouchEnabled(true);
 
-        G3DNumberSetting* node;
+        G3DNumberSettingCamera* node;
 
         // "Cam X" Setting
-        node = G3DNumberSetting::create("Cam X", &currentLevelData.x, layerSize.width);
+        node = G3DNumberSettingCamera::create("Cam X", &currentLevelData.x, layerSize.width, this);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
         node->m_impl_modDescription = "Controls the X axis (horizontal movement) of the camera.";
 
         // "Cam Y" Setting
-        node = G3DNumberSetting::create("Cam Y", &currentLevelData.y, layerSize.width);
+        node = G3DNumberSettingCamera::create("Cam Y", &currentLevelData.y, layerSize.width, this);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
         node->m_impl_modDescription = "Controls the Y axis (vertical movement) of the camera.";
 
         // "Cam Z" Setting
-        node = G3DNumberSetting::create("Cam Z", &currentLevelData.z, layerSize.width);
+        node = G3DNumberSettingCamera::create("Cam Z", &currentLevelData.z, layerSize.width, this);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
         node->m_impl_modDescription = "Controls the Z axis (depth or forward/backward movement) of the camera.";
 
         // "Cam Yaw" Setting
-        node = G3DNumberSetting::create("Cam Yaw", &currentLevelData.yaw, layerSize.width);
+        node = G3DNumberSettingCamera::create("Cam Yaw", &currentLevelData.yaw, layerSize.width, this);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
         node->m_impl_modDescription = "Controls the yaw (horizontal rotation) of the camera.";
 
         // "Cam Pitch" Setting
-        node = G3DNumberSetting::create("Cam Pitch", &currentLevelData.pitch, layerSize.width);
+        node = G3DNumberSettingCamera::create("Cam Pitch", &currentLevelData.pitch, layerSize.width, this);
         m_settings.push_back(node);
         m_list->m_contentLayer->addChild(node);
         node->m_impl_modDescription = "Controls the pitch (vertical tilt) of the camera.";
@@ -265,36 +275,26 @@ namespace g3d
         m_mainLayer->addChildAtPosition(
             scrollBar, geode::Anchor::Center, ccp(layerBG->getContentWidth() / 2 + 10, 0));
 
-        m_spikeScene = G3DCameraEditorScene::create(lel);
-        this->m_mainLayer->addChild(m_spikeScene);
-
         layerBG->setPositionX(layerBG->getPositionX() + 90);
         scrollBar->setPositionX(scrollBar->getPositionX() + 90);
-
-        m_spikeScene->playerCameraOffset = glm::vec3(
-            currentLevelData.x,
-            currentLevelData.y,
-            currentLevelData.z);
-        m_spikeScene->playerCameraYawOffset = currentLevelData.yaw;
-        m_spikeScene->playerCameraPitchOffset = currentLevelData.pitch;
 
         this->updateState();
 
         return true;
     }
 
-    void G3DCameraEditorPopup::scene(LevelEditorLayer* plel) 
+    void G3DCameraEditorPopup::scene(LevelEditorLayer* plel)
     {
         const CCSize uiSize = CCDirector::sharedDirector()->getWinSize() - CCSize(60, 40);
         G3DCameraEditorPopup* instance = new G3DCameraEditorPopup();
-        if (instance && instance->initAnchored(uiSize.width, uiSize.height, plel)) 
+        if (instance && instance->initAnchored(uiSize.width, uiSize.height, plel))
         {
             instance->m_noElasticity = true;
             instance->setID("g3d_editor_popup"_spr);
             instance->autorelease();
             instance->show();
         }
-        else 
+        else
         {
             CC_SAFE_DELETE(instance);
         }
@@ -374,6 +374,21 @@ namespace g3d
             break;
         default:
             break;
+        }
+    }
+
+    void G3DNumberSettingCamera::updateState(CCNode* invoker)
+    {
+        G3DNumberSetting::updateState(invoker);
+        if (m_cameraEditorPopup)
+        {
+            auto& cld = currentLevelData;
+            m_cameraEditorPopup->m_spikeScene->playerCameraOffset.x = cld.x;
+            m_cameraEditorPopup->m_spikeScene->playerCameraOffset.y = cld.y;
+            m_cameraEditorPopup->m_spikeScene->playerCameraOffset.z = cld.z;
+            m_cameraEditorPopup->m_spikeScene->playerCameraYawOffset = cld.yaw;
+            m_cameraEditorPopup->m_spikeScene->playerCameraPitchOffset = cld.pitch;
+            m_cameraEditorPopup->updateCamera();
         }
     }
 }
