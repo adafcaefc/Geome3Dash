@@ -34,7 +34,7 @@ namespace g3d
         setStartingKeyframe(&levelData, &levelData.keyframe, lengthScaleFactor);
 
         fadeTr = new FadeGameObjectModelTransformer(playLayer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
-        animTr = new AnimationGameObjectModelTransformer();
+        animTr = new AnimationGameObjectModelTransformer(&levelData.spline, &lengthScaleFactor);
         splineTr = new SplineGameObjectTransformer(&levelData.spline, &lengthScaleFactor);
         splinePlayerTr = new SplinePlayerObjectTransformer(&levelData.spline, &lengthScaleFactor);
         static bool isEditing = false;
@@ -160,7 +160,29 @@ namespace g3d
 
             groundModel->setPosition(groundData.value - normal * groundSize * 1.5f);
             groundModel->setScale(groundSize);
+
+            
+            if (auto gsprites = this->playLayer->getChildByIDRecursive("ground-sprites"))
+            {
+                if (auto grounds = gsprites->getChildByType<CCSprite>(0))
+                {
+                    if (auto ground = grounds->getChildByType<CCSprite>(0))
+                    {
+                        auto color = ground->getColor();
+                        for (auto& mesh : groundModel->meshes)
+                        {
+                            mesh->setCustomKa(glm::vec3(color.r, color.g, color.b) * glm::vec3(1.f / 255.f));
+                        }
+                    }
+                }
+            }
+
             groundModel->render(shaderProgram, camera.getViewMat(), light.getPosition(), light.getColor(), camera.getPosition(), camera.getProjectionMat());
+
+            for (auto& mesh : groundModel->meshes)
+            {
+                mesh->disableKa();
+            }
         }
     }
 }
