@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "BlockModelStorage.h"
 #include "game/planet/G3DPlanetLayer.h"
+#include "helper/CommonHelper.h"
 
 namespace g3d
 {
@@ -22,6 +23,21 @@ namespace g3d
             bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");
             bms->getModelT<PlanetModel>(modelPath / "planet_water.obj");
             bms->getModelT<CloudModel>(modelPath / "clouds.obj");
+
+            // hardcoded for glaciers edge
+            const auto downloaded = MusicDownloadManager::sharedState()->isSongDownloaded(1221653);
+            if (!downloaded)
+            {
+                try {
+                    const auto from = geode::Mod::get()->getResourcesDir() / "music" / "1221653.mp3";
+                    const auto to = utils::get_song_path() / "1221653.mp3";
+                    std::filesystem::copy(from, to);
+                }
+                catch (...)
+                {
+
+                }
+            }
 
             if (!MenuLayer::init()) { return false; }
 

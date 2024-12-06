@@ -2,10 +2,15 @@
 
 #include "CommonHelper.h"
 
+#include <shlobj.h>
+#include <shlwapi.h>
+#include <psapi.h>
+#include <shlwapi.h>
+
 namespace g3d
 {
-	namespace utils
-	{
+    namespace utils
+    {
         std::string read_from_file(
             const std::filesystem::path& path)
         {
@@ -41,5 +46,43 @@ namespace g3d
                 start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
             }
         }
-	}
+
+        std::filesystem::path get_app_data_path()
+        {
+            PWSTR szPath = nullptr;
+
+            if (!SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, NULL, NULL, &szPath)))
+            {
+                CoTaskMemFree(szPath);
+                return std::filesystem::path();
+            }
+
+            std::filesystem::path path(szPath);
+            CoTaskMemFree(szPath);
+
+            return path.parent_path();
+        }
+
+        std::filesystem::path get_common_app_data_path()
+        {
+            TCHAR szPath[MAX_PATH];
+            if (!SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, szPath)))
+            {
+                return std::filesystem::path();
+            }
+            return szPath;
+        }
+
+        std::filesystem::path get_executable_path()
+        {
+            char szFilePath[MAX_PATH + 1] = { 0 };
+            GetModuleFileNameA(NULL, szFilePath, MAX_PATH);
+            return szFilePath;
+        }
+
+        std::filesystem::path get_song_path()
+        {
+           return get_app_data_path() / "Local" / get_executable_path().filename().replace_extension();
+        }
+    }
 }

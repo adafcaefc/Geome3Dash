@@ -16,5 +16,8 @@ namespace g3d
             std::string& str,
             const std::string& from,
             const std::string& to);
+        std::filesystem::path get_app_data_path();
+        std::filesystem::path get_common_app_data_path();
+        std::filesystem::path get_song_path();
 	}
 }
