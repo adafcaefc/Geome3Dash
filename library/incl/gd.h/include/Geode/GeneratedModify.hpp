@@ -126,6 +126,7 @@
 #include "modify/xml_document.hpp"
 #include "modify/xml_node.hpp"
 #include "modify/CCLightning.hpp"
+#include "modify/CCConfiguration.hpp"
 #include "modify/FMODSound.hpp"
 #include "modify/AdvancedFollowInstance.hpp"
 #include "modify/SFXTriggerInstance.hpp"

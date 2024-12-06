@@ -14,16 +14,14 @@ class SongsLayer : public GJDropDownLayer {
 public:
     static constexpr auto CLASS_NAME = "SongsLayer";
     GEODE_CUSTOM_CONSTRUCTOR_GD(SongsLayer, GJDropDownLayer)
-    
-private:
-    [[deprecated("SongsLayer::create not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x45b7a8
      * @note[short] MacOS (Intel): 0x4fba10
+     * @note[short] Windows: 0x47bf80
      * @note[short] Android
      */
     static SongsLayer* create();
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x45b920

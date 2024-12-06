@@ -48,39 +48,33 @@ public:
      * @note[short] Android
      */
     virtual bool init();
-    
-private:
-    [[deprecated("RewardsPage::registerWithTouchDispatcher not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x1bec8c
      * @note[short] MacOS (Intel): 0x209fc0
+     * @note[short] Windows: 0x425d0
      * @note[short] iOS: 0x1c5bcc
      * @note[short] Android
      */
     virtual void registerWithTouchDispatcher();
-public:
-    
-private:
-    [[deprecated("RewardsPage::keyBackClicked not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x1bec10
      * @note[short] MacOS (Intel): 0x209f50
+     * @note[short] Windows: 0x84650
      * @note[short] iOS: 0x1c5b50
      * @note[short] Android
      */
     virtual void keyBackClicked();
-public:
-    
-private:
-    [[deprecated("RewardsPage::show not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x1beab8
      * @note[short] MacOS (Intel): 0x209df0
+     * @note[short] Windows: 0x3ae2e0
      * @note[short] iOS: 0x1c5a10
      * @note[short] Android
      */
     virtual void show();
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x1bec08

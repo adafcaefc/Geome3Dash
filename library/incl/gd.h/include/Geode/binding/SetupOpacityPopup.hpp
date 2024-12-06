@@ -64,16 +64,14 @@ public:
      * @note[short] Android
      */
     virtual void textChanged(CCTextInputNode* p0);
-    
-private:
-    [[deprecated("SetupOpacityPopup::init not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x4d5e0
      * @note[short] MacOS (Intel): 0x57560
+     * @note[short] Windows: 0x412860
      * @note[short] Android
      */
     bool init(EffectGameObject* p0, cocos2d::CCArray* p1);
-public:
     
 private:
     [[deprecated("SetupOpacityPopup::onTargetIDArrow not implemented")]]

@@ -1228,7 +1228,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJEffectManager, runTouchTriggerCommand, , int, bool, TouchTriggerType, TouchTriggerControl, bool, gd::vector<int> const&, int, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJEffectManager, saveCompletedMove, , int, double, double)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x25c520, Thiscall, GJEffectManager, saveToState, EffectManagerState&)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJEffectManager, setColorAction, , ColorAction*, int)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x254a90, Thiscall, GJEffectManager, setColorAction, ColorAction*, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJEffectManager, setFollowing, , int, int, bool)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJEffectManager, setupFromString, , gd::string)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJEffectManager, shouldBlend, , int)

@@ -23,6 +23,7 @@ public:
     static CCCircleWave* create(float startRadius, float endRadius, float duration, bool fadeIn, bool easeOut);
 
     /**
+     * @note[short] MacOS (ARM): 0x134bac
      * @note[short] MacOS (Intel): 0x167ad0
      * @note[short] Windows: Out of line
      * @note[short] Android

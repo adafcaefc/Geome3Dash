@@ -61,6 +61,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x3ede24
+     * @note[short] MacOS (Intel): 0x47fd60
      * @note[short] Windows: Out of line
      * @note[short] Android
      */
@@ -68,6 +69,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x3ee054
+     * @note[short] MacOS (Intel): 0x47ff90
      * @note[short] Windows: Out of line
      * @note[short] Android
      */

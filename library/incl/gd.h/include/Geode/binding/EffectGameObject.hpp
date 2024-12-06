@@ -206,14 +206,12 @@ private:
      */
     TodoReturn getTargetColorIndex();
 public:
-    
-private:
-    [[deprecated("EffectGameObject::init not implemented")]]
+
     /**
+     * @note[short] Windows: 0x48d1a0
      * @note[short] Android
      */
     bool init(char const* p0);
-public:
 
     /**
      * @note[short] Windows: 0x48d2b0

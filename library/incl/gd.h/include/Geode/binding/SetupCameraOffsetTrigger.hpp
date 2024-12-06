@@ -61,7 +61,7 @@ public:
      * @note[short] iOS: 0x193f00
      * @note[short] Android
      */
-    virtual TodoReturn valuePopupClosed(ConfigureValuePopup* p0, float p1);
+    virtual void valuePopupClosed(ConfigureValuePopup* p0, float p1);
     
 private:
     [[deprecated("SetupCameraOffsetTrigger::init not implemented")]]

@@ -187,7 +187,7 @@ namespace geode::modifier {
 
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(addresser::getVirtual(Resolve<>::func(&cocos2d::CCEGLView::swapBuffers)), Thiscall, cocos2d::CCEGLView, swapBuffers, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(addresser::getNonVirtual(Resolve<>::func(&cocos2d::CCEGLView::end)), Thiscall, cocos2d::CCEGLView, end, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION(addresser::getNonVirtual(Resolve<bool, bool>::func(&cocos2d::CCEGLView::toggleFullScreen)), Thiscall, cocos2d::CCEGLView, toggleFullScreen, bool, bool)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(addresser::getNonVirtual(Resolve<bool, bool, bool>::func(&cocos2d::CCEGLView::toggleFullScreen)), Thiscall, cocos2d::CCEGLView, toggleFullScreen, bool, bool, bool)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(addresser::getNonVirtual(Resolve<>::func(&cocos2d::CCEGLView::pollEvents)), Thiscall, cocos2d::CCEGLView, pollEvents, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(addresser::getNonVirtual(Resolve<cocos2d::CCRect>::func(&cocos2d::CCEGLView::setupWindow)), Thiscall, cocos2d::CCEGLView, setupWindow, cocos2d::CCRect)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(addresser::getNonVirtual(Resolve<GLFWwindow*, unsigned int>::func(&cocos2d::CCEGLView::onGLFWCharCallback)), Thiscall, cocos2d::CCEGLView, onGLFWCharCallback, GLFWwindow*, unsigned int)

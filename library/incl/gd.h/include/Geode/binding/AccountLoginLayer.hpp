@@ -87,7 +87,7 @@ public:
      * @note[short] iOS: 0x87ee8
      * @note[short] Android
      */
-    virtual TodoReturn loginAccountFinished(int p0, int p1);
+    virtual void loginAccountFinished(int p0, int p1);
 
     /**
      * @note[short] MacOS (ARM): 0x3f493c
@@ -96,7 +96,7 @@ public:
      * @note[short] iOS: 0x880f8
      * @note[short] Android
      */
-    virtual TodoReturn loginAccountFailed(AccountError p0);
+    virtual void loginAccountFailed(AccountError p0);
     
 private:
     [[deprecated("AccountLoginLayer::createTextBackground not implemented")]]

@@ -160,7 +160,7 @@ public:
      * @note[short] iOS: 0x361430
      * @note[short] Android
      */
-    virtual float posForTime(float p0);
+    virtual cocos2d::CCPoint posForTime(float p0);
     
 private:
     [[deprecated("LevelEditorLayer::resetSPTriggered not implemented")]]

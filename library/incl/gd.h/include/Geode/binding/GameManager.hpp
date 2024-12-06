@@ -307,6 +307,8 @@ public:
     void fadeInMenuMusic();
 
     /**
+     * @note[short] MacOS (ARM): 0x2f6b18
+     * @note[short] MacOS (Intel): 0x363d80
      * @note[short] Windows: 0x178b80
      * @note[short] Android
      */
@@ -839,6 +841,7 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x300f5c
      * @note[short] MacOS (Intel): 0x36fc40
      * @note[short] Windows: 0x17f880
      * @note[short] Android
@@ -889,6 +892,7 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x301484
      * @note[short] MacOS (Intel): 0x370120
      * @note[short] Windows: 0x17fc30
      * @note[short] Android
@@ -920,6 +924,7 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x301148
      * @note[short] MacOS (Intel): 0x36fe10
      * @note[short] Windows: 0x17f9e0
      * @note[short] Android
@@ -1024,16 +1029,14 @@ private:
      */
     TodoReturn rateGame();
 public:
-    
-private:
-    [[deprecated("GameManager::recountUserStats not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x3032cc
      * @note[short] MacOS (Intel): 0x372010
+     * @note[short] Windows: 0x181ba0
      * @note[short] Android
      */
     void recountUserStats(gd::string p0);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x309444
@@ -1536,7 +1539,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn syncPlatformAchievements();
+    void syncPlatformAchievements();
 public:
 
     /**

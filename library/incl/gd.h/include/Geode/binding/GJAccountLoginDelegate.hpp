@@ -18,7 +18,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn loginAccountFinished(int p0, int p1);
+    virtual void loginAccountFinished(int p0, int p1);
 public:
     
 private:
@@ -26,6 +26,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn loginAccountFailed(AccountError p0);
+    virtual void loginAccountFailed(AccountError p0);
 public:
 };

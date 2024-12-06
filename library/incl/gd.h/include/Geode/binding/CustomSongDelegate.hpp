@@ -18,7 +18,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn songIDChanged(int p0);
+    virtual void songIDChanged(int p0);
 public:
     
 private:
@@ -26,7 +26,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn getActiveSongID();
+    virtual int getActiveSongID();
 public:
     
 private:
@@ -34,7 +34,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn getSongFileName();
+    virtual gd::string getSongFileName();
 public:
     
 private:

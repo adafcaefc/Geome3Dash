@@ -307,7 +307,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x316430, Default, LevelTools, fbURLForArtist, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(LevelTools, getAudioBPM, , int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x313750, Default, LevelTools, getAudioFileName, int)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(LevelTools, getAudioString, , int)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x316950, Default, LevelTools, getAudioString, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x312bd0, Default, LevelTools, getAudioTitle, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(LevelTools, getLastGameplayReversed, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(LevelTools, getLastGameplayRotated, )

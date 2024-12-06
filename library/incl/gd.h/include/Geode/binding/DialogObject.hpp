@@ -16,6 +16,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x33f4ac
+     * @note[short] MacOS (Intel): 0x3b3d20
      * @note[short] Windows: 0xd1da0
      * @note[short] Android
      */

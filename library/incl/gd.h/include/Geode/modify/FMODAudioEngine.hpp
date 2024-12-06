@@ -50,16 +50,6 @@ namespace geode::modifier {
 		GEODE_AS_STATIC_FUNCTION(clearAllAudio) 
 	#endif
 
-	#ifndef GEODE_STATICS_countActiveEffects
-		#define GEODE_STATICS_countActiveEffects
-		GEODE_AS_STATIC_FUNCTION(countActiveEffects) 
-	#endif
-
-	#ifndef GEODE_STATICS_countActiveMusic
-		#define GEODE_STATICS_countActiveMusic
-		GEODE_AS_STATIC_FUNCTION(countActiveMusic) 
-	#endif
-
 	#ifndef GEODE_STATICS_createStream
 		#define GEODE_STATICS_createStream
 		GEODE_AS_STATIC_FUNCTION(createStream) 
@@ -997,8 +987,8 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(FMODAudioEngine, channelStopped, , FMOD::Channel*, bool)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(FMODAudioEngine, channelUnlinkSound, , int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x552e0, Thiscall, FMODAudioEngine, clearAllAudio, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(FMODAudioEngine, countActiveEffects, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(FMODAudioEngine, countActiveMusic, )
+			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(FMODAudioEngine, countActiveEffects, )
+			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(FMODAudioEngine, countActiveMusic, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(FMODAudioEngine, createStream, , gd::string)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(FMODAudioEngine, disableMetering, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(FMODAudioEngine, enableMetering, )

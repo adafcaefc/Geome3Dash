@@ -1123,7 +1123,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupTriggerPopup, getMinSliderValue, , int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupTriggerPopup, getObjects, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupTriggerPopup, getPageContainer, , int)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupTriggerPopup, getTriggerValue, , int, GameObject*)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x4620f0, Thiscall, SetupTriggerPopup, getTriggerValue, int, GameObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x45f750, Thiscall, SetupTriggerPopup, getTruncatedValue, float, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupTriggerPopup, getTruncatedValueByTag, , int, float)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x45c010, Thiscall, SetupTriggerPopup, goToPage, int, bool)

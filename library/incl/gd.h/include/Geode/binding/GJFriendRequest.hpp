@@ -40,4 +40,10 @@ private:
      */
     virtual bool init();
 public:
+    int m_requestID;
+    int m_accountID;
+    int m_34;
+    gd::string m_message;
+    gd::string m_uploadDate;
+    bool m_is36;
 };

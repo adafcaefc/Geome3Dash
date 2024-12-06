@@ -45,7 +45,7 @@ public:
      * @note[short] iOS: 0x112fc4
      * @note[short] Android
      */
-    virtual TodoReturn songIDChanged(int p0);
+    virtual void songIDChanged(int p0);
     
 private:
     [[deprecated("CustomSongCell::getActiveSongID not implemented")]]
@@ -55,7 +55,7 @@ private:
      * @note[short] iOS: 0x113020
      * @note[short] Android
      */
-    virtual TodoReturn getActiveSongID();
+    virtual int getActiveSongID();
 public:
 
     /**
@@ -65,7 +65,7 @@ public:
      * @note[short] iOS: 0x113058
      * @note[short] Android
      */
-    virtual TodoReturn getSongFileName();
+    virtual gd::string getSongFileName();
 
     /**
      * @note[short] MacOS (ARM): 0x1f16a0

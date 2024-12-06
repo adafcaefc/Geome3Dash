@@ -18,6 +18,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn fadeInTextFinished(TextArea* p0);
+    virtual void fadeInTextFinished(TextArea* p0);
 public:
 };

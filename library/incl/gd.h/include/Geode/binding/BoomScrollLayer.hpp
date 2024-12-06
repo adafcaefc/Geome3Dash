@@ -147,6 +147,8 @@ public:
     cocos2d::CCPoint getRelativePosForPage(int page);
 
     /**
+     * @note[short] MacOS (ARM): 0x32136c
+     * @note[short] MacOS (Intel): 0x392960
      * @note[short] Windows: Out of line
      * @note[short] Android
      */
@@ -162,6 +164,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x321ccc
+     * @note[short] MacOS (Intel): 0x393410
      * @note[short] Windows: 0x3ddc0
      * @note[short] Android
      */
@@ -245,6 +248,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x321608
+     * @note[short] MacOS (Intel): 0x392c40
      * @note[short] Windows: Out of line
      * @note[short] Android
      */
@@ -284,6 +288,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x3209f4
+     * @note[short] MacOS (Intel): 0x391f70
      * @note[short] Windows: 0x3d840
      * @note[short] Android
      */

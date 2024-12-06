@@ -220,6 +220,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x69bc4c
+     * @note[short] MacOS (Intel): 0x787c40
      * @note[short] Windows: 0xdba40
      * @note[short] Android
      */
@@ -251,6 +252,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x69b344
+     * @note[short] MacOS (Intel): 0x787300
      * @note[short] Windows: 0x360630
      * @note[short] Android
      */

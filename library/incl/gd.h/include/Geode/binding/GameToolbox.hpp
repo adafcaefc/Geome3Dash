@@ -30,6 +30,8 @@ public:
     static void addRThumbScrollButton(cocos2d::CCLayer* p0);
 
     /**
+     * @note[short] MacOS (ARM): 0x43e460
+     * @note[short] MacOS (Intel): 0x4db280
      * @note[short] Windows: 0x64110
      * @note[short] Android
      */
@@ -141,6 +143,7 @@ public:
 private:
     [[deprecated("GameToolbox::fast_srand not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x441830
      * @note[short] MacOS (Intel): 0x4dea30
      * @note[short] Android
      */

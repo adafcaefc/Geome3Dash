@@ -159,16 +159,14 @@ public:
      * @note[short] Android
      */
     void confirmDelete(cocos2d::CCObject* p0);
-    
-private:
-    [[deprecated("EditLevelLayer::confirmMoveToTop not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x1a20d8
      * @note[short] MacOS (Intel): 0x1eafd0
+     * @note[short] Windows: 0xd7e90
      * @note[short] Android
      */
     void confirmMoveToTop(cocos2d::CCObject* p0);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x19f95c
@@ -216,16 +214,14 @@ public:
      * @note[short] Android
      */
     void onGuidelines(cocos2d::CCObject* sender);
-    
-private:
-    [[deprecated("EditLevelLayer::onHelp not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x1a1f28
      * @note[short] MacOS (Intel): 0x1eae30
+     * @note[short] Windows: 0xd7c50
      * @note[short] Android
      */
     void onHelp(cocos2d::CCObject* sender);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x1a2420

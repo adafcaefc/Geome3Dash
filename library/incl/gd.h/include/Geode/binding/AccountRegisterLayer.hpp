@@ -127,7 +127,7 @@ public:
      * @note[short] iOS: 0x86168
      * @note[short] Android
      */
-    virtual TodoReturn registerAccountFinished();
+    virtual void registerAccountFinished();
 
     /**
      * @note[short] MacOS (ARM): 0x3f1a3c
@@ -136,7 +136,7 @@ public:
      * @note[short] iOS: 0x86298
      * @note[short] Android
      */
-    virtual TodoReturn registerAccountFailed(AccountError p0);
+    virtual void registerAccountFailed(AccountError p0);
     
 private:
     [[deprecated("AccountRegisterLayer::createTextBackground not implemented")]]

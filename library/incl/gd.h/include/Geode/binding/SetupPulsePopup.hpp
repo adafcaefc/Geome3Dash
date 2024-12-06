@@ -100,16 +100,14 @@ private:
      */
     TodoReturn getColorValue();
 public:
-    
-private:
-    [[deprecated("SetupPulsePopup::init not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x3250b8
      * @note[short] MacOS (Intel): 0x397170
+     * @note[short] Windows: 0x41f430
      * @note[short] Android
      */
     bool init(EffectGameObject* p0, cocos2d::CCArray* p1);
-public:
     
 private:
     [[deprecated("SetupPulsePopup::onCopy not implemented")]]
@@ -150,22 +148,18 @@ private:
      */
     void onHSVLegacyMode(cocos2d::CCObject* sender);
 public:
-    
-private:
-    [[deprecated("SetupPulsePopup::onPaste not implemented")]]
+
     /**
+     * @note[short] Windows: 0x90de0
      * @note[short] Android
      */
     void onPaste(cocos2d::CCObject* sender);
-public:
-    
-private:
-    [[deprecated("SetupPulsePopup::onSelectPulseMode not implemented")]]
+
     /**
+     * @note[short] Windows: 0x422aa0
      * @note[short] Android
      */
     void onSelectPulseMode(cocos2d::CCObject* sender);
-public:
     
 private:
     [[deprecated("SetupPulsePopup::onSelectSpecialColor not implemented")]]

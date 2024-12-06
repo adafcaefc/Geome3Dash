@@ -230,11 +230,6 @@ namespace geode::modifier {
 		GEODE_AS_STATIC_FUNCTION(getCompletedMapPacks) 
 	#endif
 
-	#ifndef GEODE_STATICS_getCurrencyKey
-		#define GEODE_STATICS_getCurrencyKey
-		GEODE_AS_STATIC_FUNCTION(getCurrencyKey) 
-	#endif
-
 	#ifndef GEODE_STATICS_getDailyLevelKey
 		#define GEODE_STATICS_getDailyLevelKey
 		GEODE_AS_STATIC_FUNCTION(getDailyLevelKey) 
@@ -1661,7 +1656,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameStatsManager, getChallengeKey, , GJChallengeItem*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x1dabd0, Thiscall, GameStatsManager, getCollectedCoinsForLevel, GJGameLevel*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x1dc180, Thiscall, GameStatsManager, getCompletedMapPacks, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameStatsManager, getCurrencyKey, , GJGameLevel*)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(GameStatsManager, getCurrencyKey, GJGameLevel*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameStatsManager, getDailyLevelKey, , int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameStatsManager, getDemonLevelKey, , GJGameLevel*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameStatsManager, getEventRewardKey, , int)

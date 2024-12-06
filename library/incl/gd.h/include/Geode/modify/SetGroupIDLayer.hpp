@@ -478,7 +478,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetGroupIDLayer, onNextFreeEditorLayer2, , cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetGroupIDLayer, onNextFreeOrderChannel, , cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x3e48d0, Thiscall, SetGroupIDLayer, onNextGroupID1, cocos2d::CCObject*)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetGroupIDLayer, onPaste, , cocos2d::CCObject*)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x111a80, Thiscall, SetGroupIDLayer, onPaste, cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x3e51e0, Thiscall, SetGroupIDLayer, onRemoveFromGroup, cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetGroupIDLayer, onSmoothEase, , cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetGroupIDLayer, onToggleGuide, , cocos2d::CCObject*)

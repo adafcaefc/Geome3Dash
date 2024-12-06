@@ -117,22 +117,24 @@ public:
      * @note[short] Android
      */
     void clearAllAudio();
-    
-private:
-    [[deprecated("FMODAudioEngine::countActiveEffects not implemented")]]
+
     /**
-     * @note[short] Android
+     * @note[short] MacOS (ARM): Out of line
+     * @note[short] MacOS (Intel): Out of line
+     * @note[short] Windows: Out of line
+     * @note[short] iOS: Out of line
+     * @note[short] Android: Out of line
      */
-    TodoReturn countActiveEffects();
-public:
-    
-private:
-    [[deprecated("FMODAudioEngine::countActiveMusic not implemented")]]
+    int countActiveEffects();
+
     /**
-     * @note[short] Android
+     * @note[short] MacOS (ARM): Out of line
+     * @note[short] MacOS (Intel): Out of line
+     * @note[short] Windows: Out of line
+     * @note[short] iOS: Out of line
+     * @note[short] Android: Out of line
      */
-    TodoReturn countActiveMusic();
-public:
+    int countActiveMusic();
     
 private:
     [[deprecated("FMODAudioEngine::createStream not implemented")]]
@@ -273,6 +275,8 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x35d310
+     * @note[short] MacOS (Intel): 0x3d7660
      * @note[short] Windows: 0x5c2d0
      * @note[short] Android
      */

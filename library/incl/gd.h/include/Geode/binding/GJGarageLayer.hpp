@@ -198,6 +198,7 @@ public:
     void onArrow(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0x2ec048
      * @note[short] MacOS (Intel): 0x3588c0
      * @note[short] Windows: 0x271750
      * @note[short] Android
@@ -318,16 +319,14 @@ public:
      * @note[short] Android
      */
     void setupPage(int p0, IconType p1);
-    
-private:
-    [[deprecated("GJGarageLayer::setupSpecialPage not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x2ed500
      * @note[short] MacOS (Intel): 0x359d80
+     * @note[short] Windows: 0x26f1e0
      * @note[short] Android
      */
     void setupSpecialPage();
-public:
     
 private:
     [[deprecated("GJGarageLayer::showUnlockPopupNew not implemented")]]

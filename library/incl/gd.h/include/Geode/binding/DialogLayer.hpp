@@ -121,7 +121,7 @@ public:
      * @note[short] iOS: 0x8b548
      * @note[short] Android
      */
-    virtual TodoReturn fadeInTextFinished(TextArea* p0);
+    virtual void fadeInTextFinished(TextArea* p0);
 
     /**
      * @note[short] MacOS (ARM): 0x340748

@@ -112,6 +112,8 @@ public:
     bool init(int p0);
 
     /**
+     * @note[short] MacOS (ARM): 0x4b1d5c
+     * @note[short] MacOS (Intel): 0x55b7c0
      * @note[short] Windows: 0x1f70d0
      * @note[short] Android
      */

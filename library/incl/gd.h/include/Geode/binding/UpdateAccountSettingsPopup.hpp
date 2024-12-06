@@ -40,7 +40,7 @@ public:
      * @note[short] iOS: 0x2d7dc0
      * @note[short] Android
      */
-    virtual TodoReturn updateSettingsFinished();
+    virtual void updateSettingsFinished();
 
     /**
      * @note[short] MacOS (ARM): 0x238a7c
@@ -49,7 +49,7 @@ public:
      * @note[short] iOS: 0x2d7ea4
      * @note[short] Android
      */
-    virtual TodoReturn updateSettingsFailed();
+    virtual void updateSettingsFailed();
     
 private:
     [[deprecated("UpdateAccountSettingsPopup::init not implemented")]]

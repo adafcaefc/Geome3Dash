@@ -42,6 +42,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn getCellDelegateType();
+    virtual int getCellDelegateType();
 public:
 };

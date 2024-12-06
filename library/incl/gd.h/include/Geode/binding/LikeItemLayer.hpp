@@ -48,14 +48,14 @@ private:
      */
     void onClose(cocos2d::CCObject* sender);
 public:
-    
-private:
-    [[deprecated("LikeItemLayer::onDislike not implemented")]]
+
     /**
+     * @note[short] MacOS (ARM): 0x514090
+     * @note[short] MacOS (Intel): 0x5e1a00
+     * @note[short] Windows: 0x319380
      * @note[short] Android
      */
     void onDislike(cocos2d::CCObject* sender);
-public:
 
     /**
      * @note[short] Windows: 0x319370

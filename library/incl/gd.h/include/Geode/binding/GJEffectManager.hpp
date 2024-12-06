@@ -686,14 +686,14 @@ public:
      * @note[short] Android
      */
     void saveToState(EffectManagerState& p0);
-    
-private:
-    [[deprecated("GJEffectManager::setColorAction not implemented")]]
+
     /**
+     * @note[short] MacOS (ARM): 0x26e4cc
+     * @note[short] MacOS (Intel): 0x2cb570
+     * @note[short] Windows: 0x254a90
      * @note[short] Android
      */
     void setColorAction(ColorAction* p0, int p1);
-public:
     
 private:
     [[deprecated("GJEffectManager::setFollowing not implemented")]]

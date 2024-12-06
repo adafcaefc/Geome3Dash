@@ -70,16 +70,14 @@ public:
      * @note[short] Android
      */
     static gd::string getAudioFileName(int p0);
-    
-private:
-    [[deprecated("LevelTools::getAudioString not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x44e26c
      * @note[short] MacOS (Intel): 0x4ecd10
+     * @note[short] Windows: 0x316950
      * @note[short] Android
      */
     static gd::string getAudioString(int p0);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x44c364
@@ -124,9 +122,11 @@ public:
 private:
     [[deprecated("LevelTools::getLevelList not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x44a138
+     * @note[short] MacOS (Intel): 0x4e82b0
      * @note[short] Android
      */
-    static TodoReturn getLevelList();
+    static gd::unordered_set<int> getLevelList();
 public:
 
     /**
@@ -171,14 +171,14 @@ private:
     /**
      * @note[short] Android
      */
-    static float posForTime(float time, cocos2d::CCArray* p1, int p2, bool p3, int& p4);
+    static cocos2d::CCPoint posForTime(float time, cocos2d::CCArray* p1, int p2, bool p3, int& p4);
 public:
 
     /**
      * @note[short] Windows: 0x317ea0
      * @note[short] Android
      */
-    static float posForTimeInternal(float time, cocos2d::CCArray* gameObjects, int speedmodValue, bool disabledSpeedmod, bool p4, bool p5, int& p6, int p7);
+    static cocos2d::CCPoint posForTimeInternal(float time, cocos2d::CCArray* gameObjects, int speedmodValue, bool disabledSpeedmod, bool p4, bool p5, int& p6, int p7);
     
 private:
     [[deprecated("LevelTools::sortChannelOrderObjects not implemented")]]

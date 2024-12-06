@@ -130,7 +130,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn getTransformNode();
+    virtual cocos2d::CCNode* getTransformNode();
 public:
     
 private:
@@ -138,6 +138,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn getUI();
+    virtual cocos2d::CCLayer* getUI();
 public:
 };

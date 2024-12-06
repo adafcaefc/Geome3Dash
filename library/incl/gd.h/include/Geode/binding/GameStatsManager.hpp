@@ -180,6 +180,8 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x67884
+     * @note[short] MacOS (Intel): 0x73c90
      * @note[short] Windows: 0x1dfe10
      * @note[short] Android
      */
@@ -390,18 +392,19 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x6230c
+     * @note[short] MacOS (Intel): 0x6e6c0
      * @note[short] Windows: 0x1dc180
      * @note[short] Android
      */
     cocos2d::CCArray* getCompletedMapPacks();
-    
-private:
-    [[deprecated("GameStatsManager::getCurrencyKey not implemented")]]
+
     /**
+     * @note[short] MacOS (ARM): 0x64184
+     * @note[short] MacOS (Intel): 0x70790
+     * @note[short] Windows: Out of line
      * @note[short] Android
      */
-    TodoReturn getCurrencyKey(GJGameLevel* p0);
-public:
+    gd::string getCurrencyKey(GJGameLevel* level);
     
 private:
     [[deprecated("GameStatsManager::getDailyLevelKey not implemented")]]

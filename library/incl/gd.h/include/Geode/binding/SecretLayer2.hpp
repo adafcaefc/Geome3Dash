@@ -146,6 +146,7 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x3f8594
      * @note[short] MacOS (Intel): 0x48b320
      * @note[short] Windows: 0x3d24e0
      * @note[short] Android

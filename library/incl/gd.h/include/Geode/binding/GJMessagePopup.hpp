@@ -45,7 +45,7 @@ public:
      * @note[short] iOS: 0x2db3f0
      * @note[short] Android
      */
-    virtual TodoReturn downloadMessageFinished(GJUserMessage* p0);
+    virtual void downloadMessageFinished(GJUserMessage* p0);
 
     /**
      * @note[short] MacOS (ARM): 0x23cfa4
@@ -54,7 +54,7 @@ public:
      * @note[short] iOS: 0x2db464
      * @note[short] Android
      */
-    virtual TodoReturn downloadMessageFailed(int p0);
+    virtual void downloadMessageFailed(int p0);
 
     /**
      * @note[short] MacOS (ARM): 0x23d05c

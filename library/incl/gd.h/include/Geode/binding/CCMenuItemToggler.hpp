@@ -143,6 +143,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x4fe70
+     * @note[short] MacOS (Intel): 0x5a1f0
      * @note[short] Windows: Out of line
      * @note[short] Android
      */

@@ -62,7 +62,7 @@ private:
      * @note[short] iOS: 0x2f2d1c
      * @note[short] Android
      */
-    virtual TodoReturn valuePopupClosed(ConfigureValuePopup* p0, float p1);
+    virtual void valuePopupClosed(ConfigureValuePopup* p0, float p1);
 public:
     
 private:

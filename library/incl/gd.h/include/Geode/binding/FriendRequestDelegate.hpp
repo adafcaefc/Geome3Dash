@@ -18,7 +18,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn loadFRequestsFinished(cocos2d::CCArray* p0, char const* p1);
+    virtual void loadFRequestsFinished(cocos2d::CCArray* p0, char const* p1);
 public:
     
 private:
@@ -26,7 +26,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn loadFRequestsFailed(char const* p0, GJErrorCode p1);
+    virtual void loadFRequestsFailed(char const* p0, GJErrorCode p1);
 public:
     
 private:
@@ -42,6 +42,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn forceReloadRequests(bool p0);
+    virtual void forceReloadRequests(bool p0);
 public:
 };

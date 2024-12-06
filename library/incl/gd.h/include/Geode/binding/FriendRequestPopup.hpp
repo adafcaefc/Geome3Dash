@@ -17,14 +17,12 @@ class FriendRequestPopup : public FLAlertLayer, public UploadActionDelegate, pub
 public:
     static constexpr auto CLASS_NAME = "FriendRequestPopup";
     GEODE_CUSTOM_CONSTRUCTOR_GD(FriendRequestPopup, FLAlertLayer)
-    
-private:
-    [[deprecated("FriendRequestPopup::create not implemented")]]
+
     /**
+     * @note[short] Windows: 0x28e370
      * @note[short] Android
      */
     static FriendRequestPopup* create(GJFriendRequest* p0);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x23ade4
@@ -78,16 +76,14 @@ private:
      */
     void blockUser();
 public:
-    
-private:
-    [[deprecated("FriendRequestPopup::init not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x239a00
      * @note[short] MacOS (Intel): 0x2916b0
+     * @note[short] Windows: 0x28e4b0
      * @note[short] Android
      */
     bool init(GJFriendRequest* p0);
-public:
     
 private:
     [[deprecated("FriendRequestPopup::loadFromGJFriendRequest not implemented")]]
@@ -118,14 +114,14 @@ private:
      */
     void onBlock(cocos2d::CCObject* sender);
 public:
-    
-private:
-    [[deprecated("FriendRequestPopup::onClose not implemented")]]
+
     /**
+     * @note[short] MacOS (ARM): 0x23a014
+     * @note[short] MacOS (Intel): 0x291c80
+     * @note[short] Windows: 0x28f440
      * @note[short] Android
      */
     void onClose(cocos2d::CCObject* sender);
-public:
     
 private:
     [[deprecated("FriendRequestPopup::onRemove not implemented")]]
@@ -134,4 +130,9 @@ private:
      */
     void onRemove(cocos2d::CCObject* sender);
 public:
+    void* m_unk;
+    GJFriendRequest* m_request;
+    LoadingCircle* m_circle;
+    CCMenuItemSpriteExtra* m_closeBtn;
+    UploadActionPopup* m_popup;
 };

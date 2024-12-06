@@ -105,7 +105,7 @@ public:
      * @note[short] iOS: 0x37d924
      * @note[short] Android
      */
-    virtual TodoReturn displayFrameChanged(cocos2d::CCObject* p0, gd::string p1);
+    virtual void displayFrameChanged(cocos2d::CCObject* p0, gd::string p1);
     
 private:
     [[deprecated("AnimatedGameObject::animationForID not implemented")]]

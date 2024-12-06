@@ -65,7 +65,7 @@ public:
      * @note[short] iOS: 0x1c417c
      * @note[short] Android
      */
-    virtual TodoReturn onPlayback(SongInfoObject* p0);
+    virtual void onPlayback(SongInfoObject* p0);
     
 private:
     [[deprecated("SetupSongTriggerPopup::init not implemented")]]

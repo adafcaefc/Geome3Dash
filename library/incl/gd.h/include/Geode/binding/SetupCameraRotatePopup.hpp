@@ -60,7 +60,7 @@ private:
      * @note[short] MacOS (Intel): 0x4ab000
      * @note[short] Android
      */
-    virtual TodoReturn valuePopupClosed(ConfigureValuePopup* p0, float p1);
+    virtual void valuePopupClosed(ConfigureValuePopup* p0, float p1);
 public:
     
 private:

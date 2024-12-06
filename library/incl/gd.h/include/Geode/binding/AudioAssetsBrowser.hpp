@@ -99,7 +99,7 @@ private:
      * @note[short] iOS: 0x1d3070
      * @note[short] Android
      */
-    virtual TodoReturn getCellDelegateType();
+    virtual int getCellDelegateType();
 public:
     
 private:

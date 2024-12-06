@@ -348,7 +348,7 @@ public:
      * @note[short] iOS: Out of line
      * @note[short] Android: Out of line
      */
-    virtual float posForTime(float p0);
+    virtual cocos2d::CCPoint posForTime(float p0);
 
     /**
      * @note[short] MacOS (ARM): Out of line
@@ -656,12 +656,15 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x11f100
+     * @note[short] MacOS (Intel): 0x149850
      * @note[short] Windows: 0x23b6c0
      * @note[short] Android
      */
     void activateSFXTrigger(SFXTriggerGameObject* p0);
 
     /**
+     * @note[short] MacOS (ARM): 0x11eec4
      * @note[short] MacOS (Intel): 0x1495f0
      * @note[short] Windows: 0x23b8c0
      * @note[short] Android
@@ -1936,6 +1939,7 @@ public:
     void playerTouchedRing(PlayerObject* p0, RingObject* p1);
 
     /**
+     * @note[short] MacOS (ARM): 0xf6f88
      * @note[short] MacOS (Intel): 0x1180f0
      * @note[short] Windows: 0x212a70
      * @note[short] Android
@@ -2043,14 +2047,12 @@ public:
      * @note[short] Android
      */
     void processActivatedAudioTriggers(float p0);
-    
-private:
-    [[deprecated("GJBaseGameLayer::processAdvancedFollowAction not implemented")]]
+
     /**
+     * @note[short] Windows: 0x22a020
      * @note[short] Android
      */
     void processAdvancedFollowAction(AdvancedFollowInstance& p0, bool p1, float p2);
-public:
 
     /**
      * @note[short] Windows: 0x229e00
@@ -2081,6 +2083,8 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x10c484
+     * @note[short] MacOS (Intel): 0x132070
      * @note[short] Windows: 0x2251f0
      * @note[short] Android
      */
@@ -2151,12 +2155,15 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x10ffa0
+     * @note[short] MacOS (Intel): 0x136810
      * @note[short] Windows: 0x2282d0
      * @note[short] Android
      */
     void processMoveActions();
 
     /**
+     * @note[short] MacOS (ARM): 0x10e5b8
      * @note[short] MacOS (Intel): 0x1347b0
      * @note[short] Windows: 0x2262f0
      * @note[short] Android
@@ -2403,6 +2410,8 @@ public:
 private:
     [[deprecated("GJBaseGameLayer::removeTemporaryParticles not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x11e718
+     * @note[short] MacOS (Intel): 0x148cb0
      * @note[short] Android
      */
     TodoReturn removeTemporaryParticles();
@@ -2632,15 +2641,13 @@ public:
      * @note[short] Android
      */
     void shakeCamera(float duration, float strength, float interval);
-    
-private:
-    [[deprecated("GJBaseGameLayer::shouldExitHackedLevel not implemented")]]
+
     /**
      * @note[short] MacOS (Intel): 0x102b90
+     * @note[short] Windows: 0x205d10
      * @note[short] Android
      */
-    TodoReturn shouldExitHackedLevel();
-public:
+    bool shouldExitHackedLevel();
     
 private:
     [[deprecated("GJBaseGameLayer::sortAllGroupsX not implemented")]]
@@ -3708,7 +3715,7 @@ public:
     cocos2d::CCArray* m_temporaryParticles;
     gd::unordered_set<int> m_customParticlesUIDs;
     cocos2d::CCDictionary* m_gradientLayers;
-    void* m_unk2a54;
+    int m_activeGradients;
     ShaderLayer* m_shaderLayer;
     bool m_bUnk31a0;
     bool m_bUnk31a1;
@@ -3754,7 +3761,7 @@ public:
     AudioEffectsLayer* m_audioEffectsLayer;
     OBB2D* m_unk3270;
     gd::vector<GameObject*> m_unk3278;
-    int m_unk3290;
+    int m_activeObjects;
     int m_unk3294;
     cocos2d::ccColor3B m_unk3298;
     int m_resumeTimer;

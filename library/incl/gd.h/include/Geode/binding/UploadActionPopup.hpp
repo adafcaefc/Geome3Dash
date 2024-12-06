@@ -16,6 +16,8 @@ public:
     GEODE_CUSTOM_CONSTRUCTOR_GD(UploadActionPopup, FLAlertLayer)
 
     /**
+     * @note[short] MacOS (ARM): 0x238c74
+     * @note[short] MacOS (Intel): 0x290720
      * @note[short] Windows: 0x28db20
      * @note[short] Android
      */

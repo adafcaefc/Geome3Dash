@@ -196,14 +196,12 @@ public:
      * @note[short] Android
      */
     void onNextGroupID1(cocos2d::CCObject* sender);
-    
-private:
-    [[deprecated("SetGroupIDLayer::onPaste not implemented")]]
+
     /**
+     * @note[short] Windows: 0x111a80
      * @note[short] Android
      */
     void onPaste(cocos2d::CCObject* sender);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x29ae48

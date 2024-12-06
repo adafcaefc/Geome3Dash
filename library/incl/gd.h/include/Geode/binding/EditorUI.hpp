@@ -128,7 +128,7 @@ public:
      * @note[short] iOS: 0xd590
      * @note[short] Android
      */
-    virtual TodoReturn getUI();
+    virtual cocos2d::CCLayer* getUI();
 
     /**
      * @note[short] MacOS (ARM): 0x32e34
@@ -182,7 +182,7 @@ public:
      * @note[short] iOS: 0x3f4498
      * @note[short] Android
      */
-    virtual TodoReturn getTransformNode();
+    virtual cocos2d::CCNode* getTransformNode();
 
     /**
      * @note[short] MacOS (ARM): 0x44ec0
@@ -1310,6 +1310,8 @@ public:
     bool onCreate();
 
     /**
+     * @note[short] MacOS (ARM): 0x342c0
+     * @note[short] MacOS (Intel): 0x34d30
      * @note[short] Windows: 0x10d880
      * @note[short] Android
      */
@@ -1425,6 +1427,8 @@ public:
     void onGroupIDFilter(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0xe2d4
+     * @note[short] MacOS (Intel): 0xcf70
      * @note[short] Windows: 0x1110f0
      * @note[short] Android
      */
@@ -2077,6 +2081,8 @@ public:
     void undoLastAction(cocos2d::CCObject* p0);
 
     /**
+     * @note[short] MacOS (ARM): 0x2c954
+     * @note[short] MacOS (Intel): 0x2cdd0
      * @note[short] Windows: 0xe07e0
      * @note[short] Android
      */

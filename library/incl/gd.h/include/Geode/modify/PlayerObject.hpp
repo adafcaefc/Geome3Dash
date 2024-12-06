@@ -2268,7 +2268,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayerObject, pushDown, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayerObject, pushPlayer, , float)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayerObject, redirectDash, , float)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayerObject, redirectPlayerForce, , float, float, float, float)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x389ed0, Thiscall, PlayerObject, redirectPlayerForce, float, float, float, float)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x389370, Thiscall, PlayerObject, releaseAllButtons, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x3823a0, Thiscall, PlayerObject, releaseButton, PlayerButton)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayerObject, removeAllParticles, )

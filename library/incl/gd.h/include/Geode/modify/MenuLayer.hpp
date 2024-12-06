@@ -446,7 +446,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x320bb0, Thiscall, MenuLayer, onOptions, cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x320bc0, Thiscall, MenuLayer, onOptionsInstant, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x320b10, Thiscall, MenuLayer, onPlay, cocos2d::CCObject*)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x3210c0, Thiscall, MenuLayer, onQuit, cocos2d::CCObject*)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x3210d0, Thiscall, MenuLayer, onQuit, cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x3207c0, Thiscall, MenuLayer, onRobTop, cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x320d50, Thiscall, MenuLayer, onStats, cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(MenuLayer, onTrailer, , cocos2d::CCObject*)

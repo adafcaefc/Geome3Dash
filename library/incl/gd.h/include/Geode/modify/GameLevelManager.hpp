@@ -2985,7 +2985,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x149310, Thiscall, GameLevelManager, dataLoaded, DS_Dictionary*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameLevelManager, deleteAccountComment, , int, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameLevelManager, deleteComment, , int, CommentType, int)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameLevelManager, deleteFriendRequests, , int, cocos2d::CCArray*, bool)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x15e180, Thiscall, GameLevelManager, deleteFriendRequests, int, cocos2d::CCArray*, bool)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x142fe0, Thiscall, GameLevelManager, deleteLevel, GJGameLevel*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameLevelManager, deleteLevelComment, , int, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x143890, Thiscall, GameLevelManager, deleteLevelList, GJLevelList*)

@@ -115,7 +115,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn loadingIsFinished();
+    void loadingIsFinished();
 public:
 
     /**

@@ -160,7 +160,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupOpacityPopup, onClose, , cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupOpacityPopup, textInputClosed, , CCTextInputNode*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x413a50, Thiscall, SetupOpacityPopup, textChanged, CCTextInputNode*)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupOpacityPopup, init, , EffectGameObject*, cocos2d::CCArray*)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x412860, Thiscall, SetupOpacityPopup, init, EffectGameObject*, cocos2d::CCArray*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupOpacityPopup, onTargetIDArrow, , cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupOpacityPopup, sliderChanged, , cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(SetupOpacityPopup, updateDuration, )

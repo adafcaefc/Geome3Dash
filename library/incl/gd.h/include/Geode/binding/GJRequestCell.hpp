@@ -79,29 +79,28 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x1ea280
      * @note[short] MacOS (Intel): 0x23a250
      * @note[short] Windows: 0xbb640
      * @note[short] Android
      */
     void loadFromScore(GJUserScore* p0);
-    
-private:
-    [[deprecated("GJRequestCell::markAsRead not implemented")]]
+
     /**
+     * @note[short] MacOS (ARM): 0x1f4594
+     * @note[short] MacOS (Intel): 0x245960
+     * @note[short] Windows: 0xbbf50
      * @note[short] Android
      */
-    TodoReturn markAsRead();
-public:
-    
-private:
-    [[deprecated("GJRequestCell::onDeleteRequest not implemented")]]
+    void markAsRead();
+
     /**
      * @note[short] MacOS (ARM): 0x1f4470
      * @note[short] MacOS (Intel): 0x245830
+     * @note[short] Windows: 0xbc030
      * @note[short] Android
      */
     void onDeleteRequest(cocos2d::CCObject* sender);
-public:
     
 private:
     [[deprecated("GJRequestCell::onToggle not implemented")]]
@@ -110,14 +109,14 @@ private:
      */
     void onToggle(cocos2d::CCObject* sender);
 public:
-    
-private:
-    [[deprecated("GJRequestCell::onViewFriendRequest not implemented")]]
+
     /**
+     * @note[short] MacOS (ARM): 0x1f4398
+     * @note[short] MacOS (Intel): 0x245740
+     * @note[short] Windows: 0xbbea0
      * @note[short] Android
      */
     void onViewFriendRequest(cocos2d::CCObject* sender);
-public:
     
 private:
     [[deprecated("GJRequestCell::onViewProfile not implemented")]]
@@ -142,4 +141,7 @@ private:
      */
     TodoReturn updateToggle();
 public:
+    GJUserScore* m_score;
+    UploadActionPopup* m_popup;
+    CCMenuItemToggler* m_toggler;
 };

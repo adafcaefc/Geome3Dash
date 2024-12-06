@@ -1927,7 +1927,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameManager, printGJLog, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameManager, queueReloadMenu, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameManager, rateGame, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GameManager, recountUserStats, , gd::string)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x181ba0, Thiscall, GameManager, recountUserStats, gd::string)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x187490, Thiscall, GameManager, reloadAll, bool, bool, bool, bool, bool)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(GameManager, reloadAll, bool, bool, bool)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x187540, Thiscall, GameManager, reloadAllStep2, )

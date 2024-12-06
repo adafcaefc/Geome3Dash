@@ -5,16 +5,6 @@
 using namespace geode::modifier;
 namespace geode::modifier {
     
-	#ifndef GEODE_STATICS_onEnter
-		#define GEODE_STATICS_onEnter
-		GEODE_AS_STATIC_FUNCTION(onEnter) 
-	#endif
-
-	#ifndef GEODE_STATICS_onExit
-		#define GEODE_STATICS_onExit
-		GEODE_AS_STATIC_FUNCTION(onExit) 
-	#endif
-
 	#ifndef GEODE_STATICS_ccTouchBegan
 		#define GEODE_STATICS_ccTouchBegan
 		GEODE_AS_STATIC_FUNCTION(ccTouchBegan) 
@@ -291,8 +281,8 @@ namespace geode::modifier {
 		void apply() override {
 
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(TableView, create, TableViewDelegate*, TableViewDataSource*, TableViewCellDelegate*, cocos2d::CCRect)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(TableView, onEnter, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(TableView, onExit, )
+			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(TableView, onEnter, )
+			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(TableView, onExit, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x75250, Thiscall, TableView, ccTouchBegan, cocos2d::CCTouch*, cocos2d::CCEvent*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x754e0, Thiscall, TableView, ccTouchMoved, cocos2d::CCTouch*, cocos2d::CCEvent*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x75400, Thiscall, TableView, ccTouchEnded, cocos2d::CCTouch*, cocos2d::CCEvent*)

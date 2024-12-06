@@ -77,6 +77,7 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x1ea9f8
      * @note[short] MacOS (Intel): 0x23aa30
      * @note[short] Windows: 0xbc7e0
      * @note[short] Android
@@ -138,4 +139,7 @@ private:
      */
     TodoReturn updateToggle();
 public:
+    GJUserMessage* m_message;
+    void* m_unk;
+    CCMenuItemToggler* m_toggler;
 };

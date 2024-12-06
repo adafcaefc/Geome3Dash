@@ -143,4 +143,7 @@ public:
      * @note[short] Android
      */
     TodoReturn setupLastProgress();
+    cocos2d::CCMenu* m_mainMenu;
+    bool m_unk1e8;
+    bool m_unk1e9;
 };

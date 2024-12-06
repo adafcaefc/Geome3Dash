@@ -18,7 +18,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn updateSettingsFinished();
+    virtual void updateSettingsFinished();
 public:
     
 private:
@@ -26,6 +26,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn updateSettingsFailed();
+    virtual void updateSettingsFailed();
 public:
 };

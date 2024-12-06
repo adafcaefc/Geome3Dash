@@ -18,7 +18,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn registerAccountFinished();
+    virtual void registerAccountFinished();
 public:
     
 private:
@@ -26,6 +26,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn registerAccountFailed(AccountError p0);
+    virtual void registerAccountFailed(AccountError p0);
 public:
 };

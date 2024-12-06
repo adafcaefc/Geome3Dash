@@ -1331,7 +1331,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayLayer, isGameplayActive, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x390c30, Thiscall, PlayLayer, levelComplete, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayLayer, loadActiveSaveObjects, , gd::vector<SavedActiveObjectState>&, gd::vector<SavedSpecialObjectState>&)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayLayer, loadDefaultColors, )
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x39ad80, Thiscall, PlayLayer, loadDefaultColors, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayLayer, loadDynamicSaveObjects, , gd::vector<SavedObjectStateRef>&)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x3a07b0, Thiscall, PlayLayer, loadFromCheckpoint, CheckpointObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(PlayLayer, loadLastCheckpoint, )

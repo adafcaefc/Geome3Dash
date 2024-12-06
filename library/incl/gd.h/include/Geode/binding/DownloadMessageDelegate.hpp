@@ -18,7 +18,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn downloadMessageFinished(GJUserMessage* p0);
+    virtual void downloadMessageFinished(GJUserMessage* p0);
 public:
     
 private:
@@ -26,6 +26,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn downloadMessageFailed(int p0);
+    virtual void downloadMessageFailed(int p0);
 public:
 };

@@ -263,7 +263,7 @@ public:
      * @note[short] iOS: 0x13733c
      * @note[short] Android
      */
-    virtual TodoReturn valuePopupClosed(ConfigureValuePopup* p0, float p1);
+    virtual void valuePopupClosed(ConfigureValuePopup* p0, float p1);
 
     /**
      * @note[short] Windows: 0x45c590
@@ -346,16 +346,20 @@ public:
     void createCustomToggleValueControl(int p0, bool p1, bool p2, gd::string p3, cocos2d::CCPoint p4, bool p5, int p6, int p7);
 
     /**
+     * @note[short] MacOS (ARM): 0x1dd5b4
+     * @note[short] MacOS (Intel): 0x22c970
      * @note[short] Windows: 0x463da0
      * @note[short] Android
      */
     void createEasingControls(cocos2d::CCPoint p0, float p1, int p2, int p3);
 
     /**
+     * @note[short] MacOS (ARM): 0x1d71b0
+     * @note[short] MacOS (Intel): 0x2243a0
      * @note[short] Windows: 0x45cd50
      * @note[short] Android
      */
-    void createMultiTriggerItems(cocos2d::CCPoint p0, cocos2d::CCPoint p1, cocos2d::CCPoint p2);
+    void createMultiTriggerItems(cocos2d::CCPoint touchPos, cocos2d::CCPoint spawnPos, cocos2d::CCPoint multiPos);
 
     /**
      * @note[short] Windows: 0x45ca40
@@ -364,6 +368,8 @@ public:
     void createMultiTriggerItemsCorner();
 
     /**
+     * @note[short] MacOS (ARM): 0x1d70d0
+     * @note[short] MacOS (Intel): 0x224290
      * @note[short] Windows: 0x45c930
      * @note[short] Android
      */
@@ -400,37 +406,43 @@ public:
     CCMenuItemToggler* createToggleButton(gd::string p0, cocos2d::SEL_MenuHandler p1, bool p2, cocos2d::CCPoint p3);
 
     /**
+     * @note[short] MacOS (ARM): 0x1da5ec
+     * @note[short] MacOS (Intel): 0x228c00
      * @note[short] Windows: 0x45e900
      * @note[short] Android
      */
-    void createToggleValueControl(int p0, gd::string p1, cocos2d::CCPoint p2, bool p3, int p4, int p5, float p6);
+    cocos2d::CCArray* createToggleValueControl(int p0, gd::string p1, cocos2d::CCPoint p2, bool p3, int p4, int p5, float p6);
     
 private:
     [[deprecated("SetupTriggerPopup::createToggleValueControlAdvanced not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x1da73c
+     * @note[short] MacOS (Intel): 0x228d30
      * @note[short] Android
      */
-    void createToggleValueControlAdvanced(int p0, gd::string p1, cocos2d::CCPoint p2, bool p3, int p4, int p5, float p6, float p7, float p8, cocos2d::CCPoint p9);
+    cocos2d::CCArray* createToggleValueControlAdvanced(int p0, gd::string p1, cocos2d::CCPoint p2, bool p3, int p4, int p5, float p6, float p7, float p8, cocos2d::CCPoint p9);
 public:
 
     /**
      * @note[short] Windows: 0x45db40
      * @note[short] Android
      */
-    void createValueControl(int p0, gd::string p1, cocos2d::CCPoint p2, float p3, float p4, float p5);
+    cocos2d::CCArray* createValueControl(int p0, gd::string p1, cocos2d::CCPoint p2, float p3, float p4, float p5);
 
     /**
+     * @note[short] MacOS (ARM): 0x1d9550
+     * @note[short] MacOS (Intel): 0x227b30
      * @note[short] Windows: 0x45dc30
      * @note[short] Android
      */
-    void createValueControlAdvanced(int p0, gd::string p1, cocos2d::CCPoint p2, float p3, bool p4, InputValueType p5, int p6, bool p7, float p8, float p9, int p10, int p11, GJInputStyle p12, int p13, bool p14);
+    cocos2d::CCArray* createValueControlAdvanced(int p0, gd::string p1, cocos2d::CCPoint p2, float p3, bool p4, InputValueType p5, int p6, bool p7, float p8, float p9, int p10, int p11, GJInputStyle p12, int p13, bool p14);
     
 private:
     [[deprecated("SetupTriggerPopup::createValueControlWArrows not implemented")]]
     /**
      * @note[short] Android
      */
-    void createValueControlWArrows(int p0, gd::string p1, cocos2d::CCPoint p2, float p3);
+    cocos2d::CCArray* createValueControlWArrows(int p0, gd::string p1, cocos2d::CCPoint p2, float p3);
 public:
     
 private:
@@ -472,14 +484,14 @@ private:
      */
     cocos2d::CCArray* getPageContainer(int p0);
 public:
-    
-private:
-    [[deprecated("SetupTriggerPopup::getTriggerValue not implemented")]]
+
     /**
+     * @note[short] MacOS (ARM): 0x1db6b4
+     * @note[short] MacOS (Intel): 0x229d20
+     * @note[short] Windows: 0x4620f0
      * @note[short] Android
      */
-    float getTriggerValue(int p0, GameObject* p1);
-public:
+    float getTriggerValue(int property, GameObject* object);
 
     /**
      * @note[short] Windows: 0x45f750
@@ -515,7 +527,7 @@ public:
      * @note[short] Windows: 0x45b900
      * @note[short] Android
      */
-    bool init(EffectGameObject* p0, cocos2d::CCArray* p1, float p2, float p3, int p4);
+    bool init(EffectGameObject* trigger, cocos2d::CCArray* triggers, float width, float height, int unkEnum);
 
     /**
      * @note[short] Windows: 0x465590
@@ -820,22 +832,28 @@ public:
     void updateTouchTriggered();
 
     /**
+     * @note[short] MacOS (ARM): 0x1da380
+     * @note[short] MacOS (Intel): 0x2289d0
      * @note[short] Windows: 0x463b50
      * @note[short] Android
      */
-    void updateValue(int p0, float p1);
+    void updateValue(int property, float value);
 
     /**
+     * @note[short] MacOS (ARM): 0x1d9370
+     * @note[short] MacOS (Intel): 0x227950
      * @note[short] Windows: 0x45f7c0
      * @note[short] Android
      */
-    void updateValueControls(int p0, float p1);
+    void updateValueControls(int property, float value);
 
     /**
+     * @note[short] MacOS (ARM): 0x1d7e68
+     * @note[short] MacOS (Intel): 0x225210
      * @note[short] Windows: 0x45fd90
      * @note[short] Android
      */
-    void valueChanged(int p0, float p1);
+    void valueChanged(int property, float value);
     EffectGameObject* m_gameObject;
     cocos2d::CCArray* m_gameObjects;
     bool m_touchTriggered;

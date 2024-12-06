@@ -23,6 +23,8 @@ public:
 private:
     [[deprecated("SecretLayer6::create not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x3db37c
+     * @note[short] MacOS (Intel): 0x46bd70
      * @note[short] Android
      */
     static SecretLayer6* create();
@@ -31,6 +33,8 @@ public:
 private:
     [[deprecated("SecretLayer6::scene not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x3db2c0
+     * @note[short] MacOS (Intel): 0x46bca0
      * @note[short] Android
      */
     static cocos2d::CCScene* scene();
@@ -59,6 +63,8 @@ public:
 private:
     [[deprecated("SecretLayer6::onBack not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x3db8a4
+     * @note[short] MacOS (Intel): 0x46c2e0
      * @note[short] Android
      */
     void onBack(cocos2d::CCObject* sender);
@@ -67,6 +73,8 @@ public:
 private:
     [[deprecated("SecretLayer6::startGame01 not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x3db8f4
+     * @note[short] MacOS (Intel): 0x46c330
      * @note[short] Android
      */
     void startGame01();

@@ -73,4 +73,6 @@ private:
      */
     TodoReturn updateTriggerControlFrame();
 public:
+    gd::string m_unkString;
+    int m_customTriggerValue;
 };

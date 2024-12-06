@@ -164,16 +164,14 @@ public:
      * @note[short] Android
      */
     void onChestType(cocos2d::CCObject* sender);
-    
-private:
-    [[deprecated("SecretRewardsLayer::onGoldChest not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x5476f8
      * @note[short] MacOS (Intel): 0x61bb70
+     * @note[short] Windows: 0x3c0020
      * @note[short] Android
      */
     void onGoldChest(cocos2d::CCObject* sender);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x5499c0
@@ -190,16 +188,14 @@ public:
      * @note[short] Android
      */
     void onShop(cocos2d::CCObject* sender);
-    
-private:
-    [[deprecated("SecretRewardsLayer::onSpecialItem not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x547f04
      * @note[short] MacOS (Intel): 0x61c330
+     * @note[short] Windows: 0x3bf760
      * @note[short] Android
      */
     void onSpecialItem(cocos2d::CCObject* sender);
-public:
 
     /**
      * @note[short] Windows: 0x3bd950
@@ -224,16 +220,14 @@ private:
      */
     void showDialog03();
 public:
-    
-private:
-    [[deprecated("SecretRewardsLayer::showDialogDiamond not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x54d868
      * @note[short] MacOS (Intel): 0x622be0
+     * @note[short] Windows: 0x3c4980
      * @note[short] Android
      */
     void showDialogDiamond();
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x54c6f0

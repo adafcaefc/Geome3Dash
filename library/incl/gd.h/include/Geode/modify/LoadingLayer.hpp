@@ -30,11 +30,6 @@ namespace geode::modifier {
 		GEODE_AS_STATIC_FUNCTION(loadAssets) 
 	#endif
 
-	#ifndef GEODE_STATICS_loadingFinished
-		#define GEODE_STATICS_loadingFinished
-		GEODE_AS_STATIC_FUNCTION(loadingFinished) 
-	#endif
-
 	#ifndef GEODE_STATICS_updateProgress
 		#define GEODE_STATICS_updateProgress
 		GEODE_AS_STATIC_FUNCTION(updateProgress) 
@@ -90,7 +85,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x31a930, Thiscall, LoadingLayer, getLoadingString, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x319600, Thiscall, LoadingLayer, init, bool)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x319ea0, Thiscall, LoadingLayer, loadAssets, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(LoadingLayer, loadingFinished, )
+			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(LoadingLayer, loadingFinished, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x319e20, Thiscall, LoadingLayer, updateProgress, int)
 		}
 	};

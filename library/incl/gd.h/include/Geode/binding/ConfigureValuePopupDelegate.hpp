@@ -18,6 +18,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn valuePopupClosed(ConfigureValuePopup* p0, float p1);
+    virtual void valuePopupClosed(ConfigureValuePopup* p0, float p1);
 public:
 };

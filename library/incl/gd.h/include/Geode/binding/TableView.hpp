@@ -50,28 +50,24 @@ public:
      * @note[short] Android
      */
     static TableView* create(TableViewDelegate* tvd, TableViewDataSource* tvds, TableViewCellDelegate* tvcd, cocos2d::CCRect rect);
-    
-private:
-    [[deprecated("TableView::onEnter not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x537ea4
      * @note[short] MacOS (Intel): 0x60ae40
+     * @note[short] Windows: Out of line
      * @note[short] iOS: 0x2ff6c4
      * @note[short] Android
      */
     virtual void onEnter();
-public:
-    
-private:
-    [[deprecated("TableView::onExit not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x537ea8
      * @note[short] MacOS (Intel): 0x60ae50
+     * @note[short] Windows: Out of line
      * @note[short] iOS: 0x2ff6c8
      * @note[short] Android
      */
     virtual void onExit();
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x538024

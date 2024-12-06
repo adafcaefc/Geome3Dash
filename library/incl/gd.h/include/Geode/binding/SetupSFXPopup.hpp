@@ -82,7 +82,7 @@ public:
      * @note[short] iOS: 0x1844dc
      * @note[short] Android
      */
-    virtual TodoReturn getActiveSFXID();
+    virtual int getActiveSFXID();
 
     /**
      * @note[short] MacOS (ARM): 0x410a64
@@ -91,7 +91,7 @@ public:
      * @note[short] iOS: 0x1844ec
      * @note[short] Android
      */
-    virtual TodoReturn overridePlaySFX(SFXInfoObject* p0);
+    virtual bool overridePlaySFX(SFXInfoObject* p0);
 
     /**
      * @note[short] MacOS (ARM): 0x410ccc

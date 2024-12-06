@@ -171,7 +171,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn getNormalPercent();
+    int getNormalPercent();
 public:
     
 private:

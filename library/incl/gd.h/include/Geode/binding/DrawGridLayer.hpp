@@ -51,7 +51,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn addToEffects(EffectGameObject* p0);
+    void addToEffects(EffectGameObject* p0);
 public:
     
 private:
@@ -59,7 +59,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn addToGuides(GameObject* p0);
+    void addToGuides(GameObject* p0);
 public:
     
 private:
@@ -67,7 +67,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn addToSpeedObjects(EffectGameObject* p0);
+    void addToSpeedObjects(EffectGameObject* p0);
 public:
     
 private:
@@ -75,7 +75,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn getPortalMinMax(GameObject* p0);
+    cocos2d::CCPoint getPortalMinMax(GameObject* p0);
 public:
     
 private:
@@ -98,7 +98,7 @@ private:
     /**
      * @note[short] Android
      */
-    float posForTime(float p0);
+    cocos2d::CCPoint posForTime(float p0);
 public:
     
 private:
@@ -114,7 +114,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn removeAudioLineObject(AudioLineGuideGameObject* p0);
+    void removeAudioLineObject(AudioLineGuideGameObject* p0);
 public:
     
 private:
@@ -122,7 +122,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn removeFromEffects(EffectGameObject* p0);
+    void removeFromEffects(EffectGameObject* p0);
 public:
     
 private:
@@ -130,7 +130,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn removeFromGuides(GameObject* p0);
+    void removeFromGuides(GameObject* p0);
 public:
     
 private:
@@ -138,7 +138,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn removeFromSpeedObjects(EffectGameObject* p0);
+    void removeFromSpeedObjects(EffectGameObject* p0);
 public:
     
 private:
@@ -146,7 +146,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn sortSpeedObjects();
+    void sortSpeedObjects();
 public:
     
 private:
@@ -162,7 +162,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn updateMusicGuideTime(float p0);
+    void updateMusicGuideTime(float p0);
 public:
     
 private:
@@ -172,8 +172,31 @@ private:
      */
     void updateTimeMarkers();
 public:
-    GEODE_PAD(112);
+    std::array<cocos2d::CCPoint, 400>* m_pointArray1;
+    std::array<cocos2d::CCPoint, 400>* m_pointArray2;
+    std::array<cocos2d::CCPoint, 400>* m_pointArray3;
+    gd::unordered_map<int, AudioLineGuideGameObject*> m_audioLineObjects;
+    float m_musicTime;
+    float m_playbackTime;
+    float m_oldPlaybackTime;
+    float m_playbackX;
+    float m_playbackY;
+    bool m_sortEffects;
     LevelEditorLayer* m_editorLayer;
-    GEODE_PAD(108);
+    gd::string m_timeMarkerString;
+    cocos2d::CCNode* m_objectLayer;
+    cocos2d::CCArray* m_timeMarkers;
+    cocos2d::CCArray* m_effectGameObjects;
+    cocos2d::CCArray* m_guideObjects;
+    cocos2d::CCArray* m_speedObjects;
+    double m_unk258;
+    float m_currentSpeed;
+    float m_slowSpeed;
+    float m_normalSpeed;
+    float m_fastSpeed;
+    float m_fasterSpeed;
+    float m_fastestSpeed;
+    bool m_updateTimeMarkers;
+    bool m_updateSpeedObjects;
     float m_gridSize;
 };

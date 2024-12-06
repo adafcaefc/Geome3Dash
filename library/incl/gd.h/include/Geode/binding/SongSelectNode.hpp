@@ -50,7 +50,7 @@ public:
      * @note[short] iOS: 0x14b288
      * @note[short] Android
      */
-    virtual TodoReturn songIDChanged(int p0);
+    virtual void songIDChanged(int p0);
 
     /**
      * @note[short] MacOS (ARM): 0x1bceb0
@@ -59,7 +59,7 @@ public:
      * @note[short] iOS: 0x14b2a8
      * @note[short] Android
      */
-    virtual TodoReturn getActiveSongID();
+    virtual int getActiveSongID();
 
     /**
      * @note[short] MacOS (ARM): 0x1bcec0
@@ -68,7 +68,7 @@ public:
      * @note[short] iOS: 0x14b2b8
      * @note[short] Android
      */
-    virtual TodoReturn getSongFileName();
+    virtual gd::string getSongFileName();
 
     /**
      * @note[short] MacOS (ARM): 0x1bd008

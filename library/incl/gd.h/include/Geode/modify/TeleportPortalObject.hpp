@@ -177,7 +177,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(TeleportPortalObject, addToGroup2, , int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(TeleportPortalObject, removeFromGroup2, , int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x4998f0, Thiscall, TeleportPortalObject, getTeleportXOff, cocos2d::CCNode*)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x48d1a0, Thiscall, TeleportPortalObject, init, char const*, bool)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(TeleportPortalObject, init, , char const*, bool)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(TeleportPortalObject, setPositionOverride, , cocos2d::CCPoint)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(TeleportPortalObject, setStartPosOverride, , cocos2d::CCPoint)
 		}

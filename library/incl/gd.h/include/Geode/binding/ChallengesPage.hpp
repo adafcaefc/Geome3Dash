@@ -20,6 +20,8 @@ public:
 	inline ChallengesPage() {}
 
     /**
+     * @note[short] MacOS (ARM): 0x3193ec
+     * @note[short] MacOS (Intel): 0x389da0
      * @note[short] Windows: Out of line
      * @note[short] Android
      */

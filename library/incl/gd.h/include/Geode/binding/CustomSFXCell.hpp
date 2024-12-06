@@ -52,7 +52,7 @@ public:
      * @note[short] iOS: 0x1131d8
      * @note[short] Android
      */
-    virtual TodoReturn getActiveSFXID();
+    virtual int getActiveSFXID();
 
     /**
      * @note[short] Windows: 0xb4430

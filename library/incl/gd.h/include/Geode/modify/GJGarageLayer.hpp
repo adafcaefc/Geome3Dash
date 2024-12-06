@@ -456,7 +456,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x26e6f0, Thiscall, GJGarageLayer, selectTab, IconType)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x26d930, Thiscall, GJGarageLayer, setupIconSelect, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x26e7b0, Thiscall, GJGarageLayer, setupPage, int, IconType)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJGarageLayer, setupSpecialPage, )
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x26f1e0, Thiscall, GJGarageLayer, setupSpecialPage, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJGarageLayer, showUnlockPopupNew, , int, UnlockType)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJGarageLayer, titleForUnlock, , int, UnlockType)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(GJGarageLayer, toggleGlow, )

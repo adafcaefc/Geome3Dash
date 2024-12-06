@@ -86,7 +86,7 @@ public:
      * @note[short] iOS: 0x169d4c
      * @note[short] Android
      */
-    virtual TodoReturn accountStatusChanged();
+    virtual void accountStatusChanged();
 
     /**
      * @note[short] MacOS (ARM): 0xb71cc

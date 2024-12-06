@@ -139,12 +139,14 @@ public:
      * @note[short] Android
      */
     TodoReturn getTeleportXOff(cocos2d::CCNode* p0);
-
+    
+private:
+    [[deprecated("TeleportPortalObject::init not implemented")]]
     /**
-     * @note[short] Windows: 0x48d1a0
      * @note[short] Android
      */
     bool init(char const* p0, bool p1);
+public:
     
 private:
     [[deprecated("TeleportPortalObject::setPositionOverride not implemented")]]

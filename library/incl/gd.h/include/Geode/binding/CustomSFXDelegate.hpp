@@ -26,7 +26,7 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn getActiveSFXID();
+    virtual int getActiveSFXID();
 public:
     
 private:
@@ -34,6 +34,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn overridePlaySFX(SFXInfoObject* p0);
+    virtual bool overridePlaySFX(SFXInfoObject* p0);
 public:
 };

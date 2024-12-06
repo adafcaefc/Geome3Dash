@@ -903,14 +903,12 @@ private:
      */
     TodoReturn redirectDash(float p0);
 public:
-    
-private:
-    [[deprecated("PlayerObject::redirectPlayerForce not implemented")]]
+
     /**
+     * @note[short] Windows: 0x389ed0
      * @note[short] Android
      */
     TodoReturn redirectPlayerForce(float p0, float p1, float p2, float p3);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x386970
@@ -1631,6 +1629,8 @@ public:
     void updatePlayerRollFrame(int p0);
 
     /**
+     * @note[short] MacOS (ARM): 0x3827c8
+     * @note[short] MacOS (Intel): 0x4049a0
      * @note[short] Windows: 0x38a490
      * @note[short] Android
      */

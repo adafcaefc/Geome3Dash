@@ -314,7 +314,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(EffectGameObject, setObjectLabel, , cocos2d::CCLabelBMFont*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(EffectGameObject, stateSensitiveOff, , GJBaseGameLayer*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(EffectGameObject, getTargetColorIndex, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(EffectGameObject, init, , char const*)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x48d1a0, Thiscall, EffectGameObject, init, char const*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x48d2b0, Thiscall, EffectGameObject, playTriggerEffect, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(EffectGameObject, resetSpawnTrigger, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(EffectGameObject, setTargetID, , int)

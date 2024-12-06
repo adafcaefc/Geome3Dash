@@ -226,6 +226,8 @@ public:
     void onMostLikes(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0x540424
+     * @note[short] MacOS (Intel): 0x614110
      * @note[short] Windows: 0x2fc880
      * @note[short] Android
      */

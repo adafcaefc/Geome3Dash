@@ -62,7 +62,7 @@ private:
      * @note[short] MacOS (Intel): 0x480fa0
      * @note[short] Android
      */
-    virtual TodoReturn joinLobbyFinished(int p0);
+    virtual void joinLobbyFinished(int p0);
 public:
     
 private:
@@ -72,7 +72,7 @@ private:
      * @note[short] MacOS (Intel): 0x481450
      * @note[short] Android
      */
-    virtual TodoReturn joinLobbyFailed(int p0, GJMPErrorCode p1);
+    virtual void joinLobbyFailed(int p0, GJMPErrorCode p1);
 public:
     
 private:
@@ -82,7 +82,7 @@ private:
      * @note[short] MacOS (Intel): 0x481320
      * @note[short] Android
      */
-    virtual TodoReturn updateComments();
+    virtual void updateComments();
 public:
     
 private:
@@ -92,7 +92,7 @@ private:
      * @note[short] MacOS (Intel): 0x481430
      * @note[short] Android
      */
-    virtual TodoReturn didUploadMPComment(int p0);
+    virtual void didUploadMPComment(int p0);
 public:
     
 private:

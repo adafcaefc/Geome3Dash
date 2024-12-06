@@ -31,7 +31,7 @@ public:
      * @note[short] Windows: 0x31ea40
      * @note[short] Android
      */
-    static cocos2d::CCScene* scene(bool p0);
+    static cocos2d::CCScene* scene(bool isVideoOptionsOpen);
 
     /**
      * @note[short] MacOS (ARM): 0x30d620
@@ -79,6 +79,8 @@ public:
     virtual void FLAlert_Clicked(FLAlertLayer* p0, bool p1);
 
     /**
+     * @note[short] MacOS (ARM): 0x30f72c
+     * @note[short] MacOS (Intel): 0x37f070
      * @note[short] Windows: 0x321510
      * @note[short] Android
      */
@@ -99,6 +101,8 @@ public:
     void onAchievements(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0x30ea2c
+     * @note[short] MacOS (Intel): 0x37e2e0
      * @note[short] Windows: 0x320e70
      * @note[short] Android
      */
@@ -163,6 +167,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x30e9b0
+     * @note[short] MacOS (Intel): 0x37e250
      * @note[short] Windows: 0x320f00
      * @note[short] Android
      */
@@ -204,6 +209,8 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x30eaf4
+     * @note[short] MacOS (Intel): 0x37e3b0
      * @note[short] Windows: 0x320bb0
      * @note[short] Android
      */
@@ -218,6 +225,7 @@ public:
 
     /**
      * @note[short] MacOS (ARM): 0x30e930
+     * @note[short] MacOS (Intel): 0x37e1c0
      * @note[short] Windows: 0x320b10
      * @note[short] Android
      */
@@ -226,7 +234,7 @@ public:
     /**
      * @note[short] MacOS (ARM): 0x30edc0
      * @note[short] MacOS (Intel): 0x37e640
-     * @note[short] Windows: 0x3210c0
+     * @note[short] Windows: 0x3210d0
      * @note[short] Android
      */
     void onQuit(cocos2d::CCObject* sender);
@@ -238,6 +246,8 @@ public:
     void onRobTop(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0x30eb40
+     * @note[short] MacOS (Intel): 0x37e3f0
      * @note[short] Windows: 0x320d50
      * @note[short] Android
      */

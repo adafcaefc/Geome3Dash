@@ -115,7 +115,7 @@ private:
     /**
      * @note[short] Android
      */
-    TodoReturn getAllAchievements();
+    cocos2d::CCArray* getAllAchievements();
 public:
     
 private:
@@ -185,6 +185,8 @@ public:
 private:
     [[deprecated("AchievementManager::reportAchievementWithID not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x682d28
+     * @note[short] MacOS (Intel): 0x76f830
      * @note[short] Android
      */
     void reportAchievementWithID(char const* p0, int p1, bool p2);

@@ -10,8 +10,8 @@ using namespace geode::modifier;
 using cocos2d::CCDestructor;
 
 std::unordered_map<void*, bool>& CCDestructor::destructorLock() {{
-	static auto ret = new std::unordered_map<void*, bool>;
-	return *ret;
+	static thread_local std::unordered_map<void*, bool> ret;
+	return ret;
 }}
 bool& CCDestructor::globalLock() {{
 	static thread_local bool ret = false;
@@ -2510,6 +2510,15 @@ auto EffectGameObject::stateSensitiveOff(GJBaseGameLayer* p0) -> decltype(stateS
 	throw std::runtime_error("EffectGameObject::stateSensitiveOff not implemented");
 }
 
+auto EffectGameObject::init(char const* p0) -> decltype(init(p0)) {
+	using FunctionType = decltype(init(p0))(*)(EffectGameObject*, char const*);
+	static auto func = wrapFunction(base::get() + 0x48d1a0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0);
+}
+
 auto EffectGameObject::playTriggerEffect() -> decltype(playTriggerEffect()) {
 	using FunctionType = decltype(playTriggerEffect())(*)(EffectGameObject*);
 	static auto func = wrapFunction(base::get() + 0x48d2b0, tulip::hook::WrapperMetadata{
@@ -3825,13 +3834,13 @@ auto CCLightFlash::cleanupFlash() -> decltype(cleanupFlash()) {
 	return reinterpret_cast<FunctionType>(func)(this);
 }
 
-auto CCLightFlash::playEffect(cocos2d::CCPoint p0, cocos2d::ccColor3B p1, float p2, float p3, float p4, float p5, float p6, float p7, float p8, float p9, float p10, float p11, float p12, float p13, float p14, float p15, int p16, bool p17, bool p18, float p19) -> decltype(playEffect(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19)) {
-	using FunctionType = decltype(playEffect(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19))(*)(CCLightFlash*, cocos2d::CCPoint, cocos2d::ccColor3B, float, float, float, float, float, float, float, float, float, float, float, float, float, float, int, bool, bool, float);
+auto CCLightFlash::playEffect(cocos2d::CCPoint pos, cocos2d::ccColor3B col, float startWidth, float startWidthVariation, float endWidth, float endWidthVariation, float endHeight, float stripDuration, float stripDurationVariance, float stripInterval, float stripStartDelay, float stripStartDelayVariation, float stripRotation, float stripRotationVariation, float stripOpacity, float stripOpacityVariation, int stripCount, bool circleRotation, bool fadeIn, float delay) -> decltype(playEffect(pos, col, startWidth, startWidthVariation, endWidth, endWidthVariation, endHeight, stripDuration, stripDurationVariance, stripInterval, stripStartDelay, stripStartDelayVariation, stripRotation, stripRotationVariation, stripOpacity, stripOpacityVariation, stripCount, circleRotation, fadeIn, delay)) {
+	using FunctionType = decltype(playEffect(pos, col, startWidth, startWidthVariation, endWidth, endWidthVariation, endHeight, stripDuration, stripDurationVariance, stripInterval, stripStartDelay, stripStartDelayVariation, stripRotation, stripRotationVariation, stripOpacity, stripOpacityVariation, stripCount, circleRotation, fadeIn, delay))(*)(CCLightFlash*, cocos2d::CCPoint, cocos2d::ccColor3B, float, float, float, float, float, float, float, float, float, float, float, float, float, float, int, bool, bool, float);
 	static auto func = wrapFunction(base::get() + 0x433a0, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
-	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19);
+	return reinterpret_cast<FunctionType>(func)(this, pos, col, startWidth, startWidthVariation, endWidth, endWidthVariation, endHeight, stripDuration, stripDurationVariance, stripInterval, stripStartDelay, stripStartDelayVariation, stripRotation, stripRotationVariation, stripOpacity, stripOpacityVariation, stripCount, circleRotation, fadeIn, delay);
 }
 
 auto CCLightFlash::removeLights() -> decltype(removeLights()) {
@@ -5835,13 +5844,13 @@ auto SetupTriggerPopup::createEasingControls(cocos2d::CCPoint p0, float p1, int 
 	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2, p3);
 }
 
-auto SetupTriggerPopup::createMultiTriggerItems(cocos2d::CCPoint p0, cocos2d::CCPoint p1, cocos2d::CCPoint p2) -> decltype(createMultiTriggerItems(p0, p1, p2)) {
-	using FunctionType = decltype(createMultiTriggerItems(p0, p1, p2))(*)(SetupTriggerPopup*, cocos2d::CCPoint, cocos2d::CCPoint, cocos2d::CCPoint);
+auto SetupTriggerPopup::createMultiTriggerItems(cocos2d::CCPoint touchPos, cocos2d::CCPoint spawnPos, cocos2d::CCPoint multiPos) -> decltype(createMultiTriggerItems(touchPos, spawnPos, multiPos)) {
+	using FunctionType = decltype(createMultiTriggerItems(touchPos, spawnPos, multiPos))(*)(SetupTriggerPopup*, cocos2d::CCPoint, cocos2d::CCPoint, cocos2d::CCPoint);
 	static auto func = wrapFunction(base::get() + 0x45cd50, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
-	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2);
+	return reinterpret_cast<FunctionType>(func)(this, touchPos, spawnPos, multiPos);
 }
 
 auto SetupTriggerPopup::createMultiTriggerItemsCorner() -> decltype(createMultiTriggerItemsCorner()) {
@@ -5934,6 +5943,15 @@ auto SetupTriggerPopup::createValueControlAdvanced(int p0, gd::string p1, cocos2
 	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14);
 }
 
+auto SetupTriggerPopup::getTriggerValue(int property, GameObject* object) -> decltype(getTriggerValue(property, object)) {
+	using FunctionType = decltype(getTriggerValue(property, object))(*)(SetupTriggerPopup*, int, GameObject*);
+	static auto func = wrapFunction(base::get() + 0x4620f0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, property, object);
+}
+
 auto SetupTriggerPopup::getTruncatedValue(float p0, int p1) -> decltype(getTruncatedValue(p0, p1)) {
 	using FunctionType = decltype(getTruncatedValue(p0, p1))(*)(SetupTriggerPopup*, float, int);
 	static auto func = wrapFunction(base::get() + 0x45f750, tulip::hook::WrapperMetadata{
@@ -5952,13 +5970,13 @@ auto SetupTriggerPopup::goToPage(int p0, bool p1) -> decltype(goToPage(p0, p1)) 
 	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
 }
 
-auto SetupTriggerPopup::init(EffectGameObject* p0, cocos2d::CCArray* p1, float p2, float p3, int p4) -> decltype(init(p0, p1, p2, p3, p4)) {
-	using FunctionType = decltype(init(p0, p1, p2, p3, p4))(*)(SetupTriggerPopup*, EffectGameObject*, cocos2d::CCArray*, float, float, int);
+auto SetupTriggerPopup::init(EffectGameObject* trigger, cocos2d::CCArray* triggers, float width, float height, int unkEnum) -> decltype(init(trigger, triggers, width, height, unkEnum)) {
+	using FunctionType = decltype(init(trigger, triggers, width, height, unkEnum))(*)(SetupTriggerPopup*, EffectGameObject*, cocos2d::CCArray*, float, float, int);
 	static auto func = wrapFunction(base::get() + 0x45b900, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
-	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2, p3, p4);
+	return reinterpret_cast<FunctionType>(func)(this, trigger, triggers, width, height, unkEnum);
 }
 
 auto SetupTriggerPopup::onCustomEaseArrow(int p0, bool p1) -> decltype(onCustomEaseArrow(p0, p1)) {
@@ -6178,31 +6196,31 @@ auto SetupTriggerPopup::updateTouchTriggered() -> decltype(updateTouchTriggered(
 	return reinterpret_cast<FunctionType>(func)(this);
 }
 
-auto SetupTriggerPopup::updateValue(int p0, float p1) -> decltype(updateValue(p0, p1)) {
-	using FunctionType = decltype(updateValue(p0, p1))(*)(SetupTriggerPopup*, int, float);
+auto SetupTriggerPopup::updateValue(int property, float value) -> decltype(updateValue(property, value)) {
+	using FunctionType = decltype(updateValue(property, value))(*)(SetupTriggerPopup*, int, float);
 	static auto func = wrapFunction(base::get() + 0x463b50, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
-	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
+	return reinterpret_cast<FunctionType>(func)(this, property, value);
 }
 
-auto SetupTriggerPopup::updateValueControls(int p0, float p1) -> decltype(updateValueControls(p0, p1)) {
-	using FunctionType = decltype(updateValueControls(p0, p1))(*)(SetupTriggerPopup*, int, float);
+auto SetupTriggerPopup::updateValueControls(int property, float value) -> decltype(updateValueControls(property, value)) {
+	using FunctionType = decltype(updateValueControls(property, value))(*)(SetupTriggerPopup*, int, float);
 	static auto func = wrapFunction(base::get() + 0x45f7c0, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
-	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
+	return reinterpret_cast<FunctionType>(func)(this, property, value);
 }
 
-auto SetupTriggerPopup::valueChanged(int p0, float p1) -> decltype(valueChanged(p0, p1)) {
-	using FunctionType = decltype(valueChanged(p0, p1))(*)(SetupTriggerPopup*, int, float);
+auto SetupTriggerPopup::valueChanged(int property, float value) -> decltype(valueChanged(property, value)) {
+	using FunctionType = decltype(valueChanged(property, value))(*)(SetupTriggerPopup*, int, float);
 	static auto func = wrapFunction(base::get() + 0x45fd90, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
-	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
+	return reinterpret_cast<FunctionType>(func)(this, property, value);
 }
 
 auto GJSpecialColorSelectDelegate::colorSelectClosed(GJSpecialColorSelect* p0, int p1) -> decltype(colorSelectClosed(p0, p1)) {
@@ -8367,6 +8385,18 @@ auto CustomSongWidget::updateSongInfo() -> decltype(updateSongInfo()) {
 	return reinterpret_cast<FunctionType>(func)(this);
 }
 
+void CustomSongWidget::updateSongObject(SongInfoObject* songInfo) {
+        m_errorLabel->setVisible(false);
+        if (m_bgSpr) m_bgSpr->setVisible(false);
+        if (m_songInfoObject != songInfo) {
+            CC_SAFE_RETAIN(songInfo);
+            CC_SAFE_RELEASE(m_songInfoObject);
+            m_songInfoObject = songInfo;
+        }
+        m_customSongID = songInfo ? songInfo->m_songID : 0;
+        this->updateSongInfo();
+    }
+
 auto CustomSongWidget::updateWithMultiAssets(gd::string p0, gd::string p1, int p2) -> decltype(updateWithMultiAssets(p0, p1, p2)) {
 	using FunctionType = decltype(updateWithMultiAssets(p0, p1, p2))(*)(CustomSongWidget*, gd::string, gd::string, int);
 	static auto func = wrapFunction(base::get() + 0xcb410, tulip::hook::WrapperMetadata{
@@ -9210,6 +9240,15 @@ auto EditLevelLayer::confirmDelete(cocos2d::CCObject* p0) -> decltype(confirmDel
 	return reinterpret_cast<FunctionType>(func)(this, p0);
 }
 
+auto EditLevelLayer::confirmMoveToTop(cocos2d::CCObject* p0) -> decltype(confirmMoveToTop(p0)) {
+	using FunctionType = decltype(confirmMoveToTop(p0))(*)(EditLevelLayer*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0xd7e90, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0);
+}
+
 auto EditLevelLayer::init(GJGameLevel* p0) -> decltype(init(p0)) {
 	using FunctionType = decltype(init(p0))(*)(EditLevelLayer*, GJGameLevel*);
 	static auto func = wrapFunction(base::get() + 0xd3f10, tulip::hook::WrapperMetadata{
@@ -9231,6 +9270,15 @@ auto EditLevelLayer::onBack(cocos2d::CCObject* sender) -> decltype(onBack(sender
 auto EditLevelLayer::onGuidelines(cocos2d::CCObject* sender) -> decltype(onGuidelines(sender)) {
 	using FunctionType = decltype(onGuidelines(sender))(*)(EditLevelLayer*, cocos2d::CCObject*);
 	static auto func = wrapFunction(base::get() + 0xd52e0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
+}
+
+auto EditLevelLayer::onHelp(cocos2d::CCObject* sender) -> decltype(onHelp(sender)) {
+	using FunctionType = decltype(onHelp(sender))(*)(EditLevelLayer*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0xd7c50, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
@@ -11786,6 +11834,20 @@ auto FMODAudioEngine::clearAllAudio() -> decltype(clearAllAudio()) {
 	return reinterpret_cast<FunctionType>(func)(this);
 }
 
+int FMODAudioEngine::countActiveEffects() {
+        return m_channelIDToChannel.size() - countActiveMusic();
+    }
+
+int FMODAudioEngine::countActiveMusic() {
+        int count = 0;
+        for (auto& music : m_musicChannels) {
+            if (music.second.m_channelID > 0) {
+                ++count;
+            }
+        }
+        return count;
+    }
+
 void FMODAudioEngine::disableMetering() {
         this->m_metering = false;
     }
@@ -12434,6 +12496,15 @@ auto FRequestProfilePage::setupCommentsBrowser(cocos2d::CCArray* p0) -> decltype
 	return reinterpret_cast<FunctionType>(func)(this, p0);
 }
 
+auto FriendRequestPopup::create(GJFriendRequest* p0) -> decltype(create(p0)) {
+	using FunctionType = decltype(create(p0))(*)(GJFriendRequest*);
+	static auto func = wrapFunction(base::get() + 0x28e370, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Default),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(p0);
+}
+
 auto FriendRequestPopup::keyBackClicked() -> decltype(keyBackClicked()) {
 	auto self = addresser::thunkAdjust(Resolve<>::func(&FriendRequestPopup::keyBackClicked), this);
 	using FunctionType = decltype(keyBackClicked())(*)(FriendRequestPopup*);
@@ -12482,6 +12553,24 @@ auto FriendRequestPopup::FLAlert_Clicked(FLAlertLayer* p0, bool p1) -> decltype(
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
 	return reinterpret_cast<FunctionType>(func)(self, p0, p1);
+}
+
+auto FriendRequestPopup::init(GJFriendRequest* p0) -> decltype(init(p0)) {
+	using FunctionType = decltype(init(p0))(*)(FriendRequestPopup*, GJFriendRequest*);
+	static auto func = wrapFunction(base::get() + 0x28e4b0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0);
+}
+
+auto FriendRequestPopup::onClose(cocos2d::CCObject* sender) -> decltype(onClose(sender)) {
+	using FunctionType = decltype(onClose(sender))(*)(FriendRequestPopup*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0x28f440, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
 }
 
 auto UserListDelegate::getUserListFinished(cocos2d::CCArray* p0, UserListType p1) -> decltype(getUserListFinished(p0, p1)) {
@@ -12682,6 +12771,15 @@ auto GameLevelManager::dataLoaded(DS_Dictionary* p0) -> decltype(dataLoaded(p0))
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
 	return reinterpret_cast<FunctionType>(func)(this, p0);
+}
+
+auto GameLevelManager::deleteFriendRequests(int p0, cocos2d::CCArray* p1, bool p2) -> decltype(deleteFriendRequests(p0, p1, p2)) {
+	using FunctionType = decltype(deleteFriendRequests(p0, p1, p2))(*)(GameLevelManager*, int, cocos2d::CCArray*, bool);
+	static auto func = wrapFunction(base::get() + 0x15e180, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2);
 }
 
 auto GameLevelManager::deleteLevel(GJGameLevel* p0) -> decltype(deleteLevel(p0)) {
@@ -13830,6 +13928,15 @@ auto GameManager::playMenuMusic() -> decltype(playMenuMusic()) {
 	return reinterpret_cast<FunctionType>(func)(this);
 }
 
+auto GameManager::recountUserStats(gd::string p0) -> decltype(recountUserStats(p0)) {
+	using FunctionType = decltype(recountUserStats(p0))(*)(GameManager*, gd::string);
+	static auto func = wrapFunction(base::get() + 0x181ba0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0);
+}
+
 auto GameManager::reloadAll(bool switchingModes, bool toFullscreen, bool borderless, bool fix, bool unused) -> decltype(reloadAll(switchingModes, toFullscreen, borderless, fix, unused)) {
 	using FunctionType = decltype(reloadAll(switchingModes, toFullscreen, borderless, fix, unused))(*)(GameManager*, bool, bool, bool, bool, bool);
 	static auto func = wrapFunction(base::get() + 0x187490, tulip::hook::WrapperMetadata{
@@ -14287,6 +14394,11 @@ auto GameStatsManager::getCompletedMapPacks() -> decltype(getCompletedMapPacks()
 	});
 	return reinterpret_cast<FunctionType>(func)(this);
 }
+
+gd::string GameStatsManager::getCurrencyKey(GJGameLevel* level) {
+        auto dailyID = level->m_dailyID.value();
+        return cocos2d::CCString::createWithFormat("%i", dailyID > 0 ? dailyID : level->m_levelID.value())->getCString();
+    }
 
 auto GameStatsManager::getGauntletRewardKey(int p0) -> decltype(getGauntletRewardKey(p0)) {
 	using FunctionType = decltype(getGauntletRewardKey(p0))(*)(GameStatsManager*, int);
@@ -15543,7 +15655,7 @@ auto GJBaseGameLayer::toggleHideAttempts(bool p0) -> decltype(toggleHideAttempts
 
 float GJBaseGameLayer::timeForPos(cocos2d::CCPoint p0, int p1, int p2, bool p3, int p4) { return 0.f; }
 
-float GJBaseGameLayer::posForTime(float p0) { return 0.f; }
+cocos2d::CCPoint GJBaseGameLayer::posForTime(float p0) { return { 0.f, 0.f }; }
 
 void GJBaseGameLayer::resetSPTriggered() {}
 
@@ -16224,6 +16336,15 @@ auto GJBaseGameLayer::processActivatedAudioTriggers(float p0) -> decltype(proces
 	return reinterpret_cast<FunctionType>(func)(this, p0);
 }
 
+auto GJBaseGameLayer::processAdvancedFollowAction(AdvancedFollowInstance& p0, bool p1, float p2) -> decltype(processAdvancedFollowAction(p0, p1, p2)) {
+	using FunctionType = decltype(processAdvancedFollowAction(p0, p1, p2))(*)(GJBaseGameLayer*, AdvancedFollowInstance&, bool, float);
+	static auto func = wrapFunction(base::get() + 0x22a020, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2);
+}
+
 auto GJBaseGameLayer::processAdvancedFollowActions(float p0) -> decltype(processAdvancedFollowActions(p0)) {
 	using FunctionType = decltype(processAdvancedFollowActions(p0))(*)(GJBaseGameLayer*, float);
 	static auto func = wrapFunction(base::get() + 0x229e00, tulip::hook::WrapperMetadata{
@@ -16571,6 +16692,15 @@ auto GJBaseGameLayer::shakeCamera(float duration, float strength, float interval
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
 	return reinterpret_cast<FunctionType>(func)(this, duration, strength, interval);
+}
+
+auto GJBaseGameLayer::shouldExitHackedLevel() -> decltype(shouldExitHackedLevel()) {
+	using FunctionType = decltype(shouldExitHackedLevel())(*)(GJBaseGameLayer*);
+	static auto func = wrapFunction(base::get() + 0x205d10, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this);
 }
 
 auto GJBaseGameLayer::sortSectionVector() -> decltype(sortSectionVector()) {
@@ -17268,6 +17398,15 @@ auto GJEffectManager::saveToState(EffectManagerState& p0) -> decltype(saveToStat
 	return reinterpret_cast<FunctionType>(func)(this, p0);
 }
 
+auto GJEffectManager::setColorAction(ColorAction* p0, int p1) -> decltype(setColorAction(p0, p1)) {
+	using FunctionType = decltype(setColorAction(p0, p1))(*)(GJEffectManager*, ColorAction*, int);
+	static auto func = wrapFunction(base::get() + 0x254a90, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
+}
+
 auto GJEffectManager::spawnGroup(int p0, float p1, bool p2, gd::vector<int> const& p3, int p4, int p5) -> decltype(spawnGroup(p0, p1, p2, p3, p4, p5)) {
 	using FunctionType = decltype(spawnGroup(p0, p1, p2, p3, p4, p5))(*)(GJEffectManager*, int, float, bool, gd::vector<int> const&, int, int);
 	static auto func = wrapFunction(base::get() + 0x25a920, tulip::hook::WrapperMetadata{
@@ -17917,6 +18056,15 @@ auto GJGarageLayer::setupPage(int p0, IconType p1) -> decltype(setupPage(p0, p1)
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
 	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
+}
+
+auto GJGarageLayer::setupSpecialPage() -> decltype(setupSpecialPage()) {
+	using FunctionType = decltype(setupSpecialPage())(*)(GJGarageLayer*);
+	static auto func = wrapFunction(base::get() + 0x26f1e0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this);
 }
 
 auto GJGarageLayer::updatePlayerColors() -> decltype(updatePlayerColors()) {
@@ -18763,6 +18911,33 @@ auto GJRequestCell::loadFromScore(GJUserScore* p0) -> decltype(loadFromScore(p0)
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
 	return reinterpret_cast<FunctionType>(func)(this, p0);
+}
+
+auto GJRequestCell::markAsRead() -> decltype(markAsRead()) {
+	using FunctionType = decltype(markAsRead())(*)(GJRequestCell*);
+	static auto func = wrapFunction(base::get() + 0xbbf50, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this);
+}
+
+auto GJRequestCell::onDeleteRequest(cocos2d::CCObject* sender) -> decltype(onDeleteRequest(sender)) {
+	using FunctionType = decltype(onDeleteRequest(sender))(*)(GJRequestCell*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0xbc030, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
+}
+
+auto GJRequestCell::onViewFriendRequest(cocos2d::CCObject* sender) -> decltype(onViewFriendRequest(sender)) {
+	using FunctionType = decltype(onViewFriendRequest(sender))(*)(GJRequestCell*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0xbbea0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
 }
 
 auto GJRewardDelegate::rewardsStatusFinished(int p0) -> decltype(rewardsStatusFinished(p0)) {
@@ -24059,6 +24234,15 @@ auto LevelTools::getAudioFileName(int p0) -> decltype(getAudioFileName(p0)) {
 	return reinterpret_cast<FunctionType>(func)(p0);
 }
 
+auto LevelTools::getAudioString(int p0) -> decltype(getAudioString(p0)) {
+	using FunctionType = decltype(getAudioString(p0))(*)(int);
+	static auto func = wrapFunction(base::get() + 0x316950, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Default),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(p0);
+}
+
 auto LevelTools::getAudioTitle(int p0) -> decltype(getAudioTitle(p0)) {
 	using FunctionType = decltype(getAudioTitle(p0))(*)(int);
 	static auto func = wrapFunction(base::get() + 0x312bd0, tulip::hook::WrapperMetadata{
@@ -24160,6 +24344,15 @@ auto LikeItemLayer::init(LikeItemType p0, int p1, int p2) -> decltype(init(p0, p
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
 	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2);
+}
+
+auto LikeItemLayer::onDislike(cocos2d::CCObject* sender) -> decltype(onDislike(sender)) {
+	using FunctionType = decltype(onDislike(sender))(*)(LikeItemLayer*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0x319380, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
 }
 
 auto LikeItemLayer::onLike(cocos2d::CCObject* sender) -> decltype(onLike(sender)) {
@@ -24386,6 +24579,10 @@ auto LoadingLayer::loadAssets() -> decltype(loadAssets()) {
 	});
 	return reinterpret_cast<FunctionType>(func)(this);
 }
+
+void LoadingLayer::loadingFinished() {
+        cocos2d::CCDirector::sharedDirector()->replaceScene(MenuLayer::scene(m_fromRefresh));
+    }
 
 auto LoadingLayer::updateProgress(int p0) -> decltype(updateProgress(p0)) {
 	using FunctionType = decltype(updateProgress(p0))(*)(LoadingLayer*, int);
@@ -24702,13 +24899,13 @@ MenuLayer* MenuLayer::get() {
         return GameManager::get()->m_menuLayer;
     }
 
-auto MenuLayer::scene(bool p0) -> decltype(scene(p0)) {
-	using FunctionType = decltype(scene(p0))(*)(bool);
+auto MenuLayer::scene(bool isVideoOptionsOpen) -> decltype(scene(isVideoOptionsOpen)) {
+	using FunctionType = decltype(scene(isVideoOptionsOpen))(*)(bool);
 	static auto func = wrapFunction(base::get() + 0x31ea40, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Default),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
-	return reinterpret_cast<FunctionType>(func)(p0);
+	return reinterpret_cast<FunctionType>(func)(isVideoOptionsOpen);
 }
 
 auto MenuLayer::init() -> decltype(init()) {
@@ -24864,7 +25061,7 @@ auto MenuLayer::onPlay(cocos2d::CCObject* sender) -> decltype(onPlay(sender)) {
 
 auto MenuLayer::onQuit(cocos2d::CCObject* sender) -> decltype(onQuit(sender)) {
 	using FunctionType = decltype(onQuit(sender))(*)(MenuLayer*, cocos2d::CCObject*);
-	static auto func = wrapFunction(base::get() + 0x3210c0, tulip::hook::WrapperMetadata{
+	static auto func = wrapFunction(base::get() + 0x3210d0, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
@@ -27451,6 +27648,15 @@ auto PlayerObject::pushButton(PlayerButton p0) -> decltype(pushButton(p0)) {
 	return reinterpret_cast<FunctionType>(func)(this, p0);
 }
 
+auto PlayerObject::redirectPlayerForce(float p0, float p1, float p2, float p3) -> decltype(redirectPlayerForce(p0, p1, p2, p3)) {
+	using FunctionType = decltype(redirectPlayerForce(p0, p1, p2, p3))(*)(PlayerObject*, float, float, float, float);
+	static auto func = wrapFunction(base::get() + 0x389ed0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0, p1, p2, p3);
+}
+
 auto PlayerObject::releaseAllButtons() -> decltype(releaseAllButtons()) {
 	using FunctionType = decltype(releaseAllButtons())(*)(PlayerObject*);
 	static auto func = wrapFunction(base::get() + 0x389370, tulip::hook::WrapperMetadata{
@@ -28449,6 +28655,15 @@ auto PlayLayer::init(GJGameLevel* level, bool useReplay, bool dontCreateObjects)
 auto PlayLayer::levelComplete() -> decltype(levelComplete()) {
 	using FunctionType = decltype(levelComplete())(*)(PlayLayer*);
 	static auto func = wrapFunction(base::get() + 0x390c30, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this);
+}
+
+auto PlayLayer::loadDefaultColors() -> decltype(loadDefaultColors()) {
+	using FunctionType = decltype(loadDefaultColors())(*)(PlayLayer*);
+	static auto func = wrapFunction(base::get() + 0x39ad80, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
@@ -29606,15 +29821,33 @@ auto RewardsPage::init() -> decltype(init()) {
 }
 
 auto RewardsPage::registerWithTouchDispatcher() -> decltype(registerWithTouchDispatcher()) {
-	throw std::runtime_error("RewardsPage::registerWithTouchDispatcher not implemented");
+	auto self = addresser::thunkAdjust(Resolve<>::func(&RewardsPage::registerWithTouchDispatcher), this);
+	using FunctionType = decltype(registerWithTouchDispatcher())(*)(RewardsPage*);
+	static auto func = wrapFunction(base::get() + 0x425d0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(self);
 }
 
 auto RewardsPage::keyBackClicked() -> decltype(keyBackClicked()) {
-	throw std::runtime_error("RewardsPage::keyBackClicked not implemented");
+	auto self = addresser::thunkAdjust(Resolve<>::func(&RewardsPage::keyBackClicked), this);
+	using FunctionType = decltype(keyBackClicked())(*)(RewardsPage*);
+	static auto func = wrapFunction(base::get() + 0x84650, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(self);
 }
 
 auto RewardsPage::show() -> decltype(show()) {
-	throw std::runtime_error("RewardsPage::show not implemented");
+	auto self = addresser::thunkAdjust(Resolve<>::func(&RewardsPage::show), this);
+	using FunctionType = decltype(show())(*)(RewardsPage*);
+	static auto func = wrapFunction(base::get() + 0x3ae2e0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(self);
 }
 
 void RewardsPage::FLAlert_Clicked(FLAlertLayer* p0, bool p1) {}
@@ -30685,6 +30918,15 @@ auto SecretRewardsLayer::onChestType(cocos2d::CCObject* sender) -> decltype(onCh
 	return reinterpret_cast<FunctionType>(func)(this, sender);
 }
 
+auto SecretRewardsLayer::onGoldChest(cocos2d::CCObject* sender) -> decltype(onGoldChest(sender)) {
+	using FunctionType = decltype(onGoldChest(sender))(*)(SecretRewardsLayer*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0x3c0020, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
+}
+
 auto SecretRewardsLayer::onSelectItem(cocos2d::CCObject* sender) -> decltype(onSelectItem(sender)) {
 	using FunctionType = decltype(onSelectItem(sender))(*)(SecretRewardsLayer*, cocos2d::CCObject*);
 	static auto func = wrapFunction(base::get() + 0x3bedd0, tulip::hook::WrapperMetadata{
@@ -30703,6 +30945,15 @@ auto SecretRewardsLayer::onShop(cocos2d::CCObject* sender) -> decltype(onShop(se
 	return reinterpret_cast<FunctionType>(func)(this, sender);
 }
 
+auto SecretRewardsLayer::onSpecialItem(cocos2d::CCObject* sender) -> decltype(onSpecialItem(sender)) {
+	using FunctionType = decltype(onSpecialItem(sender))(*)(SecretRewardsLayer*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0x3bf760, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
+}
+
 auto SecretRewardsLayer::onSwitchPage(cocos2d::CCObject* sender) -> decltype(onSwitchPage(sender)) {
 	using FunctionType = decltype(onSwitchPage(sender))(*)(SecretRewardsLayer*, cocos2d::CCObject*);
 	static auto func = wrapFunction(base::get() + 0x3bd950, tulip::hook::WrapperMetadata{
@@ -30715,6 +30966,15 @@ auto SecretRewardsLayer::onSwitchPage(cocos2d::CCObject* sender) -> decltype(onS
 auto SecretRewardsLayer::showDialog01() -> decltype(showDialog01()) {
 	using FunctionType = decltype(showDialog01())(*)(SecretRewardsLayer*);
 	static auto func = wrapFunction(base::get() + 0x3c0ae0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this);
+}
+
+auto SecretRewardsLayer::showDialogDiamond() -> decltype(showDialogDiamond()) {
+	using FunctionType = decltype(showDialogDiamond())(*)(SecretRewardsLayer*);
+	static auto func = wrapFunction(base::get() + 0x3c4980, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
@@ -31213,6 +31473,15 @@ auto SetGroupIDLayer::onExtra(cocos2d::CCObject* sender) -> decltype(onExtra(sen
 auto SetGroupIDLayer::onNextGroupID1(cocos2d::CCObject* sender) -> decltype(onNextGroupID1(sender)) {
 	using FunctionType = decltype(onNextGroupID1(sender))(*)(SetGroupIDLayer*, cocos2d::CCObject*);
 	static auto func = wrapFunction(base::get() + 0x3e48d0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
+}
+
+auto SetGroupIDLayer::onPaste(cocos2d::CCObject* sender) -> decltype(onPaste(sender)) {
+	using FunctionType = decltype(onPaste(sender))(*)(SetGroupIDLayer*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0x111a80, tulip::hook::WrapperMetadata{
 		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
@@ -32046,6 +32315,15 @@ auto SetupOpacityPopup::textChanged(CCTextInputNode* p0) -> decltype(textChanged
 	return reinterpret_cast<FunctionType>(func)(self, p0);
 }
 
+auto SetupOpacityPopup::init(EffectGameObject* p0, cocos2d::CCArray* p1) -> decltype(init(p0, p1)) {
+	using FunctionType = decltype(init(p0, p1))(*)(SetupOpacityPopup*, EffectGameObject*, cocos2d::CCArray*);
+	static auto func = wrapFunction(base::get() + 0x412860, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
+}
+
 auto SetupOptionsTriggerPopup::onCustomToggleTriggerValue(cocos2d::CCObject* sender) -> decltype(onCustomToggleTriggerValue(sender)) {
 	auto self = addresser::thunkAdjust(Resolve<cocos2d::CCObject*>::func(&SetupOptionsTriggerPopup::onCustomToggleTriggerValue), this);
 	using FunctionType = decltype(onCustomToggleTriggerValue(sender))(*)(SetupOptionsTriggerPopup*, cocos2d::CCObject*);
@@ -32149,6 +32427,33 @@ auto SetupPulsePopup::colorSelectClosed(GJSpecialColorSelect* p0, int p1) -> dec
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
 	return reinterpret_cast<FunctionType>(func)(self, p0, p1);
+}
+
+auto SetupPulsePopup::init(EffectGameObject* p0, cocos2d::CCArray* p1) -> decltype(init(p0, p1)) {
+	using FunctionType = decltype(init(p0, p1))(*)(SetupPulsePopup*, EffectGameObject*, cocos2d::CCArray*);
+	static auto func = wrapFunction(base::get() + 0x41f430, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
+}
+
+auto SetupPulsePopup::onPaste(cocos2d::CCObject* sender) -> decltype(onPaste(sender)) {
+	using FunctionType = decltype(onPaste(sender))(*)(SetupPulsePopup*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0x90de0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
+}
+
+auto SetupPulsePopup::onSelectPulseMode(cocos2d::CCObject* sender) -> decltype(onSelectPulseMode(sender)) {
+	using FunctionType = decltype(onSelectPulseMode(sender))(*)(SetupPulsePopup*, cocos2d::CCObject*);
+	static auto func = wrapFunction(base::get() + 0x422aa0, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)(this, sender);
 }
 
 auto SetupRandAdvTriggerPopup::onClose(cocos2d::CCObject* sender) -> decltype(onClose(sender)) {
@@ -33944,6 +34249,15 @@ auto SongSelectNode::updateWidgetVisibility() -> decltype(updateWidgetVisibility
 	return reinterpret_cast<FunctionType>(func)(this);
 }
 
+auto SongsLayer::create() -> decltype(create()) {
+	using FunctionType = decltype(create())(*)();
+	static auto func = wrapFunction(base::get() + 0x47bf80, tulip::hook::WrapperMetadata{
+		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Default),
+		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
+	});
+	return reinterpret_cast<FunctionType>(func)();
+}
+
 auto SongsLayer::customSetup() -> decltype(customSetup()) {
 	auto self = addresser::thunkAdjust(Resolve<>::func(&SongsLayer::customSetup), this);
 	using FunctionType = decltype(customSetup())(*)(SongsLayer*);
@@ -34234,13 +34548,9 @@ TableView* TableView::create(TableViewDelegate* tvd, TableViewDataSource* tvds, 
         return ret;
     }
 
-auto TableView::onEnter() -> decltype(onEnter()) {
-	throw std::runtime_error("TableView::onEnter not implemented");
-}
+void TableView::onEnter() { cocos2d::CCLayer::onEnter(); }
 
-auto TableView::onExit() -> decltype(onExit()) {
-	throw std::runtime_error("TableView::onExit not implemented");
-}
+void TableView::onExit() { cocos2d::CCLayer::onExit(); }
 
 auto TableView::ccTouchBegan(cocos2d::CCTouch* p0, cocos2d::CCEvent* p1) -> decltype(ccTouchBegan(p0, p1)) {
 	auto self = addresser::thunkAdjust(Resolve<cocos2d::CCTouch*, cocos2d::CCEvent*>::func(&TableView::ccTouchBegan), this);
@@ -34375,15 +34685,6 @@ auto TeleportPortalObject::getTeleportXOff(cocos2d::CCNode* p0) -> decltype(getT
 		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
 	});
 	return reinterpret_cast<FunctionType>(func)(this, p0);
-}
-
-auto TeleportPortalObject::init(char const* p0, bool p1) -> decltype(init(p0, p1)) {
-	using FunctionType = decltype(init(p0, p1))(*)(TeleportPortalObject*, char const*, bool);
-	static auto func = wrapFunction(base::get() + 0x48d1a0, tulip::hook::WrapperMetadata{
-		.m_convention = geode::hook::createConvention(tulip::hook::TulipConvention::Thiscall),
-		.m_abstract = tulip::hook::AbstractFunction::from(FunctionType(nullptr)),
-	});
-	return reinterpret_cast<FunctionType>(func)(this, p0, p1);
 }
 
 auto TextAlertPopup::create(gd::string text, float delay, float scale, int opacity, gd::string font) -> decltype(create(text, delay, scale, opacity, font)) {

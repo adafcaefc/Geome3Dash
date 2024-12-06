@@ -18,6 +18,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn onPlayback(SongInfoObject* p0);
+    virtual void onPlayback(SongInfoObject* p0);
 public:
 };

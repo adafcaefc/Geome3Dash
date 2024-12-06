@@ -91,7 +91,7 @@ public:
      * @note[short] iOS: 0x1b95c0
      * @note[short] Android
      */
-    virtual TodoReturn loadFRequestsFinished(cocos2d::CCArray* p0, char const* p1);
+    virtual void loadFRequestsFinished(cocos2d::CCArray* p0, char const* p1);
 
     /**
      * @note[short] MacOS (ARM): 0x690714
@@ -100,7 +100,7 @@ public:
      * @note[short] iOS: 0x1b9644
      * @note[short] Android
      */
-    virtual TodoReturn loadFRequestsFailed(char const* p0, GJErrorCode p1);
+    virtual void loadFRequestsFailed(char const* p0, GJErrorCode p1);
 
     /**
      * @note[short] MacOS (ARM): 0x690874
@@ -118,7 +118,7 @@ public:
      * @note[short] iOS: 0x1b96e0
      * @note[short] Android
      */
-    virtual TodoReturn forceReloadRequests(bool p0);
+    virtual void forceReloadRequests(bool p0);
     
 private:
     [[deprecated("FRequestProfilePage::deleteSelected not implemented")]]
@@ -213,6 +213,8 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x690494
+     * @note[short] MacOS (Intel): 0x77b660
      * @note[short] Windows: 0x13da30
      * @note[short] Android
      */
@@ -241,4 +243,10 @@ private:
      */
     TodoReturn updatePageArrows();
 public:
+    bool m_sent;
+    gd::string m_key;
+    cocos2d::CCLabelBMFont* m_noInternet;
+    cocos2d::CCLabelBMFont* m_unkLabel;
+    GJCommentListLayer* m_listLayer;
+    LoadingCircle* m_circle;
 };

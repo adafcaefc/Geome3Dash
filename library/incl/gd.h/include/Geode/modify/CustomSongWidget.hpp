@@ -200,11 +200,6 @@ namespace geode::modifier {
 		GEODE_AS_STATIC_FUNCTION(updateSongInfo) 
 	#endif
 
-	#ifndef GEODE_STATICS_updateSongObject
-		#define GEODE_STATICS_updateSongObject
-		GEODE_AS_STATIC_FUNCTION(updateSongObject) 
-	#endif
-
 	#ifndef GEODE_STATICS_updateWithMultiAssets
 		#define GEODE_STATICS_updateWithMultiAssets
 		GEODE_AS_STATIC_FUNCTION(updateWithMultiAssets) 
@@ -480,7 +475,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0xca3b0, Thiscall, CustomSongWidget, updatePlaybackBtn, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0xca550, Thiscall, CustomSongWidget, updateProgressBar, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0xca600, Thiscall, CustomSongWidget, updateSongInfo, )
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(CustomSongWidget, updateSongObject, , SongInfoObject*)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR_INLINE(CustomSongWidget, updateSongObject, SongInfoObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0xcb410, Thiscall, CustomSongWidget, updateWithMultiAssets, gd::string, gd::string, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(CustomSongWidget, verifySongID, , int)
 		}

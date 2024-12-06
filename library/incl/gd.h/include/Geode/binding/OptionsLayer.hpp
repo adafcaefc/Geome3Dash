@@ -85,12 +85,16 @@ public:
     void musicSliderChanged(cocos2d::CCObject* p0);
 
     /**
+     * @note[short] MacOS (ARM): 0x698d70
+     * @note[short] MacOS (Intel): 0x784bf0
      * @note[short] Windows: 0x35d760
      * @note[short] Android
      */
     void onAccount(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0x698d80
+     * @note[short] MacOS (Intel): 0x784c10
      * @note[short] Windows: 0x35d710
      * @note[short] Android
      */
@@ -105,6 +109,8 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x698d9c
+     * @note[short] MacOS (Intel): 0x784c30
      * @note[short] Windows: 0x35ce50
      * @note[short] Android
      */
@@ -147,6 +153,8 @@ public:
     void onSoundtracks(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0x698df8
+     * @note[short] MacOS (Intel): 0x784cb0
      * @note[short] Windows: 0x35d820
      * @note[short] Android
      */

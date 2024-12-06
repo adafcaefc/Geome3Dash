@@ -18,6 +18,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn displayFrameChanged(cocos2d::CCObject* p0, gd::string p1);
+    virtual void displayFrameChanged(cocos2d::CCObject* p0, gd::string p1);
 public:
 };

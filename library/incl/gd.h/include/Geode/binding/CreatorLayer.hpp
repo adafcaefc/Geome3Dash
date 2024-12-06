@@ -25,6 +25,7 @@ public:
      CreatorLayer();
 
     /**
+     * @note[short] MacOS (ARM): 0x22ec24
      * @note[short] MacOS (Intel): 0x285610
      * @note[short] Windows: Out of line
      * @note[short] Android
@@ -102,6 +103,8 @@ public:
     void onAdventureMap(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0x230c80
+     * @note[short] MacOS (Intel): 0x287820
      * @note[short] Windows: 0x9f190
      * @note[short] Android
      */
@@ -164,6 +167,7 @@ public:
     void onLeaderboards(cocos2d::CCObject* sender);
 
     /**
+     * @note[short] MacOS (ARM): 0x23002c
      * @note[short] MacOS (Intel): 0x286b80
      * @note[short] Windows: 0x9d4d0
      * @note[short] Android
@@ -205,6 +209,7 @@ private:
 public:
 
     /**
+     * @note[short] MacOS (ARM): 0x22ffb0
      * @note[short] MacOS (Intel): 0x286b00
      * @note[short] Windows: 0x9d360
      * @note[short] Android

@@ -225,7 +225,7 @@ public:
      * @note[short] iOS: 0x1224ac
      * @note[short] Android
      */
-    virtual float posForTime(float p0);
+    virtual cocos2d::CCPoint posForTime(float p0);
 
     /**
      * @note[short] MacOS (ARM): 0xa9d8c
@@ -588,15 +588,14 @@ private:
      */
     TodoReturn loadActiveSaveObjects(gd::vector<SavedActiveObjectState>& p0, gd::vector<SavedSpecialObjectState>& p1);
 public:
-    
-private:
-    [[deprecated("PlayLayer::loadDefaultColors not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0xa2300
+     * @note[short] MacOS (Intel): 0xb1de0
+     * @note[short] Windows: 0x39ad80
      * @note[short] Android
      */
     void loadDefaultColors();
-public:
     
 private:
     [[deprecated("PlayLayer::loadDynamicSaveObjects not implemented")]]

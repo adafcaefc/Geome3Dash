@@ -53,16 +53,14 @@ public:
      * @note[short] Android
      */
     void loadAssets();
-    
-private:
-    [[deprecated("LoadingLayer::loadingFinished not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x31f290
      * @note[short] MacOS (Intel): 0x390550
+     * @note[short] Windows: Out of line
      * @note[short] Android
      */
     void loadingFinished();
-public:
 
     /**
      * @note[short] MacOS (Intel): 0x38fd50

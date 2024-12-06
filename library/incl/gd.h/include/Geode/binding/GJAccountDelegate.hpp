@@ -18,6 +18,6 @@ private:
     /**
      * @note[short] Android
      */
-    virtual TodoReturn accountStatusChanged();
+    virtual void accountStatusChanged();
 public:
 };

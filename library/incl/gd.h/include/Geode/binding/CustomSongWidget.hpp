@@ -347,15 +347,14 @@ public:
      * @note[short] Android
      */
     void updateSongInfo();
-    
-private:
-    [[deprecated("CustomSongWidget::updateSongObject not implemented")]]
+
     /**
+     * @note[short] MacOS (ARM): 0x533468
      * @note[short] MacOS (Intel): 0x605e90
+     * @note[short] Windows: Out of line
      * @note[short] Android
      */
-    void updateSongObject(SongInfoObject* p0);
-public:
+    void updateSongObject(SongInfoObject* songInfo);
 
     /**
      * @note[short] MacOS (ARM): 0x535020

@@ -330,7 +330,7 @@ private:
     /**
      * @note[short] Android
      */
-    static TodoReturn toggleCallGLFinish(bool p0);
+    static void toggleCallGLFinish(bool p0);
 public:
     
 private:
@@ -338,7 +338,7 @@ private:
     /**
      * @note[short] Android
      */
-    static TodoReturn toggleCPUSleepMode(bool p0);
+    static void toggleCPUSleepMode(bool p0);
 public:
     
 private:
@@ -354,7 +354,7 @@ private:
     /**
      * @note[short] Android
      */
-    static TodoReturn toggleFullScreen(bool p0, bool p1, bool p2);
+    static void toggleFullScreen(bool p0, bool p1, bool p2);
 public:
     
 private:
@@ -371,7 +371,7 @@ private:
     /**
      * @note[short] Android
      */
-    static TodoReturn toggleMouseControl(bool p0);
+    static void toggleMouseControl(bool p0);
 public:
     
 private:

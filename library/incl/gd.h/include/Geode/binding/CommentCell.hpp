@@ -90,9 +90,11 @@ public:
 private:
     [[deprecated("CommentCell::onDelete not implemented")]]
     /**
+     * @note[short] MacOS (ARM): 0x1f26a0
+     * @note[short] MacOS (Intel): 0x243450
      * @note[short] Android
      */
-    TodoReturn onDelete();
+    void onDelete();
 public:
 
     /**

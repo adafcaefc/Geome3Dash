@@ -224,16 +224,14 @@ private:
      */
     void deleteComment(int p0, CommentType p1, int p2);
 public:
-    
-private:
-    [[deprecated("GameLevelManager::deleteFriendRequests not implemented")]]
+
     /**
      * @note[short] MacOS (ARM): 0x49713c
      * @note[short] MacOS (Intel): 0x53de30
+     * @note[short] Windows: 0x15e180
      * @note[short] Android
      */
     bool deleteFriendRequests(int p0, cocos2d::CCArray* p1, bool p2);
-public:
 
     /**
      * @note[short] MacOS (ARM): 0x4743e0
@@ -1586,6 +1584,8 @@ public:
     void onGetGJChallengesCompleted(gd::string response, gd::string tag);
 
     /**
+     * @note[short] MacOS (ARM): 0x470324
+     * @note[short] MacOS (Intel): 0x512730
      * @note[short] Windows: 0x1663a0
      * @note[short] Android
      */
@@ -2611,7 +2611,7 @@ public:
     LevelDeleteDelegate* m_levelDeleteDelegate;
     LevelListDeleteDelegate* m_levelListDeleteDelegate;
     UserInfoDelegate* m_userInfoDelegate;
-    UploadPopupDelegate* m_uploadPopupDelegate;
+    UploadActionDelegate* m_uploadActionDelegate;
     UserListDelegate* m_userListDelegate;
     FriendRequestDelegate* m_friendRequestDelegate;
     MessageListDelegate* m_messageListDelegate;

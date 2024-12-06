@@ -89,7 +89,7 @@ namespace geode::modifier {
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(LikeItemLayer, keyBackClicked, )
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x318fa0, Thiscall, LikeItemLayer, init, LikeItemType, int, int)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(LikeItemLayer, onClose, , cocos2d::CCObject*)
-			GEODE_APPLY_MODIFY_FOR_FUNCTION_ERROR(LikeItemLayer, onDislike, , cocos2d::CCObject*)
+			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x319380, Thiscall, LikeItemLayer, onDislike, cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x319370, Thiscall, LikeItemLayer, onLike, cocos2d::CCObject*)
 			GEODE_APPLY_MODIFY_FOR_FUNCTION(base::get() + 0x319390, Thiscall, LikeItemLayer, triggerLike, bool)
 		}
