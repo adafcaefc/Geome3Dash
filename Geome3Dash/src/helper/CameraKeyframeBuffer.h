@@ -9,6 +9,9 @@
 
 namespace g3d
 {
+	class LevelData;
+	class Spline;
+
 	struct CameraKeyframe 
 	{
 		float playersXpos;
@@ -38,4 +41,14 @@ namespace g3d
 		CameraKeyframeBuffer() {}
 		~CameraKeyframeBuffer();
 	};
+
+	void setStartingKeyframe(
+		LevelData* cld,
+		CameraKeyframeBuffer* keyframeBuffer,
+		const float lengthScaleFactor);
+
+	void prepareSpline(
+		GJBaseGameLayer* layer,
+		Spline* spline,
+		float* lengthScaleFactor);
 }

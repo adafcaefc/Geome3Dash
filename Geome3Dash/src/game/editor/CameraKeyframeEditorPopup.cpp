@@ -106,36 +106,13 @@ namespace g3d
 
 		ckel->keyframeBuffer = currentLevelData.keyframe;
 		ckel->spline = currentLevelData.spline;
+
 		ckel->updateLevel();
 		ckel->spline.updateParameterList();
-
-		//auto& cld = currentLevelData;
-		//auto data = ckel->spline.findClosestByLength(cld.x * ckel->lengthScaleFactor * 20);
-		//auto pos = data.value;
-		//auto normal = glm::normalize(ckel->spline.normal(data.t));
-		//auto offset = pos + (normal * ckel->lengthScaleFactor * (static_cast<float>(cld.y * 20) - 110));
-		//offset.z += cld.z * 20;
-
-		//glm::vec3 newFront;
-		//newFront.x = cos(glm::radians(cld.yaw)) * cos(glm::radians(cld.pitch));
-		//newFront.y = sin(glm::radians(cld.pitch));
-		//newFront.z = sin(glm::radians(cld.yaw)) * cos(glm::radians(cld.pitch));
-		//const auto front = glm::normalize(newFront);
-		//ckel->keyframeBuffer.setKeyframe(0, offset, front);
-
-		auto& cld = currentLevelData;
-		sus3d::Camera fakeCamera;
-		fakeCamera.setPitch(cld.pitch);
-		fakeCamera.setYaw(cld.yaw);
-		fakeCamera.setPosition(glm::vec3(cld.x, cld.y, cld.z));
-		const auto kfcopy = ckel->keyframeBuffer.keyframes;
-		ckel->keyframeBuffer.keyframes.clear();
-		for (auto& kf : kfcopy)
-		{
-			if (kf.playersXpos != 0.f) { ckel->keyframeBuffer.keyframes.push_back(kf); }
-		}
-		ckel->keyframeBuffer.setKeyframe(0, fakeCamera.getPosition() * glm::vec3(ckel->lengthScaleFactor * 20), fakeCamera.getFront());
-		
+		setStartingKeyframe(
+			&currentLevelData, 
+			&ckel->keyframeBuffer, 
+			ckel->lengthScaleFactor);
 		// need to delete this on destructor (later)
 		splineTr = new SplineGameObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
 		splinePlayerTr = new SplinePlayerObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
@@ -206,18 +183,10 @@ namespace g3d
 	void CameraKeyframeEditorPopup::onClose(CCObject* obj) {
 		if (ckel->keyframeBuffer.keyframes.empty()) 
 		{ 
-			auto& cld = currentLevelData;
-			sus3d::Camera fakeCamera;
-			fakeCamera.setPitch(cld.pitch);
-			fakeCamera.setYaw(cld.yaw);
-			fakeCamera.setPosition(glm::vec3(cld.x, cld.y, cld.z));
-			const auto kfcopy = ckel->keyframeBuffer.keyframes;
-			ckel->keyframeBuffer.keyframes.clear();
-			for (auto& kf : kfcopy)
-			{
-				if (kf.playersXpos != 0.f) { ckel->keyframeBuffer.keyframes.push_back(kf); }
-			}
-			ckel->keyframeBuffer.setKeyframe(0, fakeCamera.getPosition() * glm::vec3(ckel->lengthScaleFactor * 20), fakeCamera.getFront());
+			setStartingKeyframe(
+				&currentLevelData,
+				&ckel->keyframeBuffer,
+				ckel->lengthScaleFactor);
 		}
 		currentLevelData.keyframe = ckel->keyframeBuffer;
 		setLevelData(LevelEditorLayer::get(), currentLevelData);
@@ -246,18 +215,10 @@ namespace g3d
 		ckel->keyframeBuffer.removeLastKeyframe();
 		if (ckel->keyframeBuffer.keyframes.empty())
 		{
-			auto& cld = currentLevelData;
-			sus3d::Camera fakeCamera;
-			fakeCamera.setPitch(cld.pitch);
-			fakeCamera.setYaw(cld.yaw);
-			fakeCamera.setPosition(glm::vec3(cld.x, cld.y, cld.z));
-			const auto kfcopy = ckel->keyframeBuffer.keyframes;
-			ckel->keyframeBuffer.keyframes.clear();
-			for (auto& kf : kfcopy)
-			{
-				if (kf.playersXpos != 0.f) { ckel->keyframeBuffer.keyframes.push_back(kf); }
-			}
-			ckel->keyframeBuffer.setKeyframe(0, fakeCamera.getPosition() * glm::vec3(ckel->lengthScaleFactor * 20), fakeCamera.getFront());
+			setStartingKeyframe(
+				&currentLevelData,
+				&ckel->keyframeBuffer,
+				ckel->lengthScaleFactor);
 		}
 	}
 

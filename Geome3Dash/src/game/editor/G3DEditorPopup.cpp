@@ -145,15 +145,7 @@ namespace g3d
 
         this->addChild(gameLayer);
 
-        float levelLength = 0;
-        CCObject* obj;
-        CCARRAY_FOREACH(lel->m_objects, obj)
-        {
-            auto block = dynamic_cast<GameObject*>(obj);
-            levelLength = std::max(block->getPositionX(), levelLength);
-        }
-        lengthScaleFactor = currentLevelData.spline.length(10000) / levelLength;
-        currentLevelData.spline.updateParameterList();
+        prepareSpline(lel, &currentLevelData.spline, &lengthScaleFactor);
 
         // don't forget to delete these
         static bool isEditing = false;
@@ -203,17 +195,10 @@ namespace g3d
             cld.z = m_spikeScene->playerCameraOffset.z;
             cld.yaw = m_spikeScene->playerCameraYawOffset;
             cld.pitch = m_spikeScene->playerCameraPitchOffset;
-            sus3d::Camera fakeCamera;
-            fakeCamera.setPitch(cld.pitch);
-            fakeCamera.setYaw(cld.yaw);
-            fakeCamera.setPosition(glm::vec3(cld.x, cld.y, cld.z));
-            const auto kfcopy = cld.keyframe.keyframes;
-            cld.keyframe.keyframes.clear();
-            for (auto& kf : kfcopy)
-            {
-                if (kf.playersXpos != 0.f) { cld.keyframe.keyframes.push_back(kf); }
-            }
-            cld.keyframe.setKeyframe(0, fakeCamera.getPosition() * glm::vec3(m_spikeScene->lengthScaleFactor * 20), fakeCamera.getFront());
+            setStartingKeyframe(
+                &cld,
+                &cld.keyframe,
+                m_spikeScene->lengthScaleFactor);
         }
     }
 
@@ -296,8 +281,7 @@ namespace g3d
 
         auto scrollBar = geode::Scrollbar::create(m_list);
         m_mainLayer->addChildAtPosition(
-            scrollBar, geode::Anchor::Center, ccp(layerBG->getContentWidth() / 2 + 10, 0)
-        );
+            scrollBar, geode::Anchor::Center, ccp(layerBG->getContentWidth() / 2 + 10, 0));
 
         m_spikeScene = G3DEditorScene::create(lel);
         this->m_mainLayer->addChild(m_spikeScene);

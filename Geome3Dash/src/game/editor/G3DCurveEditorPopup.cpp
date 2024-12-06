@@ -120,11 +120,7 @@ namespace g3d
 					cel->layer3d->camera.setPosition(
 						cel->layer3d->camera.getPosition() +
 						deltaY * sensitivity * localUp +
-						deltaX * -sensitivity * side
-					);
-
-					//cel->layer3d->camera.setPosition(cel->layer3d->camera.getPosition() + cel->layer3d->camera.getUp() * deltaY * sensitivity);
-					//cel->layer3d->camera.setPosition(cel->layer3d->camera.getPosition() + glm::normalize(glm::cross(cel->layer3d->camera.getFront(), cel->layer3d->camera.getUp())) * deltaX * -sensitivity);
+						deltaX * -sensitivity * side);
 				}
 				else {
 					float sensitivity = 0.05f;

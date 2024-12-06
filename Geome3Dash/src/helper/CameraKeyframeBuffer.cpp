@@ -1,6 +1,8 @@
 #include "pch.h"
 
 #include "CameraKeyframeBuffer.h"
+#include "LevelDataManager.h"
+#include "engine/sus3d/Scene.h"
 
 namespace g3d
 {
@@ -69,5 +71,41 @@ namespace g3d
     }
 
     CameraKeyframeBuffer::~CameraKeyframeBuffer() {
+    }
+
+    void setStartingKeyframe(
+        LevelData* cld,
+        CameraKeyframeBuffer* keyframeBuffer, 
+        const float lengthScaleFactor)
+    {
+        sus3d::Camera fakeCamera;
+        fakeCamera.setPitch(cld->pitch);
+        fakeCamera.setYaw(cld->yaw);
+        fakeCamera.setPosition(glm::vec3(cld->x, cld->y, cld->z));
+        const auto kfcopy = keyframeBuffer->keyframes;
+        keyframeBuffer->keyframes.clear();
+        for (auto& kf : kfcopy)
+        {
+            if (kf.playersXpos != 0.f) { keyframeBuffer->keyframes.push_back(kf); }
+        }
+        keyframeBuffer->setKeyframe(0, fakeCamera.getPosition() * glm::vec3(lengthScaleFactor * 20), fakeCamera.getFront());
+    }
+
+    void prepareSpline(
+        GJBaseGameLayer* layer, 
+        Spline* spline,
+        float* lengthScaleFactor)
+    {
+        float levelLength = 0;
+        CCObject* obj;
+        CCARRAY_FOREACH(layer->m_objects, obj)
+        {
+            if (auto block = dynamic_cast<GameObject*>(obj))
+            {
+                levelLength = std::max(block->getPositionX(), levelLength);
+            }
+        }
+        *lengthScaleFactor = spline->length(10000) / levelLength;
+        spline->updateParameterList();
     }
 }

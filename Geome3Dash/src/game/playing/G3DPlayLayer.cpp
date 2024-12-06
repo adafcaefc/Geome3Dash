@@ -48,15 +48,7 @@ namespace g3d
         //bezier.y1 *= bezierM;
         //bezierSegmentMultiplier = 1.0 / data.bezierMultiplier;
 
-        float levelLength = 0;
-        CCObject* obj;
-        CCARRAY_FOREACH(playLayer->m_objects, obj) 
-        {
-            auto block = dynamic_cast<GameObject*>(obj);
-            levelLength = std::max(block->getPositionX(), levelLength);
-        }
-        lengthScaleFactor = levelData.spline.length(10000) / levelLength;
-        levelData.spline.updateParameterList();
+        prepareSpline(playLayer, &levelData.spline, &lengthScaleFactor);
 
         //bezierTr = new BezierGameObjectModelTransformer(bezier, bezierSegmentMultiplier, bezierSegmentCount);
         fadeTr = new FadeGameObjectModelTransformer(playLayer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
