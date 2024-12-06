@@ -47,8 +47,6 @@ namespace g3d
         glm::vec3 cubePosition = glm::vec3(0, 105, 400);
         double cubeRotationZ = 0;
         glm::vec3 spikePosition = glm::vec3(900, 105, 400);
-        //sus3d::Model* cube;
-        //sus3d::Model* spike;
 
         SplineGameObjectTransformer* splineTr;
         SplinePlayerObjectTransformer* splinePlayerTr;

@@ -21,30 +21,13 @@ namespace g3d
 
         void onStopPlaytest() {
             LevelEditorLayer::onStopPlaytest();
-            m_fields->keyframeEditorLayer->hide();
+            const auto enabled = !geode::Mod::get()->getSettingValue<bool>("disable-general-3d");
+            if (enabled) { m_fields->keyframeEditorLayer->hide(); }
         }
 
-        //std::optional<std::string> getFrameName(CCSprite* sprite)
-        //{
-        //    auto texture = sprite->getTexture();
-        //    auto rect = sprite->getTextureRect();
-        //    auto* cachedFrames = CCSpriteFrameCache::sharedSpriteFrameCache()->m_pSpriteFrames;
-        //    for (auto [key, frame] : geode::cocos::CCDictionaryExt<std::string, CCSpriteFrame*>(cachedFrames))
-        //    {
-        //        if (frame->getTexture() == texture && frame->getRect() == rect) { return key; }
-        //    }
-        //    return std::nullopt;
-        //}
 
         void onSplineEditor(CCObject * obj) 
         {
-            //auto editorUI = dynamic_cast<EditorUI*>(this->getChildByID("EditorUI"));
-            //auto playtestButton = this->getChildByIDRecursive("playtest-button");
-            //auto playtestButtonSprite = playtestButton->getChildByType<CCSprite>(0);
-            //bool isPlayTesting = false;
-            //auto cFrame = getFrameName(playtestButtonSprite);
-            //if (cFrame.has_value() && cFrame.value() == "GJ_pauseEditorBtn_001.png") { isPlayTesting = true; }
-            //if (isPlayTesting) { editorUI->onPlaytest(playtestButton); }
             m_fields->curveEditorLayer->show();
         }
 
@@ -79,6 +62,9 @@ namespace g3d
         bool init(GJGameLevel * p0, bool p1)
         {
             if (!LevelEditorLayer::init(p0, p1)) { return false; }
+
+            const auto enabled = !geode::Mod::get()->getSettingValue<bool>("disable-general-3d");
+            if (!enabled) { return true; }
 
             auto settingsButton = this->getChildByIDRecursive("settings-button");
             auto settingsMenu = this->getChildByIDRecursive("settings-menu");

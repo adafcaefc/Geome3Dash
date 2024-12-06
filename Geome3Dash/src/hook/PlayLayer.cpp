@@ -38,11 +38,15 @@ namespace g3d
 
         void resetLevel()
         {
-            if (!m_fields->playLayer3D)
+            const auto enabled = !geode::Mod::get()->getSettingValue<bool>("disable-general-3d");
+            if (enabled || G3DPlanetLayer::insideThePlanetLayerFlag)
             {
-                m_fields->playLayer3D = G3DPlayLayer::create();
-                m_fields->playLayer3D->setZOrder(9);
-                this->addChild(m_fields->playLayer3D);
+                if (!m_fields->playLayer3D)
+                {
+                    m_fields->playLayer3D = G3DPlayLayer::create();
+                    m_fields->playLayer3D->setZOrder(9);
+                    this->addChild(m_fields->playLayer3D);
+                }
             }
             PlayLayer::resetLevel();
         }
