@@ -15,33 +15,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Cache NuGet packages
-      - name: Cache NuGet
-        uses: actions/cache@v3
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.sln', '**/*.csproj', '**/*.vcxproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
-      # Cache MSBuild binaries
-      - name: Cache Build Tools
-        uses: actions/cache@v3
-        with:
-          path: C:\Users\runneradmin\AppData\Local\Microsoft\MSBuild
-          key: msbuild-cache-${{ runner.os }}-${{ hashFiles('**/*.sln', '**/*.vcxproj') }}
-          restore-keys: |
-            msbuild-cache-${{ runner.os }}-
-
-      # Cache the bin directory
-      - name: Cache Build Artifacts
-        uses: actions/cache@v3
-        with:
-          path: bin
-          key: bin-cache-${{ runner.os }}-${{ hashFiles('**/*.sln') }}
-          restore-keys: |
-            bin-cache-${{ runner.os }}-
-
       # Set up MSBuild
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v1
