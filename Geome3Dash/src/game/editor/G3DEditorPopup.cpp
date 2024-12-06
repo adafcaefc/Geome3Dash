@@ -141,6 +141,7 @@ namespace g3d
         auto gameLayer = CCLayer::create();
         gameLayer->setScale(0.2f);
         gameLayer->addChild(playerObj);
+        gameLayer->setVisible(false);
 
         this->addChild(gameLayer);
 
