@@ -10,28 +10,7 @@
 
 namespace g3d
 {
-	//CCSize G3DEditorPopup::popupPadding = { 20, 20 };
-
     static LevelData currentLevelData = LevelData::getDefault();
-
-    //void G3DEditorPopup::addLabel(const char* text, const CCPoint& position) {
-    //    constexpr const char* _font = "chatFont.fnt";
-    //    // Create the label using the specified font and text
-    //    auto label = CCLabelBMFont::create(text, _font);
-    //    label->setScale(0.8f);  // Adjust the size of the label
-    //    label->setPosition(position);  // Position the label at the desired location
-    //    // Add the label to the popup layer
-    //    //this->m_geodeScrollLayer->addChild(label);
-    //}
-
-    //void G3DEditorScene::loadModel()
-    //{
-    //    //auto bms = BlockModelStorage::get();
-    //    //cube = bms->getModel(bms->getBP() / "player" / "cube" / "0" / "model.obj");
-    //    //cube->setScale(glm::vec3(0.75));
-    //    //spike = bms->getBlockModel(8);
-    //    //spike->setScale(glm::vec3(0.75));
-    //}
 
     void G3DCameraEditorScene::drawModel()
     {

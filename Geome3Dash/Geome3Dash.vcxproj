@@ -85,12 +85,9 @@
     <ClCompile Include="src\hook\MenuLayer.cpp" />
     <ClCompile Include="src\hook\PlayLayer.cpp" />
     <ClCompile Include="src\LevelDataManager.cpp" />
-    <ClCompile Include="src\BezierManager.cpp" />
-    <ClCompile Include="src\CameraAction.cpp" />
     <ClCompile Include="src\delegate\CustomKeyboard.cpp" />
     <ClCompile Include="src\delegate\CustomMouse.cpp" />
     <ClCompile Include="src\delegate\CustomTouch.cpp" />
-    <ClCompile Include="src\helper\BezierHelper.cpp" />
     <ClCompile Include="src\helper\CommonHelper.cpp" />
     <ClCompile Include="src\helper\OpenGLStateHelper.cpp" />
     <ClCompile Include="src\Entries.cpp" />
@@ -98,8 +95,6 @@
     <ClCompile Include="src\PlanetStateManager.cpp" />
     <ClCompile Include="src\PlayerObjectModel.cpp" />
     <ClCompile Include="src\transformer\AnimationGameObjectModelTransformer.cpp" />
-    <ClCompile Include="src\transformer\BezierCameraPlayerObjectModelTransformer.cpp" />
-    <ClCompile Include="src\transformer\BezierGameObjectModelTransformer.cpp" />
     <ClCompile Include="src\transformer\DefaultGameObjectModelTransformer.cpp" />
     <ClCompile Include="src\transformer\FadeGameObjectModelTransformer.cpp" />
     <ClCompile Include="src\transformer\GameObjectModelTransformer.cpp" />
@@ -117,9 +112,7 @@
     <ClInclude Include="lib\imgui-cocos\imstb_truetype.h" />
     <ClInclude Include="lib\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="src\BezierManager.h" />
     <ClInclude Include="src\BlockModelStorage.h" />
-    <ClInclude Include="src\CameraAction.h" />
     <ClInclude Include="src\CocosShaderProgram.h" />
     <ClInclude Include="src\delegate\CustomKeyboard.h" />
     <ClInclude Include="src\delegate\CustomMouse.h" />
@@ -147,7 +140,6 @@
     <ClInclude Include="src\game\planet\G3DPlanetLayer.h" />
     <ClInclude Include="src\game\playing\G3DPlayLayer.h" />
     <ClInclude Include="src\game\test\G3DModelPreviewLayer.h" />
-    <ClInclude Include="src\helper\BezierHelper.h" />
     <ClInclude Include="src\helper\CommonHelper.h" />
     <ClInclude Include="src\helper\OpenGLStateHelper.h" />
     <ClInclude Include="src\Entries.h" />
@@ -158,8 +150,6 @@
     <ClInclude Include="src\PlanetStateManager.h" />
     <ClInclude Include="src\PlayerObjectModel.h" />
     <ClInclude Include="src\transformer\AnimationGameObjectModelTransformer.h" />
-    <ClInclude Include="src\transformer\BezierCameraPlayerObjectModelTransformer.h" />
-    <ClInclude Include="src\transformer\BezierGameObjectModelTransformer.h" />
     <ClInclude Include="src\transformer\DefaultGameObjectModelTransformer.h" />
     <ClInclude Include="src\transformer\FadeGameObjectModelTransformer.h" />
     <ClInclude Include="src\transformer\GameObjectModelTransformer.h" />

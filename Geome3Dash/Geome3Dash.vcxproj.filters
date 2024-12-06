@@ -21,12 +21,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="src\BezierManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CameraAction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entries.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,9 +31,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Delegate\CustomTouch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helper\BezierHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Helper\CommonHelper.cpp">
@@ -186,12 +177,6 @@
     <ClCompile Include="src\transformer\AnimationGameObjectModelTransformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\transformer\BezierCameraPlayerObjectModelTransformer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\transformer\BezierGameObjectModelTransformer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\transformer\DefaultGameObjectModelTransformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -230,16 +215,10 @@
     <ClInclude Include="src\Entries.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\BezierManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Helper\OpenGLStateHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Helper\CommonHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helper\BezierHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Delegate\CustomTouch.h">
@@ -249,9 +228,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Delegate\CustomKeyboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CameraAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\component\G3DProgressBar.h">
@@ -360,12 +336,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\AnimationGameObjectModelTransformer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\transformer\BezierCameraPlayerObjectModelTransformer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\transformer\BezierGameObjectModelTransformer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\DefaultGameObjectModelTransformer.h">
