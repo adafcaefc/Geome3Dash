@@ -60,7 +60,7 @@ namespace g3d
 					cel->layer3d->getObjectIDByMousePositionShader->use();
 
 					auto renderFunction = [&](int segmentIndex, glm::vec3 position) {
-						cel->pointModel->setScale(glm::vec3(0.07));
+						cel->pointModel->setScale(glm::vec3(0.07f));
 						cel->pointModel->setPosition(position);
 						glm::mat4 model = cel->pointModel->prepareModelMatrix();
 						cel->layer3d->getObjectIDByMousePositionShader->setMat4("model", model);
@@ -152,6 +152,8 @@ namespace g3d
 		case KEY_Shift:
 			isPressingShift = pressed;
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -208,15 +210,15 @@ namespace g3d
 
 		this->m_buttonMenu->setPosition(size / 2);
 		auto backBtnSprite = CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png");
-		backBtnSprite->setScale(0.7);
+		backBtnSprite->setScale(0.7f);
 		auto backBtn = CCMenuItemSpriteExtra::create(backBtnSprite, this, menu_selector(G3DCurveEditorPopup::onClose));
 		backBtn->setPosition(20, size.height - 20);
 		this->m_buttonMenu->addChild(backBtn);
 
 		auto addCurveSprite = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
-		addCurveSprite->setScale(0.7);
+		addCurveSprite->setScale(0.7f);
 		auto addCurveLabel = CCLabelBMFont::create("+", "bigFont.fnt", 80.f);
-		addCurveLabel->setScale(1.2);
+		addCurveLabel->setScale(1.2f);
 		addCurveLabel->setPosition(addCurveSprite->getContentSize() / 2 - ccp(0, -4.f));
 		addCurveSprite->addChild(addCurveLabel);
 		auto addCurveBtn = CCMenuItemSpriteExtra::create(addCurveSprite, this, menu_selector(G3DCurveEditorPopup::onAddSegment));
@@ -224,9 +226,9 @@ namespace g3d
 		this->m_buttonMenu->addChild(addCurveBtn);
 
 		auto removeCurveSprite = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
-		removeCurveSprite->setScale(0.7);
+		removeCurveSprite->setScale(0.7f);
 		auto removeCurveLabel = CCLabelBMFont::create("-", "bigFont.fnt", 80.f);
-		removeCurveLabel->setScale(1.2);
+		removeCurveLabel->setScale(1.2f);
 		removeCurveLabel->setPosition(removeCurveSprite->getContentSize() / 2 - ccp(0, -4.f));
 		removeCurveSprite->addChild(removeCurveLabel);
 		auto removeCurveBtn = CCMenuItemSpriteExtra::create(removeCurveSprite, this, menu_selector(G3DCurveEditorPopup::onRemoveSegment));
@@ -254,14 +256,14 @@ namespace g3d
 		OpenGLStateHelper::saveState();
 		for (auto segment : cel->spline.segments) {
 			cel->pointModel->meshes[0]->setCustomKa(glm::vec3(1, 0, 0));
-			cel->pointModel->setScale(glm::vec3(0.07));
+			cel->pointModel->setScale(glm::vec3(0.07f));
 			cel->pointModel->setPosition(segment.p1);
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
 			cel->pointModel->setPosition(segment.p2);
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
 
 			cel->pointModel->meshes[0]->setCustomKa(glm::vec3(0, 1, 0));
-			cel->pointModel->setScale(glm::vec3(0.05));
+			cel->pointModel->setScale(glm::vec3(0.05f));
 			cel->pointModel->setPosition(segment.m1);
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
 			cel->pointModel->setPosition(segment.m2);
@@ -269,10 +271,10 @@ namespace g3d
 		}
 
 
-		for (float i = 0; i < 3; i += 0.005) {
+		for (float i = 0; i < 3; i += 0.005f) {
 			cel->pointModel->setPosition(cel->spline.get(i));
 			cel->pointModel->meshes[0]->setCustomKa(glm::vec3(0.5, 0.5, 0.5));
-			cel->pointModel->setScale(glm::vec3(0.001));
+			cel->pointModel->setScale(glm::vec3(0.001f));
 			cel->pointModel->render(shaderProgram, cel->layer3d->camera.getViewMat(), cel->layer3d->light.getPosition(), cel->layer3d->light.getColor(), cel->layer3d->camera.getPosition(), cel->layer3d->camera.getProjectionMat());
 		}
 

@@ -36,8 +36,8 @@
     <ClCompile Include="src\CocosShaderProgram.cpp" />
     <ClCompile Include="src\GameObjectModel.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
-    <ClCompile Include="src\game\editor\CameraKeyframeEditorLoader.cpp" />
-    <ClCompile Include="src\game\editor\CameraKeyframeEditorPopup.cpp" />
+    <ClCompile Include="src\game\editor\G3DCameraKeyframeEditorLoader.cpp" />
+    <ClCompile Include="src\game\editor\G3DCameraKeyframeEditorPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
@@ -68,7 +68,7 @@
     </ClCompile>
     <ClCompile Include="src\game\component\G3DBaseNode.cpp" />
     <ClCompile Include="src\game\component\G3DFragmentShaderLayer.cpp" />
-    <ClCompile Include="src\game\editor\G3DEditorPopup.cpp" />
+    <ClCompile Include="src\game\editor\G3DCameraEditorPopup.cpp" />
     <ClCompile Include="src\game\component\G3DNumberSetting.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetLayer.cpp" />
     <ClCompile Include="src\game\playing\G3DPlayLayer.cpp" />
@@ -126,8 +126,8 @@
     <ClInclude Include="src\delegate\CustomTouch.h" />
     <ClInclude Include="src\GameObjectModel.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
-    <ClInclude Include="src\game\editor\CameraKeyframeEditorLoader.h" />
-    <ClInclude Include="src\game\editor\CameraKeyframeEditorPopup.h" />
+    <ClInclude Include="src\game\editor\G3DCameraKeyframeEditorLoader.h" />
+    <ClInclude Include="src\game\editor\G3DCameraKeyframeEditorPopup.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />
@@ -140,7 +140,7 @@
     <ClInclude Include="src\engine\sus3d\ShaderProgram.h" />
     <ClInclude Include="src\engine\sus3d\Shaders.h" />
     <ClInclude Include="src\engine\sus3d\Texture.h" />
-    <ClInclude Include="src\game\editor\G3DEditorPopup.h" />
+    <ClInclude Include="src\game\editor\G3DCameraEditorPopup.h" />
     <ClInclude Include="src\game\component\G3DBaseNode.h" />
     <ClInclude Include="src\game\component\G3DFragmentShaderLayer.h" />
     <ClInclude Include="src\game\component\G3DNumberSetting.h" />
@@ -183,7 +183,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>ClangCL</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

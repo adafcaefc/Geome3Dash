@@ -4,8 +4,9 @@
 
 namespace g3d
 {
-	struct Spline 
+	class Spline 
 	{
+	public:
 		struct ParameterData 
 		{
 			float t;

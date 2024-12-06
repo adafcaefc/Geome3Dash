@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "game/editor/G3DEditorPopup.h"
+#include "game/editor/G3DCameraEditorPopup.h"
 #include "game/component/G3DBaseNode.h"
 
 #include "helper/OpenGLStateHelper.h"
@@ -33,7 +33,7 @@ namespace g3d
     //    //spike->setScale(glm::vec3(0.75));
     //}
 
-    void G3DEditorScene::drawModel()
+    void G3DCameraEditorScene::drawModel()
     {
         static std::chrono::steady_clock::time_point lastUpdate;
         auto now = std::chrono::steady_clock::now();
@@ -112,7 +112,7 @@ namespace g3d
         for (auto& block : blocks) { block.render(shaderProgram, camera, light); }
     }
 
-    void G3DEditorScene::draw()
+    void G3DCameraEditorScene::draw()
     {
         CCNode::draw();
 
@@ -128,12 +128,12 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-    G3DEditorScene::~G3DEditorScene()
+    G3DCameraEditorScene::~G3DCameraEditorScene()
     {
 
     }
 
-    bool G3DEditorScene::init(LevelEditorLayer* lel)
+    bool G3DCameraEditorScene::init(LevelEditorLayer* lel)
     {
         this->lel = lel;
         playerObj = PlayerObject::create(0, 0, lel, lel->m_objectLayer, false);
@@ -179,13 +179,13 @@ namespace g3d
         return CCNode::init();
     }
 
-    void G3DEditorPopup::onClose(CCObject* ob)
+    void G3DCameraEditorPopup::onClose(CCObject* ob)
     {
         setLevelData(lel, currentLevelData);
         geode::Popup<LevelEditorLayer*>::onClose(ob);
     }
 
-    void G3DEditorPopup::updateCamera()
+    void G3DCameraEditorPopup::updateCamera()
     {
         if (m_spikeScene)
         {
@@ -202,13 +202,13 @@ namespace g3d
         }
     }
 
-    void G3DEditorPopup::updateState(G3DNumberSetting* invoker) 
+    void G3DCameraEditorPopup::updateState(G3DNumberSetting* invoker) 
     {
         updateCamera();
         for (auto& sett : m_settings) { sett->updateState(nullptr); }
     }
 
-    bool G3DEditorPopup::setup(LevelEditorLayer* plel)
+    bool G3DCameraEditorPopup::setup(LevelEditorLayer* plel)
     {
         lel = plel;
 
@@ -283,7 +283,7 @@ namespace g3d
         m_mainLayer->addChildAtPosition(
             scrollBar, geode::Anchor::Center, ccp(layerBG->getContentWidth() / 2 + 10, 0));
 
-        m_spikeScene = G3DEditorScene::create(lel);
+        m_spikeScene = G3DCameraEditorScene::create(lel);
         this->m_mainLayer->addChild(m_spikeScene);
 
         layerBG->setPositionX(layerBG->getPositionX() + 90);
@@ -301,10 +301,10 @@ namespace g3d
         return true;
     }
 
-    void G3DEditorPopup::scene(LevelEditorLayer* plel) 
+    void G3DCameraEditorPopup::scene(LevelEditorLayer* plel) 
     {
         const CCSize uiSize = CCDirector::sharedDirector()->getWinSize() - CCSize(60, 40);
-        G3DEditorPopup* instance = new G3DEditorPopup();
+        G3DCameraEditorPopup* instance = new G3DCameraEditorPopup();
         if (instance && instance->initAnchored(uiSize.width, uiSize.height, plel)) 
         {
             instance->m_noElasticity = true;
@@ -318,7 +318,7 @@ namespace g3d
         }
     }
 
-    void G3DEditorScene::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+    void G3DCameraEditorScene::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
         if (button == GLFW_MOUSE_BUTTON_RIGHT) {
             if (action == GLFW_PRESS) {
                 isRightClicking = true;
@@ -330,7 +330,7 @@ namespace g3d
         }
     }
 
-    void G3DEditorScene::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
+    void G3DCameraEditorScene::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
         if (isRightClicking) {
             if (!isRightClickingGetPos) {
                 lastMouseX = static_cast<float>(x);
@@ -358,7 +358,7 @@ namespace g3d
                 currentLevelData.z = playerCameraOffset.z;
                 currentLevelData.yaw = playerCameraYawOffset;
                 currentLevelData.pitch = playerCameraPitchOffset;
-                if (auto layer = dynamic_cast<G3DEditorPopup*>(this->getParent()->getParent()))
+                if (auto layer = dynamic_cast<G3DCameraEditorPopup*>(this->getParent()->getParent()))
                 {
                     layer->updateState();
                 }
@@ -366,7 +366,7 @@ namespace g3d
         }
     }
 
-    void G3DEditorScene::scrollWheel(float y, float x) {
+    void G3DCameraEditorScene::scrollWheel(float y, float x) {
         if (isPressingControl) {
             // Adjust the camera zoom level using the scroll wheel
             float zoomSensitivity = -0.128f;
@@ -376,13 +376,13 @@ namespace g3d
             currentLevelData.z = playerCameraOffset.z;
             currentLevelData.yaw = playerCameraYawOffset;
             currentLevelData.pitch = playerCameraPitchOffset;
-            if (auto layer = dynamic_cast<G3DEditorPopup*>(this->getParent()->getParent())) {
+            if (auto layer = dynamic_cast<G3DCameraEditorPopup*>(this->getParent()->getParent())) {
                 layer->updateState();
             }
         }
     }
 
-    void G3DEditorScene::onKey(enumKeyCodes key, bool pressed, bool holding) {
+    void G3DCameraEditorScene::onKey(enumKeyCodes key, bool pressed, bool holding) {
         switch (key) {
         case KEY_Control:
             isPressingControl = pressed;

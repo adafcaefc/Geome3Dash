@@ -27,8 +27,9 @@ namespace g3d
 	//	NLOHMANN_DEFINE_TYPE_INTRUSIVE(CubicBezier, x0, y0, cx1, cy1, cx2, cy2, x1, y1);
 	//};
 
-	struct LevelData
+	class LevelData
 	{
+	public:
 		//CubicBezierLD bezierCurve;           // Bezier values
 		//double bezierMultiplier;             // Path size
 		//std::vector<CameraActionLD> actions; // Camera actions

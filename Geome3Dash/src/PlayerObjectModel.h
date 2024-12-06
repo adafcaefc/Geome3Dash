@@ -3,6 +3,7 @@
 #include "GameObjectModel.h"
 
 class GameObject;
+class PlayerObject;
 
 namespace g3d
 {

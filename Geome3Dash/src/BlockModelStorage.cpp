@@ -106,7 +106,7 @@ namespace g3d
 				if (auto blockModel = getModel(modelPath)) { blockModels[i] = blockModel; }
 			}
 		}
-		catch (const std::filesystem::filesystem_error& e) 
+		catch (...) 
 		{
 			
 		}

@@ -30,7 +30,7 @@
 
 namespace g3d
 {
-    class G3DEditorScene 
+    class G3DCameraEditorScene 
         : public CCNode
         , public CustomKeyboardDelegate
         , public CustomMouseDelegate
@@ -84,10 +84,10 @@ namespace g3d
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;
         virtual void scrollWheel(float y, float x) override;
 
-        ~G3DEditorScene();
+        ~G3DCameraEditorScene();
 
         static auto create(LevelEditorLayer* lel) {
-            auto node = new G3DEditorScene;
+            auto node = new G3DCameraEditorScene;
             if (node->init(lel)) {
                 node->autorelease();
             }
@@ -98,7 +98,7 @@ namespace g3d
         }
     };
 
-    class G3DEditorPopup : public geode::Popup<LevelEditorLayer*> 
+    class G3DCameraEditorPopup : public geode::Popup<LevelEditorLayer*> 
     {
     public:
         static void scene(LevelEditorLayer* plel);
@@ -109,7 +109,7 @@ namespace g3d
         bool setup(LevelEditorLayer*) override;
         //void addLabel(const char* text, const CCPoint& position);
 
-        G3DEditorScene* m_spikeScene;
+        G3DCameraEditorScene* m_spikeScene;
         geode::ScrollLayer* m_list;
         geode::TextInput* m_searchInput;
         std::vector<geode::Ref<G3DNumberSetting>> m_settings;
@@ -121,6 +121,6 @@ namespace g3d
     private:
         //static CCSize popupPadding;
 
-        G3DEditorPopup()  { }
+        G3DCameraEditorPopup()  { }
     };
 }

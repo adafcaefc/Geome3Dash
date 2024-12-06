@@ -23,14 +23,10 @@ namespace g3d
 			lengthCounter += deltaLength;
 			parameterList.push_back(ParameterData(t, value, lengthCounter));
 		}
-
-		for (int i = parameterList.size() - 10; i < parameterList.size(); i++) {
-			auto data = parameterList[i];
-		}
 	}
 
 	int Spline::getPointsCount() {
-		return segments.size() * 3 + 1;
+		return static_cast<int>(segments.size()) * 3 + 1;
 	}
 
 	std::vector<glm::vec3> Spline::getAllPoints() {

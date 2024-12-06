@@ -19,8 +19,8 @@ namespace g3d
 	protected:
 		float opacity = 1.0f;
 		sus3d::Model* model;
-		std::vector<GameObjectModelTransformer*> transformers;
 		GameObject* gameObject;
+		std::vector<GameObjectModelTransformer*> transformers;
 	public:
 		GameObject* getGameObject() { return this->gameObject; }
 		sus3d::Model* getModel() { return this->model; }
@@ -50,7 +50,7 @@ namespace g3d
 		{
 			// memory leak but idk how to fix yet
 			// nvm I think the scene should own the pointer to transformers
-			for (auto& transformer : transformers) { /*delete transformer;*/ }
+			// for (auto& transformer : transformers) { /*delete transformer;*/ }
 		}
 	};
 }

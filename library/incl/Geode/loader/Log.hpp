@@ -74,7 +74,7 @@ namespace geode {
         using log_clock = std::chrono::system_clock;
         GEODE_DLL std::string generateLogName();
 
-        GEODE_DLL void vlogImpl(Severity, Mod*, fmt::string_view format, fmt::format_args args);
+        void vlogImpl(Severity, Mod*, fmt::string_view format, fmt::format_args args);
 
         template <typename... Args>
         inline void logImpl(Severity severity, Mod* mod, impl::FmtStr<Args...> str, Args&&... args) {

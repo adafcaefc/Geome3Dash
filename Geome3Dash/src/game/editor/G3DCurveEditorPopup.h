@@ -41,10 +41,10 @@ namespace g3d
 		SplineGameObjectTransformer* splineTr;
 		std::vector<GameObjectModel> blocks;
 
-		virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
-		virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
-		virtual void scrollWheel(float y, float x);
-		virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
+		virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;
+		virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;
+		virtual void scrollWheel(float y, float x) override;
+		virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override;
 
 		bool setup(G3DCurveEditorLoader* cel) override;
 
@@ -53,7 +53,7 @@ namespace g3d
 		void onAddSegment(CCObject*);
 		void onRemoveSegment(CCObject*);
 
-		void onClose(CCObject* obj);
+		void onClose(CCObject* obj) override;
 	public:
 		static G3DCurveEditorPopup* create(G3DCurveEditorLoader* cel);
 	};

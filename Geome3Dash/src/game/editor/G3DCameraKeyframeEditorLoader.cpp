@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include "CameraKeyframeEditorLoader.h"
-#include "CameraKeyframeEditorPopup.h"
+#include "G3DCameraKeyframeEditorLoader.h"
+#include "G3DCameraKeyframeEditorPopup.h"
 
 #include "helper/spline/Curve.h"
 #include "helper/spline/Spline.h"
@@ -18,12 +18,11 @@
 
 namespace g3d
 {
-	bool CameraKeyframeEditorLoader::init(LevelEditorLayer* lel) {
+	bool G3DCameraKeyframeEditorLoader::setup(LevelEditorLayer* lel)
+	{
 		if (!CCNode::init()) return false;
 
 		this->lel = lel;
-
-		auto size = CCDirector::sharedDirector()->getWinSize();
 
 		layer3d = G3DBaseNode::create();
 		layer3d->camera.setPosition(glm::vec3(0, 0, 15));
@@ -45,7 +44,7 @@ namespace g3d
 		return true;
 	}
 
-	void CameraKeyframeEditorLoader::updateLevel() {
+	void G3DCameraKeyframeEditorLoader::updateLevel() {
 		levelLength = 0;
 		CCObject* obj;
 		CCARRAY_FOREACH(lel->m_objects, obj) {
@@ -56,21 +55,21 @@ namespace g3d
 		lengthScaleFactor = spline.length(10000) / levelLength;
 	}
 
-	void CameraKeyframeEditorLoader::show() {
+	void G3DCameraKeyframeEditorLoader::show() {
 		updateLevel();
-		popup = CameraKeyframeEditorPopup::create(this);
+		popup = G3DCameraKeyframeEditorPopup::create(this);
 		popup->show();
 	}
 
-	void CameraKeyframeEditorLoader::hide() {
+	void G3DCameraKeyframeEditorLoader::hide() {
 		if (popup) {
 			popup->onClose(nullptr);
 		}
 	}
 
-	CameraKeyframeEditorLoader* CameraKeyframeEditorLoader::create(LevelEditorLayer* lel) {
-		auto ret = new CameraKeyframeEditorLoader();
-		if (ret && ret->init(lel)) {
+	G3DCameraKeyframeEditorLoader* G3DCameraKeyframeEditorLoader::create(LevelEditorLayer* lel) {
+		auto ret = new G3DCameraKeyframeEditorLoader();
+		if (ret && ret->setup(lel)) {
 			ret->autorelease();
 			return ret;
 		}

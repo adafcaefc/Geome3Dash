@@ -27,7 +27,7 @@ namespace g3d
 		float levelLength = 0;
 		float lengthScaleFactor;
 
-		virtual bool init(LevelEditorLayer* lel);
+		virtual bool setup(LevelEditorLayer* lel);
 
 		void updateLevel();
 

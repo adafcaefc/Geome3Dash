@@ -90,7 +90,7 @@
     <ClCompile Include="src\game\component\G3DFragmentShaderLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\editor\G3DEditorPopup.cpp">
+    <ClCompile Include="src\game\editor\G3DCameraEditorPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\component\G3DNumberSetting.cpp">
@@ -207,10 +207,10 @@
     <ClCompile Include="src\transformer\SplineCameraPlayerObjectModelTransformer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\editor\CameraKeyframeEditorLoader.cpp">
+    <ClCompile Include="src\game\editor\G3DCameraKeyframeEditorLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\editor\CameraKeyframeEditorPopup.cpp">
+    <ClCompile Include="src\game\editor\G3DCameraKeyframeEditorPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\helper\CameraKeyframeBuffer.cpp">
@@ -284,7 +284,7 @@
     <ClInclude Include="src\engine\sus3d\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\editor\G3DEditorPopup.h">
+    <ClInclude Include="src\game\editor\G3DCameraEditorPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\component\G3DBaseNode.h">
@@ -383,10 +383,10 @@
     <ClInclude Include="src\transformer\SplineCameraPlayerObjectModelTransformer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\editor\CameraKeyframeEditorLoader.h">
+    <ClInclude Include="src\game\editor\G3DCameraKeyframeEditorLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\editor\CameraKeyframeEditorPopup.h">
+    <ClInclude Include="src\game\editor\G3DCameraKeyframeEditorPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\helper\CameraKeyframeBuffer.h">

@@ -123,7 +123,7 @@ namespace sus3d
             shaderProgram->setVec3("Ks", isCustomKs ? customKs : Ks);
             shaderProgram->setFloat("shininess", 32);
             shaderProgram->setFloat("d", isCustomD ? customD : d);
-            glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
+            glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, NULL);
             glBindVertexArray(0);
             glDisable(GL_DEPTH_TEST);
             glDisable(GL_BLEND);

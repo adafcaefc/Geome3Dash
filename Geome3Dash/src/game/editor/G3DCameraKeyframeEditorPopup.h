@@ -20,16 +20,16 @@ namespace sus3d
 
 namespace g3d
 {
-	class CameraKeyframeEditorLoader;
+	class G3DCameraKeyframeEditorLoader;
 
-	class CameraKeyframeEditorPopup 
-		: public geode::Popup<CameraKeyframeEditorLoader*>
+	class G3DCameraKeyframeEditorPopup 
+		: public geode::Popup<G3DCameraKeyframeEditorLoader*>
 		, public CustomKeyboardDelegate
 		, public CustomMouseDelegate
 		, public CustomTouchDelegate 
 	{
 	protected:
-		CameraKeyframeEditorLoader* ckel;
+		G3DCameraKeyframeEditorLoader* ckel;
 
 		bool isEditing = false;
 
@@ -39,12 +39,12 @@ namespace g3d
 		float lastMouseX = 0.0;
 		float lastMouseY = 0.0;
 
-		virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
-		virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
-		virtual void scrollWheel(float y, float x);
-		virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
+		virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;
+		virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;
+		virtual void scrollWheel(float y, float x) override;
+		virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override;
 
-		bool setup(CameraKeyframeEditorLoader* cel) override;
+		bool setup(G3DCameraKeyframeEditorLoader* cel) override;
 
 		void draw() override;
 
@@ -60,8 +60,8 @@ namespace g3d
 
 		std::vector<GameObjectModel> blocks;
 	public:
-		void onClose(CCObject* obj);
+		void onClose(CCObject* obj) override;
 
-		static CameraKeyframeEditorPopup* create(CameraKeyframeEditorLoader* ckel);
+		static G3DCameraKeyframeEditorPopup* create(G3DCameraKeyframeEditorLoader* ckel);
 	};
 }

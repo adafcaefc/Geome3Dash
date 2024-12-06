@@ -30,7 +30,7 @@ namespace g3d
 		lengthScaleFactor = spline.length(10000) / levelLength;
 	}
 
-	bool G3DCurveEditorLoader::init(LevelEditorLayer* lel) {
+	bool G3DCurveEditorLoader::setup(LevelEditorLayer* lel) {
 		if (!CCNode::init()) return false;
 
 		this->lel = lel;
@@ -77,7 +77,7 @@ namespace g3d
 
 	G3DCurveEditorLoader* G3DCurveEditorLoader::create(LevelEditorLayer* lel) {
 		auto ret = new G3DCurveEditorLoader();
-		if (ret && ret->init(lel)) {
+		if (ret && ret->setup(lel)) {
 			ret->autorelease();
 			return ret;
 		}
