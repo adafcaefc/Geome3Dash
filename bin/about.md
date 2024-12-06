@@ -22,6 +22,7 @@ Bring your creativity to life with advanced editing tools:
   - Use **Right Click** or **CTRL + Right Click** to move the camera around.  
 - **Key**: Manage keyframes.  
   - Press **A** or the **"+" button** to add keyframes.  
+  - Add more keyframes or remove them using the **"+" or "-" button**.  
   - Use **Left Click** or **CTRL + Left Click** to move around.  
 - **Path**: Manage paths.  
   - Add more points or remove them using the **"+" or "-" button**.  
