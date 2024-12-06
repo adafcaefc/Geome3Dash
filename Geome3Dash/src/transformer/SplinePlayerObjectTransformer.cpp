@@ -38,7 +38,7 @@ namespace g3d
 			gom->setRotation(eulerDegrees);
 			gom->setScale(glm::vec3(
 				0.5 * (player->m_startFlipX ? -1 : 1) * (*lengthScaleFactor) * 30,
-				0.5 * (player->m_startFlipY ? -1 : 1) * (*lengthScaleFactor) * 30 * scale,
+				0.5 * (player->m_isUpsideDown ? -1 : 1) * (*lengthScaleFactor) * 30 * scale,
 				0.5 * (*lengthScaleFactor) * 30 * scale));
 		}
 	}

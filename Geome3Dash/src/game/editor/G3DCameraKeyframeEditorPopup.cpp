@@ -118,7 +118,7 @@ namespace g3d
 		// need to delete this on destructor (later)
 		splineTr = new SplineGameObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
 		splinePlayerTr = new SplinePlayerObjectTransformer(&ckel->spline, &ckel->lengthScaleFactor);
-		splineCamTr = new SplineCameraPlayerObjectModelTransformer(&ckel->spline, &ckel->keyframeBuffer, &ckel->layer3d->camera, &ckel->lengthScaleFactor, &isEditing);
+		splineCamTr = new SplineCameraPlayerObjectModelTransformer(&ckel->spline, &ckel->keyframeBuffer, &ckel->layer3d->camera, &ckel->layer3d->light, &ckel->lengthScaleFactor, &isEditing);
 
 		CCObject* obj;
 		CCARRAY_FOREACH(ckel->lel->m_objects, obj)

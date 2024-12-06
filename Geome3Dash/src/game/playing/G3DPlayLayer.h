@@ -50,9 +50,9 @@ namespace g3d
         // !! moved to block storage !!
         //std::unordered_map<GameObject*, sus3d::Model*> blocks;
         //std::unordered_map<int, sus3d::Model*> blockModels;
-        glm::vec3 playerCameraOffset;
-        double playerCameraYawOffset;
-        double playerCameraPitchOffset;
+        //glm::vec3 playerCameraOffset;
+        //double playerCameraYawOffset;
+        //double playerCameraPitchOffset;
         CocosShaderProgram* shaderProgram;
 
         //CubicBezier bezier;
@@ -117,10 +117,10 @@ namespace g3d
 
         virtual void draw();
 
-        virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
-        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
-        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
-        virtual void scrollWheel(float y, float x);
+        //virtual void onKey(enumKeyCodes key, bool pressed, bool holding);
+        //virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
+        //virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
+        //virtual void scrollWheel(float y, float x);
 
         friend class BezierCameraPlayerObjectModelTransformer;
         friend class SplineCameraPlayerObjectModelTransformer;

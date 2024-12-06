@@ -33,9 +33,9 @@ namespace g3d
 
         try { levelData = getLevelData(playLayer); } catch (...) { }
 
-        playerCameraOffset = glm::vec3(levelData.x, levelData.y, levelData.z);
-        playerCameraYawOffset = levelData.yaw;
-        playerCameraPitchOffset = levelData.pitch;
+        //playerCameraOffset = glm::vec3(levelData.x, levelData.y, levelData.z);
+        //playerCameraYawOffset = levelData.yaw;
+        //playerCameraPitchOffset = levelData.pitch;
         //bezier = data.bezierCurve;
         //constexpr double bezierM = 1000;
         //bezier.cx1 *= bezierM;
@@ -49,6 +49,7 @@ namespace g3d
         //bezierSegmentMultiplier = 1.0 / data.bezierMultiplier;
 
         prepareSpline(playLayer, &levelData.spline, &lengthScaleFactor);
+        setStartingKeyframe(&levelData, &levelData.keyframe, lengthScaleFactor);
 
         //bezierTr = new BezierGameObjectModelTransformer(bezier, bezierSegmentMultiplier, bezierSegmentCount);
         fadeTr = new FadeGameObjectModelTransformer(playLayer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
@@ -61,6 +62,7 @@ namespace g3d
             &levelData.spline, 
             &levelData.keyframe,
             &camera,
+            &light,
             &lengthScaleFactor,
             &isEditing);
             
@@ -183,57 +185,57 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-    void G3DPlayLayer::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
-        if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-            if (action == GLFW_PRESS) {
-                isRightClicking = true;
-                isRightClickingGetPos = false;
-            }
-            else if (action == GLFW_RELEASE) {
-                isRightClicking = false;
-            }
-        }
-    }
+    //void G3DPlayLayer::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+    //    if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+    //        if (action == GLFW_PRESS) {
+    //            isRightClicking = true;
+    //            isRightClickingGetPos = false;
+    //        }
+    //        else if (action == GLFW_RELEASE) {
+    //            isRightClicking = false;
+    //        }
+    //    }
+    //}
 
-    void G3DPlayLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
-        if (isRightClicking) {
-            if (!isRightClickingGetPos) {
-                lastMouseX = static_cast<float>(x);
-                lastMouseY = static_cast<float>(y);
-                isRightClickingGetPos = true;
-            }
-            else {
-                float deltaX = static_cast<float>(x) - lastMouseX;
-                float deltaY = static_cast<float>(y) - lastMouseY;
-                if (isPressingControl) {
-                    float sensitivity = 0.032f;
-                    playerCameraOffset += camera.getUp() * deltaY * sensitivity;
-                    playerCameraOffset += glm::normalize(glm::cross(camera.getFront(), camera.getUp())) * deltaX * -sensitivity;
-                }
-                else {
-                    float sensitivity = 0.05f;
-                    playerCameraYawOffset -= deltaX * sensitivity;
-                    playerCameraPitchOffset -= deltaY * sensitivity;
-                }
-                lastMouseX = static_cast<float>(x);
-                lastMouseY = static_cast<float>(y);
-            }
-        }
-    }
+    //void G3DPlayLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
+    //    if (isRightClicking) {
+    //        if (!isRightClickingGetPos) {
+    //            lastMouseX = static_cast<float>(x);
+    //            lastMouseY = static_cast<float>(y);
+    //            isRightClickingGetPos = true;
+    //        }
+    //        else {
+    //            float deltaX = static_cast<float>(x) - lastMouseX;
+    //            float deltaY = static_cast<float>(y) - lastMouseY;
+    //            if (isPressingControl) {
+    //                float sensitivity = 0.032f;
+    //                playerCameraOffset += camera.getUp() * deltaY * sensitivity;
+    //                playerCameraOffset += glm::normalize(glm::cross(camera.getFront(), camera.getUp())) * deltaX * -sensitivity;
+    //            }
+    //            else {
+    //                float sensitivity = 0.05f;
+    //                playerCameraYawOffset -= deltaX * sensitivity;
+    //                playerCameraPitchOffset -= deltaY * sensitivity;
+    //            }
+    //            lastMouseX = static_cast<float>(x);
+    //            lastMouseY = static_cast<float>(y);
+    //        }
+    //    }
+    //}
 
-    void G3DPlayLayer::scrollWheel(float y, float x) {
-        // Adjust the camera zoom level using the scroll wheel
-        float zoomSensitivity = -0.128f;
-        playerCameraOffset += camera.getFront() * y * zoomSensitivity;
-    }
+    //void G3DPlayLayer::scrollWheel(float y, float x) {
+    //    // Adjust the camera zoom level using the scroll wheel
+    //    float zoomSensitivity = -0.128f;
+    //    playerCameraOffset += camera.getFront() * y * zoomSensitivity;
+    //}
 
-    void G3DPlayLayer::onKey(enumKeyCodes key, bool pressed, bool holding) {
-        switch (key) {
-        case KEY_Control:
-            isPressingControl = pressed;
-            break;
-        default:
-            break;
-        }
-    }
+    //void G3DPlayLayer::onKey(enumKeyCodes key, bool pressed, bool holding) {
+    //    switch (key) {
+    //    case KEY_Control:
+    //        isPressingControl = pressed;
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 }

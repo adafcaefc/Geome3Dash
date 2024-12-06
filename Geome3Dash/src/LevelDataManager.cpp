@@ -94,17 +94,19 @@ namespace g3d
         nlohmann::json jsonData = data;
         std::string jsonMsg = jsonData.dump();
         msgLevelEncode(layer, jsonMsg);
-        //std::ofstream out("g3d.out.json");
-        //out << jsonMsg;
+
+        // debug
+        std::ofstream out("g3d.out.json");
+        out << jsonMsg;
     }
 
     LevelData LevelData::getDefault()
     {
         LevelData ld;
-        ld.x = -10;
-        ld.y = 5;
-        ld.z = 40;
-        ld.yaw = -55;
+        ld.x = -12;
+        ld.y = 6;
+        ld.z = 38;
+        ld.yaw = -100;
         ld.pitch = -6;
         //ld.bezierMultiplier = 1.0 / 3.0;
         //ld.bezierCurve =
@@ -115,7 +117,15 @@ namespace g3d
         //   0.412 * 6, 0.352 * 6
         //};
         ld.spline = Spline();
-        ld.spline.addSegment(Curve(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(2.0f, 0.0f, 0.0f), glm::vec3(3.0f, 0.0f, 0.0f)));
+        ld.spline.addSegment(Curve(
+            glm::vec3(0.0f, 0.0f, 0.0f),
+            glm::vec3(1.0f, 0.0f, 0.0f),
+            glm::vec3(2.0f, 0.0f, 0.0f), 
+            glm::vec3(3.0f, 0.0f, 0.0f)));
+        addNewCurveToSpline(&ld.spline);
+        addNewCurveToSpline(&ld.spline);
+        addNewCurveToSpline(&ld.spline);
+        addNewCurveToSpline(&ld.spline);
         return ld;
     }
 }

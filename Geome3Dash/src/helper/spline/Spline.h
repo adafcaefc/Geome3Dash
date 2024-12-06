@@ -45,4 +45,14 @@ namespace g3d
 
 		Spline() {}
 	};
+
+	// adaf additions
+	inline void addNewCurveToSpline(Spline* spline)
+	{
+		auto p1 = spline->segments.back().p2;
+		auto m1 = spline->segments.back().p2 * 2.f - spline->segments.back().m2;
+		auto m2 = spline->segments.back().p2 * 2.f - spline->segments.back().m1;
+		auto p2 = spline->segments.back().p2 * 2.f - spline->segments.back().p1;
+		spline->addSegment(Curve(p1, m1, m2, p2));
+	}
 }

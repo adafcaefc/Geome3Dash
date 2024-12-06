@@ -5,6 +5,7 @@
 namespace sus3d
 {
 	class Camera;
+	class Light;
 }
 
 namespace g3d
@@ -19,6 +20,7 @@ namespace g3d
 		Spline* spline;
 		CameraKeyframeBuffer* buffer;
 		sus3d::Camera* camera;
+		sus3d::Light* light;
 		float* lengthScaleFactor;
 		bool* isEditing;
 		virtual void transform(GameObjectModel* gom) override;
@@ -26,11 +28,13 @@ namespace g3d
 			Spline* spline,
 			CameraKeyframeBuffer* buffer,
 			sus3d::Camera* cam,
+			sus3d::Light* lght,
 			float* lcf,
 			bool* isEditing)
 			: spline(spline)
 			, buffer(buffer)
 			, camera(cam)
+			, light(lght)
 			, lengthScaleFactor(lcf)
 			, isEditing(isEditing)
 		{

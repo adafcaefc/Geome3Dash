@@ -27,7 +27,7 @@ namespace g3d
 				auto cameraState = buffer->getInterpolatedCameraKeyframe(pom->getPlayerObject()->getPositionX());
 				camera->setPosition(getPlayerOrientedCameraPosition(pom) + cameraState.offset);
 				camera->setFront(getPlayerOrientedCameraFront(pom) + cameraState.front);
-				
+				light->setPosition(camera->getPosition());
 			}
 		}
 	}

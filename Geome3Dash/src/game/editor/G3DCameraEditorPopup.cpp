@@ -155,6 +155,7 @@ namespace g3d
             &currentLevelData.spline,
             &currentLevelData.keyframe,
             &camera,
+            &light,
             &lengthScaleFactor,
             &isEditing);
 
