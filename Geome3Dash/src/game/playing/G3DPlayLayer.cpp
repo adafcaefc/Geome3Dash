@@ -92,7 +92,7 @@ namespace g3d
     void G3DPlayLayer::drawPlayers()
     {
         player1.render(shaderProgram, camera, light);
-        player2.render(shaderProgram, camera, light);
+        if (playLayer->m_gameState.m_isDualMode) { player2.render(shaderProgram, camera, light); }
     }
 
     void G3DPlayLayer::draw()

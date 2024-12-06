@@ -21,7 +21,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entries.cpp">
+    <ClCompile Include="src\Geome3DashEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Delegate\CustomKeyboard.cpp">
@@ -91,9 +91,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\playing\G3DPlayLayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\test\G3DModelPreviewLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\LevelDataManager.cpp">
@@ -212,7 +209,7 @@
     <ClInclude Include="src\CocosShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entries.h">
+    <ClInclude Include="src\Geome3DashEntry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Helper\OpenGLStateHelper.h">
@@ -276,9 +273,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\playing\G3DPlayLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\test\G3DModelPreviewLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\LevelDataManager.h">

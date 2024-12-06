@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "Entries.h"
+#include "Geome3DashEntry.h"
 
 namespace g3d
 {

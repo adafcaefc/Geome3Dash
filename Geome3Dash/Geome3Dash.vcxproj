@@ -72,7 +72,6 @@
     <ClCompile Include="src\game\component\G3DNumberSetting.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetLayer.cpp" />
     <ClCompile Include="src\game\playing\G3DPlayLayer.cpp" />
-    <ClCompile Include="src\game\test\G3DModelPreviewLayer.cpp" />
     <ClCompile Include="src\helper\spline\Curve.cpp" />
     <ClCompile Include="src\helper\spline\Spline.cpp" />
     <ClCompile Include="src\hook\CCEGLView.cpp" />
@@ -90,7 +89,7 @@
     <ClCompile Include="src\delegate\CustomTouch.cpp" />
     <ClCompile Include="src\helper\CommonHelper.cpp" />
     <ClCompile Include="src\helper\OpenGLStateHelper.cpp" />
-    <ClCompile Include="src\Entries.cpp" />
+    <ClCompile Include="src\Geome3DashEntry.cpp" />
     <ClCompile Include="src\LevelEditorImGui.cpp" />
     <ClCompile Include="src\PlanetStateManager.cpp" />
     <ClCompile Include="src\PlayerObjectModel.cpp" />
@@ -139,10 +138,9 @@
     <ClInclude Include="src\game\component\G3DNumberSetting.h" />
     <ClInclude Include="src\game\planet\G3DPlanetLayer.h" />
     <ClInclude Include="src\game\playing\G3DPlayLayer.h" />
-    <ClInclude Include="src\game\test\G3DModelPreviewLayer.h" />
     <ClInclude Include="src\helper\CommonHelper.h" />
     <ClInclude Include="src\helper\OpenGLStateHelper.h" />
-    <ClInclude Include="src\Entries.h" />
+    <ClInclude Include="src\Geome3DashEntry.h" />
     <ClInclude Include="src\helper\spline\Curve.h" />
     <ClInclude Include="src\helper\spline\Spline.h" />
     <ClInclude Include="src\LevelDataManager.h" />

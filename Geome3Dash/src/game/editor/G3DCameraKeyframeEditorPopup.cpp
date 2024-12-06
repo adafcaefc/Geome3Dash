@@ -234,7 +234,8 @@ namespace g3d
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		player1.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light);
-		player2.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light);
+		if (ckel->lel->m_gameState.m_isDualMode) { player2.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light); }
+		
 		for (auto& block : blocks) { block.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light); }
 
 		glDisable(GL_DEPTH_TEST);

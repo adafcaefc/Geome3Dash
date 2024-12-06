@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "src/Entries.h"
+#include "src/Geome3DashEntry.h"
 
 static DWORD WINAPI mainThread(LPVOID lpParam)
 {
