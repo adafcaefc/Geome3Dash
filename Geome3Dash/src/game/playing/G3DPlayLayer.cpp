@@ -46,6 +46,8 @@ namespace g3d
             &lengthScaleFactor,
             &isEditing);
             
+        groundModel = BlockModelStorage::get()->getModel(BlockModelStorage::get()->getBP() / "environment" / "ground" / "0" / "model.obj");
+
         loadShader();
         loadPlayers();
         loadBlocks();
@@ -112,9 +114,48 @@ namespace g3d
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         drawPlayers();
+        renderGround();
         drawBlocks();
 
         glDisable(GL_DEPTH_TEST);
         OpenGLStateHelper::pushState();
+    }
+
+    void G3DPlayLayer::renderGround() {
+        glm::vec3 groundSize = glm::vec3(0.5 * lengthScaleFactor * 30 * 3);
+
+        auto playerData = levelData.spline.findClosestByLength(playLayer->m_player1->getPositionX() * lengthScaleFactor);
+
+        const int groundPartsForRender = 30;
+
+        for (float l = 0; l < playerData.l + groundSize.x * groundPartsForRender; l += groundSize.x * 2) {
+
+            if (l < playerData.l - groundSize.x * groundPartsForRender) continue;
+
+            auto groundData = levelData.spline.findClosestByLength(l);
+
+            auto normal = glm::normalize(levelData.spline.normal(groundData.t));
+            auto tangent = glm::normalize(levelData.spline.tangent(groundData.t));
+
+
+            glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
+            glm::vec3 adjustedNormal = glm::normalize(glm::cross(tangent, binormal));
+
+
+            glm::mat3 rotationMatrix(
+                binormal,
+                adjustedNormal,
+                tangent
+            );
+
+            glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
+            glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat));
+
+            groundModel->setRotation(eulerDegrees);
+
+            groundModel->setPosition(groundData.value - normal * groundSize * 1.5f);
+            groundModel->setScale(groundSize);
+            groundModel->render(shaderProgram, camera.getViewMat(), light.getPosition(), light.getColor(), camera.getPosition(), camera.getProjectionMat());
+        }
     }
 }
