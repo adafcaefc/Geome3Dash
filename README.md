@@ -62,6 +62,7 @@ Have suggestions or need help? Connect with developers and fans on our [Discord 
 - **[Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g)**  
 - **[A145](https://www.youtube.com/@A145)**
 - **[Lexi](https://github.com/KontrollFreek)**
+- **[Albert](https://github.com/covernts)**
 
 ---
 

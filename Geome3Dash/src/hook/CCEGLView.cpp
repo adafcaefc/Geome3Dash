@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "BlockModelStorage.h"
 #include "delegate/CustomTouch.h"
 #include "delegate/CustomKeyboard.h"
 
@@ -22,6 +23,12 @@ namespace g3d
         {
             CustomKeyboardManager::updateDelegates(window, key, scancode, action, mods);
             CCEGLView::onGLFWKeyCallback(window, key, scancode, action, mods);       
+        }
+
+        void toggleFullScreen(bool fullscreen, bool borderless, bool fix)
+        {
+            CCEGLView::toggleFullScreen(fullscreen, borderless, fix);
+            BlockModelStorage::get()->shouldReloadShaders = true;
         }
     };
 }

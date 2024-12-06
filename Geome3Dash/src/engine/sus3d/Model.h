@@ -85,7 +85,6 @@ namespace sus3d
             aiProcess_FlipUVs |
             aiProcess_JoinIdenticalVertices |
             aiProcess_SortByPType);
-
         auto model = T::create(scene);
         importer.FreeScene();
         return model;

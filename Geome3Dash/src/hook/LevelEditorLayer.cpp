@@ -85,15 +85,15 @@ namespace g3d
 
             auto sprite = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
             auto menu = CCMenuItemSpriteExtra::create(sprite, this, menu_selector(LevelEditorLayerG3D::onEditorPopup));
-            addG3DMenu(ccp(0, 0), "CAM", settingsButton, settingsMenu, menu, sprite);
+            addG3DMenu(ccp(-28, -40), "CAM", settingsButton, settingsMenu, menu, sprite);
 
             auto sprite2 = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
             auto menu2 = CCMenuItemSpriteExtra::create(sprite2, this, menu_selector(LevelEditorLayerG3D::onSplineEditor));
-            addG3DMenu(ccp(-40, 0), "PATH", settingsButton, settingsMenu, menu2, sprite2);
+            addG3DMenu(ccp(-28, -120), "PATH", settingsButton, settingsMenu, menu2, sprite2);
 
             auto sprite3 = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
             auto menu3 = CCMenuItemSpriteExtra::create(sprite3, this, menu_selector(LevelEditorLayerG3D::onCameraKeyframesEditor));
-            addG3DMenu(ccp(-40, -40), "KEY", settingsButton, settingsMenu, menu3, sprite3);
+            addG3DMenu(ccp(-28, -80), "KEY", settingsButton, settingsMenu, menu3, sprite3);
 
             m_fields->curveEditorLayer = G3DCurveEditorLoader::create(this);
             this->addChild(m_fields->curveEditorLayer);

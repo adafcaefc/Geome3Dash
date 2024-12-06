@@ -71,6 +71,7 @@ namespace g3d
         {
             if (auto obj = dynamic_cast<GameObject*>(objxx))
             {
+                if (obj == playLayer->m_anticheatSpike) { continue; }
                 if (auto model = BlockModelStorage::get()->getBlockModel(obj->m_objectID))
                 {
                     blocks.push_back(GameObjectModel(obj, { splineTr, fadeTr, animTr }));

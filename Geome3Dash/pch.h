@@ -37,3 +37,32 @@
 
 using namespace cocos2d;
 
+// --- pre-load some stuff in pch ---
+
+#include "engine/sus3d/ShaderProgram.h"
+#include "engine/sus3d/Shader.h"
+#include "engine/sus3d/Mesh.h"
+#include "engine/sus3d/Texture.h"
+#include "engine/sus3d/Model.h"
+#include "engine/sus3d/Scene.h"
+#include "engine/sus3d/Shaders.h"
+
+#include "delegate/CustomKeyboard.h"
+#include "delegate/CustomMouse.h"
+#include "delegate/CustomTouch.h"
+
+#include "helper/CommonHelper.h"
+#include "helper/OpenGLStateHelper.h"
+
+#include "transformer/AnimationGameObjectModelTransformer.h"
+#include "transformer/FadeGameObjectModelTransformer.h"
+#include "transformer/SplineCameraPlayerObjectModelTransformer.h"
+#include "transformer/SplineGameObjectTransformer.h"
+#include "transformer/SplinePlayerObjectTransformer.h"
+
+#include "CocosShaderProgram.h"
+#include "PlayerObjectModel.h"
+#include "LevelDataManager.h"
+
+// --- pre-load some stuff in pch ---
+

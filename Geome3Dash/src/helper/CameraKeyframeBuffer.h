@@ -42,6 +42,8 @@ namespace g3d
 		~CameraKeyframeBuffer();
 	};
 
+	// to do : move this into classes
+
 	void setStartingKeyframe(
 		LevelData* cld,
 		CameraKeyframeBuffer* keyframeBuffer,

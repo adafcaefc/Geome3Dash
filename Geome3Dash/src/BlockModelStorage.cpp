@@ -62,6 +62,22 @@ namespace g3d
 		OpenGLStateHelper::pushState();
 	}
 
+	void BlockModelStorage::reloadAllShaders()
+	{
+		if (blockShaderProgram) { delete blockShaderProgram; }
+		if (waterShaderProgram) { delete waterShaderProgram; }
+		if (cloudShaderProgram) { delete cloudShaderProgram; }
+		if (idBufferShaderProgram) { delete idBufferShaderProgram; }
+		sus3d::Texture::cleanup();
+		//for (auto& [k, v] : blockModels) { delete v; }
+		//for (auto& [k, v] : allModels) { delete v; }
+		blockModels.clear();
+		allModels.clear();
+		for (auto& fn : clearModelCallbacks) { fn(); }
+		loadAllShaders();
+		loadAllModels();
+	}
+
 	bool BlockModelStorage::init() 
 	{
 		basePath = geode::Mod::get()->getResourcesDir() / "model3d";

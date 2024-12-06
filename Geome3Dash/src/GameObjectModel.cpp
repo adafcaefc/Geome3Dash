@@ -34,8 +34,7 @@ namespace g3d
 		 this->update();
 		 this->applyTransformation();
 
-		 //if (!this->getVisible()) { return; }
-		 if (this->opacity == 0.f || this->scale == glm::vec3(0.f)) { return; }
+		 if (!this->getVisible() || this->opacity == 0.f || this->scale == glm::vec3(0.f)) { return; }
 
 		 auto tScale = model->getScale();
 		 auto tPos = model->getPosition();

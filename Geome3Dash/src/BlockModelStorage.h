@@ -22,10 +22,10 @@ namespace g3d
 	protected:
 		std::unordered_map<int, sus3d::Model*> blockModels;
 		std::unordered_map<std::filesystem::path, sus3d::Model*> allModels;
-		sus3d::ShaderProgram* blockShaderProgram;
-		sus3d::ShaderProgram* waterShaderProgram;
-		sus3d::ShaderProgram* cloudShaderProgram;
-		sus3d::ShaderProgram* idBufferShaderProgram;
+		sus3d::ShaderProgram* blockShaderProgram = nullptr;
+		sus3d::ShaderProgram* waterShaderProgram = nullptr;
+		sus3d::ShaderProgram* cloudShaderProgram = nullptr;
+		sus3d::ShaderProgram* idBufferShaderProgram = nullptr;
 		static BlockModelStorage* instance;
 		sus3d::ShaderProgram* loadShader(const std::string& vsString, const std::string& fsString);
 		void loadAllShaders();
@@ -33,6 +33,8 @@ namespace g3d
 		bool init();
 		std::filesystem::path basePath;
 	public:
+		bool shouldReloadShaders = false;
+		void reloadAllShaders();
 		sus3d::ShaderProgram* getBlockSP() { return blockShaderProgram; }
 		sus3d::ShaderProgram* getWaterSP() { return waterShaderProgram; }
 		sus3d::ShaderProgram* getCloudSP() { return cloudShaderProgram; }
@@ -47,6 +49,7 @@ namespace g3d
 		sus3d::Model* getBlockModel(const int id);
 		static BlockModelStorage* get();
 
+
 		template <typename ModelT = sus3d::Model>
 		ModelT* loadAndParseMtl(const std::filesystem::path& path)
 		{
@@ -57,10 +60,24 @@ namespace g3d
 			return sus3d::loadModelT<ModelT>(path);
 		}
 
+		std::vector<std::function<void()>> clearModelCallbacks;
 		template <typename ModelT>
 		ModelT* getModelT(const std::filesystem::path& path)
 		{
 			static std::unordered_map<std::filesystem::path, ModelT*> cModels;
+
+			// Add a lambda to clearModelCallbacks to clear cModels, if not already added
+			static bool isCallbackAdded = false;
+			if (!isCallbackAdded)
+			{
+				clearModelCallbacks.push_back([]() 
+				{ 
+					//for (auto& [k, v] : cModels) { delete v; }
+					cModels.clear(); 
+				});
+				isCallbackAdded = true;
+			}
+
 			auto it = cModels.find(path);
 			if (it == cModels.end()) 
 			{ 
