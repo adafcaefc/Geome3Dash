@@ -63,5 +63,12 @@ namespace g3d
 		void onClose(CCObject* obj) override;
 
 		static G3DCameraKeyframeEditorPopup* create(G3DCameraKeyframeEditorLoader* ckel);
+
+		~G3DCameraKeyframeEditorPopup()
+		{
+			delete splineTr;
+			delete splineCamTr;
+			delete splinePlayerTr;
+		}
 	};
 }

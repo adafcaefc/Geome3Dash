@@ -56,5 +56,10 @@ namespace g3d
 		void onClose(CCObject* obj) override;
 	public:
 		static G3DCurveEditorPopup* create(G3DCurveEditorLoader* cel);
+
+		~G3DCurveEditorPopup()
+		{
+			delete splineTr;
+		}
 	};
 }

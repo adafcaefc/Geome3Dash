@@ -12,6 +12,7 @@ namespace g3d
 		// do animations
 		switch (block->m_objectID)
 		{
+			
 		case 36:
 		case 84:
 		case 141:
@@ -20,6 +21,7 @@ namespace g3d
 		case 1333:
 		case 1704:
 		case 1751:
+			// orbs
 			gom->setScaleY(scale.y / block->m_scaleY * block->getScaleY());
 			gom->setScaleZ(scale.z / block->m_scaleX * block->getScaleX());
 			break;

@@ -109,7 +109,9 @@ namespace g3d
 
     G3DCameraEditorScene::~G3DCameraEditorScene()
     {
-
+        delete splineTr;
+        delete splineCamTr;
+        delete splinePlayerTr;
     }
 
     bool G3DCameraEditorScene::init(LevelEditorLayer* lel)
