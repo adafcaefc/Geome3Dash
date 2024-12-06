@@ -10,16 +10,19 @@ namespace g3d
         struct Fields
         {
             G3DPlayLayer* playLayer3D = nullptr;
+            PlanetStateManager* psm = PlanetStateManager::getInstance();
         };
 
         void destroyPlayer(PlayerObject * p0, GameObject * p1) {
             if (G3DPlanetLayer::insideThePlanetLayerFlag) {
                 auto percent = this->getCurrentPercentInt();
                 if (this->m_isPracticeMode) {
-                    PlanetStateManager::getInstance()->setPracticeProgressByLevelID(this->m_level->m_levelID, percent);
+                    m_fields->psm->currentProgress[this->m_level->m_levelID].practice = percent;
+                    PlanetStateManager::save();
                 }
                 else {
-                    PlanetStateManager::getInstance()->setNormalProgressByLevelID(this->m_level->m_levelID, percent);
+                    m_fields->psm->currentProgress[this->m_level->m_levelID].normal = percent;
+                    PlanetStateManager::save();
                 }
             }
             PlayLayer::destroyPlayer(p0, p1);
@@ -27,10 +30,12 @@ namespace g3d
         void levelComplete() {
             if (G3DPlanetLayer::insideThePlanetLayerFlag) {
                 if (this->m_isPracticeMode) {
-                    PlanetStateManager::getInstance()->setPracticeProgressByLevelID(this->m_level->m_levelID, 100);
+                    m_fields->psm->currentProgress[this->m_level->m_levelID].practice = 100;
+                    PlanetStateManager::save();
                 }
                 else {
-                    PlanetStateManager::getInstance()->setNormalProgressByLevelID(this->m_level->m_levelID, 100);
+                    m_fields->psm->currentProgress[this->m_level->m_levelID].normal = 100;
+                    PlanetStateManager::save();
                 }
             }
             PlayLayer::levelComplete();

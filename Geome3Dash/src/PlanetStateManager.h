@@ -2,45 +2,27 @@
 
 namespace g3d
 {
-	struct LevelProgress {
+	struct LevelProgress 
+	{
 		int normal = 0;
 		int practice = 0;
-		bool alreadyShowedNextAnimation = false;
-
-		LevelProgress(int normal, int practice) : normal(normal), practice(practice) {};
+		LevelProgress(int normal, int practice) 
+			: normal(normal)
+			, practice(practice) {}
+		LevelProgress() {}
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(LevelProgress, normal, practice);
 	};
 
-	class PlanetStateManager {
-		std::vector<LevelProgress*> levelProgresses;
+	class PlanetStateManager 
+	{
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(PlanetStateManager, currentProgress);
 
 		static PlanetStateManager* instance;
-		void tryLoadSaveFile();
-
-
-		void save() {
-			//later
-		}
 
 	public:
-		LevelProgress* getProgressByLevelID(int id) { return id >= 0 && id < 20 ? levelProgresses[id] : nullptr; }
-		void setNormalProgressByLevelID(int id, int normal) {
-			if (id < 0 || id > 19) return;
-			levelProgresses[id]->normal = normal;
-		}
-		void setPracticeProgressByLevelID(int id, int practice) {
-			if (id < 0 || id > 19) return;
-			levelProgresses[id]->practice = practice;
-		}
-		void setNextAnimationStateByLevelID(int id, bool state) {
-			if (id < 0 || id > 19) return;
-			levelProgresses[id]->alreadyShowedNextAnimation = state;
-		}
-		void setProgressByLevelID(int id, LevelProgress* levelProgress) {
-			if (id < 0 || id > 19) return;
-			levelProgresses[id] = levelProgress;
-		}
-
-
+		std::unordered_map<int, LevelProgress> currentProgress;
 		static PlanetStateManager* getInstance();
+		static void load();
+		static void save();
 	};
 }

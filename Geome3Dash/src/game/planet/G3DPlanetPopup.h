@@ -12,6 +12,7 @@ namespace g3d
         G3DPlanetLayer* parentLayer;
         G3DProgressBar* normalBar;
         G3DProgressBar* practiceBar;
+        GJGameLevel* level;
         int levelID;
         bool openOnce = false;
         static bool isOpened;

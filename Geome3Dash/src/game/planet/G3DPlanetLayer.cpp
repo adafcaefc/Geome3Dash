@@ -85,14 +85,14 @@ namespace g3d
                         else
                             layer3d->models[0]->meshes[meshIndex]->disableKa();
                     }
-
+                    int keyLevelID = levelID + 900000000;
                     int maxI = 0;
                     for (int i = 0; i < 19; i++)
                     {
-                        if (PlanetStateManager::getInstance()->getProgressByLevelID(i)->normal != 100) { break; }
+                        if (PlanetStateManager::getInstance()->currentProgress[900000000 + i].normal != 100) { break; }
                         maxI = i + 1;
                     }
-                    if (levelID <= maxI) { G3DPlanetPopup::tryOpen(levelID, this); }
+                    if (levelID <= maxI) { G3DPlanetPopup::tryOpen(keyLevelID, this); }
                 }
             }
         }
@@ -392,7 +392,9 @@ namespace g3d
                 continue;
             }
 
-            const auto percentage = PlanetStateManager::getInstance()->getProgressByLevelID(static_cast<int>(i) - 1)->normal;
+            auto pms = PlanetStateManager::getInstance();
+
+            const auto percentage = pms->currentProgress[900000000 + static_cast<int>(i) - 1].normal;
 
             cloudModel->meshes[realMeshId]->setVisible(percentage == 100 ? 0 : 1);
         }

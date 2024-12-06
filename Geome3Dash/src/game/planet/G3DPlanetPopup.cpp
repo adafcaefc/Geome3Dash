@@ -1,17 +1,35 @@
 #include "pch.h"
 
+#include <hjfod.gmd-api/include/GMD.hpp>
+
 #include "G3DPlanetPopup.h"
 #include "G3DPlanetLayer.h"
 
 #include "game/component/G3DProgressBar.h"
+#include "game/component/G3DComingSoonPopup.h"
+
 #include "helper/CommonHelper.h"
 
 #include "PlanetStateManager.h"
 
 namespace g3d
 {
-    bool G3DPlanetPopup::setup(int levelID) {
-        this->setTitle(std::to_string(levelID));
+    bool G3DPlanetPopup::setup(int levelID) 
+    {
+        this->levelID = levelID;
+        level = nullptr;
+        const auto path = geode::Mod::get()->getResourcesDir() / "level" / (std::to_string(levelID) + ".gmd");
+        if (std::filesystem::exists(path))
+        {
+            if (level = gmd::importGmdAsLevel(path).unwrapOr(nullptr))
+            {
+                level->m_levelID = levelID;
+                this->addChild(level);
+            }
+        }
+
+        if (level) { this->setTitle(level->m_levelName); }
+        else { this->setTitle("Coming Soon!"); }
         this->levelID = levelID;
         auto mySize = this->m_bgSprite->getContentSize();
 
@@ -63,27 +81,37 @@ namespace g3d
 
         if (openOnce) { parentLayer->playNewSongType(); }
         openOnce = true;
-
-        normalBar->setProgress(PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->normal);
+        auto psm = PlanetStateManager::getInstance();
+        normalBar->setProgress(psm->currentProgress[levelID].normal);
         normalBar->setColor(ccc3(0, 255, 0));
 
-        practiceBar->setProgress(PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->practice);
+        practiceBar->setProgress(psm->currentProgress[levelID].practice);
         practiceBar->setColor(ccc3(0, 150, 255));
     }
 
-    void G3DPlanetPopup::onPlayLevel(CCObject*) {
-
-        auto levelString = utils::read_from_file("./test.txt");
-
-        auto level = GJGameLevel::create();
-        level->m_levelID = levelID;
-        level->m_levelType = GJLevelType::Saved;
-        level->m_normalPercent = PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->normal;
-        level->m_practicePercent = PlanetStateManager::getInstance()->getProgressByLevelID(levelID)->practice;
-        level->m_levelString = levelString;
-        level->m_songID = 467339;
-        auto playLayer = PlayLayer::scene(level, 0, 0);
-        CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3f, playLayer));
+    void G3DPlanetPopup::onPlayLevel(CCObject*) 
+    {
+        if (level)
+        {
+            auto playLayer = PlayLayer::scene(level, 0, 0);
+            CCDirector::sharedDirector()->pushScene(CCTransitionFade::create(0.3f, playLayer));
+        }
+        else
+        {
+            std::vector<std::string> comingSoonTexts =
+            {
+                "",
+                "",
+                "Prepare for the next big leap in <cy>Geome3Dash</c>.",
+                "New levels are in the works with <cr>epic 3D adventures</c>.",
+                "Our team is crafting something <co>unforgettable</c> just for you!",
+                "<cy>What to expect:</c>",
+                "<cr>New Levels</c> - Explore unique challenges in vibrant 3D worlds.",
+                "<cg>Expanded Story Mode</c> - Unlock deeper gameplay and surprises.",
+                "<co>Stay connected</c> - Follow updates on our GitHub."
+            };
+            G3DComingSoonPopup::scene(comingSoonTexts, parentLayer);
+        }
     }
 
     void G3DPlanetPopup::onClose(cocos2d::CCObject* obj) {
