@@ -3,49 +3,8 @@ name: Build and Developmental Release
 on:
   push:
     branches: 
-      - '*'  # Trigger on any branch push
-
-name: Build Geode Mod
-
-on:
+      - '**'  # Trigger on any branch push
   workflow_dispatch:
-  push:
-    branches:
-      - "**"
-
-jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-        - name: Windows
-          os: windows-latest
-
-        - name: macOS
-          os: macos-latest
-
-        - name: Android32
-          os: ubuntu-latest
-          target: Android32
-
-        - name: Android64
-          os: ubuntu-latest
-          target: Android64
-
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build the mod
-        uses: geode-sdk/build-geode-mod@main
-        with:
-          bindings: geode-sdk/bindings
-          bindings-ref: main
-          combine: true
-          target: ${{ matrix.config.target }}
 
 jobs:
   build:
@@ -69,7 +28,8 @@ jobs:
           cp bin/logo.png out/
           cp mod.json out/
           cp build/*.dll out/
-          7z a -tzip "out/rainixgd.geome3dash.geode" -mx9 "out/*"
+          cd out
+          7z a -tzip rainixgd.geome3dash.geode -mx9 *
          
       # Upload the compressed file
       - name: Upload Build Artifact
