@@ -46,11 +46,7 @@ namespace g3d
 			this->model = ModelManager::get()->getBlockModel(gameObject->m_objectID);
 		}
 
-		virtual ~GameObjectModel()
-		{
-			// memory leak but idk how to fix yet
-			// nvm I think the scene should own the pointer to transformers
-			// for (auto& transformer : transformers) { /*delete transformer;*/ }
-		}
+		// not the owner, cleanup is done by the caller
+		virtual ~GameObjectModel() {}
 	};
 }

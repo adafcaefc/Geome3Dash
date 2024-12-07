@@ -98,6 +98,7 @@
     <ClCompile Include="src\manager\LevelDataManager.cpp" />
     <ClCompile Include="src\manager\PlanetStateManager.cpp" />
     <ClCompile Include="src\model\GameObjectModel.cpp" />
+    <ClCompile Include="src\model\GroundObjectModel.cpp" />
     <ClCompile Include="src\model\PlayerObjectModel.cpp" />
     <ClCompile Include="src\transformer\AGomtSpline.cpp" />
     <ClCompile Include="src\transformer\GomtAnimation.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="src\manager\LevelDataManager.h" />
     <ClInclude Include="src\manager\PlanetStateManager.h" />
     <ClInclude Include="src\model\GameObjectModel.h" />
+    <ClInclude Include="src\model\GroundObjectModel.h" />
     <ClInclude Include="src\model\PlayerObjectModel.h" />
     <ClInclude Include="src\transformer\AGomtSpline.h" />
     <ClInclude Include="src\transformer\GomtAnimation.h" />

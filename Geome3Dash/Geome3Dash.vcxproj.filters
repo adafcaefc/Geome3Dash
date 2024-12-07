@@ -219,6 +219,9 @@
     <ClCompile Include="src\implengine\PlanetModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\model\GroundObjectModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -390,6 +393,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\implengine\PlanetModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\GroundObjectModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

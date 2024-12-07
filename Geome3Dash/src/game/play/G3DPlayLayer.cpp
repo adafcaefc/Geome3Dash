@@ -127,17 +127,18 @@ namespace g3d
     }
 
     void G3DPlayLayer::renderGround() {
-        glm::vec3 groundSize = glm::vec3(0.5 * lengthScaleFactor * 30 * 3);
+        glm::vec3 groundSize = glm::vec3(0.5 * 30 * 3);
 
-        auto playerData = levelData.spline.findClosestByLength(playLayer->m_player1->getPositionX() * lengthScaleFactor);
+        //auto playerData = levelData.spline.findClosestByLength(playLayer->m_player1->getPositionX() * lengthScaleFactor);
 
         const int groundPartsForRender = 30;
 
-        for (float l = 0; l < playerData.l + groundSize.x * groundPartsForRender; l += groundSize.x * 2) {
+        auto cxl = playLayer->m_player1->getPositionX();
+        for (float l = 0; l < cxl + groundSize.x * groundPartsForRender; l += groundSize.x * 2) {
 
-            if (l < playerData.l - groundSize.x * groundPartsForRender) continue;
+            if (l < cxl - groundSize.x * groundPartsForRender) continue;
 
-            auto groundData = levelData.spline.findClosestByLength(l);
+            auto groundData = levelData.spline.findClosestByLength(l * lengthScaleFactor);
 
             auto normal = glm::normalize(levelData.spline.normal(groundData.t));
             auto tangent = glm::normalize(levelData.spline.tangent(groundData.t));
@@ -158,8 +159,8 @@ namespace g3d
 
             groundModel->setRotation(eulerDegrees);
 
-            groundModel->setPosition(groundData.value - normal * groundSize * 1.5f);
-            groundModel->setScale(groundSize);
+            groundModel->setPosition(groundData.value - normal * groundSize * 1.5f * lengthScaleFactor);
+            groundModel->setScale(groundSize * lengthScaleFactor);
 
             
             if (auto gsprites = this->playLayer->getChildByIDRecursive("ground-sprites"))
