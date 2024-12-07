@@ -2,7 +2,7 @@
 
 #include "PomtSplineCamera.h"
 #include "model/PlayerObjectModel.h"
-#include "game/playing/G3DPlayLayer.h"
+#include "game/play/G3DPlayLayer.h"
 
 namespace g3d
 {

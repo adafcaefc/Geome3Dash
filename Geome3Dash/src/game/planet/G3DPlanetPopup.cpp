@@ -6,7 +6,7 @@
 #include "G3DPlanetLayer.h"
 
 #include "game/component/G3DProgressBar.h"
-#include "game/component/G3DComingSoonPopup.h"
+#include "game/popup/G3DComingSoonPopup.h"
 
 #include "helper/CommonHelper.h"
 

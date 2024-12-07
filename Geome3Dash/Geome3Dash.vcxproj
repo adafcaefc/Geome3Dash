@@ -33,12 +33,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
-    <ClCompile Include="src\game\component\G3DRainixPopup.cpp" />
+    <ClCompile Include="src\game\popup\G3DRainixPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCameraKeyEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCameraKeyEditorPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
-    <ClCompile Include="src\game\component\G3DComingSoonPopup.cpp" />
+    <ClCompile Include="src\game\popup\G3DComingSoonPopup.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
     <ClCompile Include="src\gui\LevelEditorImGui.cpp" />
     <ClCompile Include="src\helper\KeyframeData.cpp" />
@@ -71,7 +71,7 @@
     <ClCompile Include="src\game\editor\G3DCameraEditorPopup.cpp" />
     <ClCompile Include="src\game\component\G3DNumberSetting.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetLayer.cpp" />
-    <ClCompile Include="src\game\playing\G3DPlayLayer.cpp" />
+    <ClCompile Include="src\game\play\G3DPlayLayer.cpp" />
     <ClCompile Include="src\helper\spline\Curve.cpp" />
     <ClCompile Include="src\helper\spline\Spline.cpp" />
     <ClCompile Include="src\hook\CCEGLView.cpp" />
@@ -121,12 +121,12 @@
     <ClInclude Include="src\delegate\CustomMouse.h" />
     <ClInclude Include="src\delegate\CustomTouch.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
-    <ClInclude Include="src\game\component\G3DRainixPopup.h" />
+    <ClInclude Include="src\game\popup\G3DRainixPopup.h" />
     <ClInclude Include="src\game\editor\G3DCameraKeyEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCameraKeyEditorPopup.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
-    <ClInclude Include="src\game\component\G3DComingSoonPopup.h" />
+    <ClInclude Include="src\game\popup\G3DComingSoonPopup.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />
     <ClInclude Include="src\gui\LevelEditorImGui.h" />
     <ClInclude Include="src\helper\KeyframeData.h" />
@@ -143,7 +143,7 @@
     <ClInclude Include="src\game\component\G3DFragmentShaderLayer.h" />
     <ClInclude Include="src\game\component\G3DNumberSetting.h" />
     <ClInclude Include="src\game\planet\G3DPlanetLayer.h" />
-    <ClInclude Include="src\game\playing\G3DPlayLayer.h" />
+    <ClInclude Include="src\game\play\G3DPlayLayer.h" />
     <ClInclude Include="src\helper\CommonHelper.h" />
     <ClInclude Include="src\helper\OpenGLStateHelper.h" />
     <ClInclude Include="src\Geome3DashEntry.h" />

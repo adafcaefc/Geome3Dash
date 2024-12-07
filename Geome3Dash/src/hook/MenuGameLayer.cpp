@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "manager/ModelManager.h"
 #include "game/planet/G3DPlanetLayer.h"
-#include "game/component/G3DRainixPopup.h"
+#include "game/popup/G3DRainixPopup.h"
 
 namespace g3d
 {

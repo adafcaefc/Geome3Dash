@@ -87,7 +87,7 @@
     <ClCompile Include="src\game\planet\G3DPlanetLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\playing\G3DPlayLayer.cpp">
+    <ClCompile Include="src\game\play\G3DPlayLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hook\CCEGLView.cpp">
@@ -177,13 +177,13 @@
     <ClCompile Include="src\transformer\PomtSpline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\component\G3DRainixPopup.cpp">
+    <ClCompile Include="src\game\popup\G3DRainixPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hook\MenuGameLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\component\G3DComingSoonPopup.cpp">
+    <ClCompile Include="src\game\popup\G3DComingSoonPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\transformer\AGomtSpline.cpp">
@@ -287,7 +287,7 @@
     <ClInclude Include="src\game\planet\G3DPlanetLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\playing\G3DPlayLayer.h">
+    <ClInclude Include="src\game\play\G3DPlayLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\helper\spline\Curve.h">
@@ -353,10 +353,10 @@
     <ClInclude Include="src\transformer\PomtSpline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\component\G3DRainixPopup.h">
+    <ClInclude Include="src\game\popup\G3DRainixPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\component\G3DComingSoonPopup.h">
+    <ClInclude Include="src\game\popup\G3DComingSoonPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\AGomtSpline.h">
