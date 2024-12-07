@@ -41,8 +41,6 @@
 	"resources": {
 		"sprites": ["resources/sprite/G3D_emptyBtn_001-uhd.png"],
         "files": [
-			"resources/binaries/win/assimp-vc143-mt.dll",
-			"resources/binaries/win/pugixml.dll",
 			"resources/level/900000000.gmd",
 			"resources/level/900000001.gmd",
 			"resources/level/900000002.gmd",

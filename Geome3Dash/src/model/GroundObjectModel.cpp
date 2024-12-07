@@ -4,7 +4,6 @@
 
 namespace g3d
 {
-
 	void GroundObjectModel::loadGroundModel()
 	{
 		auto mm = ModelManager::get();
@@ -45,7 +44,10 @@ namespace g3d
 	{
 		const auto scaleX = gameObject->m_scaleX;
 		const auto scaleY = gameObject->m_scaleY;
+		gameObject->m_scaleX = groundSize / 30.f;
+		gameObject->m_scaleY = groundSize / 30.f;
 		enableColor();
+
 		GameObjectModel::render(shaderProgram, camera, light);
 		disableColor();
 	}

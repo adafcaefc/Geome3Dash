@@ -1,10 +1,7 @@
 #include "pch.h"
-#include "src/Geome3DashEntry.h"
 
 static DWORD WINAPI mainThread(LPVOID lpParam)
 {
-    g3d::entry::setupLibraries();
-    g3d::entry::setupHooks();
     return 0;
 }
 

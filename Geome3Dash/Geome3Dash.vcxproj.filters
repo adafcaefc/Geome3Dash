@@ -21,9 +21,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="src\Geome3DashEntry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Delegate\CustomKeyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -226,9 +223,6 @@
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Frameworks</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Geome3DashEntry.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Helper\OpenGLStateHelper.h">
       <Filter>Header Files</Filter>

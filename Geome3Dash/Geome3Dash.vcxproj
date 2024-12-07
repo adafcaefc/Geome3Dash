@@ -89,7 +89,6 @@
     <ClCompile Include="src\delegate\CustomTouch.cpp" />
     <ClCompile Include="src\helper\CommonHelper.cpp" />
     <ClCompile Include="src\helper\OpenGLStateHelper.cpp" />
-    <ClCompile Include="src\Geome3DashEntry.cpp" />
     <ClCompile Include="src\implengine\CloudMesh.cpp" />
     <ClCompile Include="src\implengine\CloudModel.cpp" />
     <ClCompile Include="src\implengine\CocosShaderProgram.cpp" />
@@ -147,7 +146,6 @@
     <ClInclude Include="src\game\play\G3DPlayLayer.h" />
     <ClInclude Include="src\helper\CommonHelper.h" />
     <ClInclude Include="src\helper\OpenGLStateHelper.h" />
-    <ClInclude Include="src\Geome3DashEntry.h" />
     <ClInclude Include="src\helper\spline\Curve.h" />
     <ClInclude Include="src\helper\spline\Spline.h" />
     <ClInclude Include="src\implengine\CloudMesh.h" />
@@ -219,8 +217,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;libcocos2d.lib;libExtensions.lib;fmod.lib;Geode.lib;assimp-vc143-mt.lib;fmt.lib;glfw3.lib;pugixml.lib;hjfod.gmd-api.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>assimp-vc143-mt.dll;pugixml.dll</DelayLoadDLLs>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;libcocos2d.lib;libExtensions.lib;fmod.lib;Geode.lib;assimp-vc143-mt.lib;fmt.lib;glfw3.lib;pugixml.lib;hjfod.gmd-api.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
