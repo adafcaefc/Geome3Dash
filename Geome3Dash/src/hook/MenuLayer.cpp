@@ -3,8 +3,8 @@
 #include "manager/LevelDataManager.h"
 #include "game/planet/G3DPlanetLayer.h"
 #include "helper/CommonHelper.h"
-#include "implengine/PlanetModel.h"
-#include "implengine/CloudModel.h"
+#include "impl/engine/PlanetModel.h"
+#include "impl/engine/CloudModel.h"
 
 namespace g3d
 {

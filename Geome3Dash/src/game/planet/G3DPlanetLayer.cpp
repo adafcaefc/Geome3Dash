@@ -15,10 +15,10 @@
 #include "helper/OpenGLStateHelper.h"
 #include "helper/Easing.h"
 
-#include "implengine/CocosShaderProgram.h"
-#include "implengine/CloudMesh.h"
-#include "implengine/CloudModel.h"
-#include "implengine/PlanetModel.h"
+#include "impl/engine/CocosShaderProgram.h"
+#include "impl/engine/CloudMesh.h"
+#include "impl/engine/CloudModel.h"
+#include "impl/engine/PlanetModel.h"
 
 namespace g3d
 {
@@ -320,10 +320,6 @@ namespace g3d
         const auto shaderPath = planetPath / "shader";
         const auto modelPath = planetPath / "model";
 
-        shaderProgram = dynamic_cast<CocosShaderProgram*>(bms->getBlockSP());
-        shaderProgram2 = dynamic_cast<CocosShaderProgram*>(bms->getWaterSP());
-        shaderProgram3 = dynamic_cast<CocosShaderProgram*>(bms->getCloudSP());
-
         layer3d = G3DPlanetBaseNode::create();
         layer3d->light.setPosition(glm::vec3(0, 50, 1000));
         layer3d->setZOrder(10);
@@ -433,8 +429,10 @@ namespace g3d
         glm::mat4 view = camera.getViewMat();
         glm::mat4 projection = camera.getProjectionMat();
 
+        auto bms = ModelManager::get();
+
         planetLayer->planetModel->render(
-            planetLayer->shaderProgram, 
+            bms->getBlockSP(),
             view, 
             light.getPosition(), 
             light.getColor(), 
@@ -442,7 +440,7 @@ namespace g3d
             projection);
 
         planetLayer->planetWaterModel->render(
-            planetLayer->shaderProgram2, 
+            bms->getWaterSP(),
             view, 
             light.getPosition(), 
             light.getColor(), 
@@ -461,11 +459,6 @@ namespace g3d
 
         int fSteps = 0;
         // set steps so it doesn't lag
-        //float z = camera.getPosition().z;
-        //if (z > 30) { fSteps = 15; }
-        //else if (z > 27) { fSteps = 14; }
-        //else { fSteps = std::clamp(0, 30, static_cast<int>(z) - 13); }
-
         if (camera.getPosition().z > 30) {
             fSteps = 15;
         }
@@ -503,7 +496,7 @@ namespace g3d
             planetLayer->cloudModel->setScale(
                 glm::vec3(ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, sizeScale) + sizeBase) * planetLayer->planetModel->getScale());
             planetLayer->cloudModel->render(
-                planetLayer->shaderProgram3, 
+                bms->getCloudSP(),
                 view, 
                 light.getPosition(), 
                 light.getColor(), 

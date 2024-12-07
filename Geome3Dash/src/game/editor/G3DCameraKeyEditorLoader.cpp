@@ -20,46 +20,27 @@ namespace g3d
 {
 	bool G3DCameraKeyEditorLoader::setup(LevelEditorLayer* lel)
 	{
-		if (!CCNode::init()) return false;
+		if (!CCNode::init()) { return false; }
 
 		this->lel = lel;
 
 		layer3d = G3DBaseNode::create();
 		layer3d->camera.setPosition(glm::vec3(0, 0, 15));
 		layer3d->light.setPosition(glm::vec3(0, 50, 1000));
-		layer3d->retain();//sus
-
-		auto bms = ModelManager::get();
-
-		blockShaderProgram = bms->getBlockSP();
-		cube = bms->getModel(bms->getBP() / "player" / "cube" / "0" / "model.obj");
-
-		updateLevel();
+		layer3d->retain();
 
 		return true;
 	}
 
-	void G3DCameraKeyEditorLoader::updateLevel() {
-		levelLength = 0;
-		CCObject* obj;
-		CCARRAY_FOREACH(lel->m_objects, obj) {
-			auto block = static_cast<GameObject*>(obj);
-			levelLength = std::max(block->getPositionX(), levelLength);
-		}
-
-		lengthScaleFactor = spline.length(10000) / levelLength;
-	}
-
-	void G3DCameraKeyEditorLoader::show() {
-		updateLevel();
+	void G3DCameraKeyEditorLoader::show() 
+	{
 		popup = G3DCameraKeyEditorPopup::create(this);
 		popup->show();
 	}
 
-	void G3DCameraKeyEditorLoader::hide() {
-		if (popup) {
-			popup->onClose(nullptr);
-		}
+	void G3DCameraKeyEditorLoader::hide() 
+	{
+		if (popup) { popup->onClose(nullptr); }
 	}
 
 	G3DCameraKeyEditorLoader* G3DCameraKeyEditorLoader::create(LevelEditorLayer* lel) {
@@ -68,7 +49,6 @@ namespace g3d
 			ret->autorelease();
 			return ret;
 		}
-
 		delete ret;
 		return nullptr;
 	}

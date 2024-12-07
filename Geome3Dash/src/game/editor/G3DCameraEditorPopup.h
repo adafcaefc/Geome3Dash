@@ -21,7 +21,7 @@
 #include "transformer/PomtSpline.h"
 #include "transformer/PomtSplineCamera.h"
 
-#include "implengine/CocosShaderProgram.h"
+#include "impl/engine/CocosShaderProgram.h"
 
 namespace g3d
 {
@@ -37,13 +37,12 @@ namespace g3d
         glm::vec3 playerCameraOffset;
         double playerCameraYawOffset;
         double playerCameraPitchOffset;
-        sus3d::ShaderProgram* shaderProgram;
 
-        // don't forget fo free these or else memory leak
-        glm::vec3 cubePosition = glm::vec3(0, 105, 400);
         double cubeRotationZ = 0;
+        glm::vec3 cubePosition = glm::vec3(0, 105, 400);
         glm::vec3 spikePosition = glm::vec3(900, 105, 400);
 
+        // don't forget fo free these or else memory leak
         GomtSpline* splineTr;
         PomtSpline* splinePlayerTr;
         PomtSplineCamera* splineCamTr;
@@ -58,7 +57,6 @@ namespace g3d
 
         float lengthScaleFactor;
 
-        //void loadModel();
         void drawModel();
 
         virtual void draw() override;

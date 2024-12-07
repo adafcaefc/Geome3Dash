@@ -13,7 +13,7 @@
 #include "helper/OpenGLStateHelper.h"
 #include "helper/CommonHelper.h"
 
-#include "implengine/CocosShaderProgram.h"
+#include "impl/engine/CocosShaderProgram.h"
 
 namespace g3d
 {

@@ -57,20 +57,22 @@ namespace g3d
 					glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-					cel->layer3d->getObjectIDByMousePositionShader->use();
+					auto idBufferSP = ModelManager::get()->getIdBufferSP();
+
+					idBufferSP->use();
 
 					auto renderFunction = [&](int segmentIndex, glm::vec3 position) {
 						cel->pointModel->setScale(glm::vec3(0.07f));
 						cel->pointModel->setPosition(position);
 						glm::mat4 model = cel->pointModel->prepareModelMatrix();
-						cel->layer3d->getObjectIDByMousePositionShader->setMat4("model", model);
-						cel->layer3d->getObjectIDByMousePositionShader->setMat4("view", cel->layer3d->camera.getViewMat());
-						cel->layer3d->getObjectIDByMousePositionShader->setMat4("projection", cel->layer3d->camera.getProjectionMat());
+						idBufferSP->setMat4("model", model);
+						idBufferSP->setMat4("view", cel->layer3d->camera.getViewMat());
+						idBufferSP->setMat4("projection", cel->layer3d->camera.getProjectionMat());
 						glm::vec3 uniqueColor = cel->layer3d->generateUniqueColor(5, segmentIndex);
-						cel->layer3d->getObjectIDByMousePositionShader->setVec3("color", uniqueColor);
+						idBufferSP->setVec3("color", uniqueColor);
 
 						for (auto mesh : cel->pointModel->meshes)
-							mesh->render(cel->layer3d->getObjectIDByMousePositionShader);
+							mesh->render(idBufferSP);
 						};
 
 					auto points = cel->spline.getAllPoints();
@@ -174,8 +176,7 @@ namespace g3d
 
 		}
 		cel->spline = currentLevelData.spline;
-		cel->updateLevel();
-		cel->spline.updateParameterList();
+		prepareSpline(cel->lel, &cel->spline, &cel->lengthScaleFactor);
 
 		// need to delete this on destructor (later)
 		splineTr = new GomtSpline(&cel->spline, &cel->lengthScaleFactor);

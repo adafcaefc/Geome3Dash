@@ -29,7 +29,7 @@
 #include "manager/ModelManager.h"
 #include "manager/LevelDataManager.h"
 
-#include "implengine/CocosShaderProgram.h"
+#include "impl/engine/CocosShaderProgram.h"
 
 namespace g3d
 {
@@ -46,8 +46,6 @@ namespace g3d
         PlayerObjectModel player1;
         PlayerObjectModel player2;
         GroundObjectModel ground;
-
-        CocosShaderProgram* shaderProgram;
 
         sus3d::Camera camera;
         sus3d::Light light;
@@ -76,7 +74,6 @@ namespace g3d
 
         static G3DPlayLayer* instance;
 
-        void loadShader();
         void loadPlayers();
         void loadBlocks();
         void loadGround();

@@ -87,8 +87,9 @@ namespace g3d
         playerObj->setRotation(cubeRotationZ);
         playerObj->setPosition(playerObj->m_position);
 
-        player1.render(shaderProgram, camera, light);
-        for (auto& block : blocks) { block.render(shaderProgram, camera, light); }
+        auto sp = ModelManager::get()->getBlockSP();
+        player1.render(sp, camera, light);
+        for (auto& block : blocks) { block.render(sp, camera, light); }
     }
 
     void G3DCameraEditorScene::draw()
@@ -155,8 +156,6 @@ namespace g3d
         }
 
         player1 = PlayerObjectModel(playerObj, { splinePlayerTr, splineCamTr });
-
-        shaderProgram = ModelManager::get()->getBlockSP();
 
         return CCNode::init();
     }

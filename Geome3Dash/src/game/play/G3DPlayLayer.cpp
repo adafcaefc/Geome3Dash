@@ -9,11 +9,6 @@ namespace g3d
 {
     G3DPlayLayer* G3DPlayLayer::instance = nullptr;
 
-    void G3DPlayLayer::loadShader()
-    {
-        shaderProgram = dynamic_cast<CocosShaderProgram*>(ModelManager::get()->getBlockSP());
-    }
-
     void G3DPlayLayer::loadPlayers()
     {
         player1 = PlayerObjectModel(playLayer->m_player1, { splinePlayerTr, splineCamTr });
@@ -51,7 +46,6 @@ namespace g3d
             &lengthScaleFactor,
             &isEditing);
    
-        loadShader();
         loadBlocks();
         loadPlayers();
         loadGround();
@@ -92,14 +86,14 @@ namespace g3d
         { 
             auto distance = std::abs(playLayer->m_player1->m_position.x - block.getGameObject()->getPositionX());
             auto maxRender = fadeTr->getMaxRender();
-            if (distance < maxRender) { block.render(shaderProgram, camera, light); }
+            if (distance < maxRender) { block.render(ModelManager::get()->getBlockSP(), camera, light); }
         }
     }
 
     void G3DPlayLayer::drawPlayers()
     {
-        player1.render(shaderProgram, camera, light);
-        if (playLayer->m_gameState.m_isDualMode) { player2.render(shaderProgram, camera, light); }
+        player1.render(ModelManager::get()->getBlockSP(), camera, light);
+        if (playLayer->m_gameState.m_isDualMode) { player2.render(ModelManager::get()->getBlockSP(), camera, light); }
     }
 
     void G3DPlayLayer::draw()
@@ -119,8 +113,8 @@ namespace g3d
 
         try {
             drawPlayers();
-            drawGround();
             drawBlocks();
+            drawGround();
         }
         catch (...) {
 
@@ -132,6 +126,6 @@ namespace g3d
 
     void G3DPlayLayer::drawGround() 
     {
-        ground.render(shaderProgram, camera, light);
+        ground.render(ModelManager::get()->getBlockSP(), camera, light);
     }
 }
