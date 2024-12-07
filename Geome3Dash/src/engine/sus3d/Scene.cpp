@@ -9,7 +9,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <CCGL.h>
+#include <Geode/cocos/platform/CCGL.h>
 
 namespace sus3d
 {

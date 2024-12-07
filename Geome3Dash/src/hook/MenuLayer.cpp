@@ -6,6 +6,8 @@
 #include "impl/engine/PlanetModel.h"
 #include "impl/engine/CloudModel.h"
 
+#include <Geode/modify/MenuLayer.hpp>
+
 namespace g3d
 {
     static void loadMusic(int id)
