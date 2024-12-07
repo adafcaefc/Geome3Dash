@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-#include <CCGL.h>
+#include <Geode/cocos/platform/CCGL.h>
 
 #include <fstream>
 #include <sstream>

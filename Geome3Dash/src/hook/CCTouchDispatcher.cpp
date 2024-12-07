@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "delegate/CustomTouch.h"
 
+#include <Geode/modify/CCTouchDispatcher.hpp>
+
 namespace g3d
 {
     class $modify(CCTouchDispatcher)
