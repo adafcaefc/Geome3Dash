@@ -1,5 +1,7 @@
 #pragma once
 
+#include "implengine/CocosShaderProgram.h"
+
 namespace g3d
 {
     class CocosShaderProgram;

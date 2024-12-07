@@ -2,18 +2,18 @@
 
 #include "G3DCurveEditorLoader.h"
 #include "G3DCurveEditorPopup.h"
+#include "game/component/G3DBaseNode.h"
 
 #include "helper/spline/Curve.h"
 #include "helper/spline/Spline.h"
 #include "helper/OpenGLStateHelper.h"
-#include "game/component/G3DBaseNode.h"
 
 #include "engine/sus3d/Mesh.h"
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
 
-#include "BlockModelStorage.h"
-#include "LevelDataManager.h"
+#include "manager/ModelManager.h"
+#include "manager/LevelDataManager.h"
 
 namespace g3d
 {
@@ -41,7 +41,7 @@ namespace g3d
 		layer3d->setZOrder(10);
 		layer3d->retain(); //sus
 
-		auto bms = BlockModelStorage::get();
+		auto bms = ModelManager::get();
 
 		blockShaderProgram = bms->getBlockSP();
 

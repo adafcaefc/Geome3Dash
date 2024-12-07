@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "PomtSplineCamera.h"
-#include "PlayerObjectModel.h"
+#include "model/PlayerObjectModel.h"
 #include "game/playing/G3DPlayLayer.h"
 
 namespace g3d

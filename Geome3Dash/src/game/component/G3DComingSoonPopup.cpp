@@ -6,8 +6,6 @@ namespace g3d
 {
 	bool G3DComingSoonPopup::setup(const std::vector<std::string>& strings)
 	{
-		auto winSize = CCDirector::sharedDirector()->getWinSize();
-
 		this->setTitle("Coming Soon!");
 		m_title->setScale(1.25);
 		m_title->setPosition(m_title->getPosition() - ccp(0, 15.f));

@@ -6,8 +6,6 @@ namespace g3d
 {
 	bool G3DRainixPopup::setup(const std::vector<std::string>& strings)
 	{
-		auto winSize = CCDirector::sharedDirector()->getWinSize();
-
 		this->setTitle("");
 
 		auto textLayer = CCLayer::create();

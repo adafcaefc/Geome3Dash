@@ -2,19 +2,19 @@
 
 #include "G3DCameraKeyEditorPopup.h"
 #include "G3DCameraKeyEditorLoader.h"
+#include "game/component/G3DBaseNode.h"
 
 #include "helper/spline/Curve.h"
 #include "helper/spline/Spline.h"
 #include "helper/OpenGLStateHelper.h"
 #include "helper/KeyframeData.h"
-#include "game/component/G3DBaseNode.h"
 
 #include "engine/sus3d/Mesh.h"
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
 
-#include "BlockModelStorage.h"
-#include "LevelDataManager.h"
+#include "manager/ModelManager.h"
+#include "manager/LevelDataManager.h"
 
 namespace g3d 
 {
@@ -34,7 +34,7 @@ namespace g3d
 	}
 
 	void G3DCameraKeyEditorPopup::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
-		if (!isEditing) return;
+		if (!isEditing) { return; }
 		if (isRightClicking) {
 			if (!isRightClickingGetPos) {
 				lastMouseX = static_cast<float>(x);
@@ -125,7 +125,7 @@ namespace g3d
 		{
 			if (auto block = dynamic_cast<GameObject*>(obj))
 			{
-				if (BlockModelStorage::get()->getBlockModel(block->m_objectID))
+				if (ModelManager::get()->getBlockModel(block->m_objectID))
 				{
 					blocks.push_back(GameObjectModel(block, { splineTr }));
 				}

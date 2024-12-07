@@ -13,8 +13,8 @@
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
 
-#include "BlockModelStorage.h"
-#include "LevelDataManager.h"
+#include "manager/ModelManager.h"
+#include "manager/LevelDataManager.h"
 
 namespace g3d
 {
@@ -29,17 +29,12 @@ namespace g3d
 		layer3d->light.setPosition(glm::vec3(0, 50, 1000));
 		layer3d->retain();//sus
 
-		auto bms = BlockModelStorage::get();
+		auto bms = ModelManager::get();
 
 		blockShaderProgram = bms->getBlockSP();
 		cube = bms->getModel(bms->getBP() / "player" / "cube" / "0" / "model.obj");
 
 		updateLevel();
-
-		//bgModel = layer3d->loadAndAddModel("./models/bg/bg.obj", blockShaderProgram);
-		//bgModel->setPosition(glm::vec3(300, -100, -300));
-		//bgModel->setScale(glm::vec3(7, 7, 7));
-		//groundModel = Model::create("./models/ground/model.obj", blockShaderProgram);
 
 		return true;
 	}

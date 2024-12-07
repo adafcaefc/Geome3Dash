@@ -15,7 +15,7 @@ namespace g3d
 		};
 	public:
 		virtual ~AGomtSpline() = default;
-		virtual SplineCoord AGomtSpline::calculateSpline(
+		SplineCoord calculateSpline(
 			Spline* spline,
 			const float lengthScaleFactor,
 			const float x,

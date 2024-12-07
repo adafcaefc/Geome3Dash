@@ -10,25 +10,26 @@
 
 #include "helper/CommonHelper.h"
 
-#include "PlanetStateManager.h"
+#include "manager/PlanetStateManager.h"
 
 namespace g3d
 {
     bool G3DPlanetPopup::setup(int levelID) 
     {
         this->levelID = levelID;
-        level = nullptr;
+        this->level = nullptr;
         const auto path = geode::Mod::get()->getResourcesDir() / "level" / (std::to_string(levelID) + ".gmd");
         if (std::filesystem::exists(path))
         {
-            if (level = gmd::importGmdAsLevel(path).unwrapOr(nullptr))
+            this->level = gmd::importGmdAsLevel(path).unwrapOr(nullptr);
+            if (this->level)
             {
-                level->m_levelID = levelID;
-                this->addChild(level);
+                this->level->m_levelID = levelID;
+                this->addChild(this->level);
             }
         }
 
-        if (level) { this->setTitle(level->m_levelName); }
+        if (this->level) { this->setTitle(this->level->m_levelName); }
         else { this->setTitle("Coming Soon!"); }
         this->levelID = levelID;
         auto mySize = this->m_bgSprite->getContentSize();

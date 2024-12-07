@@ -8,7 +8,7 @@
 #include "transformer/PomtSpline.h"
 #include "transformer/PomtSplineCamera.h"
 
-#include "GameObjectModel.h"
+#include "model/GameObjectModel.h"
 
 namespace sus3d
 {

@@ -1,10 +1,5 @@
 #pragma once
 
-#include <Geode/ui/GeodeUI.hpp>
-#include <Geode/ui/ScrollLayer.hpp>
-#include <Geode/ui/Scrollbar.hpp>
-#include <Geode/ui/TextInput.hpp>
-
 #include "game/component/G3DNumberSetting.h"
 
 #include "delegate/CustomKeyboard.h"
@@ -20,12 +15,13 @@
 #include "engine/sus3d/Scene.h"
 #include "engine/sus3d/Shaders.h"
 
-#include "CocosShaderProgram.h"
-#include "PlayerObjectModel.h"
+#include "model/PlayerObjectModel.h"
 
 #include "transformer/GomtSpline.h"
 #include "transformer/PomtSpline.h"
 #include "transformer/PomtSplineCamera.h"
+
+#include "implengine/CocosShaderProgram.h"
 
 namespace g3d
 {

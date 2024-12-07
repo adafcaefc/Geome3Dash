@@ -23,9 +23,12 @@
 #include "transformer/PomtSpline.h"
 #include "transformer/PomtSplineCamera.h"
 
-#include "CocosShaderProgram.h"
-#include "PlayerObjectModel.h"
-#include "LevelDataManager.h"
+#include "model/PlayerObjectModel.h"
+
+#include "manager/ModelManager.h"
+#include "manager/LevelDataManager.h"
+
+#include "implengine/CocosShaderProgram.h"
 
 namespace g3d
 {

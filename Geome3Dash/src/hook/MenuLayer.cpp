@@ -1,15 +1,36 @@
 #include "pch.h"
-#include "BlockModelStorage.h"
+#include "manager/ModelManager.h"
+#include "manager/LevelDataManager.h"
 #include "game/planet/G3DPlanetLayer.h"
 #include "helper/CommonHelper.h"
+#include "implengine/PlanetModel.h"
+#include "implengine/CloudModel.h"
 
 namespace g3d
 {
+    static void loadMusic(int id)
+    {
+        const auto downloaded = MusicDownloadManager::sharedState()->isSongDownloaded(id);
+        if (!downloaded)
+        {
+            const auto name = fmt::format("{}.mp3", id);
+            try {
+                const auto from = geode::Mod::get()->getResourcesDir() / "music" / "level" / name;
+                const auto to = utils::get_song_path() / name;
+                std::filesystem::copy(from, to);
+            }
+            catch (...)
+            {
+
+            }
+        }
+    }
+
     class $modify(MenuLayer) 
     {
         bool init() 
         {
-            auto bms = BlockModelStorage::get();
+            auto bms = ModelManager::get();
 
             if (bms->shouldReloadShaders)
             {
@@ -25,19 +46,7 @@ namespace g3d
             bms->getModelT<CloudModel>(modelPath / "clouds.obj");
 
             // hardcoded for glaciers edge
-            const auto downloaded = MusicDownloadManager::sharedState()->isSongDownloaded(1221653);
-            if (!downloaded)
-            {
-                try {
-                    const auto from = geode::Mod::get()->getResourcesDir() / "music" / "1221653.mp3";
-                    const auto to = utils::get_song_path() / "1221653.mp3";
-                    std::filesystem::copy(from, to);
-                }
-                catch (...)
-                {
-
-                }
-            }
+            loadMusic(1221653);
 
             if (!MenuLayer::init()) { return false; }
 

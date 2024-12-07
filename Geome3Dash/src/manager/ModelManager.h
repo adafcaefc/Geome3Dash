@@ -15,10 +15,10 @@ namespace sus3d
 
 namespace g3d
 {
-	class BlockModelStorage 
+	class ModelManager 
 	{
 	private:
-		BlockModelStorage() {}
+		ModelManager() {}
 	protected:
 		std::unordered_map<int, sus3d::Model*> blockModels;
 		std::unordered_map<std::filesystem::path, sus3d::Model*> allModels;
@@ -26,7 +26,7 @@ namespace g3d
 		sus3d::ShaderProgram* waterShaderProgram = nullptr;
 		sus3d::ShaderProgram* cloudShaderProgram = nullptr;
 		sus3d::ShaderProgram* idBufferShaderProgram = nullptr;
-		static BlockModelStorage* instance;
+		static ModelManager* instance;
 		sus3d::ShaderProgram* loadShader(const std::string& vsString, const std::string& fsString);
 		void loadAllShaders();
 		void loadAllModels();
@@ -47,7 +47,7 @@ namespace g3d
 		void parseMtlPath(const std::filesystem::path& path);
 		sus3d::Model* getModel(const std::filesystem::path& path);
 		sus3d::Model* getBlockModel(const int id);
-		static BlockModelStorage* get();
+		static ModelManager* get();
 
 
 		template <typename ModelT = sus3d::Model>

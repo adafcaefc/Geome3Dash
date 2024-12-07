@@ -5,8 +5,8 @@
 
 #include "helper/OpenGLStateHelper.h"
 
-#include "LevelDataManager.h"
-#include "BlockModelStorage.h"
+#include "manager/ModelManager.h"
+#include "manager/LevelDataManager.h"
 
 namespace g3d
 {
@@ -156,7 +156,7 @@ namespace g3d
 
         player1 = PlayerObjectModel(playerObj, { splinePlayerTr, splineCamTr });
 
-        shaderProgram = BlockModelStorage::get()->getBlockSP();
+        shaderProgram = ModelManager::get()->getBlockSP();
 
         return CCNode::init();
     }

@@ -5,8 +5,9 @@
 
 #include "helper/CommonHelper.h"
 
-#include "CocosShaderProgram.h"
-#include "BlockModelStorage.h"
+#include "manager/ModelManager.h"
+
+#include "implengine/CocosShaderProgram.h"
 
 namespace g3d
 {
@@ -52,7 +53,7 @@ namespace g3d
         template <typename T>
         T* loadAndAddModel(const std::filesystem::path& filePath)
         {
-            auto model = BlockModelStorage::get()->getModelT<T>(filePath);
+            auto model = ModelManager::get()->getModelT<T>(filePath);
             if (model) { models.push_back(model); }
             return model;
         }

@@ -51,7 +51,7 @@ namespace g3d
 
 	std::filesystem::path PlayerObjectModel::getPlayerModelPath(const std::string& type, const int id)
 	{
-		return BlockModelStorage::get()->getBP() / "player" / type / std::to_string(id) / "model.obj";
+		return ModelManager::get()->getBP() / "player" / type / std::to_string(id) / "model.obj";
 	}
 
 	std::filesystem::path PlayerObjectModel::getFixedPlayerModelPath(const std::string& type, const int id)
@@ -64,6 +64,6 @@ namespace g3d
 
 	void PlayerObjectModel::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
 	{
-		*model = BlockModelStorage::get()->loadAndParseMtl(getFixedPlayerModelPath(type, id));
+		*model = ModelManager::get()->loadAndParseMtl(getFixedPlayerModelPath(type, id));
 	}
 }

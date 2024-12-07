@@ -11,7 +11,7 @@
 #include "helper/OpenGLStateHelper.h"
 #include "helper/CommonHelper.h"
 
-#include "BlockModelStorage.h"
+#include "manager/ModelManager.h"
 
 namespace g3d
 {
@@ -105,7 +105,7 @@ namespace g3d
 
         OpenGLStateHelper::saveState();
 
-        auto bms = BlockModelStorage::get();
+        auto bms = ModelManager::get();
 
         shaderProgram = bms->getBlockSP();
         getObjectIDByMousePositionShader = bms->getIdBufferSP();

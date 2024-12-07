@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "game/planet/G3DPlanetLayer.h"
-#include "PlanetStateManager.h"
+#include "manager/PlanetStateManager.h"
 #include "game/playing/G3DPlayLayer.h"
 
 namespace g3d

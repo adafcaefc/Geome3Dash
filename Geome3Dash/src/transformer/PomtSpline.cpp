@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "PomtSpline.h"
-#include "PlayerObjectModel.h"
+#include "model/PlayerObjectModel.h"
 
 namespace g3d
 {

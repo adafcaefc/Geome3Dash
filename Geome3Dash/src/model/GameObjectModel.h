@@ -4,7 +4,7 @@
 #include "engine/sus3d/Mesh.h"
 #include "engine/sus3d/Scene.h"
 
-#include "BlockModelStorage.h"
+#include "manager/ModelManager.h"
 
 #include "transformer/AGomtBase.h"
 
@@ -43,7 +43,7 @@ namespace g3d
 			, transformers(transformers)
 		{ 
 			sus3d::ModelProtocol();
-			this->model = BlockModelStorage::get()->getBlockModel(gameObject->m_objectID);
+			this->model = ModelManager::get()->getBlockModel(gameObject->m_objectID);
 		}
 
 		virtual ~GameObjectModel()

@@ -42,9 +42,6 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CocosShaderProgram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\component\G3DProgressBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -93,15 +90,6 @@
     <ClCompile Include="src\game\playing\G3DPlayLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\LevelDataManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LevelEditorImGui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PlanetStateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\hook\CCEGLView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -135,9 +123,6 @@
     <ClCompile Include="src\helper\spline\Spline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BlockModelStorage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lib\imgui-cocos\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -162,9 +147,6 @@
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObjectModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -175,9 +157,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\transformer\GomtFade.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PlayerObjectModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\transformer\GomtSpline.cpp">
@@ -210,13 +189,40 @@
     <ClCompile Include="src\transformer\AGomtSpline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\manager\ModelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\manager\LevelDataManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\manager\PlanetStateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\GameObjectModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\PlayerObjectModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\LevelEditorImGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implengine\CloudMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implengine\CloudModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implengine\CocosShaderProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implengine\PlanetModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Frameworks</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CocosShaderProgram.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Geome3DashEntry.h">
       <Filter>Header Files</Filter>
@@ -284,22 +290,10 @@
     <ClInclude Include="src\game\playing\G3DPlayLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\LevelDataManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LevelEditorImGui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PlanetStateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\helper\spline\Curve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\helper\spline\Spline.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BlockModelStorage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\imgui-cocos\imconfig.h">
@@ -329,9 +323,6 @@
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObjectModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -342,9 +333,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\GomtFade.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PlayerObjectModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\GomtSpline.h">
@@ -372,6 +360,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\transformer\AGomtSpline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\ModelManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\LevelDataManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\manager\PlanetStateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\GameObjectModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\PlayerObjectModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\LevelEditorImGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\implengine\CloudMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\implengine\CloudModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\implengine\CocosShaderProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\implengine\PlanetModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

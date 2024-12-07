@@ -2,8 +2,8 @@
 #include "pch.h"
 
 #include "game/playing/G3DPlayLayer.h"
-#include "LevelDataManager.h"
-#include "BlockModelStorage.h"
+#include "manager/ModelManager.h"
+#include "manager/LevelDataManager.h"
 
 namespace g3d
 {
@@ -11,7 +11,7 @@ namespace g3d
 
     void G3DPlayLayer::loadShader()
     {
-        shaderProgram = dynamic_cast<CocosShaderProgram*>(BlockModelStorage::get()->getBlockSP());
+        shaderProgram = dynamic_cast<CocosShaderProgram*>(ModelManager::get()->getBlockSP());
     }
 
     void G3DPlayLayer::loadPlayers()
@@ -46,7 +46,7 @@ namespace g3d
             &lengthScaleFactor,
             &isEditing);
             
-        groundModel = BlockModelStorage::get()->getModel(BlockModelStorage::get()->getBP() / "environment" / "ground" / "0" / "model.obj");
+        groundModel = ModelManager::get()->getModel(ModelManager::get()->getBP() / "environment" / "ground" / "0" / "model.obj");
 
         loadShader();
         loadPlayers();
@@ -74,7 +74,7 @@ namespace g3d
             if (auto obj = dynamic_cast<GameObject*>(objxx))
             {
                 if (obj == playLayer->m_anticheatSpike) { continue; }
-                if (auto model = BlockModelStorage::get()->getBlockModel(obj->m_objectID))
+                if (auto model = ModelManager::get()->getBlockModel(obj->m_objectID))
                 {
                     blocks.push_back(GameObjectModel(obj, { splineTr, fadeTr, animTr }));
                 }

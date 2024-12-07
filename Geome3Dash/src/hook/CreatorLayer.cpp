@@ -4,7 +4,8 @@
 #include "helper/Easing.h"
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
-#include "BlockModelStorage.h"
+#include "manager/ModelManager.h"
+#include "implengine/PlanetModel.h"
 
 namespace g3d
 {
@@ -176,7 +177,7 @@ namespace g3d
 
             // -----------------------------------------------
 
-            auto bms = BlockModelStorage::get();
+            auto bms = ModelManager::get();
 
             m_fields->mapButton = this->getChildByIDRecursive("map-button");
             auto weeklyButton = this->getChildByIDRecursive("weekly-button");

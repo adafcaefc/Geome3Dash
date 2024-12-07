@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Geode/ui/GeodeUI.hpp>
-
 namespace g3d
 {
-	class G3DRainixPopup : public geode::Popup<const std::vector<std::string>&> {
+	class G3DRainixPopup : public geode::Popup<const std::vector<std::string>&> 
+	{
 	protected:
 		bool setup(const std::vector<std::string>& strings) override;
 		static std::vector<std::string> strings;

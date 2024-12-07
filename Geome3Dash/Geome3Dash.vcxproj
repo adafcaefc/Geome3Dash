@@ -32,9 +32,6 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\BlockModelStorage.cpp" />
-    <ClCompile Include="src\CocosShaderProgram.cpp" />
-    <ClCompile Include="src\GameObjectModel.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
     <ClCompile Include="src\game\component\G3DRainixPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCameraKeyEditorLoader.cpp" />
@@ -43,6 +40,7 @@
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
     <ClCompile Include="src\game\component\G3DComingSoonPopup.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
+    <ClCompile Include="src\gui\LevelEditorImGui.cpp" />
     <ClCompile Include="src\helper\KeyframeData.cpp" />
     <ClCompile Include="src\helper\Easing.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -86,16 +84,21 @@
     <ClCompile Include="src\hook\MenuGameLayer.cpp" />
     <ClCompile Include="src\hook\MenuLayer.cpp" />
     <ClCompile Include="src\hook\PlayLayer.cpp" />
-    <ClCompile Include="src\LevelDataManager.cpp" />
     <ClCompile Include="src\delegate\CustomKeyboard.cpp" />
     <ClCompile Include="src\delegate\CustomMouse.cpp" />
     <ClCompile Include="src\delegate\CustomTouch.cpp" />
     <ClCompile Include="src\helper\CommonHelper.cpp" />
     <ClCompile Include="src\helper\OpenGLStateHelper.cpp" />
     <ClCompile Include="src\Geome3DashEntry.cpp" />
-    <ClCompile Include="src\LevelEditorImGui.cpp" />
-    <ClCompile Include="src\PlanetStateManager.cpp" />
-    <ClCompile Include="src\PlayerObjectModel.cpp" />
+    <ClCompile Include="src\implengine\CloudMesh.cpp" />
+    <ClCompile Include="src\implengine\CloudModel.cpp" />
+    <ClCompile Include="src\implengine\CocosShaderProgram.cpp" />
+    <ClCompile Include="src\implengine\PlanetModel.cpp" />
+    <ClCompile Include="src\manager\ModelManager.cpp" />
+    <ClCompile Include="src\manager\LevelDataManager.cpp" />
+    <ClCompile Include="src\manager\PlanetStateManager.cpp" />
+    <ClCompile Include="src\model\GameObjectModel.cpp" />
+    <ClCompile Include="src\model\PlayerObjectModel.cpp" />
     <ClCompile Include="src\transformer\AGomtSpline.cpp" />
     <ClCompile Include="src\transformer\GomtAnimation.cpp" />
     <ClCompile Include="src\transformer\GomtFade.cpp" />
@@ -114,12 +117,9 @@
     <ClInclude Include="lib\imgui-cocos\imstb_truetype.h" />
     <ClInclude Include="lib\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="src\BlockModelStorage.h" />
-    <ClInclude Include="src\CocosShaderProgram.h" />
     <ClInclude Include="src\delegate\CustomKeyboard.h" />
     <ClInclude Include="src\delegate\CustomMouse.h" />
     <ClInclude Include="src\delegate\CustomTouch.h" />
-    <ClInclude Include="src\GameObjectModel.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
     <ClInclude Include="src\game\component\G3DRainixPopup.h" />
     <ClInclude Include="src\game\editor\G3DCameraKeyEditorLoader.h" />
@@ -128,6 +128,7 @@
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
     <ClInclude Include="src\game\component\G3DComingSoonPopup.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />
+    <ClInclude Include="src\gui\LevelEditorImGui.h" />
     <ClInclude Include="src\helper\KeyframeData.h" />
     <ClInclude Include="src\helper\Easing.h" />
     <ClInclude Include="src\engine\sus3d\Mesh.h" />
@@ -148,10 +149,15 @@
     <ClInclude Include="src\Geome3DashEntry.h" />
     <ClInclude Include="src\helper\spline\Curve.h" />
     <ClInclude Include="src\helper\spline\Spline.h" />
-    <ClInclude Include="src\LevelDataManager.h" />
-    <ClInclude Include="src\LevelEditorImGui.h" />
-    <ClInclude Include="src\PlanetStateManager.h" />
-    <ClInclude Include="src\PlayerObjectModel.h" />
+    <ClInclude Include="src\implengine\CloudMesh.h" />
+    <ClInclude Include="src\implengine\CloudModel.h" />
+    <ClInclude Include="src\implengine\CocosShaderProgram.h" />
+    <ClInclude Include="src\implengine\PlanetModel.h" />
+    <ClInclude Include="src\manager\ModelManager.h" />
+    <ClInclude Include="src\manager\LevelDataManager.h" />
+    <ClInclude Include="src\manager\PlanetStateManager.h" />
+    <ClInclude Include="src\model\GameObjectModel.h" />
+    <ClInclude Include="src\model\PlayerObjectModel.h" />
     <ClInclude Include="src\transformer\AGomtSpline.h" />
     <ClInclude Include="src\transformer\GomtAnimation.h" />
     <ClInclude Include="src\transformer\GomtFade.h" />

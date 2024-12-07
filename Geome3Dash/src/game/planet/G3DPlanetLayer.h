@@ -11,33 +11,9 @@
 
 namespace g3d
 {
-    class PlanetModel : public sus3d::Model {
-    public:
-        sus3d::ShaderProgram* shaderProgram = nullptr;
-        ~PlanetModel() override = default;
-        glm::mat4 prepareModelMatrix() override;
-        static PlanetModel* create(const aiScene* scene);
-    };
-
-    class CloudModel : public PlanetModel {
-    public:
-        ~CloudModel() override = default;
-        virtual bool init(const aiScene* scene) override;
-        static CloudModel* create(const aiScene* scene);
-        virtual void setCloudOpacity(const float op);
-    };
-
-    class CloudMesh : public sus3d::Mesh {
-    public:
-        float opacityModifier = 1.0f;
-        ~CloudMesh() override = default;
-        virtual bool init(aiMesh* mesh, aiMaterial* material) override;
-        virtual void render(sus3d::ShaderProgram* shaderProgram) const override;
-        static CloudMesh* create(aiMesh* mesh, aiMaterial* material);
-    };
-
     class G3DPlanetLayer;
-    class G3DPlanetBaseNode : public G3DBaseNode {
+    class G3DPlanetBaseNode : public G3DBaseNode 
+    {
     public:
         G3DPlanetLayer* planetLayer;
         ~G3DPlanetBaseNode() override = default;
@@ -45,6 +21,8 @@ namespace g3d
         static G3DPlanetBaseNode* create();
     };
 
+    class PlanetModel;
+    class CloudModel;
     class G3DBaseNode;
     class CocosShaderProgram;
     class G3DRegionNameOverlay;
@@ -95,7 +73,6 @@ namespace g3d
         virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override;
     private:
         bool init() override;
-        virtual void draw() override;
         void onBack(CCObject*);
         virtual void keyBackClicked(void) override;
         virtual void onEnter() override;

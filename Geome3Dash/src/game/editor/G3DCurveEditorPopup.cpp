@@ -12,8 +12,8 @@
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
 
-#include "BlockModelStorage.h"
-#include "LevelDataManager.h"
+#include "manager/ModelManager.h"
+#include "manager/LevelDataManager.h"
 
 namespace g3d
 {
@@ -185,7 +185,7 @@ namespace g3d
 		{
 			if (auto block = dynamic_cast<GameObject*>(obj))
 			{
-				if (BlockModelStorage::get()->getBlockModel(block->m_objectID))
+				if (ModelManager::get()->getBlockModel(block->m_objectID))
 				{
 					blocks.push_back(GameObjectModel(block, { splineTr }));
 				}
@@ -251,7 +251,7 @@ namespace g3d
 		if (!isRightClicking) {
 			cel->spline.updateParameterList();
 		}
-		auto shaderProgram = BlockModelStorage::get()->getBlockSP();
+		auto shaderProgram = ModelManager::get()->getBlockSP();
 
 		OpenGLStateHelper::saveState();
 		for (auto segment : cel->spline.segments) {

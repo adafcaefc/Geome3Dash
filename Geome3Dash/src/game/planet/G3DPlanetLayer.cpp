@@ -5,8 +5,7 @@
 #include "game/component/G3DBaseNode.h"
 #include "game/component/G3DFragmentShaderLayer.h"
 
-#include "CocosShaderProgram.h"
-#include "PlanetStateManager.h"
+#include "manager/PlanetStateManager.h"
 
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
@@ -15,6 +14,11 @@
 
 #include "helper/OpenGLStateHelper.h"
 #include "helper/Easing.h"
+
+#include "implengine/CocosShaderProgram.h"
+#include "implengine/CloudMesh.h"
+#include "implengine/CloudModel.h"
+#include "implengine/PlanetModel.h"
 
 namespace g3d
 {
@@ -72,19 +76,9 @@ namespace g3d
 
                 auto selected = layer3d->getObjectIDByMousePosition();
 
-                if (selected.first == 0 && selected.second >= 982 && selected.second <= 1061) {
-
-                    // we totally should prefix this level id like for real it might clash with something
-                    // prefix with like   444630000 + id
-                    // max int is        2147483647
+                if (selected.first == 0 && selected.second >= 982 && selected.second <= 1061) 
+                {
                     int levelID = (selected.second - 982) / 4;
-                    /*
-                    for (size_t meshIndex = 0; meshIndex < layer3d->models[0]->meshes.size(); meshIndex++) {
-                        if (meshIndex == levelID * 4 + 982 || meshIndex == levelID * 4 + 983 || meshIndex == levelID * 4 + 984 || meshIndex == levelID * 4 + 985)
-                            layer3d->models[0]->meshes[meshIndex]->setCustomKa(glm::vec3(1, 0, 0));
-                        else
-                            layer3d->models[0]->meshes[meshIndex]->disableKa();
-                    }*/
                     int keyLevelID = levelID + 900000000;
                     int maxI = 0;
                     for (int i = 0; i < 19; i++)
@@ -179,7 +173,8 @@ namespace g3d
         cloudModel->setRotationZ(glm::degrees(eulerAngles.z));
     }
 
-    void G3DPlanetLayer::detectBiomeMusic() {
+    void G3DPlanetLayer::detectBiomeMusic()
+    {
         if (layer3d->camera.getPosition().z > 30) { return setMusicType(MusicType::Default); }
 
         glm::quat currentRotation = glm::quat(glm::vec3(
@@ -202,9 +197,11 @@ namespace g3d
         else { setMusicType(MusicType::Plains); }
     }
 
-    void G3DPlanetLayer::playNewSongType() {
+    void G3DPlanetLayer::playNewSongType() 
+    {
         songPath = geode::Mod::get()->getResourcesDir() / "music";
-        switch (musicType) {
+        switch (musicType) 
+        {
         case MusicType::Plains:
             if (overlay) { overlay->show("The Whispering Wilds", "A145 - A Newborn Spirit"); }
             songPath = songPath / "A145 - A Newborn Spirit.mp3";
@@ -232,7 +229,6 @@ namespace g3d
     {
         FMODAudioEngine::get()->playMusic(songPath.string(), true, 1.f, 0);
     }
-
 
     void G3DPlanetLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) 
     {
@@ -318,7 +314,7 @@ namespace g3d
         setKeyboardEnabled(true);
 
 
-        auto bms = BlockModelStorage::get();
+        auto bms = ModelManager::get();
 
         const auto planetPath = bms->getBP() / "planet";
         const auto shaderPath = planetPath / "shader";
@@ -414,11 +410,6 @@ namespace g3d
         CCDirector::sharedDirector()->popSceneWithTransition(0.3f, PopTransition::kPopTransitionFade);
     }
 
-    void G3DPlanetLayer::draw() 
-    {
-        CCLayer::draw();
-    }
-
     G3DPlanetLayer* G3DPlanetLayer::create() {
         auto node = new G3DPlanetLayer;
         if (node->init()) {
@@ -428,148 +419,6 @@ namespace g3d
             CC_SAFE_DELETE(node);
         }
         return node;
-    }
-
-    bool G3DPlanetLayer::insideThePlanetLayerFlag = false;
-
-    glm::mat4 PlanetModel::prepareModelMatrix() {
-        glm::mat4 model = glm::mat4(1.0f); // Start with an identity matrix
-
-        // Apply translation
-        model = glm::translate(model, position);
-
-        // Apply rotations (Z, Y, X in this order)
-        if (rotation.z != 0.0f)  // Only apply rotation if non-zero
-            model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));  // Rotate around Z axis
-
-        if (rotation.y != 0.0f)  // Only apply rotation if non-zero
-            model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));  // Rotate around Y axis
-
-        if (rotation.x != 0.0f)  // Only apply rotation if non-zero
-            model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));  // Rotate around X axis
-
-        // Apply scaling
-        model = glm::scale(model, scale);
-
-        return model;
-    }
-
-    bool CloudModel::init(const aiScene* scene) 
-    {
-        for (unsigned int i = 0; i < scene->mNumMeshes; ++i) 
-        {
-            sus3d::Mesh* mesh = CloudMesh::create(
-                scene->mMeshes[i],
-                scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
-            meshes.push_back(mesh);
-        }
-
-        return true;
-    }
-
-    static glm::vec3 calculateNormal(aiMesh* mesh, aiFace& face) 
-    {
-        aiVector3D v0 = mesh->mVertices[face.mIndices[0]];
-        aiVector3D v1 = mesh->mVertices[face.mIndices[1]];
-        aiVector3D v2 = mesh->mVertices[face.mIndices[2]];
-
-        glm::vec3 edge1(v1.x - v0.x, v1.y - v0.y, v1.z - v0.z);
-        glm::vec3 edge2(v2.x - v0.x, v2.y - v0.y, v2.z - v0.z);
-
-        glm::vec3 normal = glm::normalize(glm::cross(edge1, edge2));
-        return normal;
-    }
-
-    static glm::vec3 calculateCentroid(aiMesh* mesh, aiFace& face) 
-    {
-        aiVector3D v0 = mesh->mVertices[face.mIndices[0]];
-        aiVector3D v1 = mesh->mVertices[face.mIndices[1]];
-        aiVector3D v2 = mesh->mVertices[face.mIndices[2]];
-
-        glm::vec3 centroid = glm::vec3(
-            (v0.x + v1.x + v2.x) / 3.0f,
-            (v0.y + v1.y + v2.y) / 3.0f,
-            (v0.z + v1.z + v2.z) / 3.0f);
-
-        return centroid;
-    }
-
-    bool CloudMesh::init(aiMesh* mesh, aiMaterial* material) 
-    {
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++) 
-        {
-            vertices.push_back(mesh->mVertices[i].x);
-            vertices.push_back(mesh->mVertices[i].y);
-            vertices.push_back(mesh->mVertices[i].z);
-
-            if (mesh->mTextureCoords[0]) 
-            {
-                vertices.push_back(mesh->mTextureCoords[0][i].x);
-                vertices.push_back(mesh->mTextureCoords[0][i].y);
-            }
-            else 
-            {
-                vertices.push_back(0.0f);
-                vertices.push_back(0.0f);
-            }
-
-            vertices.push_back(mesh->mNormals[i].x);
-            vertices.push_back(mesh->mNormals[i].y);
-            vertices.push_back(mesh->mNormals[i].z);
-        }
-
-        glm::vec3 sphereCenter(0.0f, 0.0f, 0.0f);
-
-        for (unsigned int i = 0; i < mesh->mNumFaces; i++) 
-        {
-            aiFace face = mesh->mFaces[i];
-            glm::vec3 normal = calculateNormal(mesh, face);
-            glm::vec3 centroid = calculateCentroid(mesh, face);
-
-            glm::vec3 centerDirection = glm::normalize(sphereCenter - centroid);
-
-            // Compare face normal with the direction to the center
-            float dot = glm::dot(normal, centerDirection);
-
-            // Face points towards the center
-            // Skip this face
-            if (std::abs(dot) < 0.9f) { continue; }
-
-            for (unsigned int j = 0; j < face.mNumIndices; j++) 
-            {
-                indices.push_back(face.mIndices[j]);
-            }
-        }
-
-        initBuffers(material);
-
-
-        return true;
-    }
-
-    void CloudMesh::render(sus3d::ShaderProgram* shaderProgram) const 
-    {
-        // custom renderer just to set the d value
-        if (visible) 
-        {
-            glBindVertexArray(VAO);
-            glEnable(GL_DEPTH_TEST);
-            glEnable(GL_BLEND);
-            glEnable(GL_BLEND_COLOR);
-            if (useTexture)
-                glBindTexture(GL_TEXTURE_2D, texture);
-            shaderProgram->setInt("isTexture", int(useTexture));
-            shaderProgram->setVec3("Ka", isCustomKa ? customKa : Ka);
-            shaderProgram->setVec3("Kd", isCustomKd ? customKd : Kd);
-            shaderProgram->setVec3("Ks", isCustomKs ? customKs : Ks);
-            shaderProgram->setFloat("shininess", 32);
-            shaderProgram->setFloat("d", (isCustomD ? customD : d) * opacityModifier);
-            glDrawElements(GL_TRIANGLES, static_cast<int>(indices.size()), GL_UNSIGNED_INT, NULL);
-            glBindVertexArray(0);
-            glDisable(GL_DEPTH_TEST);
-            glDisable(GL_BLEND);
-            glDisable(GL_BLEND_COLOR);
-        }
     }
 
     void G3DPlanetBaseNode::draw()
@@ -668,44 +517,6 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-    void CloudModel::setCloudOpacity(const float op)
-    {
-        for (auto& mesh : meshes)
-        {
-            if (auto cloudMesh = dynamic_cast<CloudMesh*>(mesh))
-            {
-                cloudMesh->opacityModifier = op;
-            }
-        }
-    }
-
-    PlanetModel* PlanetModel::create(const aiScene* scene) {
-        PlanetModel* ret = new PlanetModel();
-        if (!ret || !ret->init(scene)) {
-            delete ret; 
-            return nullptr;
-        }
-        return ret;
-    }
-
-    CloudModel* CloudModel::create(const aiScene* scene) {
-        CloudModel* ret = new CloudModel();
-        if (!ret || !ret->init(scene)) {
-            delete ret;
-            return nullptr;
-        }
-        return ret;
-    }
-
-    CloudMesh* CloudMesh::create(aiMesh* mesh, aiMaterial* material) {
-        auto ret = new CloudMesh();
-        if (!ret || !ret->init(mesh, material)) {
-            delete ret;
-            return nullptr;
-        }
-        return ret;
-    }
-
     G3DPlanetBaseNode* G3DPlanetBaseNode::create() {
         auto node = new G3DPlanetBaseNode;
         if (node && node->init()) {
@@ -716,4 +527,6 @@ namespace g3d
         }
         return node;
     }
+
+    bool G3DPlanetLayer::insideThePlanetLayerFlag = false;
 }

@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "BlockModelStorage.h"
+#include "ModelManager.h"
 
 #include "engine/sus3d/ShaderProgram.h"
 #include "engine/sus3d/Shader.h"
@@ -13,11 +13,11 @@
 #include "helper/OpenGLStateHelper.h"
 #include "helper/CommonHelper.h"
 
-#include "CocosShaderProgram.h"
+#include "implengine/CocosShaderProgram.h"
 
 namespace g3d
 {
-	sus3d::ShaderProgram* BlockModelStorage::loadShader(
+	sus3d::ShaderProgram* ModelManager::loadShader(
 		const std::string& vsString, 
 		const std::string& fsString)
 	{
@@ -37,7 +37,7 @@ namespace g3d
 		return tmpSP;
 	}
 
-	void BlockModelStorage::loadAllShaders()
+	void ModelManager::loadAllShaders()
 	{
 		OpenGLStateHelper::saveState();
 
@@ -62,7 +62,7 @@ namespace g3d
 		OpenGLStateHelper::pushState();
 	}
 
-	void BlockModelStorage::reloadAllShaders()
+	void ModelManager::reloadAllShaders()
 	{
 		if (blockShaderProgram) { delete blockShaderProgram; }
 		if (waterShaderProgram) { delete waterShaderProgram; }
@@ -78,7 +78,7 @@ namespace g3d
 		loadAllModels();
 	}
 
-	bool BlockModelStorage::init() 
+	bool ModelManager::init() 
 	{
 		basePath = geode::Mod::get()->getResourcesDir() / "model3d";
 		loadAllShaders();
@@ -87,7 +87,7 @@ namespace g3d
 	}
 	
     // mtl model path fix (model path must be absolute)
-    void BlockModelStorage::parseMtlPath(const std::filesystem::path& path)
+    void ModelManager::parseMtlPath(const std::filesystem::path& path)
     {
         if (std::filesystem::exists(path))
         {
@@ -100,7 +100,7 @@ namespace g3d
         }
     }
 
-    void BlockModelStorage::loadAllModels()
+    void ModelManager::loadAllModels()
     {
 		try 
 		{
@@ -128,21 +128,21 @@ namespace g3d
 		}
     }
 
-	sus3d::Model* BlockModelStorage::getBlockModel(const int id)
+	sus3d::Model* ModelManager::getBlockModel(const int id)
 	{
 		auto it = blockModels.find(id);
 		if (it == blockModels.end()) { return nullptr; }
 		return it->second;
 	}
 
-	sus3d::Model* BlockModelStorage::getModel(const std::filesystem::path& path)
+	sus3d::Model* ModelManager::getModel(const std::filesystem::path& path)
 	{
 		auto it = allModels.find(path);
 		if (it == allModels.end()) { return nullptr; }
 		return it->second;
 	}
 
-	void BlockModelStorage::tryRenderBlock(
+	void ModelManager::tryRenderBlock(
 		const int objectId,
 		sus3d::Camera* camera,
 		sus3d::Light* light)
@@ -159,15 +159,15 @@ namespace g3d
 		}
 	}
 
-	BlockModelStorage* BlockModelStorage::get() 
+	ModelManager* ModelManager::get() 
 	{
 		if (!instance) 
 		{
-			instance = new BlockModelStorage;
+			instance = new ModelManager;
 			instance->init();
 		}
 		return instance;
 	}
 
-	BlockModelStorage* BlockModelStorage::instance = nullptr;
+	ModelManager* ModelManager::instance = nullptr;
 }
