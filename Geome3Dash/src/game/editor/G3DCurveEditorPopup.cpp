@@ -178,7 +178,7 @@ namespace g3d
 		cel->spline.updateParameterList();
 
 		// need to delete this on destructor (later)
-		splineTr = new SplineGameObjectTransformer(&cel->spline, &cel->lengthScaleFactor);
+		splineTr = new GomtSpline(&cel->spline, &cel->lengthScaleFactor);
 
 		CCObject* obj;
 		CCARRAY_FOREACH(cel->lel->m_objects, obj)

@@ -3,10 +3,10 @@
 namespace g3d
 {
 	class GameObjectModel;
-	class GameObjectModelTransformer
+	class AGomtBase
 	{
 	public:
 		virtual void transform(GameObjectModel* gom) = 0;
-		virtual ~GameObjectModelTransformer() {}
+		virtual ~AGomtBase() {}
 	};
 }

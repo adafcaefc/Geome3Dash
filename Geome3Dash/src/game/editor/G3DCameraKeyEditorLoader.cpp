@@ -6,7 +6,7 @@
 #include "helper/spline/Curve.h"
 #include "helper/spline/Spline.h"
 #include "helper/OpenGLStateHelper.h"
-#include "helper/CameraKeyframeBuffer.h"
+#include "helper/KeyframeData.h"
 #include "game/component/G3DBaseNode.h"
 
 #include "engine/sus3d/Mesh.h"

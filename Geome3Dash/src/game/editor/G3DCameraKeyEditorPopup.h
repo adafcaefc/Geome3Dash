@@ -6,9 +6,9 @@
 
 #include "helper/spline/Spline.h"
 
-#include "transformer/SplineCameraPlayerObjectModelTransformer.h"
-#include "transformer/SplineGameObjectTransformer.h"
-#include "transformer/SplinePlayerObjectTransformer.h"
+#include "transformer/GomtSpline.h"
+#include "transformer/PomtSpline.h"
+#include "transformer/PomtSplineCamera.h"
 
 #include "PlayerObjectModel.h"
 
@@ -54,9 +54,9 @@ namespace g3d
 		PlayerObjectModel player1;
 		PlayerObjectModel player2;
 
-		SplineGameObjectTransformer* splineTr;
-		SplinePlayerObjectTransformer* splinePlayerTr;
-		SplineCameraPlayerObjectModelTransformer* splineCamTr;
+		GomtSpline* splineTr;
+		PomtSpline* splinePlayerTr;
+		PomtSplineCamera* splineCamTr;
 
 		std::vector<GameObjectModel> blocks;
 	public:

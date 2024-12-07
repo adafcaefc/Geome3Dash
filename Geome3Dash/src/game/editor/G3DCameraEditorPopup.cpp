@@ -130,9 +130,9 @@ namespace g3d
 
         // don't forget to delete these
         static bool isEditing = false;
-        splineTr = new SplineGameObjectTransformer(&currentLevelData.spline, &lengthScaleFactor);
-        splinePlayerTr = new SplinePlayerObjectTransformer(&currentLevelData.spline, &lengthScaleFactor);
-        splineCamTr = new SplineCameraPlayerObjectModelTransformer(
+        splineTr = new GomtSpline(&currentLevelData.spline, &lengthScaleFactor);
+        splinePlayerTr = new PomtSpline(&currentLevelData.spline, &lengthScaleFactor);
+        splineCamTr = new PomtSplineCamera(
             &currentLevelData.spline,
             &currentLevelData.keyframe,
             &camera,

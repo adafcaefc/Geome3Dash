@@ -4,8 +4,11 @@
 #include "delegate/CustomMouse.h"
 #include "delegate/CustomTouch.h"
 
+#include "transformer/GomtSpline.h"
+#include "transformer/PomtSpline.h"
+#include "transformer/PomtSplineCamera.h"
+
 #include "GameObjectModel.h"
-#include "transformer/SplineGameObjectTransformer.h"
 
 namespace sus3d
 {
@@ -38,7 +41,7 @@ namespace g3d
 		float lastMouseX = 0.0;
 		float lastMouseY = 0.0;
 
-		SplineGameObjectTransformer* splineTr;
+		GomtSpline* splineTr;
 		std::vector<GameObjectModel> blocks;
 
 		virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;

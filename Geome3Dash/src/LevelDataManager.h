@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "helper/CameraKeyframeBuffer.h"
+#include "helper/KeyframeData.h"
 #include "helper/spline/Spline.h"
 
 #include <nlohmann/json.hpp>
@@ -22,7 +22,7 @@ namespace g3d
 		double yaw, pitch;                   // Rotation
 		bool lock;                           // Lock camera
 		Spline spline;                       // Spline path
-		CameraKeyframeBuffer keyframe;       // Keyframe
+		KeyframeData keyframe;       // Keyframe
 
 		static LevelData getDefault();
 

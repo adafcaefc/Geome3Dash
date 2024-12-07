@@ -17,11 +17,11 @@
 #include "helper/CommonHelper.h"
 #include "helper/OpenGLStateHelper.h"
 
-#include "transformer/AnimationGameObjectModelTransformer.h"
-#include "transformer/FadeGameObjectModelTransformer.h"
-#include "transformer/SplineCameraPlayerObjectModelTransformer.h"
-#include "transformer/SplineGameObjectTransformer.h"
-#include "transformer/SplinePlayerObjectTransformer.h"
+#include "transformer/GomtAnimation.h"
+#include "transformer/GomtFade.h"
+#include "transformer/GomtSpline.h"
+#include "transformer/PomtSpline.h"
+#include "transformer/PomtSplineCamera.h"
 
 #include "CocosShaderProgram.h"
 #include "PlayerObjectModel.h"
@@ -50,11 +50,11 @@ namespace g3d
         sus3d::Model* groundModel;
 
         // transformers
-        FadeGameObjectModelTransformer* fadeTr;
-        AnimationGameObjectModelTransformer* animTr;
-        SplineGameObjectTransformer* splineTr;
-        SplinePlayerObjectTransformer* splinePlayerTr;
-        SplineCameraPlayerObjectModelTransformer* splineCamTr;
+        GomtFade* fadeTr;
+        GomtAnimation* animTr;
+        GomtSpline* splineTr;
+        PomtSpline* splinePlayerTr;
+        PomtSplineCamera* splineCamTr;
 
         // for spline
         float lengthScaleFactor;
@@ -89,7 +89,7 @@ namespace g3d
         void renderGround();
 
         friend class BezierCameraPlayerObjectModelTransformer;
-        friend class SplineCameraPlayerObjectModelTransformer;
+        friend class PomtSplineCamera;
 
     public:
         static auto create() {

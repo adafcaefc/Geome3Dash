@@ -6,7 +6,7 @@
 
 #include "BlockModelStorage.h"
 
-#include "transformer/GameObjectModelTransformer.h"
+#include "transformer/AGomtBase.h"
 
 class GameObject;
 
@@ -20,7 +20,7 @@ namespace g3d
 		float opacity = 1.0f;
 		sus3d::Model* model;
 		GameObject* gameObject;
-		std::vector<GameObjectModelTransformer*> transformers;
+		std::vector<AGomtBase*> transformers;
 	public:
 		GameObject* getGameObject() { return this->gameObject; }
 		sus3d::Model* getModel() { return this->model; }
@@ -38,7 +38,7 @@ namespace g3d
 		
 		GameObjectModel(
 			GameObject* obj, 
-			const std::vector<GameObjectModelTransformer*>& transformers) 
+			const std::vector<AGomtBase*>& transformers) 
 			: gameObject(obj)
 			, transformers(transformers)
 		{ 

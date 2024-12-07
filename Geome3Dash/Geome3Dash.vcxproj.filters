@@ -168,25 +168,22 @@
     <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\transformer\GameObjectModelTransformer.cpp">
+    <ClCompile Include="src\transformer\AGomtBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\transformer\AnimationGameObjectModelTransformer.cpp">
+    <ClCompile Include="src\transformer\GomtAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\transformer\DefaultGameObjectModelTransformer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\transformer\FadeGameObjectModelTransformer.cpp">
+    <ClCompile Include="src\transformer\GomtFade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PlayerObjectModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\transformer\SplineGameObjectTransformer.cpp">
+    <ClCompile Include="src\transformer\GomtSpline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\transformer\SplineCameraPlayerObjectModelTransformer.cpp">
+    <ClCompile Include="src\transformer\PomtSplineCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\editor\G3DCameraKeyEditorLoader.cpp">
@@ -195,10 +192,10 @@
     <ClCompile Include="src\game\editor\G3DCameraKeyEditorPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\helper\CameraKeyframeBuffer.cpp">
+    <ClCompile Include="src\helper\KeyframeData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\transformer\SplinePlayerObjectTransformer.cpp">
+    <ClCompile Include="src\transformer\PomtSpline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\component\G3DRainixPopup.cpp">
@@ -208,6 +205,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\component\G3DComingSoonPopup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\transformer\AGomtSpline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -335,25 +335,22 @@
     <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\transformer\GameObjectModelTransformer.h">
+    <ClInclude Include="src\transformer\AGomtBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\transformer\AnimationGameObjectModelTransformer.h">
+    <ClInclude Include="src\transformer\GomtAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\transformer\DefaultGameObjectModelTransformer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\transformer\FadeGameObjectModelTransformer.h">
+    <ClInclude Include="src\transformer\GomtFade.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PlayerObjectModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\transformer\SplineGameObjectTransformer.h">
+    <ClInclude Include="src\transformer\GomtSpline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\transformer\SplineCameraPlayerObjectModelTransformer.h">
+    <ClInclude Include="src\transformer\PomtSplineCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\editor\G3DCameraKeyEditorLoader.h">
@@ -362,16 +359,19 @@
     <ClInclude Include="src\game\editor\G3DCameraKeyEditorPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\helper\CameraKeyframeBuffer.h">
+    <ClInclude Include="src\helper\KeyframeData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\transformer\SplinePlayerObjectTransformer.h">
+    <ClInclude Include="src\transformer\PomtSpline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\component\G3DRainixPopup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\component\G3DComingSoonPopup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\transformer\AGomtSpline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

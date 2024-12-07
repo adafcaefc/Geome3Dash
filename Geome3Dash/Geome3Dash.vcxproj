@@ -43,7 +43,7 @@
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
     <ClCompile Include="src\game\component\G3DComingSoonPopup.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetPopup.cpp" />
-    <ClCompile Include="src\helper\CameraKeyframeBuffer.cpp" />
+    <ClCompile Include="src\helper\KeyframeData.cpp" />
     <ClCompile Include="src\helper\Easing.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -96,13 +96,13 @@
     <ClCompile Include="src\LevelEditorImGui.cpp" />
     <ClCompile Include="src\PlanetStateManager.cpp" />
     <ClCompile Include="src\PlayerObjectModel.cpp" />
-    <ClCompile Include="src\transformer\AnimationGameObjectModelTransformer.cpp" />
-    <ClCompile Include="src\transformer\DefaultGameObjectModelTransformer.cpp" />
-    <ClCompile Include="src\transformer\FadeGameObjectModelTransformer.cpp" />
-    <ClCompile Include="src\transformer\GameObjectModelTransformer.cpp" />
-    <ClCompile Include="src\transformer\SplineCameraPlayerObjectModelTransformer.cpp" />
-    <ClCompile Include="src\transformer\SplineGameObjectTransformer.cpp" />
-    <ClCompile Include="src\transformer\SplinePlayerObjectTransformer.cpp" />
+    <ClCompile Include="src\transformer\AGomtSpline.cpp" />
+    <ClCompile Include="src\transformer\GomtAnimation.cpp" />
+    <ClCompile Include="src\transformer\GomtFade.cpp" />
+    <ClCompile Include="src\transformer\AGomtBase.cpp" />
+    <ClCompile Include="src\transformer\PomtSplineCamera.cpp" />
+    <ClCompile Include="src\transformer\GomtSpline.cpp" />
+    <ClCompile Include="src\transformer\PomtSpline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\imgui-cocos\imconfig.h" />
@@ -128,7 +128,7 @@
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
     <ClInclude Include="src\game\component\G3DComingSoonPopup.h" />
     <ClInclude Include="src\game\planet\G3DPlanetPopup.h" />
-    <ClInclude Include="src\helper\CameraKeyframeBuffer.h" />
+    <ClInclude Include="src\helper\KeyframeData.h" />
     <ClInclude Include="src\helper\Easing.h" />
     <ClInclude Include="src\engine\sus3d\Mesh.h" />
     <ClInclude Include="src\engine\sus3d\Model.h" />
@@ -152,13 +152,13 @@
     <ClInclude Include="src\LevelEditorImGui.h" />
     <ClInclude Include="src\PlanetStateManager.h" />
     <ClInclude Include="src\PlayerObjectModel.h" />
-    <ClInclude Include="src\transformer\AnimationGameObjectModelTransformer.h" />
-    <ClInclude Include="src\transformer\DefaultGameObjectModelTransformer.h" />
-    <ClInclude Include="src\transformer\FadeGameObjectModelTransformer.h" />
-    <ClInclude Include="src\transformer\GameObjectModelTransformer.h" />
-    <ClInclude Include="src\transformer\SplineCameraPlayerObjectModelTransformer.h" />
-    <ClInclude Include="src\transformer\SplineGameObjectTransformer.h" />
-    <ClInclude Include="src\transformer\SplinePlayerObjectTransformer.h" />
+    <ClInclude Include="src\transformer\AGomtSpline.h" />
+    <ClInclude Include="src\transformer\GomtAnimation.h" />
+    <ClInclude Include="src\transformer\GomtFade.h" />
+    <ClInclude Include="src\transformer\AGomtBase.h" />
+    <ClInclude Include="src\transformer\PomtSplineCamera.h" />
+    <ClInclude Include="src\transformer\GomtSpline.h" />
+    <ClInclude Include="src\transformer\PomtSpline.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

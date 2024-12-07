@@ -23,9 +23,9 @@
 #include "CocosShaderProgram.h"
 #include "PlayerObjectModel.h"
 
-#include "transformer/SplineCameraPlayerObjectModelTransformer.h"
-#include "transformer/SplineGameObjectTransformer.h"
-#include "transformer/SplinePlayerObjectTransformer.h"
+#include "transformer/GomtSpline.h"
+#include "transformer/PomtSpline.h"
+#include "transformer/PomtSplineCamera.h"
 
 namespace g3d
 {
@@ -48,9 +48,9 @@ namespace g3d
         double cubeRotationZ = 0;
         glm::vec3 spikePosition = glm::vec3(900, 105, 400);
 
-        SplineGameObjectTransformer* splineTr;
-        SplinePlayerObjectTransformer* splinePlayerTr;
-        SplineCameraPlayerObjectModelTransformer* splineCamTr;
+        GomtSpline* splineTr;
+        PomtSpline* splinePlayerTr;
+        PomtSplineCamera* splineCamTr;
 
         LevelEditorLayer* lel;
         std::vector<GameObject*> spikeObjs;

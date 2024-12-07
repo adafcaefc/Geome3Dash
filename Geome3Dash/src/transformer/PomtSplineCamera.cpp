@@ -1,24 +1,24 @@
 #include "pch.h"
 
-#include "SplineCameraPlayerObjectModelTransformer.h"
+#include "PomtSplineCamera.h"
 #include "PlayerObjectModel.h"
 #include "game/playing/G3DPlayLayer.h"
 
 namespace g3d
 {
-	glm::vec3 SplineCameraPlayerObjectModelTransformer::getPlayerOrientedCameraFront(PlayerObjectModel* pom)
+	glm::vec3 PomtSplineCamera::getPlayerOrientedCameraFront(PlayerObjectModel* pom)
 	{
 		auto playerDataStruct = spline->findClosestByLength(pom->getPlayerObject()->getPositionX() * (*lengthScaleFactor));
 		return spline->tangent(playerDataStruct.t);
 	}
 
-	glm::vec3 SplineCameraPlayerObjectModelTransformer::getPlayerOrientedCameraPosition(PlayerObjectModel* pom)
+	glm::vec3 PomtSplineCamera::getPlayerOrientedCameraPosition(PlayerObjectModel* pom)
 	{
 		auto playerDataStruct = spline->findClosestByLength(pom->getPlayerObject()->getPositionX() * (*lengthScaleFactor));
 		return playerDataStruct.value + (spline->normal(playerDataStruct.t) * (*lengthScaleFactor) * (pom->getPlayerObject()->getPositionY() - 110));
 
 	}
-	void SplineCameraPlayerObjectModelTransformer::transform(GameObjectModel* gom)
+	void PomtSplineCamera::transform(GameObjectModel* gom)
 	{
 		if (auto pom = dynamic_cast<PlayerObjectModel*>(gom))
 		{

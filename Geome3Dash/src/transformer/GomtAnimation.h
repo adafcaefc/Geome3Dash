@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GameObjectModelTransformer.h"
+#include "AGomtSpline.h"
 
 namespace g3d
 {
 	class Spline;
-	class AnimationGameObjectModelTransformer : public GameObjectModelTransformer
+	class GomtAnimation : public AGomtSpline
 	{
 	protected:
 		Spline* spline;
@@ -13,9 +13,9 @@ namespace g3d
 		void fixSawRotation(GameObjectModel* gom, const float rotation);
 	public:
 		virtual void transform(GameObjectModel* gom) override;
-		virtual ~AnimationGameObjectModelTransformer() = default;
+		virtual ~GomtAnimation() = default;
 
-		AnimationGameObjectModelTransformer(
+		GomtAnimation(
 			Spline* spline,
 			float* lcf)
 			: spline(spline)

@@ -1,12 +1,12 @@
 #include "pch.h"
 
-#include "CameraKeyframeBuffer.h"
+#include "KeyframeData.h"
 #include "LevelDataManager.h"
 #include "engine/sus3d/Scene.h"
 
 namespace g3d
 {
-    void CameraKeyframeBuffer::setKeyframe(float playersXpos, glm::vec3 offset, glm::vec3 front) {
+    void KeyframeData::setKeyframe(float playersXpos, glm::vec3 offset, glm::vec3 front) {
         for (size_t i = 0; i < keyframes.size(); i++) {
             if (keyframes[i].playersXpos > playersXpos) {
                 keyframes.insert(keyframes.begin() + i, CameraKeyframe(playersXpos, offset, front));
@@ -21,11 +21,11 @@ namespace g3d
         keyframes.push_back(CameraKeyframe(playersXpos, offset, front));
     }
 
-    void CameraKeyframeBuffer::removeLastKeyframe() {
+    void KeyframeData::removeLastKeyframe() {
         if (keyframes.size()) { keyframes.pop_back(); }
     }
 
-    CameraKeyframe CameraKeyframeBuffer::getInterpolatedCameraKeyframe(float playersXpos) {
+    CameraKeyframe KeyframeData::getInterpolatedCameraKeyframe(float playersXpos) {
         if (keyframes.empty()) return CameraKeyframe();
 
         if (playersXpos <= keyframes.front().playersXpos) {
@@ -66,16 +66,16 @@ namespace g3d
         );
     }
 
-    glm::vec3 CameraKeyframeBuffer::lerp(glm::vec3 p0, glm::vec3 p1, float t) {
+    glm::vec3 KeyframeData::lerp(glm::vec3 p0, glm::vec3 p1, float t) {
         return glm::vec3(std::lerp(p0.x, p1.x, t), std::lerp(p0.y, p1.y, t), std::lerp(p0.z, p1.z, t));
     }
 
-    CameraKeyframeBuffer::~CameraKeyframeBuffer() {
+    KeyframeData::~KeyframeData() {
     }
 
     void setStartingKeyframe(
         LevelData* cld,
-        CameraKeyframeBuffer* keyframeBuffer, 
+        KeyframeData* keyframeBuffer, 
         const float lengthScaleFactor)
     {
         sus3d::Camera fakeCamera;

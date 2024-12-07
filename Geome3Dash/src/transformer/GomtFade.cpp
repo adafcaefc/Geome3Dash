@@ -1,11 +1,11 @@
 #include "pch.h"
 
-#include "FadeGameObjectModelTransformer.h"
+#include "GomtFade.h"
 #include "GameObjectModel.h"
 
 namespace g3d
 {
-	void FadeGameObjectModelTransformer::transform(GameObjectModel* gom)
+	void GomtFade::transform(GameObjectModel* gom)
 	{
 		auto obj = gom->getGameObject();
 		auto distance = std::abs(gameLayer->m_player1->m_position.x - obj->getPositionX());

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "helper/spline/Spline.h"
-#include "helper/CameraKeyframeBuffer.h"
+#include "helper/KeyframeData.h"
 
 namespace sus3d
 {
@@ -13,7 +13,7 @@ namespace g3d
 {
 	class G3DBaseNode;
 	class Spline;
-	class CameraKeyframeBuffer;
+	class KeyframeData;
 	class G3DCameraKeyEditorPopup;
 
 	class G3DCameraKeyEditorLoader : public CCNode 
@@ -36,7 +36,7 @@ namespace g3d
 
 		G3DCameraKeyEditorPopup* popup;
 	public:
-		CameraKeyframeBuffer keyframeBuffer;
+		KeyframeData keyframeBuffer;
 
 		void updateLevel();
 

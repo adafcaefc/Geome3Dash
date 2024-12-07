@@ -33,12 +33,12 @@ namespace g3d
         prepareSpline(playLayer, &levelData.spline, &lengthScaleFactor);
         setStartingKeyframe(&levelData, &levelData.keyframe, lengthScaleFactor);
 
-        fadeTr = new FadeGameObjectModelTransformer(playLayer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
-        animTr = new AnimationGameObjectModelTransformer(&levelData.spline, &lengthScaleFactor);
-        splineTr = new SplineGameObjectTransformer(&levelData.spline, &lengthScaleFactor);
-        splinePlayerTr = new SplinePlayerObjectTransformer(&levelData.spline, &lengthScaleFactor);
+        fadeTr = new GomtFade(playLayer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
+        animTr = new GomtAnimation(&levelData.spline, &lengthScaleFactor);
+        splineTr = new GomtSpline(&levelData.spline, &lengthScaleFactor);
+        splinePlayerTr = new PomtSpline(&levelData.spline, &lengthScaleFactor);
         static bool isEditing = false;
-        splineCamTr = new SplineCameraPlayerObjectModelTransformer(
+        splineCamTr = new PomtSplineCamera(
             &levelData.spline, 
             &levelData.keyframe,
             &camera,

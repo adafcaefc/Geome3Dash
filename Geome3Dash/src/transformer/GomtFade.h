@@ -1,12 +1,12 @@
 #pragma once
 
-#include "GameObjectModelTransformer.h"
+#include "AGomtBase.h"
 
 #include "helper/Easing.h"
 
 namespace g3d
 {
-	class FadeGameObjectModelTransformer : public GameObjectModelTransformer
+	class GomtFade : public AGomtBase
 	{
 	protected:
 		GJBaseGameLayer* gameLayer;
@@ -17,7 +17,7 @@ namespace g3d
 	public:
 		double getMaxRender() { return maxRender; }
 		virtual void transform(GameObjectModel* gom) override;
-		FadeGameObjectModelTransformer(
+		GomtFade(
 			GJBaseGameLayer* layer,
 			double maxR, 
 			double startF,
@@ -32,6 +32,6 @@ namespace g3d
 		
 		}
 
-		virtual ~FadeGameObjectModelTransformer() = default;
+		virtual ~GomtFade() = default;
 	};
 }

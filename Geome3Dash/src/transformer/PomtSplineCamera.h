@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObjectModelTransformer.h"
+#include "AGomtBase.h"
 
 namespace sus3d
 {
@@ -10,23 +10,23 @@ namespace sus3d
 
 namespace g3d
 {
-	class CameraKeyframeBuffer;
+	class KeyframeData;
 	class G3DPlayLayer;
 	class PlayerObjectModel;
 	class Spline;
-	class SplineCameraPlayerObjectModelTransformer : public GameObjectModelTransformer
+	class PomtSplineCamera : public AGomtBase
 	{
 	public:
 		Spline* spline;
-		CameraKeyframeBuffer* buffer;
+		KeyframeData* buffer;
 		sus3d::Camera* camera;
 		sus3d::Light* light;
 		float* lengthScaleFactor;
 		bool* isEditing;
 		virtual void transform(GameObjectModel* gom) override;
-		SplineCameraPlayerObjectModelTransformer(
+		PomtSplineCamera(
 			Spline* spline,
-			CameraKeyframeBuffer* buffer,
+			KeyframeData* buffer,
 			sus3d::Camera* cam,
 			sus3d::Light* lght,
 			float* lcf,
@@ -42,6 +42,6 @@ namespace g3d
 		}
 		glm::vec3 getPlayerOrientedCameraFront(PlayerObjectModel* pom);
 		glm::vec3 getPlayerOrientedCameraPosition(PlayerObjectModel* pom);
-		virtual ~SplineCameraPlayerObjectModelTransformer() = default;
+		virtual ~PomtSplineCamera() = default;
 	};
 }

@@ -24,11 +24,11 @@ namespace g3d
 		CameraKeyframe(float playersXpos, glm::vec3 offset, glm::vec3 front) : playersXpos(playersXpos), offset(offset), front(front) {}
 	};
 
-	class CameraKeyframeBuffer {
+	class KeyframeData {
 	public:
 		std::vector<CameraKeyframe> keyframes;
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(CameraKeyframeBuffer, keyframes);
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(KeyframeData, keyframes);
 
 		void setKeyframe(float playersXpos, glm::vec3 offset, glm::vec3 front);
 
@@ -38,15 +38,15 @@ namespace g3d
 
 		glm::vec3 lerp(glm::vec3 p0, glm::vec3 p1, float t);
 
-		CameraKeyframeBuffer() {}
-		~CameraKeyframeBuffer();
+		KeyframeData() {}
+		~KeyframeData();
 	};
 
 	// to do : move this into classes
 
 	void setStartingKeyframe(
 		LevelData* cld,
-		CameraKeyframeBuffer* keyframeBuffer,
+		KeyframeData* keyframeBuffer,
 		const float lengthScaleFactor);
 
 	void prepareSpline(

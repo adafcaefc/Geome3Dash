@@ -32,7 +32,7 @@ namespace g3d
 
 		PlayerObjectModel(
 			PlayerObject* obj,
-			const std::vector<GameObjectModelTransformer*>& transformers)
+			const std::vector<AGomtBase*>& transformers)
 			: GameObjectModel(obj, transformers)
 			, playerObject(obj)
 		{
