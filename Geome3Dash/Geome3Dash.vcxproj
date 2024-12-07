@@ -37,8 +37,8 @@
     <ClCompile Include="src\GameObjectModel.cpp" />
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
     <ClCompile Include="src\game\component\G3DRainixPopup.cpp" />
-    <ClCompile Include="src\game\editor\G3DCameraKeyframeEditorLoader.cpp" />
-    <ClCompile Include="src\game\editor\G3DCameraKeyframeEditorPopup.cpp" />
+    <ClCompile Include="src\game\editor\G3DCameraKeyEditorLoader.cpp" />
+    <ClCompile Include="src\game\editor\G3DCameraKeyEditorPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp" />
     <ClCompile Include="src\game\component\G3DComingSoonPopup.cpp" />
@@ -122,8 +122,8 @@
     <ClInclude Include="src\GameObjectModel.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
     <ClInclude Include="src\game\component\G3DRainixPopup.h" />
-    <ClInclude Include="src\game\editor\G3DCameraKeyframeEditorLoader.h" />
-    <ClInclude Include="src\game\editor\G3DCameraKeyframeEditorPopup.h" />
+    <ClInclude Include="src\game\editor\G3DCameraKeyEditorLoader.h" />
+    <ClInclude Include="src\game\editor\G3DCameraKeyEditorPopup.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h" />
     <ClInclude Include="src\game\component\G3DComingSoonPopup.h" />

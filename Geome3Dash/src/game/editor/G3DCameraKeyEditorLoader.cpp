@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include "G3DCameraKeyframeEditorLoader.h"
-#include "G3DCameraKeyframeEditorPopup.h"
+#include "G3DCameraKeyEditorLoader.h"
+#include "G3DCameraKeyEditorPopup.h"
 
 #include "helper/spline/Curve.h"
 #include "helper/spline/Spline.h"
@@ -18,7 +18,7 @@
 
 namespace g3d
 {
-	bool G3DCameraKeyframeEditorLoader::setup(LevelEditorLayer* lel)
+	bool G3DCameraKeyEditorLoader::setup(LevelEditorLayer* lel)
 	{
 		if (!CCNode::init()) return false;
 
@@ -44,7 +44,7 @@ namespace g3d
 		return true;
 	}
 
-	void G3DCameraKeyframeEditorLoader::updateLevel() {
+	void G3DCameraKeyEditorLoader::updateLevel() {
 		levelLength = 0;
 		CCObject* obj;
 		CCARRAY_FOREACH(lel->m_objects, obj) {
@@ -55,20 +55,20 @@ namespace g3d
 		lengthScaleFactor = spline.length(10000) / levelLength;
 	}
 
-	void G3DCameraKeyframeEditorLoader::show() {
+	void G3DCameraKeyEditorLoader::show() {
 		updateLevel();
-		popup = G3DCameraKeyframeEditorPopup::create(this);
+		popup = G3DCameraKeyEditorPopup::create(this);
 		popup->show();
 	}
 
-	void G3DCameraKeyframeEditorLoader::hide() {
+	void G3DCameraKeyEditorLoader::hide() {
 		if (popup) {
 			popup->onClose(nullptr);
 		}
 	}
 
-	G3DCameraKeyframeEditorLoader* G3DCameraKeyframeEditorLoader::create(LevelEditorLayer* lel) {
-		auto ret = new G3DCameraKeyframeEditorLoader();
+	G3DCameraKeyEditorLoader* G3DCameraKeyEditorLoader::create(LevelEditorLayer* lel) {
+		auto ret = new G3DCameraKeyEditorLoader();
 		if (ret && ret->setup(lel)) {
 			ret->autorelease();
 			return ret;

@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include "G3DCameraKeyframeEditorPopup.h"
-#include "G3DCameraKeyframeEditorLoader.h"
+#include "G3DCameraKeyEditorPopup.h"
+#include "G3DCameraKeyEditorLoader.h"
 
 #include "helper/spline/Curve.h"
 #include "helper/spline/Spline.h"
@@ -20,7 +20,7 @@ namespace g3d
 {
 	static LevelData currentLevelData = LevelData::getDefault();
 
-	void G3DCameraKeyframeEditorPopup::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+	void G3DCameraKeyEditorPopup::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
 		if (!isEditing) return;
 		if (button == GLFW_MOUSE_BUTTON_LEFT) {
 			if (action == GLFW_PRESS) {
@@ -33,7 +33,7 @@ namespace g3d
 		}
 	}
 
-	void G3DCameraKeyframeEditorPopup::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
+	void G3DCameraKeyEditorPopup::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
 		if (!isEditing) return;
 		if (isRightClicking) {
 			if (!isRightClickingGetPos) {
@@ -73,13 +73,13 @@ namespace g3d
 	}
 
 
-	void G3DCameraKeyframeEditorPopup::scrollWheel(float y, float x) {
+	void G3DCameraKeyEditorPopup::scrollWheel(float y, float x) {
 		if (!isEditing) return;
 		float zoomSensitivity = -0.0328f;
 		ckel->layer3d->camera.setPosition(ckel->layer3d->camera.getPosition() + ckel->layer3d->camera.getFront() * y * zoomSensitivity);
 	}
 
-	void G3DCameraKeyframeEditorPopup::onKey(enumKeyCodes key, bool pressed, bool holding) {
+	void G3DCameraKeyEditorPopup::onKey(enumKeyCodes key, bool pressed, bool holding) {
 		switch (key) {
 		case KEY_A:
 			if (pressed)
@@ -96,7 +96,7 @@ namespace g3d
 		}
 	}
 
-	bool G3DCameraKeyframeEditorPopup::setup(G3DCameraKeyframeEditorLoader* ckel) {
+	bool G3DCameraKeyEditorPopup::setup(G3DCameraKeyEditorLoader* ckel) {
 
 		currentLevelData = LevelData::getDefault();
 		try {
@@ -155,7 +155,7 @@ namespace g3d
 
 		auto backBtnSprite = CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png");
 		backBtnSprite->setScale(0.7f);
-		auto backBtn = CCMenuItemSpriteExtra::create(backBtnSprite, this, menu_selector(G3DCameraKeyframeEditorPopup::onClose));
+		auto backBtn = CCMenuItemSpriteExtra::create(backBtnSprite, this, menu_selector(G3DCameraKeyEditorPopup::onClose));
 		backBtn->setPosition(20, size.height - 20);
 		this->m_buttonMenu->addChild(backBtn);
 
@@ -165,7 +165,7 @@ namespace g3d
 		addCurveLabel->setScale(1.2f);
 		addCurveLabel->setPosition(addCurveSprite->getContentSize() / 2 - ccp(0, -4.f));
 		addCurveSprite->addChild(addCurveLabel);
-		auto addCurveBtn = CCMenuItemSpriteExtra::create(addCurveSprite, this, menu_selector(G3DCameraKeyframeEditorPopup::onAdd));
+		auto addCurveBtn = CCMenuItemSpriteExtra::create(addCurveSprite, this, menu_selector(G3DCameraKeyEditorPopup::onAdd));
 		addCurveBtn->setPosition(60, size.height - 20);
 		this->m_buttonMenu->addChild(addCurveBtn);
 
@@ -175,14 +175,14 @@ namespace g3d
 		removeCurveLabel->setScale(1.2f);
 		removeCurveLabel->setPosition(removeCurveSprite->getContentSize() / 2 - ccp(0, -4.f));
 		removeCurveSprite->addChild(removeCurveLabel);
-		auto removeCurveBtn = CCMenuItemSpriteExtra::create(removeCurveSprite, this, menu_selector(G3DCameraKeyframeEditorPopup::onRemoveLast));
+		auto removeCurveBtn = CCMenuItemSpriteExtra::create(removeCurveSprite, this, menu_selector(G3DCameraKeyEditorPopup::onRemoveLast));
 		removeCurveBtn->setPosition(100, size.height - 20);
 		this->m_buttonMenu->addChild(removeCurveBtn);
 
 		return true;
 	}
 
-	void G3DCameraKeyframeEditorPopup::onClose(CCObject* obj) {
+	void G3DCameraKeyEditorPopup::onClose(CCObject* obj) {
 		if (ckel->keyframeBuffer.keyframes.empty()) 
 		{ 
 			setStartingKeyframe(
@@ -198,7 +198,7 @@ namespace g3d
 		Popup::onClose(obj);
 	}
 
-	void G3DCameraKeyframeEditorPopup::onAdd(CCObject*) {
+	void G3DCameraKeyEditorPopup::onAdd(CCObject*) {
 		if (isEditing) {
 			
 			auto deltaPos = ckel->layer3d->camera.getPosition() - splineCamTr->getPlayerOrientedCameraPosition(&player1);
@@ -213,7 +213,7 @@ namespace g3d
 		ckel->lel->m_editorUI->onPlaytest(nullptr);
 		isEditing = !isEditing;
 	}
-	void G3DCameraKeyframeEditorPopup::onRemoveLast(CCObject*) {
+	void G3DCameraKeyEditorPopup::onRemoveLast(CCObject*) {
 		ckel->keyframeBuffer.removeLastKeyframe();
 		if (ckel->keyframeBuffer.keyframes.empty())
 		{
@@ -224,7 +224,7 @@ namespace g3d
 		}
 	}
 
-	void G3DCameraKeyframeEditorPopup::draw() 
+	void G3DCameraKeyEditorPopup::draw() 
 	{
 		OpenGLStateHelper::saveState();
 
@@ -246,8 +246,8 @@ namespace g3d
 	}
 
 
-	G3DCameraKeyframeEditorPopup* G3DCameraKeyframeEditorPopup::create(G3DCameraKeyframeEditorLoader* ckel) {
-		auto ret = new G3DCameraKeyframeEditorPopup();
+	G3DCameraKeyEditorPopup* G3DCameraKeyEditorPopup::create(G3DCameraKeyEditorLoader* ckel) {
+		auto ret = new G3DCameraKeyEditorPopup();
 		auto size = CCDirector::sharedDirector()->getWinSize();
 		if (ret->initAnchored(size.width, size.height, ckel)) {
 			ret->autorelease();

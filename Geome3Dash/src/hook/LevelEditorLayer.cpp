@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "game/editor/G3DCameraEditorPopup.h"
 #include "game/editor/G3DCurveEditorLoader.h"
-#include "game/editor/G3DCameraKeyframeEditorLoader.h"
+#include "game/editor/G3DCameraKeyEditorLoader.h"
 #include "helper/spline/Spline.h"
 #include "helper/spline/Curve.h"
 
@@ -11,7 +11,7 @@ namespace g3d
     {
         struct Fields {
             G3DCurveEditorLoader* curveEditorLayer = nullptr;
-            G3DCameraKeyframeEditorLoader* keyframeEditorLayer = nullptr;
+            G3DCameraKeyEditorLoader* keyframeEditorLayer = nullptr;
         };
 
         void onCameraKeyframesEditor(CCObject* obj) {
@@ -83,7 +83,7 @@ namespace g3d
             m_fields->curveEditorLayer = G3DCurveEditorLoader::create(this);
             this->addChild(m_fields->curveEditorLayer);
 
-            m_fields->keyframeEditorLayer = G3DCameraKeyframeEditorLoader::create(this);
+            m_fields->keyframeEditorLayer = G3DCameraKeyEditorLoader::create(this);
             this->addChild(m_fields->keyframeEditorLayer);
 
             return true;

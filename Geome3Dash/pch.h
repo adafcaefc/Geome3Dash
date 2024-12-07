@@ -26,6 +26,9 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 
+#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -50,19 +53,6 @@ using namespace cocos2d;
 #include "delegate/CustomKeyboard.h"
 #include "delegate/CustomMouse.h"
 #include "delegate/CustomTouch.h"
-
-#include "helper/CommonHelper.h"
-#include "helper/OpenGLStateHelper.h"
-
-#include "transformer/AnimationGameObjectModelTransformer.h"
-#include "transformer/FadeGameObjectModelTransformer.h"
-#include "transformer/SplineCameraPlayerObjectModelTransformer.h"
-#include "transformer/SplineGameObjectTransformer.h"
-#include "transformer/SplinePlayerObjectTransformer.h"
-
-#include "CocosShaderProgram.h"
-#include "PlayerObjectModel.h"
-#include "LevelDataManager.h"
 
 // --- pre-load some stuff in pch ---
 

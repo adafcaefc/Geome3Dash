@@ -2,6 +2,7 @@
 
 #include "AnimationGameObjectModelTransformer.h"
 #include "GameObjectModel.h"
+#include "helper/spline/Spline.h"
 
 namespace g3d
 {

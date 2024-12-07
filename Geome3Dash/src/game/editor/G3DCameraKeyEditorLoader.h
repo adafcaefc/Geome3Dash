@@ -14,9 +14,9 @@ namespace g3d
 	class G3DBaseNode;
 	class Spline;
 	class CameraKeyframeBuffer;
-	class G3DCameraKeyframeEditorPopup;
+	class G3DCameraKeyEditorPopup;
 
-	class G3DCameraKeyframeEditorLoader : public CCNode 
+	class G3DCameraKeyEditorLoader : public CCNode 
 	{
 		G3DBaseNode* layer3d;
 		sus3d::ShaderProgram* blockShaderProgram;
@@ -34,7 +34,7 @@ namespace g3d
 		bool setup(LevelEditorLayer* lel);
 
 
-		G3DCameraKeyframeEditorPopup* popup;
+		G3DCameraKeyEditorPopup* popup;
 	public:
 		CameraKeyframeBuffer keyframeBuffer;
 
@@ -43,7 +43,7 @@ namespace g3d
 		void show();
 		void hide();
 
-		static G3DCameraKeyframeEditorLoader* create(LevelEditorLayer* lel);
-		friend class G3DCameraKeyframeEditorPopup;
+		static G3DCameraKeyEditorLoader* create(LevelEditorLayer* lel);
+		friend class G3DCameraKeyEditorPopup;
 	};
 }

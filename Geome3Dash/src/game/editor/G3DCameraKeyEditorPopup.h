@@ -20,16 +20,16 @@ namespace sus3d
 
 namespace g3d
 {
-	class G3DCameraKeyframeEditorLoader;
+	class G3DCameraKeyEditorLoader;
 
-	class G3DCameraKeyframeEditorPopup 
-		: public geode::Popup<G3DCameraKeyframeEditorLoader*>
+	class G3DCameraKeyEditorPopup 
+		: public geode::Popup<G3DCameraKeyEditorLoader*>
 		, public CustomKeyboardDelegate
 		, public CustomMouseDelegate
 		, public CustomTouchDelegate 
 	{
 	protected:
-		G3DCameraKeyframeEditorLoader* ckel;
+		G3DCameraKeyEditorLoader* ckel;
 
 		bool isEditing = false;
 
@@ -44,7 +44,7 @@ namespace g3d
 		virtual void scrollWheel(float y, float x) override;
 		virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override;
 
-		bool setup(G3DCameraKeyframeEditorLoader* cel) override;
+		bool setup(G3DCameraKeyEditorLoader* cel) override;
 
 		void draw() override;
 
@@ -62,9 +62,9 @@ namespace g3d
 	public:
 		void onClose(CCObject* obj) override;
 
-		static G3DCameraKeyframeEditorPopup* create(G3DCameraKeyframeEditorLoader* ckel);
+		static G3DCameraKeyEditorPopup* create(G3DCameraKeyEditorLoader* ckel);
 
-		~G3DCameraKeyframeEditorPopup()
+		~G3DCameraKeyEditorPopup()
 		{
 			delete splineTr;
 			delete splineCamTr;
