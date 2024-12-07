@@ -5,6 +5,48 @@ on:
     branches: 
       - '*'  # Trigger on any branch push
 
+name: Build Geode Mod
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - name: Windows
+          os: windows-latest
+
+        - name: macOS
+          os: macos-latest
+
+        - name: Android32
+          os: ubuntu-latest
+          target: Android32
+
+        - name: Android64
+          os: ubuntu-latest
+          target: Android64
+
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the mod
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          bindings: geode-sdk/bindings
+          bindings-ref: main
+          combine: true
+          target: ${{ matrix.config.target }}
+
 jobs:
   build:
     name: Build x64-Release
@@ -13,38 +55,34 @@ jobs:
     steps:
       # Checkout the code
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Set up MSBuild
-      - name: Set up MSBuild
-        uses: microsoft/setup-msbuild@v1
+      - uses: geode-sdk/build-geode-mod@main
+        id: build
 
-      # Set up Visual Studio
-      - name: Set up Visual Studio
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x' # Adjust based on your requirements
-
-      # Build the project
-      - name: Build Solution
-        run: msbuild Geome3Dash.sln /p:Configuration=Release /p:Platform=x64
-
-      # Compress contents of bin folder into rainixgd.geome3dash.geode
       - name: Compress Build Output
         run: |
-          7z.exe a -tzip "D:\a\Geome3Dash\Geome3Dash\bin\rainixgd.geome3dash.geode" -mx9 "D:\a\Geome3Dash\Geome3Dash\bin\*" -x!"D:\a\Geome3Dash\Geome3Dash\bin\7z" -x!"D:\a\Geome3Dash\Geome3Dash\bin\package_adaf.bat" -x!"D:\a\Geome3Dash\Geome3Dash\bin\package_adaf_mx9.bat" -x!"D:\a\Geome3Dash\Geome3Dash\bin\package_workflows.bat" -x!"D:\a\Geome3Dash\Geome3Dash\bin\rainixgd.geome3dash.exp" -x!"D:\a\Geome3Dash\Geome3Dash\bin\rainixgd.geome3dash.lib" -x!"D:\a\Geome3Dash\Geome3Dash\bin\list.bat" -x!"D:\a\Geome3Dash\Geome3Dash\bin\rainixgd.geome3dash.geode"
+          mkdir out
+          cp -r bin/resources out/resources
+          cp README.md out/about.md
+          cp bin/changelog.md out/
+          cp bin/logo.png out/
+          cp mod.json out/
+          cp build/*.dll out/
+          7z a -tzip "out/rainixgd.geome3dash.geode" -mx9 "out/*"
          
       # Upload the compressed file
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v3
         with:
           name: rainixgd.geome3dash.geode
-          path: bin/rainixgd.geome3dash.geode
+          path: out/rainixgd.geome3dash.geode
 
   release:
     name: Create Developmental Release
     needs: build
     runs-on: ubuntu-latest
+    if: false
 
     steps:
       # Download the compressed build artifact
