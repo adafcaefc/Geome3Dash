@@ -181,24 +181,18 @@ namespace g3d
 
             m_fields->mapButton = this->getChildByIDRecursive("map-button");
             auto weeklyButton = this->getChildByIDRecursive("weekly-button");
-            const auto mapButtonPos = m_fields->mapButton->getPosition();
-            m_fields->mapButton->setPosition(weeklyButton->getPosition());
-            weeklyButton->setPosition(mapButtonPos);
 
             m_fields->mapButton->removeAllChildren();
-
             auto sprite = CCSprite::create("sprite/G3D_emptyBtn_001.png"_spr);
             auto weeklyButtonSprite = weeklyButton->getChildByType<CCSprite>(0);
             sprite->setScale(weeklyButtonSprite->getScale());
             sprite->setPosition(weeklyButtonSprite->getPosition() + CCPoint(2, -2));
             m_fields->mapButton->addChild(sprite);
 
-            //auto label = CCLabelBMFont::create("Planet", "bigFont.fnt");
-            //label->setScale(weeklyButtonSprite->getScale() / 2.f);
-            //label->setPosition(weeklyButtonSprite->getPosition() + CCPoint(2, -2));
-            //label->setPositionY(label->getPositionY() - 20.f);
-            //label->setZOrder(20);
-            //m_fields->mapButton->addChild(label);
+            // swap button positions
+            auto cmenu = this->getChildByID("creator-buttons-menu");
+            cmenu->swapChildIndices(m_fields->mapButton, weeklyButton);
+            cmenu->updateLayout();
 
             auto layer3d = G3DPlanetCreatorLayerBaseNode::create();
             layer3d->light.setPosition(glm::vec3(0, 50, 1000));
