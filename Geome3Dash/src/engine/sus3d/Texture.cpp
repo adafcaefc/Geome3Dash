@@ -2,7 +2,7 @@
 
 #include <stb_image.h>
 
-#include <CCGL.h>
+#include <Geode/cocos/platform/CCGL.h>
 
 #include <unordered_map>
 

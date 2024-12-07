@@ -6,6 +6,8 @@
 #include "engine/sus3d/Shaders.h"
 #include "BlockModelStorage.h"
 
+#include <Geode/modify/CreatorLayer.hpp>
+
 namespace g3d
 {
     class G3DPlanetCreatorLayerBaseNode : public G3DBaseNode 

@@ -3,6 +3,8 @@
 #include "game/planet/G3DPlanetLayer.h"
 #include "helper/CommonHelper.h"
 
+#include <Geode/modify/MenuLayer.hpp>
+
 namespace g3d
 {
     class $modify(MenuLayer) 

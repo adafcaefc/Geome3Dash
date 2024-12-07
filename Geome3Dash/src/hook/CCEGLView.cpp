@@ -3,6 +3,8 @@
 #include "delegate/CustomTouch.h"
 #include "delegate/CustomKeyboard.h"
 
+#include <Geode/modify/CCEGLView.hpp>
+
 namespace g3d
 {
     class $modify(CCEGLView)

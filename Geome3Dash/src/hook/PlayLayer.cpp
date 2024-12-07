@@ -3,6 +3,8 @@
 #include "PlanetStateManager.h"
 #include "game/playing/G3DPlayLayer.h"
 
+#include <Geode/modify/PlayLayer.hpp>
+
 namespace g3d
 {
     class $modify(PlayLayer)

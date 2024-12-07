@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "delegate/CustomKeyboard.h"
 
+#include <Geode/modify/CCKeyboardDispatcher.hpp>
+
 namespace g3d
 {
     class $modify(CCKeyboardDispatcher)

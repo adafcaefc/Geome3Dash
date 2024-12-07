@@ -3,6 +3,8 @@
 #include "game/planet/G3DPlanetLayer.h"
 #include "game/component/G3DRainixPopup.h"
 
+#include <Geode/modify/MenuGameLayer.hpp>
+
 namespace g3d
 {
     class $modify(MenuGameLayer) 
