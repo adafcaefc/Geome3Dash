@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "game/planet/G3DPlanetLayer.h"
 
+#include <Geode/modify/GameManager.hpp>
+
 namespace g3d
 {
     class $modify(GameManager) 

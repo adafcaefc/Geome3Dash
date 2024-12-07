@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "ShaderProgram.h"
 
-#include <CCGL.h>
+#include <Geode/cocos/platform/CCGL.h>
 
 namespace sus3d
 {

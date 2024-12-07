@@ -5,6 +5,8 @@
 #include "helper/spline/Spline.h"
 #include "helper/spline/Curve.h"
 
+#include <Geode/modify/LevelEditorLayer.hpp>
+
 namespace g3d
 {
     class $modify(LevelEditorLayerG3D, LevelEditorLayer)

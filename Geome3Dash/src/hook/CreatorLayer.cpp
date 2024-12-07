@@ -7,6 +7,8 @@
 #include "manager/ModelManager.h"
 #include "implengine/PlanetModel.h"
 
+#include <Geode/modify/CreatorLayer.hpp>
+
 namespace g3d
 {
     class G3DPlanetCreatorLayerBaseNode : public G3DBaseNode 

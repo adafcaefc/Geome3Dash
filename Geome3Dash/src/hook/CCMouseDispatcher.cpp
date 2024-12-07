@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "delegate/CustomMouse.h"
 
+#include <Geode/modify/CCMouseDispatcher.hpp>
+
 namespace g3d
 {
     class $modify(CCMouseDispatcher)
