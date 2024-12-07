@@ -6,7 +6,7 @@
 #include "engine/sus3d/Shaders.h"
 #include "engine/sus3d/ShaderProgram.h"
 
-#include "implengine/CocosShaderProgram.h"
+#include "impl/engine/CocosShaderProgram.h"
 
 #include "helper/OpenGLStateHelper.h"
 

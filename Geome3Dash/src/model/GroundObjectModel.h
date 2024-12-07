@@ -10,7 +10,7 @@ namespace g3d
 	class GroundObjectModel : public GameObjectModel
 	{
 	protected:
-		glm::vec3 groundSize;
+		float groundSize;
 		int groundCount;
 		int groundId;
 		GJBaseGameLayer* gameLayer;
@@ -27,7 +27,7 @@ namespace g3d
 
 		GroundObjectModel() {}
 		GroundObjectModel(
-			const glm::vec3& groundSize,
+			const float groundSize,
 			const int groundCount,
 			const int groundId,
 			GJBaseGameLayer* gameLayer,

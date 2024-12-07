@@ -28,19 +28,21 @@ namespace g3d
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        getObjectIDByMousePositionShader->use();
+        auto idBufferSP = ModelManager::get()->getIdBufferSP();
+
+        idBufferSP->use();
         for (int modelIndex = 0; modelIndex < models.size(); modelIndex++) {
             glm::mat4 model = models[modelIndex]->prepareModelMatrix();
             for (int meshIndex = 0; meshIndex < models[modelIndex]->meshes.size(); meshIndex++) {
                 glm::vec3 uniqueColor = generateUniqueColor(modelIndex, meshIndex);
 
-                getObjectIDByMousePositionShader->setMat4("model", model);
-                getObjectIDByMousePositionShader->setMat4("view", camera.getViewMat());
-                getObjectIDByMousePositionShader->setMat4("projection", camera.getProjectionMat());
+                idBufferSP->setMat4("model", model);
+                idBufferSP->setMat4("view", camera.getViewMat());
+                idBufferSP->setMat4("projection", camera.getProjectionMat());
 
-                getObjectIDByMousePositionShader->setVec3("color", uniqueColor);
+                idBufferSP->setVec3("color", uniqueColor);
 
-                models[modelIndex]->meshes[meshIndex]->render(getObjectIDByMousePositionShader);
+                models[modelIndex]->meshes[meshIndex]->render(idBufferSP);
             }
         }
         glFlush();
@@ -83,20 +85,8 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-    //void G3DBaseNode::renderModel(sus3d::Model* model) {
-    //    OpenGLStateHelper::saveState();
-    //    glEnable(GL_BLEND);
-    //    glEnable(GL_ALPHA_TEST);
-    //    glEnable(GL_DEPTH_TEST);
-    //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //    glm::mat4 view = camera.getViewMat();
-    //    glm::mat4 projection = camera.getProjectionMat();
-    //    model->render(view, light.getPosition(), light.getColor(), camera.getPosition(), projection);
-    //    glDisable(GL_DEPTH_TEST);
-    //    OpenGLStateHelper::pushState();
-    //}
-
-    G3DBaseNode::~G3DBaseNode() {
+    G3DBaseNode::~G3DBaseNode() 
+    {
 
     }
 
@@ -108,7 +98,6 @@ namespace g3d
         auto bms = ModelManager::get();
 
         shaderProgram = bms->getBlockSP();
-        getObjectIDByMousePositionShader = bms->getIdBufferSP();
 
         auto size = CCDirector::sharedDirector()->m_obResolutionInPixels;
 

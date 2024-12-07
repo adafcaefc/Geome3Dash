@@ -5,7 +5,7 @@
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
 #include "manager/ModelManager.h"
-#include "implengine/PlanetModel.h"
+#include "impl/engine/PlanetModel.h"
 
 #include <Geode/modify/CreatorLayer.hpp>
 

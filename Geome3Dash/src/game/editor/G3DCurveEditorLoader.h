@@ -20,16 +20,13 @@ namespace g3d
 	class G3DCurveEditorLoader : public CCNode 
 	{
 		G3DBaseNode* layer3d;
-		sus3d::Model* pointModel;
 		LevelEditorLayer* lel;
-		sus3d::ShaderProgram* blockShaderProgram;
+		sus3d::Model* pointModel;
 
 		float levelLength = 0;
 		float lengthScaleFactor;
 
 		virtual bool setup(LevelEditorLayer* lel);
-
-		void updateLevel();
 
 		void addSegment();
 		void removeSegment();

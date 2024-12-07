@@ -7,7 +7,7 @@
 
 #include "manager/ModelManager.h"
 
-#include "implengine/CocosShaderProgram.h"
+#include "impl/engine/CocosShaderProgram.h"
 
 namespace g3d
 {
@@ -36,7 +36,6 @@ namespace g3d
 
             return { objectID, meshID };
         }
-        sus3d::ShaderProgram* getObjectIDByMousePositionShader;
     public:
         std::vector<sus3d::Model*> models;
         sus3d::Camera camera;

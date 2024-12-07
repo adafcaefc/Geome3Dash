@@ -109,8 +109,7 @@ namespace g3d
 		ckel->keyframeBuffer = currentLevelData.keyframe;
 		ckel->spline = currentLevelData.spline;
 
-		ckel->updateLevel();
-		ckel->spline.updateParameterList();
+		prepareSpline(ckel->lel, &ckel->spline, &ckel->lengthScaleFactor);
 		setStartingKeyframe(
 			&currentLevelData, 
 			&ckel->keyframeBuffer, 
@@ -233,10 +232,11 @@ namespace g3d
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		player1.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light);
-		if (ckel->lel->m_gameState.m_isDualMode) { player2.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light); }
+		auto sp = ModelManager::get()->getBlockSP();
+		player1.render(sp, ckel->layer3d->camera, ckel->layer3d->light);
+		if (ckel->lel->m_gameState.m_isDualMode) { player2.render(sp, ckel->layer3d->camera, ckel->layer3d->light); }
 		
-		for (auto& block : blocks) { block.render(ckel->blockShaderProgram, ckel->layer3d->camera, ckel->layer3d->light); }
+		for (auto& block : blocks) { block.render(sp, ckel->layer3d->camera, ckel->layer3d->light); }
 
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);

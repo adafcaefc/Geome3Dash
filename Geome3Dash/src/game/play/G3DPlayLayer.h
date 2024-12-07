@@ -24,11 +24,12 @@
 #include "transformer/PomtSplineCamera.h"
 
 #include "model/PlayerObjectModel.h"
+#include "model/GroundObjectModel.h"
 
 #include "manager/ModelManager.h"
 #include "manager/LevelDataManager.h"
 
-#include "implengine/CocosShaderProgram.h"
+#include "impl/engine/CocosShaderProgram.h"
 
 namespace g3d
 {
@@ -44,13 +45,10 @@ namespace g3d
 
         PlayerObjectModel player1;
         PlayerObjectModel player2;
-
-        CocosShaderProgram* shaderProgram;
+        GroundObjectModel ground;
 
         sus3d::Camera camera;
         sus3d::Light light;
-
-        sus3d::Model* groundModel;
 
         // transformers
         GomtFade* fadeTr;
@@ -76,9 +74,9 @@ namespace g3d
 
         static G3DPlayLayer* instance;
 
-        void loadShader();
         void loadPlayers();
         void loadBlocks();
+        void loadGround();
 
         std::vector<GameObjectModel> blocks;
 
@@ -86,10 +84,9 @@ namespace g3d
 
         void drawPlayers();
         void drawBlocks();
+        void drawGround();
 
         virtual void draw();
-
-        void renderGround();
 
         friend class BezierCameraPlayerObjectModelTransformer;
         friend class PomtSplineCamera;

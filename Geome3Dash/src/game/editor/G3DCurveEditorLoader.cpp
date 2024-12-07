@@ -17,18 +17,6 @@
 
 namespace g3d
 {
-	void G3DCurveEditorLoader::updateLevel() {
-		levelLength = 0;
-
-		CCObject* obj;
-		CCARRAY_FOREACH(lel->m_objects, obj) {
-			auto block = dynamic_cast<GameObject*>(obj);
-
-			levelLength = std::max(block->getPositionX(), levelLength);
-		}
-
-		lengthScaleFactor = spline.length(10000) / levelLength;
-	}
 
 	bool G3DCurveEditorLoader::setup(LevelEditorLayer* lel) {
 		if (!CCNode::init()) return false;
@@ -43,34 +31,32 @@ namespace g3d
 
 		auto bms = ModelManager::get();
 
-		blockShaderProgram = bms->getBlockSP();
-
 		pointModel = bms->getModel(bms->getBP() / "editor" / "model" / "sphere.obj");
 
 		return true;
 	}
 
-	void G3DCurveEditorLoader::addSegment() {
+	void G3DCurveEditorLoader::addSegment() 
+	{
 		auto p1 = spline.segments.back().p2;
 		auto m1 = spline.segments.back().p2 * 2.f - spline.segments.back().m2;
 		auto m2 = spline.segments.back().p2 * 2.f - spline.segments.back().m1;
 		auto p2 = spline.segments.back().p2 * 2.f - spline.segments.back().p1;
-
 		spline.addSegment(Curve(p1, m1, m2, p2));
-
-		updateLevel();
 	}
 
 
-	void G3DCurveEditorLoader::removeSegment() {
-		if (spline.segments.size() > 1) {
+	void G3DCurveEditorLoader::removeSegment() 
+	{
+		if (spline.segments.size() > 1) 
+		{
 			spline.removeLastSegment();
-			updateLevel();
+			prepareSpline(lel, &spline, &lengthScaleFactor);
 		}
 	}
 
-	void G3DCurveEditorLoader::show() {
-		updateLevel();
+	void G3DCurveEditorLoader::show() 
+	{
 		G3DCurveEditorPopup::create(this)->show();
 	}
 

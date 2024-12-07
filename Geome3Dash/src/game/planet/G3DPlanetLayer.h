@@ -77,9 +77,6 @@ namespace g3d
         virtual void keyBackClicked(void) override;
         virtual void onEnter() override;
     public:
-        CocosShaderProgram* shaderProgram;
-        CocosShaderProgram* shaderProgram2;
-        CocosShaderProgram* shaderProgram3;
         PlanetModel* planetModel;
         PlanetModel* planetWaterModel;
         CloudModel* cloudModel;

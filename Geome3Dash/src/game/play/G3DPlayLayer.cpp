@@ -9,15 +9,15 @@ namespace g3d
 {
     G3DPlayLayer* G3DPlayLayer::instance = nullptr;
 
-    void G3DPlayLayer::loadShader()
-    {
-        shaderProgram = dynamic_cast<CocosShaderProgram*>(ModelManager::get()->getBlockSP());
-    }
-
     void G3DPlayLayer::loadPlayers()
     {
         player1 = PlayerObjectModel(playLayer->m_player1, { splinePlayerTr, splineCamTr });
         player2 = PlayerObjectModel(playLayer->m_player2, { splinePlayerTr });
+    }
+
+    void G3DPlayLayer::loadGround()
+    {
+        ground = GroundObjectModel(90.f, 30, 0, playLayer, { splineTr });
     }
 
     bool G3DPlayLayer::init()
@@ -45,12 +45,10 @@ namespace g3d
             &light,
             &lengthScaleFactor,
             &isEditing);
-            
-        groundModel = ModelManager::get()->getModel(ModelManager::get()->getBP() / "environment" / "ground" / "0" / "model.obj");
-
-        loadShader();
-        loadPlayers();
+   
         loadBlocks();
+        loadPlayers();
+        loadGround();
 
         return true;
     }
@@ -88,14 +86,14 @@ namespace g3d
         { 
             auto distance = std::abs(playLayer->m_player1->m_position.x - block.getGameObject()->getPositionX());
             auto maxRender = fadeTr->getMaxRender();
-            if (distance < maxRender) { block.render(shaderProgram, camera, light); }
+            if (distance < maxRender) { block.render(ModelManager::get()->getBlockSP(), camera, light); }
         }
     }
 
     void G3DPlayLayer::drawPlayers()
     {
-        player1.render(shaderProgram, camera, light);
-        if (playLayer->m_gameState.m_isDualMode) { player2.render(shaderProgram, camera, light); }
+        player1.render(ModelManager::get()->getBlockSP(), camera, light);
+        if (playLayer->m_gameState.m_isDualMode) { player2.render(ModelManager::get()->getBlockSP(), camera, light); }
     }
 
     void G3DPlayLayer::draw()
@@ -115,8 +113,8 @@ namespace g3d
 
         try {
             drawPlayers();
-            renderGround();
             drawBlocks();
+            drawGround();
         }
         catch (...) {
 
@@ -126,64 +124,8 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-    void G3DPlayLayer::renderGround() {
-        glm::vec3 groundSize = glm::vec3(0.5 * 30 * 3);
-
-        //auto playerData = levelData.spline.findClosestByLength(playLayer->m_player1->getPositionX() * lengthScaleFactor);
-
-        const int groundPartsForRender = 30;
-
-        auto cxl = playLayer->m_player1->getPositionX();
-        for (float l = 0; l < cxl + groundSize.x * groundPartsForRender; l += groundSize.x * 2) {
-
-            if (l < cxl - groundSize.x * groundPartsForRender) continue;
-
-            auto groundData = levelData.spline.findClosestByLength(l * lengthScaleFactor);
-
-            auto normal = glm::normalize(levelData.spline.normal(groundData.t));
-            auto tangent = glm::normalize(levelData.spline.tangent(groundData.t));
-
-
-            glm::vec3 binormal = glm::normalize(glm::cross(normal, tangent));
-            glm::vec3 adjustedNormal = glm::normalize(glm::cross(tangent, binormal));
-
-
-            glm::mat3 rotationMatrix(
-                binormal,
-                adjustedNormal,
-                tangent
-            );
-
-            glm::quat rotationQuat = glm::quat_cast(rotationMatrix);
-            glm::vec3 eulerDegrees = glm::degrees(glm::eulerAngles(rotationQuat));
-
-            groundModel->setRotation(eulerDegrees);
-
-            groundModel->setPosition(groundData.value - normal * groundSize * 1.5f * lengthScaleFactor);
-            groundModel->setScale(groundSize * lengthScaleFactor);
-
-            
-            if (auto gsprites = this->playLayer->getChildByIDRecursive("ground-sprites"))
-            {
-                if (auto grounds = gsprites->getChildByType<CCSprite>(0))
-                {
-                    if (auto ground = grounds->getChildByType<CCSprite>(0))
-                    {
-                        auto color = ground->getColor();
-                        for (auto& mesh : groundModel->meshes)
-                        {
-                            mesh->setCustomKa(glm::vec3(color.r, color.g, color.b) * glm::vec3(1.f / 255.f));
-                        }
-                    }
-                }
-            }
-
-            groundModel->render(shaderProgram, camera.getViewMat(), light.getPosition(), light.getColor(), camera.getPosition(), camera.getProjectionMat());
-
-            for (auto& mesh : groundModel->meshes)
-            {
-                mesh->disableKa();
-            }
-        }
+    void G3DPlayLayer::drawGround() 
+    {
+        ground.render(ModelManager::get()->getBlockSP(), camera, light);
     }
 }

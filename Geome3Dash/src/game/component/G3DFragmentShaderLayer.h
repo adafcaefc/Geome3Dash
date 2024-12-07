@@ -1,6 +1,6 @@
 #pragma once
 
-#include "implengine/CocosShaderProgram.h"
+#include "impl/engine/CocosShaderProgram.h"
 
 namespace g3d
 {
