@@ -17,6 +17,7 @@ namespace g3d
 
     void G3DPlayLayer::loadGround()
     {
+        // todo: add more ground types
         ground = GroundObjectModel(90.f, 30, 0, playLayer, { splineTr });
     }
 
