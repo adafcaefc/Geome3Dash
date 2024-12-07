@@ -42,7 +42,6 @@ jobs:
     name: Create Developmental Release
     needs: build
     runs-on: ubuntu-latest
-    if: false
 
     steps:
       # Download the compressed build artifact
