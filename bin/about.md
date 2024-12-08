@@ -71,6 +71,7 @@ Have suggestions or need help? Connect with developers and fans on our [Discord 
 ### Special Thanks  
 - **[A145](https://www.youtube.com/@A145)** – For all the support you have given <3  
 - **[Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g)** – Help on Geode usage  
+- **[Mat](https://github.com/matcool)** – Help on porting to cmake  
 
 ### Beta Testers  
 - **[Weebify](https://www.youtube.com/channel/UCAE-cJ-exfnSlq0Ddkd985g)**  

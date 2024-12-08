@@ -10,7 +10,9 @@ namespace g3d
 	protected:
 		Spline* spline;
 		float* lengthScaleFactor;
-		void fixSawRotation(GameObjectModel* gom, const float rotation);
+		void animateRotationSaw(GameObjectModel* gom);
+		void animateJumpRing(GameObjectModel* gom);
+		void animateCoin(GameObjectModel* gom);
 	public:
 		virtual void transform(GameObjectModel* gom) override;
 		virtual ~GomtAnimation() = default;

@@ -105,7 +105,8 @@ namespace g3d
                 levelLength = std::max(block->getPositionX(), levelLength);
             }
         }
-        *lengthScaleFactor = spline->length(10000) / levelLength;
-        spline->updateParameterList();
+        // best value 100000
+        *lengthScaleFactor = spline->length(100000) / levelLength;
+        spline->updateParameterList(100000);
     }
 }
