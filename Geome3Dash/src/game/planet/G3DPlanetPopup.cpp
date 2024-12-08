@@ -25,6 +25,9 @@ namespace g3d
             if (this->level)
             {
                 this->level->m_levelID = levelID;
+                this->level->m_dailyID = levelID;
+                this->level->m_levelType = GJLevelType::Saved;
+                this->level->m_stars = 0;
                 this->addChild(this->level);
             }
         }
