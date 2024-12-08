@@ -7,17 +7,21 @@
 
 namespace sus3d
 {
-    bool Mesh::init(aiMesh* mesh, aiMaterial* material) {
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+    bool Mesh::init(aiMesh* mesh, aiMaterial* material) 
+    {
+        for (unsigned int i = 0; i < mesh->mNumVertices; i++) 
+        {
             vertices.push_back(mesh->mVertices[i].x);
             vertices.push_back(mesh->mVertices[i].y);
             vertices.push_back(mesh->mVertices[i].z);
 
-            if (mesh->mTextureCoords[0]) {
+            if (mesh->mTextureCoords[0]) 
+            {
                 vertices.push_back(mesh->mTextureCoords[0][i].x);
                 vertices.push_back(mesh->mTextureCoords[0][i].y);
             }
-            else {
+            else 
+            {
                 vertices.push_back(0.0f);
                 vertices.push_back(0.0f);
             }
@@ -27,22 +31,22 @@ namespace sus3d
             vertices.push_back(mesh->mNormals[i].z);
         }
 
-        for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+        for (unsigned int i = 0; i < mesh->mNumFaces; i++) 
+        {
             aiFace face = mesh->mFaces[i];
-            for (unsigned int j = 0; j < face.mNumIndices; j++) {
+            for (unsigned int j = 0; j < face.mNumIndices; j++) 
+            {
                 indices.push_back(face.mIndices[j]);
             }
         }
 
         initBuffers(material);
 
-
         return true;
     }
 
-    void Mesh::initBuffers(aiMaterial* material) {
-
-
+    void Mesh::initBuffers(aiMaterial* material) 
+    {
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
@@ -65,22 +69,19 @@ namespace sus3d
         glEnableVertexAttribArray(2);
 
         aiString texturePath;
-        if (material && material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
-
+        useTexture = false;
+        if (material && material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) 
+        {
             Texture* loadedTexture = Texture::getTextureByFilename(texturePath.C_Str());
-            if (loadedTexture && loadedTexture->textureID != 0) {
+            if (loadedTexture && loadedTexture->textureID != 0) 
+            {
                 texture = loadedTexture->textureID;
                 useTexture = true;
             }
-            else {
-                useTexture = false;
-            }
-        }
-        else {
-            useTexture = false;
         }
 
-        if (material) {
+        if (material) 
+        {
             aiColor4D aiColor;
             float opacity;
 
@@ -100,17 +101,21 @@ namespace sus3d
         glBindVertexArray(0);
     }
 
-    Mesh* Mesh::create(aiMesh* mesh, aiMaterial* material) {
+    Mesh* Mesh::create(aiMesh* mesh, aiMaterial* material) 
+    {
         auto ret = new Mesh();
-        if (!ret || !ret->init(mesh, material)) {
+        if (!ret || !ret->init(mesh, material)) 
+        {
             delete ret;
             return nullptr;
         }
         return ret;
     }
 
-    void Mesh::render(ShaderProgram* shaderProgram) const {
-        if (visible) {
+    void Mesh::render(ShaderProgram* shaderProgram) const 
+    {
+        if (visible) 
+        {
             glBindVertexArray(VAO);
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_BLEND);
