@@ -18,7 +18,6 @@ namespace g3d
 		this->setScaleX(this->getScaleX() * gameObject->m_scaleX);
 		this->setScaleY(this->getScaleY() * gameObject->m_scaleY);
 		this->setOpacity(gameObject->groupOpacityMod());
-		//this->setVisible(gameObject->isVisible());
 	}
 
 	void GameObjectModel::applyTransformation()

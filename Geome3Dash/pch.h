@@ -17,13 +17,14 @@
 #include <Geode/ui/TextInput.hpp>
 #include <Geode/utils/cocos.hpp>
 #include <gd.h>
+using namespace cocos2d;
 
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 
 #include <nlohmann/json.hpp>
@@ -37,8 +38,7 @@
 #include <fstream>
 #include <string>
 #include <filesystem>
-
-using namespace cocos2d;
+#include <memory>
 
 // --- pre-load some stuff in pch ---
 
