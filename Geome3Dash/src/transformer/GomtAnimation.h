@@ -12,6 +12,7 @@ namespace g3d
 		float* lengthScaleFactor;
 		void animateRotationSaw(GameObjectModel* gom);
 		void animateJumpRing(GameObjectModel* gom);
+		void animateCoin(GameObjectModel* gom);
 	public:
 		virtual void transform(GameObjectModel* gom) override;
 		virtual ~GomtAnimation() = default;

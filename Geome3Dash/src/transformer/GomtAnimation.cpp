@@ -21,6 +21,7 @@ namespace g3d
 			gom->setRotation(data.rot);
 		}
 	}
+
 	void GomtAnimation::animateJumpRing(GameObjectModel* gom)
 	{
 		auto block = gom->getGameObject();
@@ -30,11 +31,38 @@ namespace g3d
 		gom->setScaleZ(scale.z / block->m_scaleX * block->getScaleX());
 	}
 
+	void GomtAnimation::animateCoin(GameObjectModel* gom)
+	{
+		auto block = gom->getGameObject();
+		if (block->m_isActivated)
+		{
+			//const auto data = calculateSpline(
+			//	spline,
+			//	*lengthScaleFactor,
+			//	block->getPositionX(),
+			//	block->getPositionY(),
+			//	block->getRotation());
+			//gom->setPosition(data.pos);
+			//gom->setRotation(data.rot);
+			//gom->setOpacity(block->getOpacity());
+		}
+	}
+
 	void GomtAnimation::transform(GameObjectModel* gom)
 	{
-		switch (gom->getGameObject()->m_objectID)
+		auto block = gom->getGameObject();
+		switch (block->m_objectType)
 		{
+		case GameObjectType::UserCoin:
+		case GameObjectType::SecretCoin:
+			animateCoin(gom);
+			break;
+		default:
+			break;
+		}
 
+		switch (block->m_objectID)
+		{
 		case 36:
 		case 84:
 		case 141:
