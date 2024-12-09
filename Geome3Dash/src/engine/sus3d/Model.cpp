@@ -13,7 +13,8 @@ namespace sus3d
 {
     bool Model::init(const aiScene* scene) {
 
-        for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
+        for (unsigned int i = 0; i < scene->mNumMeshes; ++i) 
+        {
             Mesh* mesh = Mesh::create(scene->mMeshes[i], scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
             meshes.push_back(mesh);
         }
@@ -21,7 +22,8 @@ namespace sus3d
         return true;
     }
 
-    glm::mat4 Model::prepareModelMatrix() {
+    glm::mat4 Model::prepareModelMatrix() 
+    {
         glm::mat4 model = glm::mat4(1.0f);
 
         model = glm::translate(model, position);
@@ -72,7 +74,8 @@ namespace sus3d
         }
     }
 
-    Model::~Model() {
+    Model::~Model() 
+    {
         for (Mesh* mesh : meshes) { delete mesh; }
         meshes.clear();
     }

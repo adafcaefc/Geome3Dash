@@ -18,5 +18,6 @@ namespace g3d
 		{
 
 		}
+		GomtSpline() {}
 	};
 }

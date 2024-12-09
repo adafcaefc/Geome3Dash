@@ -18,22 +18,18 @@ namespace g3d
 
 	class G3DCameraKeyEditorLoader : public CCNode 
 	{
-		G3DBaseNode* layer3d;
 		LevelEditorLayer* lel;
-		Spline spline;
-
-		float lengthScaleFactor;
 
 		bool setup(LevelEditorLayer* lel);
 
 		G3DCameraKeyEditorPopup* popup;
 	public:
-		KeyframeData keyframeBuffer;
 
 		void show();
 		void hide();
 
 		static G3DCameraKeyEditorLoader* create(LevelEditorLayer* lel);
 		friend class G3DCameraKeyEditorPopup;
+		friend class G3DCameraKeyEditorScene;
 	};
 }

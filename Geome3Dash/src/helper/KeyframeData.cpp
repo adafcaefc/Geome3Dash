@@ -3,6 +3,7 @@
 #include "KeyframeData.h"
 #include "manager/LevelDataManager.h"
 #include "engine/sus3d/Scene.h"
+#include "helper/Easing.h"
 
 namespace g3d
 {
@@ -67,7 +68,8 @@ namespace g3d
     }
 
     glm::vec3 KeyframeData::lerp(glm::vec3 p0, glm::vec3 p1, float t) {
-        return glm::vec3(std::lerp(p0.x, p1.x, t), std::lerp(p0.y, p1.y, t), std::lerp(p0.z, p1.z, t));
+        return ease::easeNormal<glm::vec3>(ease::InSine::get(), t, p0, p1);
+        //return glm::vec3(std::lerp(p0.x, p1.x, t), std::lerp(p0.y, p1.y, t), std::lerp(p0.z, p1.z, t));
     }
 
     KeyframeData::~KeyframeData() {

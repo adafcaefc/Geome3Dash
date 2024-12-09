@@ -23,7 +23,12 @@ namespace g3d
 		sus3d::Light* light;
 		float* lengthScaleFactor;
 		bool* isEditing;
+		
 		virtual void transform(GameObjectModel* gom) override;
+
+		glm::vec3 getPlayerOrientedCameraFront(PlayerObjectModel* pom);
+		glm::vec3 getPlayerOrientedCameraPosition(PlayerObjectModel* pom);
+
 		PomtSplineCamera(
 			Spline* spline,
 			KeyframeData* buffer,
@@ -40,8 +45,9 @@ namespace g3d
 		{
 
 		}
-		glm::vec3 getPlayerOrientedCameraFront(PlayerObjectModel* pom);
-		glm::vec3 getPlayerOrientedCameraPosition(PlayerObjectModel* pom);
+
+		PomtSplineCamera() {}
+
 		virtual ~PomtSplineCamera() = default;
 	};
 }

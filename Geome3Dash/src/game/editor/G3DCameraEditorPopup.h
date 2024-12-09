@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/component/G3DNumberSetting.h"
+#include "game/play/G3DCameraEditorScene.h"
 
 #include "delegate/CustomKeyboard.h"
 #include "delegate/CustomMouse.h"
@@ -25,70 +26,6 @@
 
 namespace g3d
 {
-    class G3DCameraEditorScene 
-        : public CCNode
-        , public CustomKeyboardDelegate
-        , public CustomMouseDelegate
-        , public CustomTouchDelegate
-    {
-    public:
-        sus3d::Camera camera;
-        sus3d::Light light;
-        glm::vec3 playerCameraOffset;
-        double playerCameraYawOffset;
-        double playerCameraPitchOffset;
-
-        double cubeRotationZ = 0;
-        glm::vec3 cubePosition = glm::vec3(0, 105, 400);
-        glm::vec3 spikePosition = glm::vec3(900, 105, 400);
-
-        // don't forget fo free these or else memory leak
-        GomtSpline* splineTr;
-        PomtSpline* splinePlayerTr;
-        PomtSplineCamera* splineCamTr;
-
-        LevelEditorLayer* lel;
-        std::vector<GameObject*> spikeObjs;
-        std::unordered_map<float, GameObject*> blockObjs;
-        PlayerObject* playerObj;
-
-        PlayerObjectModel player1;
-        std::vector<GameObjectModel> blocks;
-
-        float lengthScaleFactor;
-
-        void drawModel();
-
-        virtual void draw() override;
-        virtual bool init(LevelEditorLayer* lel);
-
-        // delegates
-        bool isPressingControl = false;
-        bool isPressingShift = false;
-        bool isRightClicking = false;
-        bool isRightClickingGetPos = false;
-        float lastMouseX = 0.0;
-        float lastMouseY = 0.0;
-
-        virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override;
-        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;
-        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;
-        virtual void scrollWheel(float y, float x) override;
-
-        ~G3DCameraEditorScene();
-
-        static auto create(LevelEditorLayer* lel) {
-            auto node = new G3DCameraEditorScene;
-            if (node->init(lel)) {
-                node->autorelease();
-            }
-            else {
-                CC_SAFE_DELETE(node);
-            }
-            return node;
-        }
-    };
-
     class G3DCameraEditorPopup;
     class G3DNumberSettingCamera : public G3DNumberSetting 
     {

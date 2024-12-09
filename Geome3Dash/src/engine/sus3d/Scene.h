@@ -29,11 +29,12 @@ namespace sus3d
         float pitch = 0.f;
         float fov = 45.f;
 
-        void updateFront() {
+        void updateFront() 
+        {
             glm::vec3 newFront;
-            newFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-            newFront.y = sin(glm::radians(pitch));
-            newFront.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+            newFront.x = std::cos(glm::radians(yaw)) * std::cos(glm::radians(pitch));
+            newFront.y = std::sin(glm::radians(pitch));
+            newFront.z = std::sin(glm::radians(yaw)) * std::cos(glm::radians(pitch));
             front = glm::normalize(newFront);
         }
 

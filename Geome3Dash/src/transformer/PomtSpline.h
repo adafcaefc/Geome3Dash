@@ -18,5 +18,7 @@ namespace g3d
 		{
 
 		}
+
+		PomtSpline() {}
 	};
 }

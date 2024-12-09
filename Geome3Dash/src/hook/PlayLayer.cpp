@@ -54,7 +54,7 @@ namespace g3d
             {
                 if (!m_fields->playLayer3D)
                 {
-                    m_fields->playLayer3D = G3DPlayLayer::create();
+                    m_fields->playLayer3D = G3DPlayLayer::create(this);
                     m_fields->playLayer3D->setZOrder(9);
                     this->addChild(m_fields->playLayer3D);
                 }
