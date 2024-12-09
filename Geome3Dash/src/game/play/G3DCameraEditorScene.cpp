@@ -14,14 +14,8 @@ namespace g3d
         instance = nullptr;
     }
 
-    void G3DCameraEditorScene::calculateJumpAndPos()
+    void G3DCameraEditorScene::calculateJumpAndPos(float deltaTime)
     {
-        static std::chrono::steady_clock::time_point lastUpdate;
-        auto now = std::chrono::steady_clock::now();
-        std::chrono::duration<double> elapsedTime = now - lastUpdate;
-        lastUpdate = now;
-        double deltaTime = elapsedTime.count();
-
         // cube position
 
         cubePosition.x += deltaTime * 300;
@@ -91,7 +85,6 @@ namespace g3d
 
     void G3DCameraEditorScene::drawPlayers()
     {
-        calculateJumpAndPos();
         player1.render(ModelManager::get()->getBlockSP(), camera, light);
     }
 
@@ -116,6 +109,10 @@ namespace g3d
         player1 = PlayerObjectModel(playerObject, { &splinePlayerTr, &splineCamTr });
     }
 
+    void G3DCameraEditorScene::update(float delta)
+    {
+        this->calculateJumpAndPos(delta);
+    }
 
     bool G3DCameraEditorScene::setup(LevelEditorLayer* layer)
     {
@@ -130,6 +127,10 @@ namespace g3d
         this->addChild(fakeGameLayer);
 
         if (!G3DGameLayer::setup(layer)) { return false; }
+
+        this->scheduleUpdate();
+
+        return true;
     }
 
     void G3DCameraEditorScene::onGLFWMouseCallBack(
