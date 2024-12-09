@@ -15,7 +15,7 @@ namespace g3d
         virtual void loadPlayers() override;
         virtual void drawPlayers() override;
 
-        virtual void calculateJumpAndPos();
+        void calculateJumpAndPos(float deltaTime);
 
         LevelEditorLayer* levelEditorLayer = nullptr;
         CCLayer* fakeGameLayer = nullptr;
@@ -40,6 +40,8 @@ namespace g3d
         std::unordered_map<float, GameObject*> blockObjs;
 
         virtual bool setup(LevelEditorLayer* layer);
+
+        virtual void update(float delta) override;
 
         static G3DCameraEditorScene* instance;
         
