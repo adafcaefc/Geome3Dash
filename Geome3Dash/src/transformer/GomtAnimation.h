@@ -25,5 +25,7 @@ namespace g3d
 		{
 
 		}
+
+		GomtAnimation() {}
 	};
 }

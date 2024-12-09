@@ -24,11 +24,6 @@ namespace g3d
 
 		this->lel = lel;
 
-		layer3d = G3DBaseNode::create();
-		layer3d->camera.setPosition(glm::vec3(0, 0, 15));
-		layer3d->light.setPosition(glm::vec3(0, 50, 1000));
-		layer3d->retain();
-
 		return true;
 	}
 

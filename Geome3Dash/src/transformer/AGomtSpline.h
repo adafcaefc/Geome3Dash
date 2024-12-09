@@ -21,5 +21,6 @@ namespace g3d
 			const float x,
 			const float y,
 			const float rotation);
+		AGomtSpline() {}
 	};
 }

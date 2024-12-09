@@ -32,6 +32,8 @@ namespace g3d
 		
 		}
 
+		GomtFade() {}
+
 		virtual ~GomtFade() = default;
 	};
 }

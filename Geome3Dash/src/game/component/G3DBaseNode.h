@@ -43,7 +43,6 @@ namespace g3d
         sus3d::ShaderProgram* shaderProgram;
 
         std::pair<int, int> getObjectIDByMousePosition();
-        //void renderModel(sus3d::Model* model);
 
         virtual void draw() override;
         ~G3DBaseNode();
