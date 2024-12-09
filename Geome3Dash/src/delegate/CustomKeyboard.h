@@ -17,7 +17,7 @@ namespace g3d
     public:
         static void addDelegate(CustomKeyboardDelegate* obj);
         static void removeDelegate(CustomKeyboardDelegate* obj);
-        static void updateDelegates(enumKeyCodes key, bool pressed, bool holding);
-        static void updateDelegates(GLFWwindow* window, int key, int scancode, int action, int mods);
+        static void onKey(enumKeyCodes key, bool pressed, bool holding);
+        static void onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     };
 }

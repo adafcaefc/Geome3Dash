@@ -18,7 +18,7 @@ namespace g3d
     public:
         static void addDelegate(CustomTouchDelegate* obj);
         static void removeDelegate(CustomTouchDelegate* obj);
-        static void updateDelegates(CCSet* touches, CCEvent* event, unsigned int type);
+        static void touch(CCSet* touches, CCEvent* event, unsigned int type);
         static void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
         static void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods);
     };

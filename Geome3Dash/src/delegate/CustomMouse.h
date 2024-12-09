@@ -18,6 +18,6 @@ namespace g3d
     public:
         static void addDelegate(CustomMouseDelegate* obj);
         static void removeDelegate(CustomMouseDelegate* obj);
-        static void updateDelegates(float x, float y);
+        static void scrollWheel(float x, float y);
     };
 }

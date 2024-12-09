@@ -25,13 +25,13 @@ namespace g3d
             }), delegates.end());
     }
 
-    void CustomKeyboardManager::updateDelegates(enumKeyCodes key, bool pressed, bool holding) {
+    void CustomKeyboardManager::onKey(enumKeyCodes key, bool pressed, bool holding) {
         for (auto delegate : delegates) {
             delegate->onKey(key, pressed, holding);
         }
     }   
 
-    void CustomKeyboardManager::updateDelegates(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    void CustomKeyboardManager::onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
         for (auto delegate : delegates) {
             delegate->onGLFWKeyCallback(window, key, scancode, action, mods);
         }

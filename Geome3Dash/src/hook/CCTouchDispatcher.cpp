@@ -7,7 +7,7 @@ namespace g3d
     {
         void touches(CCSet * touches, CCEvent * event, unsigned int type)
         {
-            CustomTouchManager::updateDelegates(touches, event, type);
+            CustomTouchManager::touch(touches, event, type);
             CCTouchDispatcher::touches(touches, event, type);
         }
     };
