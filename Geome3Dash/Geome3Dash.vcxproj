@@ -26,9 +26,6 @@
     <ClCompile Include="lib\imgui-cocos\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="lib\tinyfiledialogs\tinyfiledialogs.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -118,7 +115,6 @@
     <ClInclude Include="lib\imgui-cocos\imstb_rectpack.h" />
     <ClInclude Include="lib\imgui-cocos\imstb_textedit.h" />
     <ClInclude Include="lib\imgui-cocos\imstb_truetype.h" />
-    <ClInclude Include="lib\tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\delegate\CustomKeyboard.h" />
     <ClInclude Include="src\delegate\CustomMouse.h" />

@@ -138,9 +138,6 @@
     <ClCompile Include="lib\imgui-cocos\imgui-cocos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\tinyfiledialogs\tinyfiledialogs.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\editor\G3DCurveEditorPopup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -321,9 +318,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\imgui-cocos\imstb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\tinyfiledialogs\tinyfiledialogs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\editor\G3DCurveEditorPopup.h">
