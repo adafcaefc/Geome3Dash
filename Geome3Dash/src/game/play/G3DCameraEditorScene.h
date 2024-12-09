@@ -18,6 +18,7 @@ namespace g3d
         virtual void calculateJumpAndPos();
 
         LevelEditorLayer* levelEditorLayer = nullptr;
+        CCLayer* fakeGameLayer = nullptr;
         PlayerObject* playerObject = nullptr;
 
         bool isPressingControl = false;

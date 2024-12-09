@@ -100,13 +100,13 @@ namespace g3d
         for (int i = 0; i < 3; i++)
         {
             spikeObjs.push_back(GameObject::createWithKey(8));
-            gameLayer->addChild(spikeObjs.back());
+            fakeGameLayer->addChild(spikeObjs.back());
             blocks.push_back(GameObjectModel(spikeObjs.back(), { &splineTr }));
         }
         for (float i = -900.f; i < 2400.f; i += 30.f)
         {
             blockObjs[i] = GameObject::createWithKey(1);
-            gameLayer->addChild(blockObjs[i]);
+            fakeGameLayer->addChild(blockObjs[i]);
             blocks.push_back(GameObjectModel(blockObjs[i], { &splineTr }));
         }
     }
@@ -122,12 +122,12 @@ namespace g3d
         this->levelEditorLayer = layer;
         playerObject = PlayerObject::create(0, 0, layer, layer->m_objectLayer, false);
 
-        auto gameLayer = CCLayer::create();
-        gameLayer->setScale(0.2f);
-        gameLayer->addChild(playerObject);
-        gameLayer->setVisible(false);
+        fakeGameLayer = CCLayer::create();
+        fakeGameLayer->setScale(0.2f);
+        fakeGameLayer->addChild(playerObject);
+        fakeGameLayer->setVisible(false);
 
-        this->addChild(gameLayer);
+        this->addChild(fakeGameLayer);
 
         if (!G3DGameLayer::setup(layer)) { return false; }
     }
