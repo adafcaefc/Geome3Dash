@@ -31,17 +31,17 @@ namespace g3d
 
 		PomtSplineCamera(
 			Spline* spline,
-			KeyframeData* buffer,
-			sus3d::Camera* cam,
-			sus3d::Light* lght,
-			float* lcf,
-			bool* isEditing)
+			KeyframeData* keyframeData,
+			sus3d::Camera* sceneCam,
+			sus3d::Light* sceneLight,
+			float* scaleFactor,
+			bool* freezeCamera)
 			: spline(spline)
-			, buffer(buffer)
-			, camera(cam)
-			, light(lght)
-			, lengthScaleFactor(lcf)
-			, isEditing(isEditing)
+			, buffer(keyframeData)
+			, camera(sceneCam)
+			, light(sceneLight)
+			, lengthScaleFactor(scaleFactor)
+			, isEditing(freezeCamera)
 		{
 
 		}

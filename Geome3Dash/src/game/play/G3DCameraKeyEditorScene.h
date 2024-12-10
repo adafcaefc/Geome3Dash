@@ -9,8 +9,6 @@ namespace g3d
     protected:
         LevelEditorLayer* levelEditorLayer = nullptr;
 
-        bool isEditing = false;
-
         virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;
         virtual void scrollWheel(float y, float x) override;

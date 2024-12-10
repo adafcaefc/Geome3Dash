@@ -28,14 +28,13 @@ namespace g3d
         splineTr = GomtSpline(&levelData.spline, &lengthScaleFactor);
         splinePlayerTr = PomtSpline(&levelData.spline, &lengthScaleFactor);
 
-        static bool isEditing = false;
         splineCamTr = PomtSplineCamera(
             &levelData.spline, 
             &levelData.keyframe,
             &camera,
             &light,
             &lengthScaleFactor,
-            &isEditing);
+            &freezeCamera);
    
         loadBlocks();
         loadPlayers();

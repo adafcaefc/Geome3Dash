@@ -165,7 +165,7 @@ namespace g3d
             }
             else
             {
-                glm::vec3 offset;
+                glm::vec3 offset = glm::vec3(0.f);
                 float deltaX = static_cast<float>(x) - lastMouseX;
                 float deltaY = static_cast<float>(y) - lastMouseY;
                 if (isPressingControl) 
@@ -185,27 +185,31 @@ namespace g3d
                 levelData.x += offset.x;
                 levelData.y += offset.y;
                 levelData.z += offset.z;
-                if (auto layer = dynamic_cast<G3DCameraEditorPopup*>(this->getParent()->getParent()))
-                {
-                    layer->updateState();
-                }
+                updatePopupState();
             }
         }
     }
 
-    void G3DCameraEditorScene::scrollWheel(float y, float x) {
-        if (isPressingControl) {
+    void G3DCameraEditorScene::updatePopupState()
+    {
+        if (auto layer = dynamic_cast<G3DCameraEditorPopup*>(this->getParent()->getParent()))
+        {
+            layer->updateState();
+        }
+    }
+
+    void G3DCameraEditorScene::scrollWheel(float y, float x) 
+    {
+        if (isPressingControl) 
+        {
             // Adjust the camera zoom level using the scroll wheel
             float zoomSensitivity = -0.128f;
-            glm::vec3 offset;
+            glm::vec3 offset = glm::vec3(0.f);
             offset += camera.getFront() * y * zoomSensitivity;
             levelData.x += offset.x;
             levelData.y += offset.y;
             levelData.z += offset.z;
-            if (auto layer = dynamic_cast<G3DCameraEditorPopup*>(this->getParent()->getParent())) 
-            {
-                layer->updateState();
-            }
+            updatePopupState();
         }
     }
 

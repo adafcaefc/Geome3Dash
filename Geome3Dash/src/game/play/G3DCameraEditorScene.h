@@ -12,6 +12,7 @@ namespace g3d
         virtual void drawPlayers() override;
 
         void calculateJumpAndPos(float deltaTime);
+        void updatePopupState();
 
         LevelEditorLayer* levelEditorLayer = nullptr;
         CCLayer* fakeGameLayer = nullptr;

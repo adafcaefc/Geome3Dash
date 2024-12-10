@@ -40,7 +40,7 @@ namespace g3d
         , public CustomTouchDelegate
     {
     protected:
-        GJBaseGameLayer* gameLayer;
+        GJBaseGameLayer* gameLayer = nullptr;
 
         // models
         PlayerObjectModel player1;
@@ -56,8 +56,11 @@ namespace g3d
         PomtSpline splinePlayerTr;
         PomtSplineCamera splineCamTr;
 
+        // for splineCamTr
+        bool freezeCamera = false;
+
         // for spline
-        float lengthScaleFactor;
+        float lengthScaleFactor = 0.f;
 
         // level data
         LevelData levelData;
