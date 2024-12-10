@@ -42,6 +42,9 @@ namespace sus3d
     void ShaderProgram::setFloat(const char* key, float i) {
         glUniform1f(glGetUniformLocation(this->get(), key), i);
     }
+    void ShaderProgram::setMat3(const char* key, glm::mat3 mat) {
+    glUniformMatrix3fv(glGetUniformLocation(this->get(), key), 1, GL_FALSE, glm::value_ptr(mat));
+    }
     void ShaderProgram::setMat4(const char* key, glm::mat4 mat) {
         glUniformMatrix4fv(glGetUniformLocation(this->get(), key), 1, GL_FALSE, glm::value_ptr(mat));
     }

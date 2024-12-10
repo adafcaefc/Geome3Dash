@@ -55,10 +55,11 @@ varying vec3 FragPos;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform mat3 normalMatrix;
 
 void main() {
     FragPos = vec3(model * vec4(aPos, 1.0));
-    Normal = mat3(model) * aNormal; // Precompute the inverse transpose in the application
+    Normal = normalMatrix * aNormal; // Use precomputed normal matrix
     TexCoord = aTexCoord;
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
@@ -66,7 +67,7 @@ void main() {
         )";
 
         const char* fragmentShaderSource = R"(
- precision mediump float;
+precision mediump float;
 
 varying vec2 TexCoord;
 varying vec3 Normal;

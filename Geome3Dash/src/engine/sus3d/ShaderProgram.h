@@ -19,6 +19,7 @@ namespace sus3d
 
         void setInt(const char* key, int i);
         void setFloat(const char* key, float i);
+        void setMat3(const char* key, glm::mat3 mat);
         void setMat4(const char* key, glm::mat4 mat);
         void setVec2(const char* key, glm::vec2 vec);
         void setVec3(const char* key, glm::vec3 vec);

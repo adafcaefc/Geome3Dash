@@ -66,6 +66,9 @@ namespace sus3d
             shaderProgram->setMat4("view", view);
             shaderProgram->setMat4("projection", projection);
 
+            glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(model)));
+            shaderProgram->setMat3("normalMatrix", normalMatrix);
+
             shaderProgram->setVec3("lightColor", lightColor);
             shaderProgram->setVec3("lightPos", lightPos);
             shaderProgram->setVec3("viewPos", cameraPos);
