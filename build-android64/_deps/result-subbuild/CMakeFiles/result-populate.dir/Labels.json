@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/CMakeFiles/result-populate"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/CMakeFiles/result-populate.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/CMakeFiles/result-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/result-populate-prefix/src/result-populate-stamp/result-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/result-populate-prefix/src/result-populate-stamp/result-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/result-populate-prefix/src/result-populate-stamp/result-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/result-populate-prefix/src/result-populate-stamp/result-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/result-populate-prefix/src/result-populate-stamp/result-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/result-populate-prefix/src/result-populate-stamp/result-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/result-populate-prefix/src/result-populate-stamp/result-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/result-subbuild/result-populate-prefix/src/result-populate-stamp/result-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"result-populate"
+		],
+		"name" : "result-populate"
+	}
+}

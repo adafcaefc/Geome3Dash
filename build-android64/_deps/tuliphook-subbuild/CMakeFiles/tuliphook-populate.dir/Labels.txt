@@ -1,0 +1,14 @@
+# Target labels
+ tuliphook-populate
+# Source files and their labels
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/CMakeFiles/tuliphook-populate
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/CMakeFiles/tuliphook-populate.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/CMakeFiles/tuliphook-populate-complete.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/tuliphook-populate-prefix/src/tuliphook-populate-stamp/tuliphook-populate-build.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/tuliphook-populate-prefix/src/tuliphook-populate-stamp/tuliphook-populate-configure.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/tuliphook-populate-prefix/src/tuliphook-populate-stamp/tuliphook-populate-download.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/tuliphook-populate-prefix/src/tuliphook-populate-stamp/tuliphook-populate-install.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/tuliphook-populate-prefix/src/tuliphook-populate-stamp/tuliphook-populate-mkdir.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/tuliphook-populate-prefix/src/tuliphook-populate-stamp/tuliphook-populate-patch.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/tuliphook-populate-prefix/src/tuliphook-populate-stamp/tuliphook-populate-test.rule
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/tuliphook-populate-prefix/src/tuliphook-populate-stamp/tuliphook-populate-update.rule

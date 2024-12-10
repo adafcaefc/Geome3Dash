@@ -122,7 +122,7 @@ namespace sus3d
             glEnable(GL_BLEND_COLOR);
             if (useTexture)
                 glBindTexture(GL_TEXTURE_2D, texture);
-            shaderProgram->setInt("isTexture", int(useTexture));
+            shaderProgram->setFloat("isTexture", float(int(useTexture)));
             shaderProgram->setVec3("Ka", isCustomKa ? customKa : Ka);
             shaderProgram->setVec3("Kd", isCustomKd ? customKd : Kd);
             shaderProgram->setVec3("Ks", isCustomKs ? customKs : Ks);

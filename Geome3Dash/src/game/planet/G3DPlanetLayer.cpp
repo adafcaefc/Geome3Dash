@@ -65,6 +65,8 @@ namespace g3d
     }
 
     void G3DPlanetLayer::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+        
+#ifdef GEODE_IS_WINDOWS
         if (G3DPlanetPopup::checkIsOpened()) { return; }
         if (button == GLFW_MOUSE_BUTTON_LEFT) {
             if (action == GLFW_PRESS) {
@@ -90,6 +92,7 @@ namespace g3d
                 }
             }
         }
+#endif
     }
 
     void G3DPlanetLayer::updatePlanetRotation(const float delta) 
@@ -232,6 +235,7 @@ namespace g3d
 
     void G3DPlanetLayer::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) 
     {
+#ifdef GEODE_IS_WINDOWS
         if (G3DPlanetPopup::checkIsOpened()) { return; }
         if (isRightClicking) 
         {
@@ -275,6 +279,7 @@ namespace g3d
                 lastMouseY = static_cast<float>(y);
             }
         }
+#endif
     }
 
     void G3DPlanetLayer::scrollWheel(float y, float x)
@@ -422,7 +427,6 @@ namespace g3d
         CCNode::draw();
         OpenGLStateHelper::saveState();
         glEnable(GL_BLEND);
-        glEnable(GL_ALPHA_TEST);
         glEnable(GL_DEPTH_TEST);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

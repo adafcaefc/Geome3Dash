@@ -1,0 +1,3 @@
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/CMakeFiles/tuliphook-populate.dir
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/tuliphook-subbuild/CMakeFiles/rebuild_cache.dir

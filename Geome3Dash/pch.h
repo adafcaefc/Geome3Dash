@@ -26,10 +26,18 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#ifdef GEODE_IS_WINDOWS
 #include <Windows.h>
+#endif
 #include <fstream>
 #include <string>
 #include <filesystem>
+
+#ifdef GEODE_IS_ANDROID
+struct GLFWwindow {};
+#include <algorithm>
+#define GL_RED 0x1903
+#endif
 
 using namespace cocos2d;
 

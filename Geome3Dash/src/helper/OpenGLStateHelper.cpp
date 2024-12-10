@@ -30,7 +30,6 @@ namespace g3d
         //glGetIntegerv(GL_DEPTH_FUNC, &state.depthFunc);
 
         state.blendEnabled = glIsEnabled(GL_BLEND);
-        glGetIntegerv(GL_POLYGON_MODE, state.polygonMode);
         glGetIntegerv(GL_ACTIVE_TEXTURE, &state.activeTexture);
     }
 
@@ -78,8 +77,9 @@ namespace g3d
             glDisable(GL_CULL_FACE);
         }
 
-        //glDepthFunc(state.depthFunc);
+#ifdef GEODE_IS_WINDOWS
         glPolygonMode(GL_FRONT_AND_BACK, state.polygonMode[0]);
+#endif
     }
 
     OpenGLState OpenGLStateHelper::state = OpenGLState();

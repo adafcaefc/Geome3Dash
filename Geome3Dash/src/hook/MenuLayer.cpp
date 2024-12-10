@@ -10,6 +10,7 @@
 
 namespace g3d
 {
+#ifdef GEODE_IS_WINDOWS
     static void loadMusic(int id)
     {
         const auto downloaded = MusicDownloadManager::sharedState()->isSongDownloaded(id);
@@ -27,6 +28,7 @@ namespace g3d
             }
         }
     }
+#endif
 
     class $modify(MenuLayer) 
     {
@@ -41,14 +43,16 @@ namespace g3d
                 bms->shouldReloadShaders = false;
             }
 
-            bms->getBlockModel(1);
-            const auto modelPath = bms->getBP() / "planet" / "model";
-            bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");
-            bms->getModelT<PlanetModel>(modelPath / "planet_water.obj");
-            bms->getModelT<CloudModel>(modelPath / "clouds.obj");
+            // bms->getBlockModel(1);
+            // const auto modelPath = bms->getBP() / "planet" / "model";
+            // bms->getModelT<PlanetModel>(modelPath / "new_planet_textured.obj");
+            // bms->getModelT<PlanetModel>(modelPath / "planet_water.obj");
+            // bms->getModelT<CloudModel>(modelPath / "clouds.obj");
 
+#ifdef GEODE_IS_WINDOWS
             // hardcoded for glaciers edge
             loadMusic(1221653);
+#endif
 
             if (!MenuLayer::init()) { return false; }
 

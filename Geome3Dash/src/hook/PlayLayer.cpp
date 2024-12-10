@@ -16,34 +16,34 @@ namespace g3d
         };
 
         void destroyPlayer(PlayerObject * p0, GameObject * p1) {
-            if (G3DPlanetLayer::insideThePlanetLayerFlag) {
-                auto percent = this->getCurrentPercentInt();
-                if (this->m_isPracticeMode) {
-                    if (m_fields->psm->currentProgress[this->m_level->m_levelID].practice < percent) {
-                        m_fields->psm->currentProgress[this->m_level->m_levelID].practice = percent;
-                        PlanetStateManager::save();
-                    }
-                }
-                else {
-                    if (m_fields->psm->currentProgress[this->m_level->m_levelID].normal < percent) {
-                        m_fields->psm->currentProgress[this->m_level->m_levelID].normal = percent;
-                        PlanetStateManager::save();
-                    }
-                }
-            }
+            // if (G3DPlanetLayer::insideThePlanetLayerFlag) {
+            //     auto percent = this->getCurrentPercentInt();
+            //     if (this->m_isPracticeMode) {
+            //         if (m_fields->psm->currentProgress[this->m_level->m_levelID].practice < percent) {
+            //             m_fields->psm->currentProgress[this->m_level->m_levelID].practice = percent;
+            //             PlanetStateManager::save();
+            //         }
+            //     }
+            //     else {
+            //         if (m_fields->psm->currentProgress[this->m_level->m_levelID].normal < percent) {
+            //             m_fields->psm->currentProgress[this->m_level->m_levelID].normal = percent;
+            //             PlanetStateManager::save();
+            //         }
+            //     }
+            // }
             PlayLayer::destroyPlayer(p0, p1);
         }
         void levelComplete() {
-            if (G3DPlanetLayer::insideThePlanetLayerFlag) {
-                if (this->m_isPracticeMode) {
-                    m_fields->psm->currentProgress[this->m_level->m_levelID].practice = 100;
-                    PlanetStateManager::save();
-                }
-                else {
-                    m_fields->psm->currentProgress[this->m_level->m_levelID].normal = 100;
-                    PlanetStateManager::save();
-                }
-            }
+            // if (G3DPlanetLayer::insideThePlanetLayerFlag) {
+            //     if (this->m_isPracticeMode) {
+            //         m_fields->psm->currentProgress[this->m_level->m_levelID].practice = 100;
+            //         PlanetStateManager::save();
+            //     }
+            //     else {
+            //         m_fields->psm->currentProgress[this->m_level->m_levelID].normal = 100;
+            //         PlanetStateManager::save();
+            //     }
+            // }
             PlayLayer::levelComplete();
         }
 

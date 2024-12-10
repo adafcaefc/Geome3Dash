@@ -2,10 +2,12 @@
 
 #include "CommonHelper.h"
 
+#ifdef GEODE_IS_WINDOWS
 #include <shlobj.h>
 #include <shlwapi.h>
 #include <psapi.h>
 #include <shlwapi.h>
+#endif
 
 namespace g3d
 {
@@ -47,6 +49,7 @@ namespace g3d
             }
         }
 
+#ifdef GEODE_IS_WINDOWS
         std::filesystem::path get_app_data_path()
         {
             PWSTR szPath = nullptr;
@@ -84,5 +87,6 @@ namespace g3d
         {
            return get_app_data_path() / "Local" / get_executable_path().filename().replace_extension();
         }
+#endif
     }
 }

@@ -47,17 +47,17 @@ namespace g3d
 			sus3d::shaders::vertexShaderSource,
 			sus3d::shaders::fragmentShaderSource);
 
-		waterShaderProgram = loadShader(
-			sus3d::shaders::vertexShaderSource,
-			utils::read_from_file(shaderPath / "water2.fsh"));
+		// waterShaderProgram = loadShader(
+		// 	sus3d::shaders::vertexShaderSource,
+		// 	utils::read_from_file(shaderPath / "water2.fsh"));
 
-		cloudShaderProgram = loadShader(
-			utils::read_from_file(shaderPath / "cloud.vsh"),
-			utils::read_from_file(shaderPath / "cloud.fsh"));
+		// cloudShaderProgram = loadShader(
+		// 	utils::read_from_file(shaderPath / "cloud.vsh"),
+		// 	utils::read_from_file(shaderPath / "cloud.fsh"));
 
-		idBufferShaderProgram = loadShader(
-			sus3d::shaders::idBufferingVertexShader,
-			sus3d::shaders::idBufferingFragmentShader);
+		// idBufferShaderProgram = loadShader(
+		// 	sus3d::shaders::idBufferingVertexShader,
+		// 	sus3d::shaders::idBufferingFragmentShader);
 
 		OpenGLStateHelper::pushState();
 	}

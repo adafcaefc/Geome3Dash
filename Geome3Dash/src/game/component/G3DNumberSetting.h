@@ -68,7 +68,7 @@ namespace g3d
                 title.c_str(),
                 m_impl_modDescription.value_or("No description provided"),
                 "OK", nullptr,
-                std::clamp(title.size() * 16, 300ull, 400ull)
+                std::clamp(title.size() * 16, 300ul, 400ul)
             )->show();
         }
 

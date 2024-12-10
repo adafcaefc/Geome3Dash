@@ -12,6 +12,7 @@ namespace g3d
 		GLFWwindow* window, 
 		int button, int action, int mods) 
 	{
+#ifdef GEODE_IS_WINDOWS
 		if (!isEditing) { return; }
 		if (button == GLFW_MOUSE_BUTTON_LEFT) 
 		{
@@ -25,12 +26,14 @@ namespace g3d
 				isRightClicking = false;
 			}
 		}
+#endif
 	}
 
 	void G3DCameraKeyEditorScene::onGLFWMouseMoveCallBack(
 		GLFWwindow* window, 
 		double x, double y) 
 	{
+#ifdef GEODE_IS_WINDOWS
 		if (!isEditing) { return; }
 		if (isRightClicking) 
 		{
@@ -72,6 +75,7 @@ namespace g3d
 				lastMouseY = static_cast<float>(y);
 			}
 		}
+#endif
 	}
 
 	void G3DCameraKeyEditorScene::scrollWheel(float y, float x) 

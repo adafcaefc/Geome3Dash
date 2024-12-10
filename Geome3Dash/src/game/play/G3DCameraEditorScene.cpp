@@ -137,6 +137,7 @@ namespace g3d
         GLFWwindow* window, 
         int button, int action, int mods)
     {
+#ifdef GEODE_IS_WINDOWS
         if (button == GLFW_MOUSE_BUTTON_RIGHT) 
         {
             if (action == GLFW_PRESS) 
@@ -149,12 +150,14 @@ namespace g3d
                 isRightClicking = false;
             }
         }
+#endif
     }
 
     void G3DCameraEditorScene::onGLFWMouseMoveCallBack(
         GLFWwindow* window,
         double x, double y) 
     {
+#ifdef GEODE_IS_WINDOWS
         if (isRightClicking) 
         {
             if (!isRightClickingGetPos) 
@@ -191,6 +194,7 @@ namespace g3d
                 }
             }
         }
+#endif
     }
 
     void G3DCameraEditorScene::scrollWheel(float y, float x) {

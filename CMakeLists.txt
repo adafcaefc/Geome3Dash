@@ -8,6 +8,8 @@ project(geome3dash VERSION 1.0.0)
 
 file(GLOB_RECURSE SOURCES Geome3Dash/src/*.cpp)
 add_library(${PROJECT_NAME} SHARED ${SOURCES} Geome3Dash/pch.cpp)
+add_compile_definitions(MINIZIP_FOPEN_NO_64)
+add_compile_definitions(IOAPI_NO_64)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     Geome3Dash

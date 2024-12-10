@@ -102,7 +102,7 @@ namespace g3d
         CCObject* obj;
         CCARRAY_FOREACH(layer->m_objects, obj)
         {
-            if (auto block = dynamic_cast<GameObject*>(obj))
+            if (auto block = geode::cast::typeinfo_cast<GameObject*>(obj))
             {
                 levelLength = std::max(block->getPositionX(), levelLength);
             }

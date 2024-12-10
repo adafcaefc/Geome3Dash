@@ -4,6 +4,7 @@
 #include "manager/LevelDataManager.h"
 #include <imgui-cocos.hpp>
 
+#ifdef GEODE_IS_WINDOWS
 namespace g3d
 {
     void setupImGui()
@@ -22,3 +23,4 @@ namespace g3d
         ImGuiCocos::get().setup(setupImGui).draw(renderImGui);
     }
 }
+#endif

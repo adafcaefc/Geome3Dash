@@ -1,0 +1,7 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The patch step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+command (connected)=C:/Program Files/CMake/bin/cmake.exe;-Dcan_fetch=YES;-P;C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/gd-imgui-cocos-subbuild/gd-imgui-cocos-populate-prefix/tmp/gd-imgui-cocos-populate-gitupdate.cmake
+command (disconnected)=C:/Program Files/CMake/bin/cmake.exe;-Dcan_fetch=NO;-P;C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/gd-imgui-cocos-subbuild/gd-imgui-cocos-populate-prefix/tmp/gd-imgui-cocos-populate-gitupdate.cmake
+work_dir=C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/gd-imgui-cocos-src

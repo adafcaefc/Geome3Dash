@@ -16,6 +16,7 @@
 namespace g3d
 {
     std::pair<int, int> G3DBaseNode::getObjectIDByMousePosition() {
+#ifdef GEODE_IS_WINDOWS
         auto glView = CCDirector::sharedDirector()->m_pobOpenGLView;
         int mouseX = static_cast<int>(glView->m_fMouseX);
         int mouseY = glView->getFrameSize().height - static_cast<int>(glView->m_fMouseY);
@@ -57,6 +58,9 @@ namespace g3d
         auto ids = getObjectAndMeshIDFromColor(pixelColor);
 
         return std::make_pair(ids.first, ids.second);
+#else
+        return std::pair<int, int>(0, 0);
+#endif
     }
 
 
@@ -64,7 +68,6 @@ namespace g3d
         CCNode::draw();
         OpenGLStateHelper::saveState();
         glEnable(GL_BLEND);
-        glEnable(GL_ALPHA_TEST);
         glEnable(GL_DEPTH_TEST);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

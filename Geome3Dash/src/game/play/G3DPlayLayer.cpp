@@ -17,6 +17,7 @@ namespace g3d
     bool G3DPlayLayer::setup(PlayLayer* layer)
     {
         instance = this;
+        this->gameLayer = layer;
         fadeTr = GomtFade(layer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
         animTr = GomtAnimation(&levelData.spline, &lengthScaleFactor);
         if (!G3DGameLayer::setup(layer)) { return false; }   
@@ -35,7 +36,7 @@ namespace g3d
         CCObject* objxx = nullptr;
         CCARRAY_FOREACH(playLayer->m_objects, objxx)
         {
-            if (auto obj = dynamic_cast<GameObject*>(objxx))
+            if (auto obj = geode::cast::typeinfo_cast<GameObject*>(objxx))
             {
                 if (obj == playLayer->m_anticheatSpike) { continue; }
                 if (auto model = ModelManager::get()->getBlockModel(obj->m_objectID))

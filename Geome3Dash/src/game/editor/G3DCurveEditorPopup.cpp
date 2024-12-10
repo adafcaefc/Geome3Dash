@@ -20,6 +20,7 @@ namespace g3d
 	static LevelData currentLevelData = LevelData::getDefault();
 
 	void G3DCurveEditorPopup::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) {
+#ifdef GEODE_IS_WINDOWS
 		if (!this->isVisible()) return;
 		if (button == GLFW_MOUSE_BUTTON_LEFT) {
 			if (action == GLFW_PRESS) {
@@ -30,9 +31,11 @@ namespace g3d
 				isRightClicking = false;
 			}
 		}
+#endif
 	}
 
 	void G3DCurveEditorPopup::onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) {
+#ifdef GEODE_IS_WINDOWS
 		if (!this->isVisible()) return;
 		if (isRightClicking) {
 			if (!isRightClickingGetPos) {
@@ -139,6 +142,7 @@ namespace g3d
 		else {
 			selected = -1;
 		}
+#endif
 	}
 
 	void G3DCurveEditorPopup::scrollWheel(float y, float x) {

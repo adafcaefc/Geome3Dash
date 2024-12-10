@@ -1,4 +1,7 @@
 #include "pch.h"
+
+#ifdef GEODE_IS_WINDOWS
+
 #include "manager/ModelManager.h"
 #include "delegate/CustomTouch.h"
 #include "delegate/CustomKeyboard.h"
@@ -34,3 +37,5 @@ namespace g3d
         }
     };
 }
+
+#endif
