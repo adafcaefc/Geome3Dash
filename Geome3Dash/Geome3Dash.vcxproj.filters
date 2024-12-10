@@ -216,7 +216,7 @@
     <ClCompile Include="src\impl\engine\PlanetModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\play\G3DGameLayer.cpp">
+    <ClCompile Include="src\game\play\AG3DGameLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\play\G3DCameraEditorScene.cpp">
@@ -395,7 +395,7 @@
     <ClInclude Include="src\impl\engine\PlanetModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\play\G3DGameLayer.h">
+    <ClInclude Include="src\game\play\AG3DGameLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\play\G3DCameraEditorScene.h">

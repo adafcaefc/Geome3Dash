@@ -33,7 +33,11 @@
 
 namespace g3d
 {
-    class G3DGameLayer : public CCNode
+    class AG3DGameLayer 
+        : public CCNode
+        , public CustomKeyboardDelegate
+        , public CustomMouseDelegate
+        , public CustomTouchDelegate
     {
     protected:
         GJBaseGameLayer* gameLayer;
@@ -43,6 +47,7 @@ namespace g3d
         PlayerObjectModel player2;
         std::vector<GameObjectModel> blocks;
 
+        // scene
         sus3d::Camera camera;
         sus3d::Light light;
 
@@ -57,8 +62,21 @@ namespace g3d
         // level data
         LevelData levelData;
 
+        // inputs
+        bool isPressingControl = false;
+        bool isRightClicking = false;
+        bool isRightClickingGetPos = false;
+        float lastMouseX = 0.f;
+        float lastMouseY = 0.f;
+
+        // delegates
+        virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override = 0;
+        virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override = 0;
+        virtual void scrollWheel(float y, float x) override = 0;
+        virtual void onKey(enumKeyCodes key, bool pressed, bool holding) override = 0;
+
     public:
-        virtual ~G3DGameLayer();
+        virtual ~AG3DGameLayer();
 
         virtual void loadPlayers();
         virtual void loadBlocks();
@@ -73,14 +91,6 @@ namespace g3d
         virtual void draw3d();
         virtual void saveOpenGL();
         virtual void loadOpenGL();
-
-        static auto create(GJBaseGameLayer* layer) 
-        {
-            auto node = new G3DGameLayer;
-            if (node->setup(layer)) { node->autorelease(); }
-            else { CC_SAFE_DELETE(node); }
-            return node;
-        }
 
         friend class GomtSpline;
         friend class PomtSpline;

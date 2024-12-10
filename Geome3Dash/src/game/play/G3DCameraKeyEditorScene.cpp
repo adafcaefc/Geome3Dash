@@ -105,7 +105,7 @@ namespace g3d
 
 	bool G3DCameraKeyEditorScene::setup(LevelEditorLayer* gameLayer) 
 	{
-		if (!G3DGameLayer::setup(gameLayer)) { return false; }
+		if (!AG3DGameLayer::setup(gameLayer)) { return false; }
 		this->levelEditorLayer = dynamic_cast<LevelEditorLayer*>(gameLayer);
 		splineCamTr = PomtSplineCamera(
 			&levelData.spline, 

@@ -1,24 +1,15 @@
 #pragma once
 
-#include "G3DGameLayer.h"
+#include "AG3DGameLayer.h"
 
 namespace g3d
 {
-    class G3DCameraKeyEditorScene 
-        : public G3DGameLayer
-        , public CustomKeyboardDelegate
-        , public CustomMouseDelegate
-        , public CustomTouchDelegate
+    class G3DCameraKeyEditorScene : public AG3DGameLayer
     {
     protected:
         LevelEditorLayer* levelEditorLayer = nullptr;
 
         bool isEditing = false;
-        bool isPressingControl = false;
-        bool isRightClicking = false;
-        bool isRightClickingGetPos = false;
-        float lastMouseX = 0.0;
-        float lastMouseY = 0.0;
 
         virtual void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int mods) override;
         virtual void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y) override;

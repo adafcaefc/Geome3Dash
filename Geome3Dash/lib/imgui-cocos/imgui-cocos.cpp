@@ -1,3 +1,4 @@
+#pragma warning(push, 0) // fuck you warnings, I gave up
 #include "pch.h"
 #include <Geode/Geode.hpp>
 #include "imgui.h"

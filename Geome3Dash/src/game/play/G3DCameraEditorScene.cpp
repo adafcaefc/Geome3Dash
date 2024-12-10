@@ -126,7 +126,7 @@ namespace g3d
 
         this->addChild(fakeGameLayer);
 
-        if (!G3DGameLayer::setup(layer)) { return false; }
+        if (!AG3DGameLayer::setup(layer)) { return false; }
 
         this->scheduleUpdate();
 

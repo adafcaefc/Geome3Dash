@@ -1,19 +1,19 @@
 #include "pch.h"
 #include "pch.h"
 
-#include "game/play/G3DGameLayer.h"
+#include "game/play/AG3DGameLayer.h"
 #include "manager/ModelManager.h"
 #include "manager/LevelDataManager.h"
 
 namespace g3d
 {
-    void G3DGameLayer::loadPlayers()
+    void AG3DGameLayer::loadPlayers()
     {
         this->player1 = PlayerObjectModel(gameLayer->m_player1, { &splinePlayerTr, &splineCamTr });
         this->player2 = PlayerObjectModel(gameLayer->m_player2, { &splinePlayerTr });
     }
 
-    bool G3DGameLayer::setup(GJBaseGameLayer* layer)
+    bool AG3DGameLayer::setup(GJBaseGameLayer* layer)
     {
         if (!CCNode::init()) { return false; }
 
@@ -43,12 +43,12 @@ namespace g3d
         return true;
     }
 
-    G3DGameLayer::~G3DGameLayer()
+    AG3DGameLayer::~AG3DGameLayer()
     {
 
     }
 
-    void G3DGameLayer::loadBlocks()
+    void AG3DGameLayer::loadBlocks()
     {
         CCObject* objP = nullptr;
         CCARRAY_FOREACH(gameLayer->m_objects, objP)
@@ -64,20 +64,20 @@ namespace g3d
         }
     }
 
-    void G3DGameLayer::drawBlocks()
+    void AG3DGameLayer::drawBlocks()
     {
         auto sp = ModelManager::get()->getBlockSP();
         for (auto& block : blocks) { block.render(sp, camera, light); }
     }
 
-    void G3DGameLayer::drawPlayers()
+    void AG3DGameLayer::drawPlayers()
     {
         auto sp = ModelManager::get()->getBlockSP();
         player1.render(sp, camera, light);
         if (gameLayer->m_gameState.m_isDualMode) { player2.render(sp, camera, light); }
     }
 
-    void G3DGameLayer::saveOpenGL()
+    void AG3DGameLayer::saveOpenGL()
     {
         OpenGLStateHelper::saveState();
         glEnable(GL_BLEND);
@@ -86,7 +86,7 @@ namespace g3d
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    void G3DGameLayer::loadOpenGL()
+    void AG3DGameLayer::loadOpenGL()
     {
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_BLEND);
@@ -94,13 +94,13 @@ namespace g3d
         OpenGLStateHelper::pushState();
     }
 
-    void G3DGameLayer::draw3d()
+    void AG3DGameLayer::draw3d()
     {
         drawPlayers();
         drawBlocks();
     }
 
-    void G3DGameLayer::draw()
+    void AG3DGameLayer::draw()
     {
         CCNode::draw();
         saveOpenGL();

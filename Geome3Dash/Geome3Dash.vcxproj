@@ -32,7 +32,7 @@
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
     <ClCompile Include="src\game\play\G3DCameraEditorScene.cpp" />
     <ClCompile Include="src\game\play\G3DCameraKeyEditorScene.cpp" />
-    <ClCompile Include="src\game\play\G3DGameLayer.cpp" />
+    <ClCompile Include="src\game\play\AG3DGameLayer.cpp" />
     <ClCompile Include="src\game\popup\G3DRainixPopup.cpp" />
     <ClCompile Include="src\game\editor\G3DCameraKeyEditorLoader.cpp" />
     <ClCompile Include="src\game\editor\G3DCameraKeyEditorPopup.cpp" />
@@ -122,7 +122,7 @@
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
     <ClInclude Include="src\game\play\G3DCameraEditorScene.h" />
     <ClInclude Include="src\game\play\G3DCameraKeyEditorScene.h" />
-    <ClInclude Include="src\game\play\G3DGameLayer.h" />
+    <ClInclude Include="src\game\play\AG3DGameLayer.h" />
     <ClInclude Include="src\game\popup\G3DRainixPopup.h" />
     <ClInclude Include="src\game\editor\G3DCameraKeyEditorLoader.h" />
     <ClInclude Include="src\game\editor\G3DCameraKeyEditorPopup.h" />
