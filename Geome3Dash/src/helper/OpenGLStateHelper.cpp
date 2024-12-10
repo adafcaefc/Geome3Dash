@@ -4,8 +4,10 @@
 
 namespace g3d
 {
-    void OpenGLStateHelper::saveState() {
-        for (int i = 0; i < 32; ++i) {
+    void OpenGLStateHelper::saveState() 
+    {
+        for (int i = 0; i < 32; ++i) 
+        {
             glActiveTexture(GL_TEXTURE0 + i);
             glGetIntegerv(GL_TEXTURE_BINDING_2D, &state.boundTextures[i]);
         }
@@ -25,17 +27,17 @@ namespace g3d
         glGetIntegerv(GL_VIEWPORT, state.viewport);
         glGetIntegerv(GL_SCISSOR_BOX, state.scissorBox);
         glGetBooleanv(GL_SCISSOR_TEST, &state.scissorTestEnabled);
-        //glGetBooleanv(GL_DEPTH_TEST, &state.depthTestEnabled);
         glGetBooleanv(GL_CULL_FACE, &state.cullFaceEnabled);
-        //glGetIntegerv(GL_DEPTH_FUNC, &state.depthFunc);
 
         state.blendEnabled = glIsEnabled(GL_BLEND);
         glGetIntegerv(GL_POLYGON_MODE, state.polygonMode);
         glGetIntegerv(GL_ACTIVE_TEXTURE, &state.activeTexture);
     }
 
-    void OpenGLStateHelper::pushState() {
-        for (int i = 0; i < 32; ++i) {
+    void OpenGLStateHelper::pushState() 
+    {
+        for (int i = 0; i < 32; ++i) 
+        {
             glActiveTexture(GL_TEXTURE0 + i);
             glBindTexture(GL_TEXTURE_2D, state.boundTextures[i]);
         }
@@ -63,13 +65,6 @@ namespace g3d
         else {
             glDisable(GL_SCISSOR_TEST);
         }
-        /*
-        if (state.depthTestEnabled) {
-            glEnable(GL_DEPTH_TEST);
-        }
-        else {
-            glDisable(GL_DEPTH_TEST);
-        }*/
 
         if (state.cullFaceEnabled) {
             glEnable(GL_CULL_FACE);
@@ -78,7 +73,6 @@ namespace g3d
             glDisable(GL_CULL_FACE);
         }
 
-        //glDepthFunc(state.depthFunc);
         glPolygonMode(GL_FRONT_AND_BACK, state.polygonMode[0]);
     }
 
