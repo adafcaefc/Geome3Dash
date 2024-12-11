@@ -3,8 +3,6 @@
 #include "G3DCameraKeyEditorLoader.h"
 #include "G3DCameraKeyEditorPopup.h"
 
-#include "helper/spline/Curve.h"
-#include "helper/spline/Spline.h"
 #include "helper/OpenGLStateHelper.h"
 #include "helper/KeyframeData.h"
 #include "game/component/G3DBaseNode.h"
@@ -12,6 +10,8 @@
 #include "engine/sus3d/Mesh.h"
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
+#include "engine/sus3d/spline/Curve.h"
+#include "engine/sus3d/spline/Spline.h"
 
 #include "manager/ModelManager.h"
 #include "manager/LevelDataManager.h"

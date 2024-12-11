@@ -1,17 +1,24 @@
 #pragma once
 
-
 #include "helper/KeyframeData.h"
-#include "helper/spline/Spline.h"
 
-#include <nlohmann/json.hpp>
+#include "engine/sus3d/spline/Spline.h"
+#include "engine/sus3d/spline/Curve.h"
 
 #include <glm/glm.hpp>
 
 #include <string>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
 class GJBaseGameLayer;
+
+namespace nlohmann
+{
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(sus3d::Curve, p1, m1, p2, m2);
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(sus3d::Spline, segments);
+}
 
 namespace g3d
 {
@@ -21,8 +28,8 @@ namespace g3d
 		double x, y, z;                      // Position
 		double yaw, pitch;                   // Rotation
 		bool lock;                           // Lock camera
-		Spline spline;                       // Spline path
-		KeyframeData keyframe;       // Keyframe
+		sus3d::Spline spline;                // Spline path
+		KeyframeData keyframe;               // Keyframe
 
 		static LevelData getDefault();
 

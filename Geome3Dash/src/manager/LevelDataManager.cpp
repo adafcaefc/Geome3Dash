@@ -104,16 +104,16 @@ namespace g3d
         ld.z = 38;
         ld.yaw = -100;
         ld.pitch = -6;
-        ld.spline = Spline();
-        ld.spline.addSegment(Curve(
+        ld.spline = sus3d::Spline();
+        ld.spline.addSegment(sus3d::Curve(
             glm::vec3(0.0f, 0.0f, 0.0f),
             glm::vec3(1.0f, 0.0f, 0.0f),
             glm::vec3(2.0f, 0.0f, 0.0f), 
             glm::vec3(3.0f, 0.0f, 0.0f)));
-        addNewCurveToSpline(&ld.spline);
-        addNewCurveToSpline(&ld.spline);
-        addNewCurveToSpline(&ld.spline);
-        addNewCurveToSpline(&ld.spline);
+        ld.spline.addNewCurveToSpline();
+        ld.spline.addNewCurveToSpline();
+        ld.spline.addNewCurveToSpline();
+        ld.spline.addNewCurveToSpline();
         return ld;
     }
 }

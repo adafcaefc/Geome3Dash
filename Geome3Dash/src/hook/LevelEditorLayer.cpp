@@ -2,8 +2,8 @@
 #include "game/editor/G3DCameraEditorPopup.h"
 #include "game/editor/G3DCurveEditorLoader.h"
 #include "game/editor/G3DCameraKeyEditorLoader.h"
-#include "helper/spline/Spline.h"
-#include "helper/spline/Curve.h"
+#include "engine/sus3d/spline/Spline.h"
+#include "engine/sus3d/spline/Curve.h"
 
 namespace g3d
 {

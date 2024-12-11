@@ -3,14 +3,15 @@
 #include "G3DCurveEditorPopup.h"
 #include "G3DCurveEditorLoader.h"
 
-#include "helper/spline/Curve.h"
-#include "helper/spline/Spline.h"
 #include "helper/OpenGLStateHelper.h"
 #include "game/component/G3DBaseNode.h"
 
 #include "engine/sus3d/Mesh.h"
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
+
+#include "engine/sus3d/spline/Curve.h"
+#include "engine/sus3d/spline/Spline.h"
 
 #include "manager/ModelManager.h"
 #include "manager/LevelDataManager.h"
@@ -159,7 +160,8 @@ namespace g3d
 		}
 	}
 
-	void G3DCurveEditorPopup::onClose(CCObject* obj) {
+	void G3DCurveEditorPopup::onClose(CCObject* obj) 
+	{
 		currentLevelData.spline = cel->spline;
 		setLevelData(LevelEditorLayer::get(), currentLevelData);
 		this->setMouseEnabled(false);

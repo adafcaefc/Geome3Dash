@@ -6,6 +6,7 @@ namespace sus3d
 {
 	class Camera;
 	class Light;
+	class Spline;
 }
 
 namespace g3d
@@ -13,11 +14,10 @@ namespace g3d
 	class KeyframeData;
 	class G3DPlayLayer;
 	class PlayerObjectModel;
-	class Spline;
 	class PomtSplineCamera : public AGomtBase
 	{
 	public:
-		Spline* spline;
+		sus3d::Spline* spline;
 		KeyframeData* buffer;
 		sus3d::Camera* camera;
 		sus3d::Light* light;
@@ -30,7 +30,7 @@ namespace g3d
 		glm::vec3 getPlayerOrientedCameraPosition(PlayerObjectModel* pom);
 
 		PomtSplineCamera(
-			Spline* spline,
+			sus3d::Spline* spline,
 			KeyframeData* keyframeData,
 			sus3d::Camera* sceneCam,
 			sus3d::Light* sceneLight,

@@ -29,6 +29,12 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\engine\sus3d\spline\Curve.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\engine\sus3d\spline\Spline.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\game\component\G3DProgressBar.cpp" />
     <ClCompile Include="src\game\play\G3DCameraEditorScene.cpp" />
     <ClCompile Include="src\game\play\G3DCameraKeyEditorScene.cpp" />
@@ -72,8 +78,6 @@
     <ClCompile Include="src\game\component\G3DNumberSetting.cpp" />
     <ClCompile Include="src\game\planet\G3DPlanetLayer.cpp" />
     <ClCompile Include="src\game\play\G3DPlayLayer.cpp" />
-    <ClCompile Include="src\helper\spline\Curve.cpp" />
-    <ClCompile Include="src\helper\spline\Spline.cpp" />
     <ClCompile Include="src\hook\CCEGLView.cpp" />
     <ClCompile Include="src\hook\CCKeyboardDispatcher.cpp" />
     <ClCompile Include="src\hook\CCMouseDispatcher.cpp" />
@@ -119,6 +123,8 @@
     <ClInclude Include="src\delegate\CustomKeyboard.h" />
     <ClInclude Include="src\delegate\CustomMouse.h" />
     <ClInclude Include="src\delegate\CustomTouch.h" />
+    <ClInclude Include="src\engine\sus3d\spline\Curve.h" />
+    <ClInclude Include="src\engine\sus3d\spline\Spline.h" />
     <ClInclude Include="src\game\component\G3DProgressBar.h" />
     <ClInclude Include="src\game\play\G3DCameraEditorScene.h" />
     <ClInclude Include="src\game\play\G3DCameraKeyEditorScene.h" />
@@ -148,8 +154,6 @@
     <ClInclude Include="src\game\play\G3DPlayLayer.h" />
     <ClInclude Include="src\helper\CommonHelper.h" />
     <ClInclude Include="src\helper\OpenGLStateHelper.h" />
-    <ClInclude Include="src\helper\spline\Curve.h" />
-    <ClInclude Include="src\helper\spline\Spline.h" />
     <ClInclude Include="src\impl\engine\CloudMesh.h" />
     <ClInclude Include="src\impl\engine\CloudModel.h" />
     <ClInclude Include="src\impl\engine\CocosShaderProgram.h" />

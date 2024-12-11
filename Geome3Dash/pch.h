@@ -29,6 +29,7 @@ using namespace cocos2d;
 
 #include <nlohmann/json.hpp>
 #include <nlohmann/json_fwd.hpp>
+namespace nlohmann { NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(glm::vec3, x, y, z); }
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

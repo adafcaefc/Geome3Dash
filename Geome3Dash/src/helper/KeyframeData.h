@@ -5,12 +5,12 @@
 #include <vector>
 #include <string>
 
-#include "spline/Curve.h"
+#include "engine/sus3d/spline/Curve.h"
+#include "engine/sus3d/spline/Spline.h"
 
 namespace g3d
 {
 	class LevelData;
-	class Spline;
 
 	struct CameraKeyframe 
 	{
@@ -24,7 +24,8 @@ namespace g3d
 		CameraKeyframe(float playersXpos, glm::vec3 offset, glm::vec3 front) : playersXpos(playersXpos), offset(offset), front(front) {}
 	};
 
-	class KeyframeData {
+	class KeyframeData 
+	{
 	public:
 		std::vector<CameraKeyframe> keyframes;
 
@@ -51,6 +52,6 @@ namespace g3d
 
 	void prepareSpline(
 		GJBaseGameLayer* layer,
-		Spline* spline,
+		sus3d::Spline* spline,
 		float* lengthScaleFactor);
 }

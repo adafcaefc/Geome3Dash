@@ -2,13 +2,17 @@
 
 #include "AGomtSpline.h"
 
-namespace g3d
+namespace sus3d 
 {
 	class Spline;
+}
+
+namespace g3d
+{
 	class GomtAnimation : public AGomtSpline
 	{
 	protected:
-		Spline* spline;
+		sus3d::Spline* spline;
 		float* lengthScaleFactor;
 		void animateRotationSaw(GameObjectModel* gom);
 		void animateJumpRing(GameObjectModel* gom);
@@ -18,7 +22,7 @@ namespace g3d
 		virtual ~GomtAnimation() = default;
 
 		GomtAnimation(
-			Spline* spline,
+			sus3d::Spline* spline,
 			float* lcf)
 			: spline(spline)
 			, lengthScaleFactor(lcf)

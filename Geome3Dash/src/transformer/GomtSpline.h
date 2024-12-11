@@ -7,12 +7,12 @@ namespace g3d
 	class GomtSpline : public AGomtSpline
 	{
 	protected:
-		Spline* spline;
+		sus3d::Spline* spline;
 		float* lengthScaleFactor;
 	public:
 		virtual void transform(GameObjectModel* gom) override;
 		virtual ~GomtSpline() = default;
-		GomtSpline(Spline* spline, float* lengthScaleFactor)
+		GomtSpline(sus3d::Spline* spline, float* lengthScaleFactor)
 			: spline(spline)
 			, lengthScaleFactor(lengthScaleFactor)
 		{
