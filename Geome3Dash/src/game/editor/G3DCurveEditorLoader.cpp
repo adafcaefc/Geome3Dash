@@ -4,13 +4,13 @@
 #include "G3DCurveEditorPopup.h"
 #include "game/component/G3DBaseNode.h"
 
-#include "helper/spline/Curve.h"
-#include "helper/spline/Spline.h"
 #include "helper/OpenGLStateHelper.h"
 
 #include "engine/sus3d/Mesh.h"
 #include "engine/sus3d/Shader.h"
 #include "engine/sus3d/Shaders.h"
+#include "engine/sus3d/spline/Curve.h"
+#include "engine/sus3d/spline/Spline.h"
 
 #include "manager/ModelManager.h"
 #include "manager/LevelDataManager.h"
@@ -38,11 +38,8 @@ namespace g3d
 
 	void G3DCurveEditorLoader::addSegment() 
 	{
-		auto p1 = spline.segments.back().p2;
-		auto m1 = spline.segments.back().p2 * 2.f - spline.segments.back().m2;
-		auto m2 = spline.segments.back().p2 * 2.f - spline.segments.back().m1;
-		auto p2 = spline.segments.back().p2 * 2.f - spline.segments.back().p1;
-		spline.addSegment(Curve(p1, m1, m2, p2));
+		spline.addNewCurveToSpline();
+		prepareSpline(lel, &spline, &lengthScaleFactor);
 	}
 
 

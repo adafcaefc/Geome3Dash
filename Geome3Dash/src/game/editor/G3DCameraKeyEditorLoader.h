@@ -1,6 +1,6 @@
 #pragma once
 
-#include "helper/spline/Spline.h"
+#include "engine/sus3d/spline/Spline.h"
 #include "helper/KeyframeData.h"
 
 namespace sus3d

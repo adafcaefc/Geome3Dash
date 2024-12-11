@@ -2,9 +2,13 @@
 
 #include "AGomtBase.h"
 
-namespace g3d
+namespace sus3d
 {
 	class Spline;
+}
+
+namespace g3d
+{
 	class AGomtSpline : public AGomtBase
 	{
 	protected:
@@ -16,7 +20,7 @@ namespace g3d
 	public:
 		virtual ~AGomtSpline() = default;
 		SplineCoord calculateSpline(
-			Spline* spline,
+			sus3d::Spline* spline,
 			const float lengthScaleFactor,
 			const float x,
 			const float y,

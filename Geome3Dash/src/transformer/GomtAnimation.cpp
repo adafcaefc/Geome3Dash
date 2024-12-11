@@ -2,7 +2,7 @@
 
 #include "GomtAnimation.h"
 #include "model/GameObjectModel.h"
-#include "helper/spline/Spline.h"
+#include "engine/sus3d/spline/Spline.h"
 
 namespace g3d
 {

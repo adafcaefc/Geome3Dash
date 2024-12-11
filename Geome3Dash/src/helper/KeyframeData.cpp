@@ -95,7 +95,7 @@ namespace g3d
 
     void prepareSpline(
         GJBaseGameLayer* layer, 
-        Spline* spline,
+        sus3d::Spline* spline,
         float* lengthScaleFactor)
     {
         float levelLength = 0;

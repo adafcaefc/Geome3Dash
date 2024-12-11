@@ -4,7 +4,7 @@
 #include "delegate/CustomMouse.h"
 #include "delegate/CustomTouch.h"
 
-#include "helper/spline/Spline.h"
+#include "engine/sus3d/spline/Spline.h"
 
 namespace sus3d
 {
@@ -32,7 +32,7 @@ namespace g3d
 		void removeSegment();
 
 	public:
-		Spline spline;
+		sus3d::Spline spline;
 		void show();
 
 		static G3DCurveEditorLoader* create(LevelEditorLayer* lel);

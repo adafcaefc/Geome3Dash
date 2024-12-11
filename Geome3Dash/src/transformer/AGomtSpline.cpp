@@ -1,12 +1,12 @@
 #include "pch.h"
 
 #include "AGomtSpline.h"
-#include "helper/spline/Spline.h"
+#include "engine/sus3d/spline/Spline.h"
 
 namespace g3d
 {
 	AGomtSpline::SplineCoord AGomtSpline::calculateSpline(
-		Spline* spline, 
+		sus3d::Spline* spline,
 		const float lengthScaleFactor, 
 		const float x,
 		const float y,
