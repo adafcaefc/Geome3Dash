@@ -9,7 +9,7 @@ namespace g3d
     {
         bool dispatchKeyboardMSG(enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
         {
-            CustomKeyboardManager::updateDelegates(key, isKeyDown, isKeyRepeat);
+            CustomKeyboardManager::onKey(key, isKeyDown, isKeyRepeat);
             return CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
         }
     };

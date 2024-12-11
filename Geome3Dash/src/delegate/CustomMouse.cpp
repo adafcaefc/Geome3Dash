@@ -25,7 +25,7 @@ namespace g3d
             }), delegates.end());
     }
 
-    void CustomMouseManager::updateDelegates(float x, float y) {
+    void CustomMouseManager::scrollWheel(float x, float y) {
         for (auto delegate : delegates) {
             delegate->scrollWheel(x, y);
         }

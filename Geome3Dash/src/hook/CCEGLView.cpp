@@ -23,7 +23,7 @@ namespace g3d
 
         void onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
         {
-            CustomKeyboardManager::updateDelegates(window, key, scancode, action, mods);
+            CustomKeyboardManager::onGLFWKeyCallback(window, key, scancode, action, mods);
             CCEGLView::onGLFWKeyCallback(window, key, scancode, action, mods);       
         }
 

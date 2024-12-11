@@ -2,20 +2,20 @@
 
 ![gp1](screenshots/gp1.jpg)  
 
-**Geome3Dash** transforms the 2D Geometry Dash you know and love into an exciting, open-source 3D experience. Jump into a new dimension of gameplay, customize levels like never before, and explore the adventure of a lifetime.  
+**Geome3Dash** transforms the 2D Geometry Dash you know and love into an exciting, 3D experience. Jump into a new dimension of gameplay and customize levels like never before.  
 
 ---
 
 ## Key Features  
 
 ### Experience Geometry Dash in 3D  
-Every Geometry Dash level gets a fresh perspective as it’s automatically converted into 3D. Classic gameplay meets immersive visuals for an unforgettable experience.  
+Every Geometry Dash level gets a fresh perspective as it’s automatically converted into 3D.
 
 ### Level Customization  
 Bring your creativity to life with advanced editing tools:  
 - **3D Level Path**: Adjust the level's 3D trajectory with the **Path button**, conveniently located near the Level Settings button.  
 - **Camera Angles**: Modify the viewing experience by selecting the **Cam button**, giving you full control over how the 3D camera functions.  
-- **Keyframes**: Create dynamic level transitions using the **Key button**, making your levels truly come alive.  
+- **Keyframes**: Create dynamic level keyframe transitions using the **Key button**, making your levels truly come alive.  
 
 #### New Buttons in the Editor  
 - **Cam**: Manage your starting camera angle.  
@@ -87,5 +87,4 @@ Geome3Dash utilizes a range of open-source tools and assets:
 
 - **[Geode](https://github.com/orgs/geode-sdk/people)** ([License](https://github.com/geode-sdk/geode/blob/main/LICENSE.txt))  
 - **[gd-imgui-cocos](https://github.com/matcool/gd-imgui-cocos/tree/geode)** ([License](https://github.com/matcool/gd-imgui-cocos/blob/geode/LICENSE))  
-- **[tinyfiledialogs](https://sourceforge.net/projects/tinyfiledialogs)** ([License](https://sourceforge.net/projects/tinyfiledialogs/files/README.txt/download))  
 - **[assimp](https://github.com/assimp/assimp)** ([License](https://github.com/assimp/assimp/blob/master/LICENSE))  

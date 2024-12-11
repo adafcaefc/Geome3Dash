@@ -12,7 +12,7 @@ namespace g3d
 		GLFWwindow* window, 
 		int button, int action, int mods) 
 	{
-		if (!isEditing) { return; }
+		if (!freezeCamera) { return; }
 		if (button == GLFW_MOUSE_BUTTON_LEFT) 
 		{
 			if (action == GLFW_PRESS)
@@ -31,7 +31,7 @@ namespace g3d
 		GLFWwindow* window, 
 		double x, double y) 
 	{
-		if (!isEditing) { return; }
+		if (!freezeCamera) { return; }
 		if (isRightClicking) 
 		{
 			if (!isRightClickingGetPos) 
@@ -76,7 +76,7 @@ namespace g3d
 
 	void G3DCameraKeyEditorScene::scrollWheel(float y, float x) 
 	{
-		if (!isEditing) { return; }
+		if (!freezeCamera) { return; }
 		float zoomSensitivity = -0.0328f;
 		camera.setPosition(camera.getPosition() + camera.getFront() * y * zoomSensitivity);
 	}
@@ -105,15 +105,8 @@ namespace g3d
 
 	bool G3DCameraKeyEditorScene::setup(LevelEditorLayer* gameLayer) 
 	{
-		if (!G3DGameLayer::setup(gameLayer)) { return false; }
 		this->levelEditorLayer = dynamic_cast<LevelEditorLayer*>(gameLayer);
-		splineCamTr = PomtSplineCamera(
-			&levelData.spline, 
-			&levelData.keyframe, 
-			&camera, &light, 
-			&lengthScaleFactor, 
-			&isEditing);
-		return true;
+		return AG3DGameLayer::setup(gameLayer);
 	}
 
 	G3DCameraKeyEditorScene::~G3DCameraKeyEditorScene()
@@ -123,7 +116,7 @@ namespace g3d
 
 	void G3DCameraKeyEditorScene::onAdd(CCObject* caller)
 	{
-		if (isEditing) 
+		if (freezeCamera)
 		{
 			auto deltaPos = camera.getPosition() - splineCamTr.getPlayerOrientedCameraPosition(&player1);
 			auto deltaFront = camera.getFront() - splineCamTr.getPlayerOrientedCameraFront(&player1);
@@ -134,7 +127,7 @@ namespace g3d
 		}
 
 		levelEditorLayer->m_editorUI->onPlaytest(caller);
-		isEditing = !isEditing;
+		freezeCamera = !freezeCamera;
 	}
 
 	void G3DCameraKeyEditorScene::onRemoveLast(CCObject*) 

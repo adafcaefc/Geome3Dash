@@ -39,7 +39,7 @@ namespace g3d
 			std::ofstream outFile(path);
 			if (outFile) { outFile << jsonMsg; }
 		}
-		catch (const std::exception& e) {
+		catch (...) {
 
 		}
 	}
@@ -53,7 +53,7 @@ namespace g3d
 			if (inFile) { inFile >> jsonData; }
 			*getInstance() = jsonData;
 		}
-		catch (const std::exception& e) {
+		catch (...) {
 
 		}
 	}

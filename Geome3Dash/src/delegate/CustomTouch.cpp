@@ -25,7 +25,7 @@ namespace g3d
             }), delegates.end());
     }
 
-    void CustomTouchManager::updateDelegates(CCSet* touches, CCEvent* event, unsigned int type) {
+    void CustomTouchManager::touch(CCSet* touches, CCEvent* event, unsigned int type) {
         for (auto delegate : delegates) {
             delegate->touch(touches, event, type);
         }

@@ -9,7 +9,7 @@ namespace g3d
     {
         bool dispatchScrollMSG(float x, float y)
         {
-            CustomMouseManager::updateDelegates(x, y);
+            CustomMouseManager::scrollWheel(x, y);
             return CCMouseDispatcher::dispatchScrollMSG(x, y);
         }
     };

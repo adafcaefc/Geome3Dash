@@ -19,7 +19,7 @@ namespace g3d
         instance = this;
         fadeTr = GomtFade(layer, 700, 400, ease::InOutSine::get(), glm::vec3(0, 0, 0));
         animTr = GomtAnimation(&levelData.spline, &lengthScaleFactor);
-        if (!G3DGameLayer::setup(layer)) { return false; }   
+        if (!AG3DGameLayer::setup(layer)) { return false; }   
         loadGround();
         return true;
     }
@@ -62,7 +62,7 @@ namespace g3d
         gameLayer->m_player1->getParent()->setVisible(false);
         gameLayer->m_groundLayer->setVisible(false);
         gameLayer->m_groundLayer2->setVisible(false);
-        G3DGameLayer::draw3d();
+        AG3DGameLayer::draw3d();
         drawGround();
     }
 
