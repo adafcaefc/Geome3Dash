@@ -40,8 +40,8 @@ namespace sus3d
 
         void updateYawAndPitch() {
             front = glm::normalize(front);
-            pitch = glm::degrees(asin(front.y));
-            yaw = glm::degrees(atan2(front.z, front.x));
+            pitch = glm::degrees(std::asin(front.y));
+            yaw = glm::degrees(std::atan2(front.z, front.x));
         }
     public:
         void setPosition(glm::vec3 position) { this->position = position; }
