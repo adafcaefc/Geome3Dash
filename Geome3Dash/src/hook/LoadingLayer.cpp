@@ -59,7 +59,7 @@ namespace g3d
             if (label) { label->setString(text); }
         }
 
-        void initShaders(ModelManager * bms)
+        void initShaders(ModelManager* bms)
         {
             const auto shaderPath = bms->getBP() / "planet" / "shader";
 
@@ -88,7 +88,7 @@ namespace g3d
                 &bms->idBufferShaderProgram });
         }
 
-        void initModels(ModelManager * bms)
+        void initModels(ModelManager* bms)
         {
             for (const auto& entry : std::filesystem::recursive_directory_iterator(bms->getBP()))
             {
@@ -99,7 +99,7 @@ namespace g3d
             }
         }
 
-        void initCleanup(ModelManager * bms)
+        void initCleanup(ModelManager* bms)
         {
             if (bms->blockShaderProgram) { delete bms->blockShaderProgram; }
             if (bms->waterShaderProgram) { delete bms->waterShaderProgram; }
@@ -111,7 +111,7 @@ namespace g3d
             for (auto& fn : bms->clearModelCallbacks) { fn(); }
         }
 
-        void g3dPreloadingStage0(ModelManager * bms)
+        void g3dPreloadingStage0(ModelManager* bms)
         {
             this->initCleanup(bms);
             this->initShaders(bms);
@@ -121,7 +121,7 @@ namespace g3d
             m_fields->preloadingStage = 1;
         }
 
-        void g3dPreloadingStage1(ModelManager * bms)
+        void g3dPreloadingStage1(ModelManager* bms)
         {
             if (m_fields->queuedShaders.empty())
             {
@@ -140,7 +140,7 @@ namespace g3d
             }
         }
 
-        void g3dPreloadingStage2(ModelManager * bms)
+        void g3dPreloadingStage2(ModelManager* bms)
         {
             std::cout << m_fields->queuedModels.size() << '\n';
             if (m_fields->queuedModels.empty())
@@ -185,7 +185,13 @@ namespace g3d
             }
         }
 
-        void g3dPreloadingStage3(ModelManager * bms)
+        void g3dPreloadingStage3(ModelManager* bms)
+        {
+            this->loadMusic(1221653);
+            m_fields->preloadingStage = 4;
+        }
+
+        void g3dPreloadingStage4(ModelManager* bms)
         {
             constexpr int MAX_OBJECT_ID = 10000;
             for (int i = 0; i < MAX_OBJECT_ID; i++)
@@ -193,8 +199,6 @@ namespace g3d
                 const auto modelPath = bms->getBP() / "object" / std::to_string(i) / "model.obj";
                 if (auto blockModel = bms->getModel(modelPath)) { bms->blockModels[i] = blockModel; }
             }
-            // Glaciers Edge
-            this->loadMusic(1221653);
             m_fields->preloadingStage = -1;
         }
 
@@ -226,6 +230,11 @@ namespace g3d
                 this->setLabelText2("");
                 this->g3dPreloadingStage3(bms); 
                 break;
+            case 4:
+                this->setLabelText("Geome3Dash: loading music");
+                this->setLabelText2("");
+                this->g3dPreloadingStage4(bms);
+                break;
             case -1: 
                 this->setLabelText(m_fields->defaultText1.c_str());
                 this->setLabelText2(m_fields->defaultText2.c_str());
@@ -243,7 +252,7 @@ namespace g3d
                 this->unschedule(schedule_selector(HookedLoadingLayer::updateLoading));
                 return LoadingLayer::loadAssets(); 
             }
-            this->schedule(schedule_selector(HookedLoadingLayer::updateLoading));
+            this->schedule(schedule_selector(HookedLoadingLayer::updateLoading), 0.2f);
         }
     };
 }
