@@ -115,7 +115,7 @@ namespace g3d
         if (instance && instance->initAnchored(uiSize.width, uiSize.height, plel))
         {
             instance->m_noElasticity = true;
-            instance->setID("g3d_editor_popup"_spr);
+            instance->setID("g3d-editor-popup"_spr);
             instance->autorelease();
             instance->show();
         }
