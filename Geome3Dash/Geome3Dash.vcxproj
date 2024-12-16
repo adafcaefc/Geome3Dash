@@ -86,7 +86,7 @@
     <ClCompile Include="src\hook\GameManager.cpp" />
     <ClCompile Include="src\hook\LevelEditorLayer.cpp" />
     <ClCompile Include="src\hook\MenuGameLayer.cpp" />
-    <ClCompile Include="src\hook\MenuLayer.cpp" />
+    <ClCompile Include="src\hook\LoadingLayer.cpp" />
     <ClCompile Include="src\hook\PlayLayer.cpp" />
     <ClCompile Include="src\delegate\CustomKeyboard.cpp" />
     <ClCompile Include="src\delegate\CustomMouse.cpp" />
@@ -188,7 +188,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>ClangCL</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

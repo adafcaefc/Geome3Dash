@@ -108,7 +108,7 @@
     <ClCompile Include="src\hook\LevelEditorLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\hook\MenuLayer.cpp">
+    <ClCompile Include="src\hook\LoadingLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hook\PlayLayer.cpp">

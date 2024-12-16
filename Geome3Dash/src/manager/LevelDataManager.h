@@ -14,12 +14,6 @@
 
 class GJBaseGameLayer;
 
-namespace nlohmann
-{
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(sus3d::Curve, p1, m1, p2, m2);
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(sus3d::Spline, segments);
-}
-
 namespace g3d
 {
 	class LevelData

@@ -28,13 +28,9 @@ namespace g3d
 		sus3d::ShaderProgram* idBufferShaderProgram = nullptr;
 		static ModelManager* instance;
 		sus3d::ShaderProgram* loadShader(const std::string& vsString, const std::string& fsString);
-		void loadAllShaders();
-		void loadAllModels();
 		bool init();
 		std::filesystem::path basePath;
 	public:
-		bool shouldReloadShaders = false;
-		void reloadAllShaders();
 		sus3d::ShaderProgram* getBlockSP() { return blockShaderProgram; }
 		sus3d::ShaderProgram* getWaterSP() { return waterShaderProgram; }
 		sus3d::ShaderProgram* getCloudSP() { return cloudShaderProgram; }
@@ -90,6 +86,7 @@ namespace g3d
 			}
 			return it->second;
 		}
+		friend class HookedLoadingLayer;
 	};
 }
 

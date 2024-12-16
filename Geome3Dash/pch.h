@@ -29,17 +29,10 @@ using namespace cocos2d;
 
 #include <nlohmann/json.hpp>
 #include <nlohmann/json_fwd.hpp>
-namespace nlohmann { NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(glm::vec3, x, y, z); }
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-
-#include <Windows.h>
-#include <fstream>
-#include <string>
-#include <filesystem>
-#include <memory>
 
 // --- pre-load some stuff in pch ---
 
@@ -50,6 +43,8 @@ namespace nlohmann { NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(glm::vec3, x, y, z); }
 #include "engine/sus3d/Model.h"
 #include "engine/sus3d/Scene.h"
 #include "engine/sus3d/Shaders.h"
+#include "engine/sus3d/spline/Curve.h"
+#include "engine/sus3d/spline/Spline.h"
 
 #include "delegate/CustomKeyboard.h"
 #include "delegate/CustomMouse.h"
@@ -57,3 +52,43 @@ namespace nlohmann { NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(glm::vec3, x, y, z); }
 
 // --- pre-load some stuff in pch ---
 
+namespace glm 
+{
+    inline void to_json(nlohmann::json& j, const vec3& v) 
+    {
+        j = nlohmann::json{ {"x", v.x}, {"y", v.y}, {"z", v.z} };
+    }
+
+    inline void from_json(const nlohmann::json& j, vec3& v) 
+    {
+        j.at("x").get_to(v.x);
+        j.at("y").get_to(v.y);
+        j.at("z").get_to(v.z);
+    }
+}
+
+namespace sus3d 
+{
+    inline void to_json(nlohmann::json& j, const Curve& c) 
+    {
+        j = nlohmann::json{ {"p1", c.p1}, {"m1", c.m1}, {"p2", c.p2}, {"m2", c.m2} };
+    }
+
+    inline void from_json(const nlohmann::json& j, Curve& c) 
+    {
+        j.at("p1").get_to(c.p1);
+        j.at("m1").get_to(c.m1);
+        j.at("p2").get_to(c.p2);
+        j.at("m2").get_to(c.m2);
+    }
+
+    inline void to_json(nlohmann::json& j, const Spline& s) 
+    {
+        j = nlohmann::json{ {"segments", s.segments} };
+    }
+
+    inline void from_json(const nlohmann::json& j, Spline& s) 
+    {
+        j.at("segments").get_to(s.segments);
+    }
+}
