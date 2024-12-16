@@ -254,7 +254,7 @@ namespace g3d
                 this->unschedule(schedule_selector(HookedLoadingLayer::updateLoading));
                 return LoadingLayer::loadAssets(); 
             }
-            this->schedule(schedule_selector(HookedLoadingLayer::updateLoading), 0.2f);
+            this->schedule(schedule_selector(HookedLoadingLayer::updateLoading));
         }
     };
 }
