@@ -10,6 +10,7 @@
 #include <Geode/ui/Scrollbar.hpp>
 #include <Geode/ui/TextInput.hpp>
 #include <Geode/utils/cocos.hpp>
+using namespace cocos2d;
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
