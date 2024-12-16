@@ -1,9 +1,0 @@
-libdir=C:/Program Files (x86)/geome3dash/lib
-includedir=C:/Program Files (x86)/geome3dash/include
-
-Name: geome3dash
-Description: Import various well-known 3D model formats in an uniform manner.
-Version: 5.4.3
-Libs: -L${libdir} -lassimp
-Libs.private:  -lz
-Cflags: -I${includedir}

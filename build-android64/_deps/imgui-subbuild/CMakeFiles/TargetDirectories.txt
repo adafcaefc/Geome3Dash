@@ -1,3 +1,0 @@
-C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/imgui-subbuild/CMakeFiles/imgui-populate.dir
-C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/imgui-subbuild/CMakeFiles/edit_cache.dir
-C:/Users/Windows/Documents/GitHub/Geome3Dash/build-android64/_deps/imgui-subbuild/CMakeFiles/rebuild_cache.dir
