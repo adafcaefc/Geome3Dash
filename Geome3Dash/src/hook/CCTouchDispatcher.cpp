@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <Geode/modify/CCTouchDispatcher.hpp>
 #include "delegate/CustomTouch.h"
 
 #include <Geode/modify/CCTouchDispatcher.hpp>

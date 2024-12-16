@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <Geode/modify/MenuGameLayer.hpp>
 #include "manager/ModelManager.h"
 #include "game/planet/G3DPlanetLayer.h"
 #include "game/popup/G3DRainixPopup.h"

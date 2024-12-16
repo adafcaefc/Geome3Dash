@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <Geode/modify/CCEGLView.hpp>
 #include "manager/ModelManager.h"
 #include "delegate/CustomTouch.h"
 #include "delegate/CustomKeyboard.h"

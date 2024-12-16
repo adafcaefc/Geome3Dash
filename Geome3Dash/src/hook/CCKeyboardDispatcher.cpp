@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <Geode/modify/CCKeyboardDispatcher.hpp>
 #include "delegate/CustomKeyboard.h"
 
 #include <Geode/modify/CCKeyboardDispatcher.hpp>

@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <Geode/modify/GameManager.hpp>
 #include "game/planet/G3DPlanetLayer.h"
 
 #include <Geode/modify/GameManager.hpp>
