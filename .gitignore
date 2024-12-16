@@ -10,3 +10,5 @@ Release-AU/
 
 *pri
 *.REMOVED.git-id
+
+build-android64/
