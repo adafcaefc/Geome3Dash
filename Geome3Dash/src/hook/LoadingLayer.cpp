@@ -1,5 +1,7 @@
 #include "pch.h"
 
+#include <Geode/modify/LoadingLayer.hpp>
+
 #include "manager/ModelManager.h"
 #include "manager/LevelDataManager.h"
 

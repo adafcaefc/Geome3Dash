@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <Geode/modify/LevelEditorLayer.hpp>
 #include "game/editor/G3DCameraEditorPopup.h"
 #include "game/editor/G3DCurveEditorLoader.h"
 #include "game/editor/G3DCameraKeyEditorLoader.h"

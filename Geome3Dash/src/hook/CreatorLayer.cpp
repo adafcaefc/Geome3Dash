@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <Geode/modify/CreatorLayer.hpp>
 #include "game/planet/G3DPlanetLayer.h"
 #include "helper/OpenGLStateHelper.h"
 #include "helper/Easing.h"
