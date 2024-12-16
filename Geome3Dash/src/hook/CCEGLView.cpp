@@ -26,11 +26,5 @@ namespace g3d
             CustomKeyboardManager::onGLFWKeyCallback(window, key, scancode, action, mods);
             CCEGLView::onGLFWKeyCallback(window, key, scancode, action, mods);       
         }
-
-        void toggleFullScreen(bool fullscreen, bool borderless, bool fix)
-        {
-            CCEGLView::toggleFullScreen(fullscreen, borderless, fix);
-            ModelManager::get()->shouldReloadShaders = true;
-        }
     };
 }

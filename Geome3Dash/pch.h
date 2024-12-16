@@ -21,18 +21,10 @@
 
 #include <nlohmann/json.hpp>
 #include <nlohmann/json_fwd.hpp>
-namespace nlohmann { NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(glm::vec3, x, y, z); }
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-
-#include <Windows.h>
-#include <fstream>
-#include <string>
-#include <filesystem>
-
-using namespace cocos2d;
 
 // --- pre-load some stuff in pch ---
 
@@ -43,6 +35,8 @@ using namespace cocos2d;
 #include "engine/sus3d/Model.h"
 #include "engine/sus3d/Scene.h"
 #include "engine/sus3d/Shaders.h"
+#include "engine/sus3d/spline/Curve.h"
+#include "engine/sus3d/spline/Spline.h"
 
 #include "delegate/CustomKeyboard.h"
 #include "delegate/CustomMouse.h"
@@ -50,3 +44,13 @@ using namespace cocos2d;
 
 // --- pre-load some stuff in pch ---
 
+namespace glm 
+{
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(vec3, x, y, z);
+}
+
+namespace sus3d 
+{
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Curve, p1, m1, p2, m2);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Spline, segments);
+}

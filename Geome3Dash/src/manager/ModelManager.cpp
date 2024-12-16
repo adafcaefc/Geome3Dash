@@ -37,52 +37,9 @@ namespace g3d
 		return tmpSP;
 	}
 
-	void ModelManager::loadAllShaders()
-	{
-		OpenGLStateHelper::saveState();
-
-		const auto shaderPath = basePath / "planet" / "shader";
-
-		blockShaderProgram = loadShader(
-			sus3d::shaders::vertexShaderSource,
-			sus3d::shaders::fragmentShaderSource);
-
-		waterShaderProgram = loadShader(
-			sus3d::shaders::vertexShaderSource,
-			utils::read_from_file(shaderPath / "water2.fsh"));
-
-		cloudShaderProgram = loadShader(
-			utils::read_from_file(shaderPath / "cloud.vsh"),
-			utils::read_from_file(shaderPath / "cloud.fsh"));
-
-		idBufferShaderProgram = loadShader(
-			sus3d::shaders::idBufferingVertexShader,
-			sus3d::shaders::idBufferingFragmentShader);
-
-		OpenGLStateHelper::pushState();
-	}
-
-	void ModelManager::reloadAllShaders()
-	{
-		if (blockShaderProgram) { delete blockShaderProgram; }
-		if (waterShaderProgram) { delete waterShaderProgram; }
-		if (cloudShaderProgram) { delete cloudShaderProgram; }
-		if (idBufferShaderProgram) { delete idBufferShaderProgram; }
-		sus3d::Texture::cleanup();
-		//for (auto& [k, v] : blockModels) { delete v; }
-		//for (auto& [k, v] : allModels) { delete v; }
-		blockModels.clear();
-		allModels.clear();
-		for (auto& fn : clearModelCallbacks) { fn(); }
-		loadAllShaders();
-		loadAllModels();
-	}
-
 	bool ModelManager::init() 
 	{
 		basePath = geode::Mod::get()->getResourcesDir() / "model3d";
-		loadAllShaders();
-		loadAllModels();
 		return true;
 	}
 	
@@ -98,34 +55,6 @@ namespace g3d
             }
             utils::write_to_file(path, mtl_file);
         }
-    }
-
-    void ModelManager::loadAllModels()
-    {
-		try 
-		{
-			for (const auto& entry : std::filesystem::recursive_directory_iterator(basePath)) 
-			{
-				if (entry.is_regular_file() && entry.path().extension() == ".obj") 
-				{
-					if (auto blockModel = loadAndParseMtl(entry.path()))
-					{
-						allModels.emplace(entry.path(), blockModel);
-					}
-				}
-			}
-
-			constexpr int MAX_OBJECT_ID = 10000;
-			for (int i = 0; i < MAX_OBJECT_ID; i++)
-			{
-				const auto modelPath = basePath / "object" / std::to_string(i) / "model.obj";
-				if (auto blockModel = getModel(modelPath)) { blockModels[i] = blockModel; }
-			}
-		}
-		catch (...) 
-		{
-			
-		}
     }
 
 	sus3d::Model* ModelManager::getBlockModel(const int id)
