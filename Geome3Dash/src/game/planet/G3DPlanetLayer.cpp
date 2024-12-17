@@ -486,13 +486,18 @@ namespace g3d
 
         if (geode::Mod::get()->getSettingValue<bool>("disable-cloud"))
         {
-            fSteps = 0;
+            fSteps = 1;
+            sizeBase = 0.85f;
         }
 
         for (int i = 0; i < fSteps; i++) 
         {
             // easing stuff I don't care
             planetLayer->cloudModel->setCloudOpacity(std::clamp(opacityBase - ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, opacityScale), 0.0, 1.0));
+            if (geode::Mod::get()->getSettingValue<bool>("disable-cloud"))
+            {
+                planetLayer->cloudModel->setCloudOpacity(4.f);
+            }
             planetLayer->cloudModel->setScale(
                 glm::vec3(ease::easeFloat(ease::InCubic::get(), i, fSteps, 0.f, sizeScale) + sizeBase) * planetLayer->planetModel->getScale());
             planetLayer->cloudModel->render(

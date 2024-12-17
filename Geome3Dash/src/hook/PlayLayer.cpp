@@ -61,5 +61,4 @@ namespace g3d
             PlayLayer::resetLevel();
         }
     };
-
 }
