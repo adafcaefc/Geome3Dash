@@ -1,6 +1,6 @@
 # Blender 4.3.2
 # www.blender.org
-mtllib fuck.mtl
+mtllib model.mtl
 o Cube
 v 0.000000 0.000000 -1.000000
 v 0.195090 0.000000 -0.980785
