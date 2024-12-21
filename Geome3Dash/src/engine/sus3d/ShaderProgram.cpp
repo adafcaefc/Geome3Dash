@@ -4,8 +4,6 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <CCGL.h>
-
 namespace sus3d
 {
     bool ShaderProgram::initProgram(Shader* vertexShader, Shader* fragmentShader) {
@@ -24,8 +22,7 @@ namespace sus3d
     }
 
     ShaderProgram::~ShaderProgram() {
-        if (id)
-            glDeleteProgram(id);
+        if (id) { glDeleteProgram(id); }
     }
 
     void ShaderProgram::use() {
@@ -36,19 +33,29 @@ namespace sus3d
         glUseProgram(0);
     }
 
-    void ShaderProgram::setInt(const char* key, int i) {
-        glUniform1i(glGetUniformLocation(this->get(), key), i);
+    GLint ShaderProgram::getUniformLocation(const std::string& s) {
+        auto it = this->uniformLocationCache.find(s);
+        if (it != this->uniformLocationCache.end()) {
+            return it->second;
+        }
+        GLint location = glGetUniformLocation(this->get(), s.c_str());
+        this->uniformLocationCache[s] = location;
+        return location;
     }
-    void ShaderProgram::setFloat(const char* key, float i) {
-        glUniform1f(glGetUniformLocation(this->get(), key), i);
+
+    void ShaderProgram::setInt(const std::string& key, int i) {
+        glUniform1i(this->getUniformLocation(key), i);
     }
-    void ShaderProgram::setMat4(const char* key, glm::mat4 mat) {
-        glUniformMatrix4fv(glGetUniformLocation(this->get(), key), 1, GL_FALSE, glm::value_ptr(mat));
+    void ShaderProgram::setFloat(const std::string& key, float i) {
+        glUniform1f(this->getUniformLocation(key), i);
     }
-    void ShaderProgram::setVec2(const char* key, glm::vec2 vec) {
-        glUniform2f(glGetUniformLocation(this->get(), key), vec.x, vec.y);
+    void ShaderProgram::setMat4(const std::string& key, glm::mat4 mat) {
+        glUniformMatrix4fv(this->getUniformLocation(key), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    void ShaderProgram::setVec3(const char* key, glm::vec3 vec) {
-        glUniform3f(glGetUniformLocation(this->get(), key), vec.x, vec.y, vec.z);
+    void ShaderProgram::setVec2(const std::string& key, glm::vec2 vec) {
+        glUniform2f(this->getUniformLocation(key), vec.x, vec.y);
+    }
+    void ShaderProgram::setVec3(const std::string& key, glm::vec3 vec) {
+        glUniform3f(this->getUniformLocation(key), vec.x, vec.y, vec.z);
     }
 }

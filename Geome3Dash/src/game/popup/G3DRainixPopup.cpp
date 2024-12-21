@@ -61,7 +61,7 @@ namespace g3d
 		if (instance && instance->initAnchored(uiSize.width, uiSize.height, strings))
 		{
 			instance->m_noElasticity = true;
-			instance->setID("g3d_rainix_popup"_spr);
+			instance->setID("g3d-popup-rainix");
 			instance->autorelease();
 			instance->show();
 		}

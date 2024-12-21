@@ -126,6 +126,8 @@ namespace g3d
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         OpenGLStateHelper::pushState();
 
+        this->setID("g3d-layer-planet");
+
         return true;
     }
 
