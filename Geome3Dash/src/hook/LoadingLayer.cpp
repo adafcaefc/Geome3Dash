@@ -144,7 +144,6 @@ namespace g3d
 
         void g3dPreloadingStage2(ModelManager* bms)
         {
-            std::cout << m_fields->queuedModels.size() << '\n';
             if (m_fields->queuedModels.empty())
             {
                 const auto modelPath = bms->getBP() / "planet" / "model";

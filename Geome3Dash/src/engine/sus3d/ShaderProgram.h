@@ -1,6 +1,11 @@
 #pragma once
 
+#include <Geode/cocos/platform/CCGL.h>
+
 #include <glm/glm.hpp>
+
+#include <unordered_map>
+#include <string>
 
 namespace sus3d
 {
@@ -10,6 +15,8 @@ namespace sus3d
     protected:
         unsigned int id;
         bool initProgram(Shader* vertexShader, Shader* fragmentShader);
+        std::unordered_map<std::string, GLint> uniformLocationCache;
+        GLint getUniformLocation(const std::string& s);
     public:
         virtual ~ShaderProgram();
         int get() { return id; }
@@ -17,10 +24,10 @@ namespace sus3d
         static void disable();
         virtual void setBasicUniforms() = 0;
 
-        void setInt(const char* key, int i);
-        void setFloat(const char* key, float i);
-        void setMat4(const char* key, glm::mat4 mat);
-        void setVec2(const char* key, glm::vec2 vec);
-        void setVec3(const char* key, glm::vec3 vec);
+        void setInt(const std::string& key, int i);
+        void setFloat(const std::string& key, float i);
+        void setMat4(const std::string& key, glm::mat4 mat);
+        void setVec2(const std::string& key, glm::vec2 vec);
+        void setVec3(const std::string& key, glm::vec3 vec);
     };
 }
