@@ -1,6 +1,6 @@
 #pragma once
 
-#include <CCGL.h>
+#include <Geode/cocos/platform/CCGL.h>
 
 #include <glm/glm.hpp>
 
