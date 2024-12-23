@@ -36,8 +36,10 @@ namespace g3d
             &lengthScaleFactor,
             &freezeCamera);
    
-        loadBlocks();
-        loadPlayers();
+        this->loadBlocks();
+        this->loadPlayers();
+
+        this->setID("g3d-layer-base-game");
 
         return true;
     }

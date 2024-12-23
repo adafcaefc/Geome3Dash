@@ -54,8 +54,8 @@ namespace sus3d
 	glm::vec3 Curve::tangent(float t) 
 	{
 		float delta = 1e-4f;
-		glm::vec3 p0 = get(std::max(0.0f, t - delta));
-		glm::vec3 p1 = get(std::min(1.0f, t + delta));
+		glm::vec3 p0 = get(std::fmax(0.0f, t - delta));
+		glm::vec3 p1 = get(std::fmin(1.0f, t + delta));
 		return glm::normalize(p1 - p0);
 	}
 
