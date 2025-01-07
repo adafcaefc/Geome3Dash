@@ -171,7 +171,12 @@ namespace g3d
                     "Geome3Dash: loading models ({}/{})",
                     m_fields->queuedModelsAmount - m_fields->queuedModels.size(),
                     m_fields->queuedModelsAmount).c_str());
-                this->setLabelText2(modelPath.lexically_relative(bms->getBP()).string().c_str());
+
+                static const auto shorter = [](const std::string& a, const std::string& b) { return (a.size() < b.size()) ? a : b; };
+                const std::string bpPath = modelPath.lexically_relative(bms->getBP()).string();
+                const std::string abpPath = modelPath.lexically_relative(bms->getABP()).string();
+
+                this->setLabelText2(shorter(bpPath, abpPath).c_str());
             }
         }
 
