@@ -10,7 +10,6 @@ namespace g3d
     bool AnimatedModelNode::setup(const std::filesystem::path& base) {
         if (!CCNode::init()) { return false; }
         this->basePath = base;
-        std::cout << "AnimatedModelInner path : " << basePath.string() << '\n';
         this->fps = std::stof(utils::read_from_file(base / "fps.txt"));
         size_t indexFrame = 0u;
         const auto getIdxFrame = [this](const size_t i) { return this->basePath / "frame" / std::to_string(i) / "model.obj"; };
