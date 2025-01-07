@@ -99,6 +99,13 @@ namespace g3d
                     m_fields->queuedModels.push(entry.path());
                 }
             }
+            for (const auto& entry : std::filesystem::recursive_directory_iterator(bms->getABP()))
+            {
+                if (entry.is_regular_file() && entry.path().extension() == ".obj")
+                {
+                    m_fields->queuedModels.push(entry.path());
+                }
+            }
         }
 
         void initCleanup(ModelManager* bms)

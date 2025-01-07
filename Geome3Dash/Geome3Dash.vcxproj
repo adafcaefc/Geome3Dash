@@ -93,6 +93,7 @@
     <ClCompile Include="src\delegate\CustomTouch.cpp" />
     <ClCompile Include="src\helper\CommonHelper.cpp" />
     <ClCompile Include="src\helper\OpenGLStateHelper.cpp" />
+    <ClCompile Include="src\impl\engine\AnimatedModel.cpp" />
     <ClCompile Include="src\impl\engine\CloudMesh.cpp" />
     <ClCompile Include="src\impl\engine\CloudModel.cpp" />
     <ClCompile Include="src\impl\engine\CocosShaderProgram.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="src\game\play\G3DPlayLayer.h" />
     <ClInclude Include="src\helper\CommonHelper.h" />
     <ClInclude Include="src\helper\OpenGLStateHelper.h" />
+    <ClInclude Include="src\impl\engine\AnimatedModel.h" />
     <ClInclude Include="src\impl\engine\CloudMesh.h" />
     <ClInclude Include="src\impl\engine\CloudModel.h" />
     <ClInclude Include="src\impl\engine\CocosShaderProgram.h" />

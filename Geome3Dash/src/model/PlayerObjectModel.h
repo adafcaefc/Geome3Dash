@@ -26,6 +26,9 @@ namespace g3d
 		std::filesystem::path getPlayerModelPath(const std::string& type, const int id);
 		std::filesystem::path getFixedPlayerModelPath(const std::string& type, const int id);
 		void loadPlayerModel(sus3d::Model** model, const std::string& type, const int id);
+		std::filesystem::path getAnimatedPlayerModelPath(const std::string& type, const int id);
+		std::filesystem::path getAnimatedFixedPlayerModelPath(const std::string& type, const int id);
+		void loadAnimatedPlayerModel(sus3d::Model** model, const std::string& type, const int id);
 		void loadPlayerModels();
 
 		PlayerObjectModel() {}

@@ -2,6 +2,8 @@
 
 #include "PlayerObjectModel.h"
 
+#include "impl/engine/AnimatedModel.h"
+
 namespace g3d
 {
 	void PlayerObjectModel::update()
@@ -43,7 +45,7 @@ namespace g3d
 		loadPlayerModel(&ball, "ball", GameManager::get()->getPlayerBall());
 		loadPlayerModel(&bird, "bird", GameManager::get()->getPlayerBird());
 		loadPlayerModel(&dart, "dart", GameManager::get()->getPlayerDart());
-		loadPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
+		loadAnimatedPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
 		loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
 		loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
 		model = cube;
@@ -64,6 +66,25 @@ namespace g3d
 
 	void PlayerObjectModel::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
 	{
-		*model = ModelManager::get()->loadAndParseMtl(getFixedPlayerModelPath(type, id));
+		*model = ModelManager::get()->getModel(getFixedPlayerModelPath(type, id));
+	}
+
+	std::filesystem::path PlayerObjectModel::getAnimatedPlayerModelPath(const std::string& type, const int id)
+	{
+		return ModelManager::get()->getABP() / "player" / type / std::to_string(id);
+	}
+
+	std::filesystem::path PlayerObjectModel::getAnimatedFixedPlayerModelPath(const std::string& type, const int id)
+	{
+		const auto path = getAnimatedPlayerModelPath(type, id);
+		return std::filesystem::exists(path / "fps.txt")
+			? path
+			: getAnimatedPlayerModelPath(type, 0);
+	}
+
+	void PlayerObjectModel::loadAnimatedPlayerModel(sus3d::Model** model, const std::string& type, const int id)
+	{
+		// temporary 0 cuz its broken idk why
+		*model = AnimatedModel::create(getAnimatedPlayerModelPath(type, 0), this->playerObject);
 	}
 }
