@@ -13,6 +13,7 @@ namespace g3d
         float fps = 60.f;
         float timeAccumulator = 0.0f;
         size_t currentModelIndex = 0u;
+        bool isLooping = true;
         sus3d::Model* getCurrentModel() { return this->models.at(currentModelIndex); }
         std::filesystem::path basePath;
     public:
@@ -29,6 +30,12 @@ namespace g3d
     protected:
         AnimatedModelNode* node = nullptr;
     public:
+        // the dual class system caused these functions to be placed here while 
+        // the actions happened in the node itself
+        // I don't really like this honestly
+        void setLoop(const bool loop) { node->isLooping = loop; }
+        void resetAnimation() { node->currentModelIndex = 0u; node->timeAccumulator = 0.f; }
+
         ~AnimatedModel() override = default;
         virtual bool setup(const std::filesystem::path& base, PlayerObject* player);
         // memory leak but I cba to fix this right now

@@ -2,8 +2,6 @@
 
 #include "PlayerObjectModel.h"
 
-#include "impl/engine/AnimatedModel.h"
-
 namespace g3d
 {
 	void PlayerObjectModel::update()
@@ -22,7 +20,14 @@ namespace g3d
 			model = dart;
 		}
 		else if (playerObject->m_isRobot) {
-			model = robot;
+			if (playerObject->m_isOnGround) {
+				robotJump->resetAnimation();
+				model = robot;
+			}
+			else {
+				robotJump->setLoop(false);
+				model = robotJump;
+			}
 		}
 		else if (playerObject->m_isSpider) {
 			model = spider;
@@ -46,6 +51,7 @@ namespace g3d
 		loadPlayerModel(&bird, "bird", GameManager::get()->getPlayerBird());
 		loadPlayerModel(&dart, "dart", GameManager::get()->getPlayerDart());
 		loadAnimatedPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
+		loadAnimatedPlayerModel(&robotJump, "robotjump", GameManager::get()->getPlayerRobot());
 		loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
 		loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
 		model = cube;
@@ -82,8 +88,9 @@ namespace g3d
 			: getAnimatedPlayerModelPath(type, 0);
 	}
 
-	void PlayerObjectModel::loadAnimatedPlayerModel(sus3d::Model** model, const std::string& type, const int id)
+	void PlayerObjectModel::loadAnimatedPlayerModel(AnimatedModel** model, const std::string& type, const int id)
 	{
+		// *model = AnimatedModel::create(getAnimatedPlayerModelPath(type, id), this->playerObject);
 		// temporary 0 cuz its broken idk why
 		*model = AnimatedModel::create(getAnimatedPlayerModelPath(type, 0), this->playerObject);
 	}

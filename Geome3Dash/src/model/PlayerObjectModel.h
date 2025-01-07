@@ -2,6 +2,8 @@
 
 #include "GameObjectModel.h"
 
+#include "impl/engine/AnimatedModel.h"
+
 class GameObject;
 class PlayerObject;
 
@@ -15,7 +17,8 @@ namespace g3d
 		sus3d::Model* ball;
 		sus3d::Model* bird;
 		sus3d::Model* dart;
-		sus3d::Model* robot;
+		AnimatedModel* robot;
+		AnimatedModel* robotJump;
 		sus3d::Model* spider;
 		sus3d::Model* swing;
 		PlayerObject* playerObject;
@@ -28,7 +31,7 @@ namespace g3d
 		void loadPlayerModel(sus3d::Model** model, const std::string& type, const int id);
 		std::filesystem::path getAnimatedPlayerModelPath(const std::string& type, const int id);
 		std::filesystem::path getAnimatedFixedPlayerModelPath(const std::string& type, const int id);
-		void loadAnimatedPlayerModel(sus3d::Model** model, const std::string& type, const int id);
+		void loadAnimatedPlayerModel(AnimatedModel** model, const std::string& type, const int id);
 		void loadPlayerModels();
 
 		PlayerObjectModel() {}

@@ -14,8 +14,15 @@ namespace g3d
 
     void renderImGui()
     {
-        //ImGui::Begin("Test");
-        //ImGui::End();
+        if (PlayLayer::get())
+        {
+            ImGui::Begin("Test");
+            auto player = PlayLayer::get()->m_player1;
+            ImGui::Text("m_currentRobotAnimation -> %s", player->m_currentRobotAnimation.c_str());
+            ImGui::Text("m_wasRobotJump          -> %i", player->m_wasRobotJump);
+            ImGui::Text("m_isOnGround            -> %i", player->m_isOnGround);
+            ImGui::End();
+        }
     }
 
     $on_mod(Loaded) 

@@ -35,9 +35,21 @@ namespace g3d
         timeAccumulator += dt;
 
         while (timeAccumulator >= frameTime) {
-            // go into next model
-            timeAccumulator -= frameTime;
-            currentModelIndex = (currentModelIndex + 1) % models.size();
+            if (isLooping) {
+                timeAccumulator -= frameTime;
+                if (!models.empty()) {
+                    currentModelIndex = (currentModelIndex + 1) % models.size();
+                }
+            }
+            else {
+                if (currentModelIndex < models.size() - 1) {
+                    timeAccumulator -= frameTime;
+                    currentModelIndex++;
+                }
+                else {
+                    timeAccumulator = 0;
+                }
+            }
         }
     }
 
