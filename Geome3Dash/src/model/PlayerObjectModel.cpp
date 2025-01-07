@@ -50,10 +50,10 @@ namespace g3d
 		loadPlayerModel(&ball, "ball", GameManager::get()->getPlayerBall());
 		loadPlayerModel(&bird, "bird", GameManager::get()->getPlayerBird());
 		loadPlayerModel(&dart, "dart", GameManager::get()->getPlayerDart());
+		loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
 		loadAnimatedPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
 		loadAnimatedPlayerModel(&robotJump, "robotjump", GameManager::get()->getPlayerRobot());
-		loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
-		loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
+		loadAnimatedPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
 		model = cube;
 	}
 
@@ -92,6 +92,7 @@ namespace g3d
 	{
 		// *model = AnimatedModel::create(getAnimatedPlayerModelPath(type, id), this->playerObject);
 		// temporary 0 cuz its broken idk why
+		// you would want to put id instead of 0
 		*model = AnimatedModel::create(getAnimatedPlayerModelPath(type, 0), this->playerObject);
 	}
 }

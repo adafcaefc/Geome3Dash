@@ -17,10 +17,10 @@ namespace g3d
 		sus3d::Model* ball;
 		sus3d::Model* bird;
 		sus3d::Model* dart;
+		sus3d::Model* swing;
 		AnimatedModel* robot;
 		AnimatedModel* robotJump;
-		sus3d::Model* spider;
-		sus3d::Model* swing;
+		AnimatedModel* spider;
 		PlayerObject* playerObject;
 	public:
 		virtual void update() override;
