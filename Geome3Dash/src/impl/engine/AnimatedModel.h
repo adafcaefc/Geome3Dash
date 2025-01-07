@@ -6,7 +6,7 @@
 
 namespace g3d
 {
-    class AnimatedModelInner : public CCNode
+    class AnimatedModelNode : public CCNode
     {
     protected:
         std::vector<sus3d::Model*> models;
@@ -16,18 +16,18 @@ namespace g3d
         sus3d::Model* getCurrentModel() { return this->models.at(currentModelIndex); }
         std::filesystem::path basePath;
     public:
-        ~AnimatedModelInner() override = default;
-        static AnimatedModelInner* create(const aiScene* scene);
+        ~AnimatedModelNode() override = default;
+        static AnimatedModelNode* create(const aiScene* scene);
         virtual bool setup(const std::filesystem::path& base);
         virtual void update(float dt) override;
-        static AnimatedModelInner* create(const std::filesystem::path& base);
+        static AnimatedModelNode* create(const std::filesystem::path& base);
         friend class AnimatedModel;
     };
 
     class AnimatedModel : public sus3d::Model
     {
     protected:
-        AnimatedModelInner* node = nullptr;
+        AnimatedModelNode* node = nullptr;
     public:
         ~AnimatedModel() override = default;
         virtual bool setup(const std::filesystem::path& base, PlayerObject* player);

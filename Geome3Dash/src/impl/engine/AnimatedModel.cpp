@@ -7,7 +7,7 @@
 
 namespace g3d
 {
-    bool AnimatedModelInner::setup(const std::filesystem::path& base) {
+    bool AnimatedModelNode::setup(const std::filesystem::path& base) {
         if (!CCNode::init()) { return false; }
         this->basePath = base;
         std::cout << "AnimatedModelInner path : " << basePath.string() << '\n';
@@ -22,8 +22,8 @@ namespace g3d
         return true;
     }
 
-   AnimatedModelInner* AnimatedModelInner::create(const std::filesystem::path& base) {
-        auto ret = new AnimatedModelInner();
+   AnimatedModelNode* AnimatedModelNode::create(const std::filesystem::path& base) {
+        auto ret = new AnimatedModelNode();
         if (!ret || !ret->setup(base)) {
             delete ret;
             return nullptr;
@@ -31,7 +31,7 @@ namespace g3d
         return ret;
     }
 
-    void AnimatedModelInner::update(float dt) {
+    void AnimatedModelNode::update(float dt) {
         float frameTime = 1.0f / fps;
         timeAccumulator += dt;
 
@@ -43,7 +43,7 @@ namespace g3d
     }
 
     bool AnimatedModel::setup(const std::filesystem::path& base, PlayerObject* player) {
-        if (auto cnode = AnimatedModelInner::create(base)) {
+        if (auto cnode = AnimatedModelNode::create(base)) {
             this->node = cnode;
             player->addChild(this->node);
             return true;
