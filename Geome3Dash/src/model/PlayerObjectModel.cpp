@@ -90,9 +90,6 @@ namespace g3d
 
 	void PlayerObjectModel::loadAnimatedPlayerModel(AnimatedModel** model, const std::string& type, const int id)
 	{
-		// *model = AnimatedModel::create(getAnimatedPlayerModelPath(type, id), this->playerObject);
-		// temporary 0 cuz its broken idk why
-		// you would want to put id instead of 0
-		*model = AnimatedModel::create(getAnimatedPlayerModelPath(type, 0), this->playerObject);
+		*model = AnimatedModel::create(getAnimatedFixedPlayerModelPath(type, id), this->playerObject);
 	}
 }

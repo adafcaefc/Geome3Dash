@@ -40,7 +40,7 @@ namespace g3d
         // this is because this model is not automatically cleaned
         // I tried to put a destructor but it crashed... why?
         // maybe it's because it's deleting an empty model?
-        // but the mesh should be empty
+        // but the mesh should be empty...?
         ~AnimatedModel() override = default;
         virtual bool setup(const std::filesystem::path& base, PlayerObject* player);
         static AnimatedModel* create(const std::filesystem::path& base, PlayerObject* player);

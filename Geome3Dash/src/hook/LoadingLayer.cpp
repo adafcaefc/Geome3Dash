@@ -17,6 +17,12 @@
 
 namespace g3d
 {
+    // I should really decouple the loading functionality from this class hook
+    // maybe I will do it later but for now the loading layer hook is only used
+    // for this loading mechanism so it's fine for the time being
+    // if I ever implement any other functionality to this class I might have to
+    // decouple this and make a loading manager class
+
     class $modify(HookedLoadingLayer, LoadingLayer)
     {
         struct ShaderData

@@ -192,7 +192,7 @@
     <ClCompile Include="src\model\PlayerObjectModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\LevelEditorImGui.cpp">
+    <ClCompile Include="src\gui\DebugWindowImGui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\model\GroundObjectModel.cpp">
@@ -374,7 +374,7 @@
     <ClInclude Include="src\model\PlayerObjectModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui\LevelEditorImGui.h">
+    <ClInclude Include="src\gui\DebugWindowImGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\model\GroundObjectModel.h">
