@@ -2,7 +2,7 @@
 
 #include "DebugWindowImGui.h"
 #include "manager/LevelDataManager.h"
-#include "lib/imgui-cocos/imgui-cocos.hpp"
+#include <imgui-cocos.hpp>
 
 namespace g3d
 {
