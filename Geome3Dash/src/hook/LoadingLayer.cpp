@@ -17,6 +17,12 @@
 
 namespace g3d
 {
+    // I should really decouple the loading functionality from this class hook
+    // maybe I will do it later but for now the loading layer hook is only used
+    // for this loading mechanism so it's fine for the time being
+    // if I ever implement any other functionality to this class I might have to
+    // decouple this and make a loading manager class
+
     class $modify(HookedLoadingLayer, LoadingLayer)
     {
         struct ShaderData
@@ -99,6 +105,13 @@ namespace g3d
                     m_fields->queuedModels.push(entry.path());
                 }
             }
+            for (const auto& entry : std::filesystem::recursive_directory_iterator(bms->getABP()))
+            {
+                if (entry.is_regular_file() && entry.path().extension() == ".obj")
+                {
+                    m_fields->queuedModels.push(entry.path());
+                }
+            }
         }
 
         void initCleanup(ModelManager* bms)
@@ -164,7 +177,12 @@ namespace g3d
                     "Geome3Dash: loading models ({}/{})",
                     m_fields->queuedModelsAmount - m_fields->queuedModels.size(),
                     m_fields->queuedModelsAmount).c_str());
-                this->setLabelText2(modelPath.lexically_relative(bms->getBP()).string().c_str());
+
+                static const auto shorter = [](const std::string& a, const std::string& b) { return (a.size() < b.size()) ? a : b; };
+                const std::string bpPath = modelPath.lexically_relative(bms->getBP()).string();
+                const std::string abpPath = modelPath.lexically_relative(bms->getABP()).string();
+
+                this->setLabelText2(shorter(bpPath, abpPath).c_str());
             }
         }
 

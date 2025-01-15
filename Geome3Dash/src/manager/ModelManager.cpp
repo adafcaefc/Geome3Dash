@@ -40,6 +40,7 @@ namespace g3d
 	bool ModelManager::init() 
 	{
 		basePath = geode::Mod::get()->getResourcesDir() / "model3d";
+		animatedBasePath = geode::Mod::get()->getResourcesDir() / "animated3d";
 		return true;
 	}
 	

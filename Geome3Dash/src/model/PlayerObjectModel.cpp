@@ -20,7 +20,14 @@ namespace g3d
 			model = dart;
 		}
 		else if (playerObject->m_isRobot) {
-			model = robot;
+			if (playerObject->m_isOnGround) {
+				robotJump->resetAnimation();
+				model = robot;
+			}
+			else {
+				robotJump->setLoop(false);
+				model = robotJump;
+			}
 		}
 		else if (playerObject->m_isSpider) {
 			model = spider;
@@ -43,9 +50,10 @@ namespace g3d
 		loadPlayerModel(&ball, "ball", GameManager::get()->getPlayerBall());
 		loadPlayerModel(&bird, "bird", GameManager::get()->getPlayerBird());
 		loadPlayerModel(&dart, "dart", GameManager::get()->getPlayerDart());
-		loadPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
-		loadPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
 		loadPlayerModel(&swing, "swing", GameManager::get()->getPlayerSwing());
+		loadAnimatedPlayerModel(&robot, "robot", GameManager::get()->getPlayerRobot());
+		loadAnimatedPlayerModel(&robotJump, "robotjump", GameManager::get()->getPlayerRobot());
+		loadAnimatedPlayerModel(&spider, "spider", GameManager::get()->getPlayerSpider());
 		model = cube;
 	}
 
@@ -64,6 +72,24 @@ namespace g3d
 
 	void PlayerObjectModel::loadPlayerModel(sus3d::Model** model, const std::string& type, const int id)
 	{
-		*model = ModelManager::get()->loadAndParseMtl(getFixedPlayerModelPath(type, id));
+		*model = ModelManager::get()->getModel(getFixedPlayerModelPath(type, id));
+	}
+
+	std::filesystem::path PlayerObjectModel::getAnimatedPlayerModelPath(const std::string& type, const int id)
+	{
+		return ModelManager::get()->getABP() / "player" / type / std::to_string(id);
+	}
+
+	std::filesystem::path PlayerObjectModel::getAnimatedFixedPlayerModelPath(const std::string& type, const int id)
+	{
+		const auto path = getAnimatedPlayerModelPath(type, id);
+		return std::filesystem::exists(path / "fps.txt")
+			? path
+			: getAnimatedPlayerModelPath(type, 0);
+	}
+
+	void PlayerObjectModel::loadAnimatedPlayerModel(AnimatedModel** model, const std::string& type, const int id)
+	{
+		*model = AnimatedModel::create(getAnimatedFixedPlayerModelPath(type, id), this->playerObject);
 	}
 }

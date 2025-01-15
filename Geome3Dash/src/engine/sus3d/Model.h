@@ -23,35 +23,35 @@ namespace sus3d
         glm::vec3 scale = glm::vec3(1.0);
         bool visible = 1;
     public:
-        void setRotation(glm::vec3 rotation) { this->rotation = rotation; }
-        void setRotationX(float rotation) { this->rotation.x = rotation; }
-        void setRotationY(float rotation) { this->rotation.y = rotation; }
-        void setRotationZ(float rotation) { this->rotation.z = rotation; }
-        glm::vec3 getRotation() const { return this->rotation; }
-        float getRotationX() const { return this->rotation.x; }
-        float getRotationY() const { return this->rotation.y; }
-        float getRotationZ() const { return this->rotation.z; }
+        virtual void setRotation(glm::vec3 rotation) { this->rotation = rotation; }
+        virtual void setRotationX(float rotation) { this->rotation.x = rotation; }
+        virtual void setRotationY(float rotation) { this->rotation.y = rotation; }
+        virtual void setRotationZ(float rotation) { this->rotation.z = rotation; }
+        virtual glm::vec3 getRotation() const { return this->rotation; }
+        virtual float getRotationX() const { return this->rotation.x; }
+        virtual float getRotationY() const { return this->rotation.y; }
+        virtual float getRotationZ() const { return this->rotation.z; }
 
-        void setPosition(glm::vec3 position) { this->position = position; }
-        void setPositionX(float position) { this->position.x = position; }
-        void setPositionY(float position) { this->position.y = position; }
-        void setPositionZ(float position) { this->position.z = position; }
-        glm::vec3 getPosition() const { return this->position; }
-        float getPositionX() const { return this->position.x; }
-        float getPositionY() const { return this->position.y; }
-        float getPositionZ() const { return this->position.z; }
+        virtual void setPosition(glm::vec3 position) { this->position = position; }
+        virtual void setPositionX(float position) { this->position.x = position; }
+        virtual void setPositionY(float position) { this->position.y = position; }
+        virtual void setPositionZ(float position) { this->position.z = position; }
+        virtual glm::vec3 getPosition() const { return this->position; }
+        virtual float getPositionX() const { return this->position.x; }
+        virtual float getPositionY() const { return this->position.y; }
+        virtual float getPositionZ() const { return this->position.z; }
 
-        void setScale(glm::vec3 scale) { this->scale = scale; }
-        void setScaleX(float scale) { this->scale.x = scale; }
-        void setScaleY(float scale) { this->scale.y = scale; }
-        void setScaleZ(float scale) { this->scale.z = scale; }
-        glm::vec3 getScale() const { return this->scale; }
-        float getScaleX() const { return this->scale.x; }
-        float getScaleY() const { return this->scale.y; }
-        float getScaleZ() const { return this->scale.z; }
+        virtual void setScale(glm::vec3 scale) { this->scale = scale; }
+        virtual void setScaleX(float scale) { this->scale.x = scale; }
+        virtual void setScaleY(float scale) { this->scale.y = scale; }
+        virtual void setScaleZ(float scale) { this->scale.z = scale; }
+        virtual glm::vec3 getScale() const { return this->scale; }
+        virtual float getScaleX() const { return this->scale.x; }
+        virtual float getScaleY() const { return this->scale.y; }
+        virtual float getScaleZ() const { return this->scale.z; }
 
-        void setVisible(bool visible) { this->visible = visible; }
-        bool getVisible() const { return this->visible; }
+        virtual void setVisible(bool visible) { this->visible = visible; }
+        virtual bool getVisible() const { return this->visible; }
 
         virtual ~ModelProtocol() {};
     };
@@ -62,7 +62,7 @@ namespace sus3d
     public:
         std::vector<Mesh*> meshes;
         static Model* create(const aiScene* scene);
-        void render(
+        virtual void render(
             ShaderProgram* shaderProgram, 
             const glm::mat4& view, 
             const glm::vec3& lightPos, 

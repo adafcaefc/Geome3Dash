@@ -30,12 +30,14 @@ namespace g3d
 		sus3d::ShaderProgram* loadShader(const std::string& vsString, const std::string& fsString);
 		bool init();
 		std::filesystem::path basePath;
+		std::filesystem::path animatedBasePath;
 	public:
 		sus3d::ShaderProgram* getBlockSP() { return blockShaderProgram; }
 		sus3d::ShaderProgram* getWaterSP() { return waterShaderProgram; }
 		sus3d::ShaderProgram* getCloudSP() { return cloudShaderProgram; }
 		sus3d::ShaderProgram* getIdBufferSP() { return idBufferShaderProgram; }
 		std::filesystem::path getBP() { return basePath; }
+		std::filesystem::path getABP() { return animatedBasePath; }
 		void tryRenderBlock(
 			const int objectId, 
 			sus3d::Camera* camera, 
